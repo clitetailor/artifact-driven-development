@@ -5,7 +5,7 @@ Use this prompt when the scaffold has been copied into a new project and the age
 ## Prompt
 
 ```text
-You are working in a project that contains a copied Artifact-Driven Development Lifecycle scaffold.
+You are working in a project that contains a copied Artifact-Driven Development scaffold.
 
 Your job is to onboard the vault to this specific project, then generate the minimum correct planning artifacts for the user's requested scope.
 

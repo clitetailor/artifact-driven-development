@@ -1,4 +1,4 @@
-# Artifact-Driven Development Lifecycle — Agent Instructions
+# Artifact-Driven Development — Agent Instructions
 
 **Before doing anything else, read this file in full.**
 

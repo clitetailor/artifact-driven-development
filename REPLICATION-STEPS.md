@@ -6,7 +6,7 @@ Copy this scaffold into a new project and turn it into that project's planning v
 
 ## Steps
 
-1. Copy `artifact-driven-development-lifecycle/` into the target workspace.
+1. Copy `artifact-driven-development/` into the target workspace.
 2. Rename the copied folder to the target docs folder name if needed.
 3. Keep the folder structure intact.
 4. Update repo placeholders in `AGENTS.md`, `agents/`, and other support docs.

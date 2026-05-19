@@ -13,7 +13,7 @@ Reusable documentation vault scaffold for copying into another project.
 
 ## Intended Use
 
-1. Copy `artifact-driven-development-lifecycle/` into a target workspace.
+1. Copy `artifact-driven-development/` into a target workspace.
 2. Rename it to the target docs repo or docs folder name if needed.
 3. Replace placeholders like `{docs-repo}` and `{frontend-repo}`.
 4. Run the onboarding workflow docs in this folder.
