@@ -62,6 +62,6 @@ draft → published
 ## Type-Specific Rules
 
 - Research notes must reach `accepted` before a persona can be accepted.
-- Requirements are the default planning anchor. Stories are optional — create only when a requirement needs scenario-level decomposition or separate review.
+- Scenarios are embedded directly in requirement documents — never as separate artifacts. Stories are deprecated.
 - Architecture decisions are optional — create only for significant technical choices.
 - Infra is the terminal node — it reaches `accepted` when the deployment is approved.

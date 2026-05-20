@@ -177,25 +177,28 @@ User triggers each phase explicitly and approves at every gate.
 │         writes : /requirements/req-{name}.md
 │           └── scope, out-of-scope, user context, success metrics
 │
-├─[AGNT]  BA writes stories when scenario-level decomposition is needed
+├─[AGNT]  BA writes scenarios directly in requirement document
 │         reads  : /requirements/req-{name}.md
-│         writes : /stories/story-{scenario}.md  (optional)
-│           ├── default        → keep acceptance criteria in requirement doc
-│           └── when needed    → create separate story files for scenarios that
-│                                need extra traceability or independent review
-│         each story contains:
-│           └── user narrative (as a / I want / so that)
-│               acceptance criteria (testable conditions)
+│         writes : /requirements/req-{name}.md  (updated, not a separate file)
+│         each scenario section contains:
+│           └── priority        (P0 launch blocker / P1 important / P2 nice-to-have)
+│               estimated effort (task count + hours — planning hint only)
+│               dependencies    (other scenarios this depends on)
+│               timeline        (sprint/phase hint)
+│               narrative       (as a / I want / so that)
+│               acceptance criteria (testable Given/When/Then conditions)
+│               error/edge cases (table of scenarios + expected behavior)
 │
 ├─[ORCH]  Convention check
 │           ✓ frontmatter complete and registry-valid
 │           ✓ all refs resolve
-│           ✓ acceptance criteria present in requirement or story artifacts
+│           ✓ at least one scenario with acceptance criteria present in requirement
 │           ✓ scope and out-of-scope both defined
+│           ✓ each scenario has priority assigned
 │
 ╔═════════════════════════════════════════════════════════════════════╗
 ║  GATE 1                                                             ║
-║  Orchestrator presents: requirement summary + optional story list   ║
+║  Orchestrator presents: requirement summary + scenario list         ║
 ║  → approve   → refine [feedback]   → reject + delete               ║
 ╚═════════════════════════════════════════════════════════════════════╝
 │
@@ -220,7 +223,7 @@ User triggers each phase explicitly and approves at every gate.
 │  ── UX-UI DESIGNER ──────────────────────────────────────────────
 │
 ├─[AGNT]  UX — user flows
-│         reads  : /requirements/*, /stories/*, /personas/*
+│         reads  : /requirements/*, /personas/*
 │         writes : /user-flows/userflow-{name}.md
 │           └── embedded Mermaid diagram
 │               happy path + all error/edge paths
@@ -249,7 +252,7 @@ User triggers each phase explicitly and approves at every gate.
 │               one decision per file
 │
 ├─[AGNT]  Architect — API contracts
-│         reads  : /requirements/*, /stories/*, /architecture-decisions/*
+│         reads  : /requirements/*, /architecture-decisions/*
 │         writes : /api-contracts/api-contract-{name}.md
 │           └── endpoints, request/response shapes, error codes
 │               references relevant ADRs when they exist
@@ -509,20 +512,22 @@ Skips discovery and design phases — enters at requirements or task level.
 │
 ├─[ORCH]  Classifies as medium track
 │         Identifies which existing feature is affected
-│         reads : /features/*, /requirements/*, /stories/*
+│         reads : /features/*, /requirements/*
 │
 ├─[ORCH]  Confirms scope with user
 │         Determines entry point:
-│           existing stories cover it → enter at task decomposition
-│           new user scenario needed  → enter at requirements
+│           existing scenarios cover it → enter at task decomposition
+│           new user scenario needed    → enter at requirements
 │
-│  ── IF NEW STORIES NEEDED ───────────────────────────────────────
+│  ── IF NEW SCENARIOS NEEDED ────────────────────────────────────
 │
-├─[AGNT]  BA adds stories to existing requirement
+├─[AGNT]  BA adds scenarios to existing requirement document
 │         reads  : /requirements/req-{name}.md
-│         writes : /stories/story-{new-scenario}.md
-│                  updates /requirements/req-{name}.md
+│         writes : /requirements/req-{name}.md  (updated in place)
 │                  bumps version: 1.0 → 1.1
+│         each new scenario section contains:
+│           └── priority, estimated effort, dependencies, timeline
+│               narrative, acceptance criteria, error/edge cases
 │
 ├─[ORCH]  Determines if design changes needed
 │           UI changes     → UX agent updates affected specs/flows

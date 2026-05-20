@@ -51,7 +51,7 @@ All design artifacts are stored in this repo (`{docs-repo}`) as a PKM vault.
 ├── advisories/             # Non-blocking orchestrator warnings         (adv-)
 ├── agents/                 # Agent design docs + repo/skill mappings
 ├── conventions/            # Enforced conventions (prescriptive)
-├── reference/              # On-demand reference: vocabulary, lifecycle, ownership
+├── reference/              # On-demand reference: vocabulary, lifecycle, ownership, SDLC phases, dep graph
 ├── handbook/               # Agent workflow guides and source/planning docs
 └── templates/              # Artifact doc templates
 ```
@@ -60,6 +60,9 @@ All design artifacts are stored in this repo (`{docs-repo}`) as a PKM vault.
 - Vocabulary → `reference/artifact-vocabulary.md`
 - Status lifecycles → `reference/artifact-lifecycle.md`
 - Agent roles & ownership → `reference/artifact-ownership.md`
+- SDLC phases, tracks, agent activation → `reference/sdlc-phases.md`
+- Artifact dependency rules (hard/soft deps per type) → `reference/artifact-dep-graph.md`
+- Coordination artifact decisions (scenarios, CR, task-breakdown, milestone) → `reference/coordination-decision-tree.md`
 
 **Scaffold workflow docs**:
 - For agents starting in a new project → `STARTER-PROMPT.md`

@@ -37,6 +37,10 @@ at every step.
 - Create advisory documents for non-blocking warnings
 - Stamp triggered-by and resulted-in on CRs during resolution
 - Stamp also-affects artifacts as needs-review on CR resolution
+- Evaluate CR complexity on resolution: simple (1 task) → create task directly; complex (3+ tasks) → create task-breakdown first
+- Update active milestone (if any) when CR tasks are created — add CR and new tasks to milestone scope
+- Generate milestone artifacts on request for complex features needing timeline coordination
+- Track scenario completion by checking task status against scenario field
 - Manage session state and resume
 - Surface deferred items and needs-review artifacts at final gate
 - Resolve conflicts between agents (artifact ownership disputes)
@@ -105,7 +109,7 @@ Owns all pre-design artifacts.
 ### Responsibilities
 - Synthesize research notes and personas into requirements
 - Define feature scope and explicit out-of-scope boundaries
-- Write user stories with testable acceptance criteria
+- Write scenarios embedded in requirement documents with testable acceptance criteria
 - Define success metrics for each feature
 - Maintain requirement documents as scope evolves
 
@@ -113,9 +117,9 @@ Owns all pre-design artifacts.
 | Capability                  | Description                                              |
 |-----------------------------|----------------------------------------------------------|
 | Research synthesis          | Reads raw research notes, extracts patterns and themes  |
-| Persona application         | Applies persona context to scope and story writing       |
+| Persona application         | Applies persona context to scope and scenario writing    |
 | Requirement structuring     | Produces PRD-style documents with scope and metrics      |
-| Story writing               | User narrative + acceptance criteria per scenario        |
+| Scenario writing            | User narrative + acceptance criteria per scenario, embedded in requirement doc |
 | Scope arbitration           | Decides what is in/out of scope for a given feature      |
 
 ### Artifact Ownership (RACI)
@@ -125,7 +129,6 @@ Owns all pre-design artifacts.
 | persona      | Owner        |
 | feature      | Owner        |
 | requirement  | Owner        |
-| story        | Owner        |
 
 ### PKM Reads / Writes
 ```
@@ -134,14 +137,13 @@ writes : /research-notes/rn-{name}.md
          /personas/persona-{name}.md
          /features/feature-{name}.md
          /requirements/requirement-{name}.md
-         /stories/story-{scenario}.md
 ```
 
 ### Interaction Patterns
 ```
 Receives from : user (via orchestrator) — feature description, feedback
-Sends to      : ux-ui-designer         — requirement + stories (handoff)
-              : software-architect     — requirement + stories (handoff)
+Sends to      : ux-ui-designer         — requirement (with scenarios) (handoff)
+              : software-architect     — requirement (with scenarios) (handoff)
               : orchestrator           — ready-for-review signal
 Files CR to   : n/a (BA owns all upstream artifacts)
 ```
@@ -154,22 +156,28 @@ Files CR to   : n/a (BA owns all upstream artifacts)
   └── scratch-{feature}.md    ← synthesis reasoning, open questions
 ```
 
-### Story Format Rules
-- Small feature (1–3 scenarios) → inline sections in requirement doc
-- Medium feature (4–8 scenarios) → separate story files
-- Large feature (9+ scenarios) → separate files, grouped by module in frontmatter
+### Scenario Format Rules
+All scenarios are embedded directly in the requirement document — never as separate files.
+Each scenario section includes:
+- **Priority** (P0 launch blocker / P1 important / P2 nice-to-have)
+- **Estimated effort** (approximate task count and hours — planning hint only)
+- **Dependencies** (which other scenarios this depends on)
+- **Timeline** (sprint/phase hint)
+- **Narrative** (as a / I want / so that)
+- **Acceptance criteria** (testable Given/When/Then conditions)
+- **Error/edge cases** (table of edge scenarios and expected behavior)
 
 ---
 
 ## UX-UI Designer Agent
 
 ### Role
-Translates requirements and stories into visual and interaction artifacts
+Translates requirements (with embedded scenarios) into visual and interaction artifacts
 that frontend engineers can implement against without ambiguity.
 Owns all UI specification artifacts.
 
 ### Responsibilities
-- Map user journeys from requirements and stories
+- Map user journeys from requirements and scenarios
 - Generate browser-previewable wireframes per screen
 - Specify every UI component in enough detail to build without conversation
 - Define design tokens, accessibility requirements, and component behavior
@@ -193,7 +201,7 @@ Owns all UI specification artifacts.
 
 ### PKM Reads / Writes
 ```
-reads  : /requirements/*, /stories/*, /personas/*
+reads  : /requirements/*, /personas/*
          /user-flows/* (self-reference for wireframe alignment)
 writes : /user-flows/userflow-{name}.md
          /wireframes/wireframe-{screen}.md
@@ -213,7 +221,7 @@ writes : /user-flows/userflow-{name}.md
 
 ### Interaction Patterns
 ```
-Receives from : business-analyst    — requirement + stories (handoff)
+Receives from : business-analyst    — requirement (with scenarios) (handoff)
               : orchestrator        — activation signal
 Sends to      : frontend-engineer   — component specs, wireframes (handoff)
               : software-architect  — user flows (for API design context)
@@ -270,7 +278,7 @@ all other engineering agents work against.
 
 ### PKM Reads / Writes
 ```
-reads  : /requirements/*, /stories/*, /quality-requirements/*
+reads  : /requirements/*, /quality-requirements/*
          /user-flows/* (for API surface understanding)
          /change-requests/* (to: software-architect)
 writes : /architecture-decisions/adr-{name}.md
@@ -295,7 +303,7 @@ backend/frontend integration boundary:
 
 ### Interaction Patterns
 ```
-Receives from : business-analyst    — requirement + stories (handoff)
+Receives from : business-analyst    — requirement (with scenarios) (handoff)
               : ux-ui-designer      — user flows (context)
               : backend-engineer    — CRs on contracts/models
               : frontend-engineer   — CRs on contracts

@@ -363,14 +363,14 @@ hard-deps contains only blocking upstream dependencies (subset)
 Example — api-contract-auth-service:
   refs:
     - adr-jwt-vs-session        ← hard-dep (decision)
-    - story-login-flow          ← hard-dep (story)
+    - req-user-authentication   ← hard-dep (requirement)
     - nfr-auth-performance      ← soft-dep (constraint)
     - task-token-generation-be  ← downstream consumer (not a dep)
     - task-login-form-fe        ← downstream consumer (not a dep)
 
   hard-deps:
     - adr-jwt-vs-session
-    - story-login-flow
+    - req-user-authentication
 
   soft-deps:
     - nfr-auth-performance
@@ -417,7 +417,7 @@ Rejection is terminal. If the filer disagrees, they file a new CR rather than re
 
 Both are terminal. Advisories are never deleted — they remain as audit trail.
 
-**All remaining artifact types** (persona, feature, requirement, story, quality-requirement, user-flow, wireframe, component-spec, api-contract, data-model, research-note, infra, test-plan, test-spec, test-suite) follow the standard artifact lifecycle. Research notes must reach `accepted` before a persona can be accepted. Infra is the terminal node — it reaches `accepted` when the deployment is approved. Test-specs reach `accepted` when the QA Engineer confirms all test cases pass in implementation (Phase 4). Test-suites reach `accepted` when all included test-specs are `accepted`.
+**All remaining artifact types** (persona, feature, requirement, quality-requirement, user-flow, wireframe, component-spec, api-contract, data-model, research-note, infra, test-plan, test-spec, test-suite) follow the standard artifact lifecycle. Research notes must reach `accepted` before a persona can be accepted. Infra is the terminal node — it reaches `accepted` when the deployment is approved. Test-specs reach `accepted` when the QA Engineer confirms all test cases pass in implementation (Phase 4). Test-suites reach `accepted` when all included test-specs are `accepted`.
 
 **Architecture decisions** follow the standard artifact lifecycle with two additional terminal states:
 
@@ -512,7 +512,7 @@ on user requests phase transition:
   4. if any missing → block: list specific gaps
 
 Example — before build layer can begin:
-  task-be hard-deps: api-contract ✓, data-model ✓, story ✓
+  task-be hard-deps: api-contract ✓, data-model ✓, requirement ✓
   task-fe hard-deps: component-spec ✓, api-contract ✓
   → all satisfied → implementation can begin
 
@@ -620,7 +620,7 @@ With dep graph enforcement, orchestrator phase logic simplifies:
 
 ```
 Previous orchestrator logic (hardcoded phases):
-  if phase == 1: check requirement + stories complete
+  if phase == 1: check requirement + scenarios complete
   if phase == 2: check design artifacts complete
   if phase == 3: check tasks decomposed
   if phase == 4: check tasks done

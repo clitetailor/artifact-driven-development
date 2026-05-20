@@ -16,7 +16,7 @@
 
 | Artifact types | Owner |
 |---|---|
-| research-note, persona, feature, requirement, story | business-analyst |
+| research-note, persona, feature, requirement | business-analyst |
 | user-flow, wireframe, component-spec | ux-ui-designer |
 | architecture-decision, api-contract, data-model, quality-requirement, task (be) | software-architect |
 | task (fe), implementation-note | frontend-engineer |
