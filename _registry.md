@@ -24,8 +24,11 @@ updated: YYYY-MM-DD
 - api-contract
 - data-model
 - quality-requirement
+- test-plan
 
 # BUILD
+- test-spec
+- test-suite
 - task
 - task-breakdown
 - implementation-note
@@ -50,6 +53,9 @@ updated: YYYY-MM-DD
 - api-contract           : api-
 - data-model             : dm-
 - quality-requirement    : qr-
+- test-plan              : tp-
+- test-spec              : ts-
+- test-suite             : suite-
 - task                   : task-
 - task-breakdown         : tb-
 - implementation-note    : in-

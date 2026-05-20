@@ -33,6 +33,9 @@ All design artifacts are stored in this repo (`{docs-repo}`) as a PKM vault.
 ├── features/               # Feature-level scope documents             (feat-)
 ├── requirements/           # PRDs — scoped feature requirements        (req-)
 ├── stories/                # User narratives + acceptance criteria      (story-)
+├── test-plans/             # Testing strategy per feature               (tp-)
+├── test-specs/             # Test specifications (unit/integration/e2e) (ts-)
+├── test-suites/            # Grouped test specs with coverage targets   (suite-)
 ├── tasks/                  # Decomposed implementation units           (task-)
 ├── architecture-decisions/ # ADRs                                      (adr-)
 ├── quality-requirements/   # NFRs                                      (qr-)
@@ -99,6 +102,9 @@ Pattern: `{prefix}-{feature}-{descriptor}` — lowercase, hyphen-separated only.
 | feature | `feat-` | `feat-user-authentication` |
 | requirement | `req-` | `req-user-authentication` |
 | story | `story-` | `story-user-login` |
+| test-plan | `tp-` | `tp-user-authentication` |
+| test-spec | `ts-` | `ts-user-login-validation` |
+| test-suite | `suite-` | `suite-user-authentication` |
 | user-flow | `uf-` | `uf-user-authentication` |
 | wireframe | `wf-` | `wf-login-screen` |
 | component-spec | `cs-` | `cs-login-form` |
