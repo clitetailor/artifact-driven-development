@@ -8,10 +8,8 @@ feature: {feature-slug}
 module: {feature-slug}/{module-slug}
 soft-deps:
   - req-{slug}
-  - story-{slug}
 refs:
   - req-{slug}
-  - story-{slug}
 ---
 
 # Test Plan: {title}

@@ -14,7 +14,7 @@ updated: YYYY-MM-DD
 # DEFINE
 - feature
 - requirement
-- story
+- story  # DEPRECATED — use scenarios in requirements
 
 # DESIGN
 - user-flow
@@ -39,13 +39,15 @@ updated: YYYY-MM-DD
 # WORKFLOW
 - change-request
 - advisory
+- milestone  # optional timeline coordination
 
 ## ID Prefixes
 - research-note          : rn-
 - persona                : persona-
 - feature                : feat-
 - requirement            : req-
-- story                  : story-
+- story                  : story-  # DEPRECATED
+- milestone              : milestone-
 - user-flow              : uf-
 - wireframe              : wf-
 - component-spec         : cs-

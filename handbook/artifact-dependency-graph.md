@@ -42,33 +42,34 @@ Add a new artifact type with deps defined
                     [feature]
                         │
                         ▼
-                  [requirement]
+            [requirement (with scenarios)]
                         │
               ┌─────────┴──────────────┐
               ▼                        ▼
-          [story]          [quality-requirement]
+       [user-flow]          [quality-requirement]
               │                        │
-        ┌─────┘                        └──────┐
-        ▼                                     ▼
-   [user-flow]                 [architecture-decision]
-        │                                     │
-   ┌────┴────┐                           ┌────┴────┐
-   ▼         ▼                           ▼         ▼
-[wireframe] [component-spec]       [api-contract] [data-model]
-   │         │                           │         │
-   └────┬────┘                           └────┬────┘
-        ▼                                     ▼
-    [task-fe]                            [task-be]
-        │                                     │
-        └────────────────┬────────────────────┘
-                         ▼
-              [task-breakdown]   ← coordinates phased CR task sets
-                         │
-                      [infra]
-                         │
-                         ▼
-              [change-request]   ← can reference any artifact
-              [advisory]         ← orchestrator concern, non-blocking
+              │                        └──────┐
+              ▼                               ▼
+         [wireframe]          [architecture-decision]
+              │                        │
+              ▼                   ┌────┴────┐
+       [component-spec]           ▼         ▼
+              │              [api-contract] [data-model]
+              │                   │         │
+              └────┬──────────────┴────┬────┘
+                   ▼                   ▼
+               [task-fe]           [task-be]
+                   │                   │
+                   └────────┬──────────┘
+                            ▼
+                 [task-breakdown]   ← coordinates phased CR task sets
+                            │
+                         [infra]
+                            │
+                            ▼
+                 [change-request]   ← can reference any artifact
+                 [advisory]         ← orchestrator concern, non-blocking
+                 [milestone]        ← optional timeline coordination
 ```
 
 ---
@@ -97,15 +98,11 @@ feature
   soft-deps : research-note, persona
   blocks    : requirement
 
-requirement
+requirement (with embedded scenarios)
   hard-deps : feature (exactly one)
   soft-deps : persona (at least one)
-  blocks    : story, quality-requirement, user-flow, architecture-decision
-
-story
-  hard-deps : requirement (exactly one)
-  soft-deps : persona (at least one)
-  blocks    : task, user-flow
+  blocks    : quality-requirement, user-flow, architecture-decision, api-contract, component-spec
+  note      : scenarios are embedded within requirement doc, not separate artifacts
 ```
 
 ### Design Layer
@@ -122,9 +119,10 @@ architecture-decision
   blocks    : api-contract, data-model
 
 user-flow
-  hard-deps : requirement or story (at least one)
+  hard-deps : requirement (at least one)
   soft-deps : persona (at least one)
   blocks    : wireframe
+  note      : reads scenarios from requirement doc
 
 wireframe
   hard-deps : user-flow (exactly one)
@@ -138,10 +136,10 @@ component-spec
 
 api-contract
   hard-deps : requirement (at least one)
-  soft-deps : story (zero or more)
-              architecture-decision (zero or more)
+  soft-deps : architecture-decision (zero or more)
               quality-requirement (at least one)
   blocks    : task (frontend), task (backend)
+  note      : references specific scenarios from requirement doc
 
 data-model
   hard-deps : api-contract (at least one)
@@ -155,15 +153,21 @@ data-model
 task (backend)
   hard-deps : api-contract (at least one)
               data-model (at least one)
-              requirement or story (at least one)
+              requirement (at least one)
   soft-deps : architecture-decision (zero or more)
   blocks    : infra
+  metadata  : scenario (links to req-{slug}#scenario-N)
+              milestone (optional sprint/phase assignment)
+              estimated-hours (effort estimate)
 
 task (frontend)
   hard-deps : component-spec (at least one)
               api-contract (at least one)
-  soft-deps : requirement or story (zero or more)
+  soft-deps : requirement (zero or more)
   blocks    : infra
+  metadata  : scenario (links to req-{slug}#scenario-N)
+              milestone (optional sprint/phase assignment)
+              estimated-hours (effort estimate)
 
 task-breakdown
   hard-deps : change-request (must be status: applied)
@@ -202,6 +206,15 @@ advisory
   hard-deps : none
   soft-deps : concern artifact (the artifact triggering the warning)
   blocks    : nothing — orchestrator working note only
+
+milestone (optional)
+  hard-deps : none
+  soft-deps : requirement (scenarios included in milestone)
+              task (tasks assigned to milestone)
+  blocks    : nothing — coordination artifact, informational only
+  special   : optional timeline coordination for sprints/phases
+              aggregates scenarios and tasks for progress tracking
+              does not gate progression
 ```
 
 ---
@@ -212,23 +225,23 @@ Rows = artifact type. Columns = upstream dependency.
 `●` hard. `○` soft. Empty = no relationship.
 
 ```
-                     rn   pers feat req  stor qr   adr  uf   wf   cs   api  dm   task
+                     rn   pers feat req  qr   adr  uf   wf   cs   api  dm   task
 research-note
 persona              ●
 feature              ○    ○
 requirement               ○    ●
-story                               ●
 quality-requirement                 ●
 architecture-decision               ●    ○
-user-flow                 ●         ○    ●
-wireframe                                ○         ○    ●
-component-spec                                          ●
-api-contract                        ●    ○    ○    ○    ●
-data-model                                         ○         ●
-task (backend)                 ●    ○                   ●    ●
-task (frontend)                ○    ○              ●    ●
+user-flow                 ●         ●
+wireframe                                     ●
+component-spec                                     ●
+api-contract                        ●    ○    ○
+data-model                                              ●
+task (backend)                 ●                   ●    ●
+task (frontend)                ●                   ●    ●
 task-breakdown       ← depends on change-request (applied)
 infra                                                             ●   ●
+milestone (optional) ← soft-deps on requirement + tasks (informational)
 ```
 
 Column key:
@@ -236,8 +249,7 @@ Column key:
 rn   = research-note
 pers = persona
 feat = feature
-req  = requirement
-stor = story
+req  = requirement (with embedded scenarios)
 qr   = quality-requirement
 adr  = architecture-decision
 uf   = user-flow

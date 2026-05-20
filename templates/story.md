@@ -15,6 +15,18 @@ refs:
   - persona-{slug}
 ---
 
+# ⚠️ DEPRECATED: Story Template
+
+**This template is deprecated as of Option A workflow implementation.**
+
+**Use instead:** Embed scenarios directly in requirement documents (`templates/requirement.md`)
+
+**Migration:** User narratives and acceptance criteria should now be written as scenarios within the requirement document, with orchestration metadata (priority, effort, dependencies, timeline).
+
+**See:** `OPTION-A-WITH-ORCHESTRATION.md` for details on the new scenario-based approach.
+
+---
+
 # Story: {title}
 
 ## Narrative

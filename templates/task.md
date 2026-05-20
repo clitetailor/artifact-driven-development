@@ -8,6 +8,9 @@ feature: {feature-slug}
 module: {feature-slug}/{module-slug}
 track: {backend | frontend}
 priority: {tier-number}
+scenario: req-{slug}#scenario-{N}
+milestone: sprint-{N}
+estimated-hours: {N}
 depends-on:
   - task-{slug}-{be|fe}
 hard-deps:
@@ -19,7 +22,7 @@ refs:
   - api-{slug}
   - dm-{slug}
   - adr-{slug}
-  - story-{slug}
+  - req-{slug}
 ---
 
 # Task: {title}
@@ -45,6 +48,7 @@ refs:
 
 - api-{slug} → `{endpoint or section}`
 - dm-{slug} → `{table or section}`
+- req-{slug} → Scenario {N}: {scenario-title}
 
 ---
 

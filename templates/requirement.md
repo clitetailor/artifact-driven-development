@@ -45,6 +45,62 @@ refs:
 
 Priority: `must` (launch blocker) / `should` (important but not blocking) / `could` (nice to have)
 
+---
+
+## Scenarios
+
+### Scenario 1: {scenario-title}
+**Priority:** P0 (launch blocker) | P1 (important) | P2 (nice to have)  
+**Estimated effort:** {N} tasks ({N} hours)  
+**Dependencies:** None | Scenario N  
+**Timeline:** Sprint N | Phase N
+
+**Narrative:**
+As a **{persona or role}**,
+I want to **{action or capability}**,
+so that **{outcome or value}**.
+
+**Preconditions:**
+- 
+- 
+
+**Acceptance Criteria:**
+- [ ] Given {context}, when {action}, then {outcome}
+- [ ] Given {context}, when {action}, then {outcome}
+
+**Error / Edge Cases:**
+| Scenario | Expected Behavior |
+|----------|-------------------|
+|          |                   |
+
+---
+
+### Scenario 2: {scenario-title}
+**Priority:** P0 | P1 | P2  
+**Estimated effort:** {N} tasks ({N} hours)  
+**Dependencies:** Scenario 1  
+**Timeline:** Sprint N
+
+**Narrative:**
+As a **{persona or role}**,
+I want to **{action or capability}**,
+so that **{outcome or value}**.
+
+**Preconditions:**
+- 
+- 
+
+**Acceptance Criteria:**
+- [ ] Given {context}, when {action}, then {outcome}
+- [ ] Given {context}, when {action}, then {outcome}
+
+**Error / Edge Cases:**
+| Scenario | Expected Behavior |
+|----------|-------------------|
+|          |                   |
+
+---
+
 ## Success Metrics
 <!-- Measurable outcomes. Inherits from feature doc; override or extend here if needed. -->
 

@@ -7,12 +7,12 @@ Test artifacts span DESIGN and BUILD phases. Test plans define the overall testi
 ## Artifact Flow
 
 ```
-requirement → test-plan (DESIGN phase)
-    ↓             ↓
-  story    → test-spec → test-suite → task (BUILD phase)
-    ↓           ↓           ↓          ↓
-  (what)   (how to    (grouped   (implement
-           verify)     tests)     to pass)
+requirement (with scenarios) → test-plan (DESIGN phase)
+    ↓                              ↓
+  scenario-1, scenario-2    → test-spec → test-suite → task (BUILD phase)
+  (embedded in req)             ↓           ↓          ↓
+    ↓                      (how to    (grouped   (implement
+  (what)                    verify)     tests)     to pass)
 ```
 
 ## When to Create Test Artifacts
@@ -24,10 +24,10 @@ requirement → test-plan (DESIGN phase)
 - **Purpose**: Define overall testing strategy, scope, resources, schedule
 
 ### test-spec
-- **Trigger**: After story is accepted and API/data contracts are defined
+- **Trigger**: After requirement scenarios are defined and API/data contracts are defined
 - **Before**: Creating implementation tasks
 - **Owner**: qa-engineer
-- **Purpose**: Define specific test cases with Given/When/Then format
+- **Purpose**: Define specific test cases with Given/When/Then format for a specific scenario
 
 ### test-suite
 - **Trigger**: After multiple related test-specs exist for a feature/module
@@ -43,13 +43,12 @@ All test artifact dependencies are **soft-deps** to allow flexibility:
 # test-plan
 soft-deps:
   - req-{slug}
-  - story-{slug}
 
 # test-spec
 soft-deps:
-  - story-{slug}
   - req-{slug}
   - tp-{slug}  # optional reference to test plan
+scenario: req-{slug}#scenario-N  # specific scenario being tested
 
 # test-suite
 soft-deps:
@@ -62,6 +61,7 @@ soft-deps:
   - ts-{slug}  # tests to satisfy
   - api-{slug}
   - dm-{slug}
+scenario: req-{slug}#scenario-N  # scenario being implemented
 ```
 
 ## Test Levels
@@ -83,7 +83,7 @@ soft-deps:
 
 ## TDD Cycle
 
-1. **Write test-spec** defining test cases for a story
+1. **Write test-spec** defining test cases for a scenario
 2. **Create test-suite** grouping related specs (optional for single specs)
 3. **Create task** to implement code that passes the tests
 4. **Implement** code in task

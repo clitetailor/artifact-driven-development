@@ -7,11 +7,10 @@ version: 1.0
 feature: {feature-slug}
 module: {feature-slug}/{module-slug}
 test-level: unit
+scenario: req-{slug}#scenario-{N}
 soft-deps:
-  - story-{slug}
   - req-{slug}
 refs:
-  - story-{slug}
   - req-{slug}
 ---
 

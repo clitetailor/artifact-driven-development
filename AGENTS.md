@@ -31,8 +31,9 @@ All design artifacts are stored in this repo (`{docs-repo}`) as a PKM vault.
 ├── research-notes/         # Raw discovery notes, interview summaries  (rn-)
 ├── personas/               # Synthesized user archetypes               (persona-)
 ├── features/               # Feature-level scope documents             (feat-)
-├── requirements/           # PRDs — scoped feature requirements        (req-)
-├── stories/                # User narratives + acceptance criteria      (story-)
+├── requirements/           # PRDs with embedded scenarios              (req-)
+├── stories/                # DEPRECATED — use scenarios in requirements (story-)
+├── milestones/             # Optional timeline coordination artifacts  (milestone-)
 ├── test-plans/             # Testing strategy per feature               (tp-)
 ├── test-specs/             # Test specifications (unit/integration/e2e) (ts-)
 ├── test-suites/            # Grouped test specs with coverage targets   (suite-)
@@ -101,7 +102,8 @@ Pattern: `{prefix}-{feature}-{descriptor}` — lowercase, hyphen-separated only.
 | persona | `persona-` | `persona-primary-user` |
 | feature | `feat-` | `feat-user-authentication` |
 | requirement | `req-` | `req-user-authentication` |
-| story | `story-` | `story-user-login` |
+| story | `story-` | `story-user-login` (DEPRECATED) |
+| milestone | `milestone-` | `milestone-sprint-1` |
 | test-plan | `tp-` | `tp-user-authentication` |
 | test-spec | `ts-` | `ts-user-login-validation` |
 | test-suite | `suite-` | `suite-user-authentication` |
@@ -165,6 +167,15 @@ rg -l --glob '!.*' "status: needs-review" {docs-repo}/
 
 # Find a specific artifact by id
 rg -l --glob '!.*' "^id: req-user-authentication" {docs-repo}/
+
+# Find all tasks for a specific scenario
+rg -l --glob '!.*' "scenario: req-user-authentication#scenario-1" {docs-repo}/tasks/
+
+# Find all tasks assigned to a milestone
+rg -l --glob '!.*' "milestone: sprint-1" {docs-repo}/tasks/
+
+# Find all test specs for a scenario
+rg -l --glob '!.*' "scenario: req-user-authentication#scenario-1" {docs-repo}/test-specs/
 ```
 
 ---
