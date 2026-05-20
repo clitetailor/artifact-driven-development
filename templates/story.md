@@ -23,7 +23,10 @@ refs:
 
 **Migration:** User narratives and acceptance criteria should now be written as scenarios within the requirement document, with orchestration metadata (priority, effort, dependencies, timeline).
 
-**See:** `OPTION-A-WITH-ORCHESTRATION.md` for details on the new scenario-based approach.
+**See:** 
+- `templates/requirement.md` for the scenario-based requirement template
+- `reference/coordination-decision-tree.md` for when to use scenarios vs other coordination artifacts
+- `handbook/sdlc-workflows.md` for the full workflow including scenarios
 
 ---
 
