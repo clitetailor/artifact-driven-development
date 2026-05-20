@@ -7,27 +7,31 @@
 
 ```
 /vault
-  ├── /research              ← raw discovery notes, interview summaries
+  ├── /research-notes        ← raw discovery notes, interview summaries
   ├── /personas              ← synthesized user archetypes
   ├── /features              ← feature-level scope and status documents
-  ├── /requirements          ← PRDs — scoped feature requirements
-  ├── /stories               ← user narratives + acceptance criteria
-  ├── /tasks                 ← decomposed implementation units
+  ├── /requirements          ← PRDs — scoped feature requirements with scenarios
+  ├── /user-flows            ← user journey diagrams (Mermaid embedded)
+  ├── /wireframes            ← agent-generated ASCII wireframes
+  ├── /component-specs       ← UI component specs (states, behavior, tokens)
   ├── /architecture-decisions ← ADRs — architecture decision records
   ├── /quality-requirements  ← NFRs — non-functional requirements
   ├── /api-contracts         ← endpoint specs, request/response shapes
   ├── /data-models           ← schemas, indexes, migration notes
-  ├── /user-flows            ← user journey diagrams (Mermaid embedded)
-  ├── /wireframes            ← agent-generated ASCII wireframes
-  ├── /component-specs       ← UI component specs (states, behavior, tokens)
+  ├── /test-plans            ← testing strategy per feature              (tp-)
+  ├── /test-specs            ← test specifications (unit/integration/e2e) (ts-)
+  ├── /test-suites           ← grouped test specs with coverage targets  (suite-)
+  ├── /tasks                 ← decomposed implementation units           (task-)
   ├── /implementation-notes  ← optional cross-cutting implementation notes
   ├── /infra                 ← IaC specs, CI/CD, monitoring, runbooks
   ├── /change-requests       ← inter-agent artifact modification requests
   ├── /advisories            ← non-blocking orchestrator warnings
+  ├── /milestones            ← optional timeline coordination            (milestone-)
   ├── /agent-memory          ← private agent working state (not indexed)
   │     ├── /business-analyst
   │     ├── /ux-ui-designer
   │     ├── /software-architect
+  │     ├── /qa-engineer
   │     ├── /backend-engineer
   │     ├── /frontend-engineer
   │     ├── /devops-engineer
@@ -52,13 +56,13 @@ updated: YYYY-MM-DD
 ## Artifact Types
 
 # UNDERSTAND
-- research-note          # renamed from: discovery
+- research-note
 - persona
 
 # DEFINE
 - feature
 - requirement
-- story
+- story  # DEPRECATED — use scenarios in requirements
 
 # DESIGN
 - user-flow
@@ -68,8 +72,11 @@ updated: YYYY-MM-DD
 - api-contract
 - data-model
 - quality-requirement
+- test-plan
 
 # BUILD
+- test-spec
+- test-suite
 - task
 - task-breakdown
 - implementation-note
@@ -80,13 +87,15 @@ updated: YYYY-MM-DD
 # WORKFLOW
 - change-request
 - advisory
+- milestone  # optional timeline coordination
 
 ## ID Prefixes
 - research-note          : rn-
 - persona                : persona-
 - feature                : feat-
 - requirement            : req-
-- story                  : story-
+- story                  : story-  # DEPRECATED
+- milestone              : milestone-
 - user-flow              : uf-
 - wireframe              : wf-
 - component-spec         : cs-
@@ -94,6 +103,9 @@ updated: YYYY-MM-DD
 - api-contract           : api-
 - data-model             : dm-
 - quality-requirement    : qr-
+- test-plan              : tp-
+- test-spec              : ts-
+- test-suite             : suite-
 - task                   : task-
 - task-breakdown         : tb-
 - implementation-note    : in-
@@ -106,20 +118,23 @@ updated: YYYY-MM-DD
 - persona               : hard-deps: research-note
 - feature               : hard-deps: none
 - requirement           : hard-deps: feature
-- story                 : hard-deps: requirement
 - quality-requirement   : hard-deps: requirement
 - architecture-decision : hard-deps: requirement
-- user-flow             : hard-deps: story
+- user-flow             : hard-deps: requirement
 - wireframe             : hard-deps: user-flow
 - component-spec        : hard-deps: wireframe
-- api-contract          : hard-deps: architecture-decision, story
-- data-model            : hard-deps: architecture-decision, api-contract
-- task                  : hard-deps: api-contract or component-spec (by track)
+- api-contract          : hard-deps: requirement; soft-deps: architecture-decision, quality-requirement
+- data-model            : hard-deps: api-contract; soft-deps: architecture-decision
+- test-plan             : hard-deps: none; soft-deps: requirement
+- test-spec             : hard-deps: none; soft-deps: requirement, test-plan
+- test-suite            : hard-deps: none; soft-deps: test-spec
+- task                  : hard-deps: api-contract or component-spec (by track); soft-deps: test-spec
 - task-breakdown        : hard-deps: change-request (must be applied)
 - implementation-note   : hard-deps: task
-- infra                 : hard-deps: task (all done), architecture-decision, quality-requirement
+- infra                 : hard-deps: task (all done), quality-requirement
 - change-request        : hard-deps: target artifact
 - advisory              : hard-deps: none
+- milestone             : hard-deps: none; soft-deps: requirement, task
 
 ## Features
 - {feature-slug}
@@ -142,20 +157,23 @@ updated: YYYY-MM-DD
 | persona               | business-analyst     | ux-ui-designer, business-analyst               |
 | feature               | business-analyst     | all agents                                     |
 | requirement           | business-analyst     | all agents                                     |
-| story                 | business-analyst     | ux-ui-designer, architect, backend, frontend   |
-| task                  | architect / agents   | backend-engineer, frontend-engineer            |
-| task-breakdown        | orchestrator         | backend-engineer, frontend-engineer            |
-| architecture-decision | software-architect   | backend-engineer, frontend-engineer, devops    |
-| quality-requirement   | software-architect   | all agents                                     |
-| api-contract          | software-architect   | backend-engineer, frontend-engineer            |
-| data-model            | software-architect   | backend-engineer, devops-engineer              |
 | user-flow             | ux-ui-designer       | frontend-engineer, software-architect          |
 | wireframe             | ux-ui-designer       | frontend-engineer                              |
 | component-spec        | ux-ui-designer       | frontend-engineer                              |
+| architecture-decision | software-architect   | backend-engineer, frontend-engineer, devops    |
+| quality-requirement   | software-architect   | all agents                                     |
+| api-contract          | software-architect   | backend-engineer, frontend-engineer, qa        |
+| data-model            | software-architect   | backend-engineer, devops-engineer, qa          |
+| test-plan             | qa-engineer          | backend-engineer, frontend-engineer            |
+| test-spec             | qa-engineer          | backend-engineer, frontend-engineer            |
+| test-suite            | qa-engineer          | backend-engineer, frontend-engineer, devops    |
+| task                  | architect / agents   | backend-engineer, frontend-engineer            |
+| task-breakdown        | orchestrator         | backend-engineer, frontend-engineer            |
 | implementation-note   | any agent (optional) | all agents                                     |
 | infra                 | devops-engineer      | all agents                                     |
 | change-request        | any agent            | artifact owner                                 |
 | advisory              | orchestrator         | orchestrator, user                             |
+| milestone             | orchestrator         | all agents                                     |
 
 ---
 
@@ -240,7 +258,7 @@ Rejection is terminal. If the filer disagrees, they file a new CR rather than re
 
 Both terminal states are kept as audit trail — advisories are never deleted.
 
-**All remaining artifact types** (persona, feature, requirement, story, quality-requirement, user-flow, wireframe, component-spec, api-contract, data-model, research-note, infra) follow the standard artifact lifecycle. Research notes must reach `accepted` before a persona can be accepted. Infra is the terminal node — it reaches `accepted` when the deployment is approved.
+**All remaining artifact types** (persona, feature, requirement, quality-requirement, user-flow, wireframe, component-spec, api-contract, data-model, research-note, infra, test-plan, test-spec, test-suite) follow the standard artifact lifecycle. Research notes must reach `accepted` before a persona can be accepted. Infra is the terminal node — it reaches `accepted` when the deployment is approved. Test-specs reach `accepted` when the QA Engineer confirms all test cases pass (Phase 4). Test-suites reach `accepted` when all included test-specs are `accepted`.
 
 **Architecture decisions** follow the standard artifact lifecycle with two additional terminal states:
 
@@ -264,29 +282,32 @@ Both terminal states are kept as audit trail — advisories are never deleted.
 {prefix}-{feature}-{descriptor}
 
 Prefix map:
-  rn-      research-note
-  persona- persona
-  feat-    feature
-  req-     requirement
-  story-   story
-  uf-      user-flow
-  wf-      wireframe
-  cs-      component-spec
-  adr-     architecture-decision
-  api-     api-contract
-  dm-      data-model
-  qr-      quality-requirement
-  task-    task
-  tb-      task-breakdown
-  in-      implementation-note
-  infra-   infra
-  cr-      change-request
-  adv-     advisory
+  rn-         research-note
+  persona-    persona
+  feat-       feature
+  req-        requirement
+  story-      story  # DEPRECATED
+  milestone-  milestone
+  uf-         user-flow
+  wf-         wireframe
+  cs-         component-spec
+  adr-        architecture-decision
+  api-        api-contract
+  dm-         data-model
+  qr-         quality-requirement
+  tp-         test-plan
+  ts-         test-spec
+  suite-      test-suite
+  task-       task
+  tb-         task-breakdown
+  in-         implementation-note
+  infra-      infra
+  cr-         change-request
+  adv-        advisory
 
 Examples:
   req-password-reset
   adr-jwt-vs-session
-  story-request-reset-link
   task-token-generation-be
   tb-sms-fallback-implementation
   cr-api-contract-missing-rate-limit
@@ -295,6 +316,11 @@ Examples:
   cs-reset-request-form
   qr-auth-service-performance
   adv-adr-unresolved-before-contract
+  tp-user-authentication
+  ts-user-authentication-login
+  ts-user-authentication-token-validation
+  suite-user-authentication
+  milestone-user-authentication-sprint-1
 ```
 
 Rules:
@@ -315,6 +341,16 @@ Each agent has a private memory namespace not indexed by the vault.
   ├── _state.md           ← current working state (1 file, overwritten each session)
   ├── _context-cache.md   ← digested summaries of consumed artifacts
   └── scratch-{task}.md   ← per-task reasoning scratchpad (deleted on task completion)
+
+Agents:
+  /agent-memory/orchestrator/
+  /agent-memory/business-analyst/
+  /agent-memory/ux-ui-designer/
+  /agent-memory/software-architect/
+  /agent-memory/qa-engineer/
+  /agent-memory/backend-engineer/
+  /agent-memory/frontend-engineer/
+  /agent-memory/devops-engineer/
 ```
 
 ### _state.md fields

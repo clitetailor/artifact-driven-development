@@ -5,15 +5,16 @@
 
 ## Agent Roster
 
-| Agent               | Slug                 | SDLC Phase(s)          |
-|---------------------|----------------------|------------------------|
-| Orchestrator        | orchestrator         | All phases             |
-| Business Analyst    | business-analyst     | Intake, Phase 1        |
-| UX-UI Designer      | ux-ui-designer       | Phase 2                |
-| Software Architect  | software-architect   | Phase 2, Phase 3       |
-| Backend Engineer    | backend-engineer     | Phase 3, Phase 4       |
-| Frontend Engineer   | frontend-engineer    | Phase 3, Phase 4       |
-| DevOps Engineer     | devops-engineer      | Phase 5                |
+| Agent               | Slug                 | SDLC Phase(s)                    |
+|---------------------|----------------------|----------------------------------|
+| Orchestrator        | orchestrator         | All phases                       |
+| Business Analyst    | business-analyst     | Intake, Phase 1                  |
+| UX-UI Designer      | ux-ui-designer       | Phase 2                          |
+| Software Architect  | software-architect   | Phase 2, Phase 3                 |
+| QA Engineer         | qa-engineer          | Phase 2 (test-plan), Phase 3 (test-specs/suites) |
+| Backend Engineer    | backend-engineer     | Phase 3, Phase 4                 |
+| Frontend Engineer   | frontend-engineer    | Phase 3, Phase 4                 |
+| DevOps Engineer     | devops-engineer      | Phase 5                          |
 
 ---
 
@@ -311,6 +312,95 @@ Sends to      : backend-engineer    — api-contract, data-model, tasks (handoff
   ├── _state.md
   ├── _context-cache.md       ← cached requirement, quality-requirement summaries
   └── scratch-{adr}.md   ← options analysis, rejected alternatives
+```
+
+---
+
+## QA Engineer Agent
+
+### Role
+Defines the testing strategy and writes all test artifacts before implementation
+begins. Works across DESIGN (test-plan) and BUILD (test-spec, test-suite) phases.
+Owns the definition of quality — what it means for each scenario to be correct —
+not the execution environment or CI pipeline (that is DevOps).
+
+### Responsibilities
+- Write test plans defining overall testing strategy and coverage targets per feature
+- Write test specs (Given/When/Then) for each requirement scenario
+- Group related test specs into test suites with shared fixtures and run commands
+- Define entry/exit criteria, mocking strategies, and coverage targets
+- Surface ambiguous or untestable scenarios as CRs to the BA before writing specs
+- Review task implementation notes and mark test-specs as `accepted` when tests pass
+
+### Capabilities
+| Capability               | Description                                                      |
+|--------------------------|------------------------------------------------------------------|
+| Test plan authoring      | Strategy, scope, test levels, risk assessment per feature        |
+| Test spec authoring      | Given/When/Then cases, edge cases, error cases per scenario      |
+| Test suite authoring     | Grouping specs, shared fixtures, coverage targets, run commands  |
+| Scenario analysis        | Reading requirement scenarios and translating to test cases      |
+| CR authoring             | Filing gap reports when scenarios are untestable or ambiguous    |
+| Coverage analysis        | Defining line/branch/function coverage targets per suite         |
+
+### Artifact Ownership (RACI)
+| Artifact    | Role  |
+|-------------|-------|
+| test-plan   | Owner |
+| test-spec   | Owner |
+| test-suite  | Owner |
+
+### PKM Reads / Writes
+```
+reads  : /requirements/*
+         /api-contracts/*
+         /data-models/*
+         /test-plans/* (self-reference for spec alignment)
+writes : /test-plans/tp-{name}.md
+         /test-specs/ts-{name}.md
+         /test-suites/suite-{name}.md
+         /change-requests/cr-{name}.md  (when scenario is untestable or ambiguous)
+```
+
+### Dependency Rules (Frontmatter)
+```yaml
+# test-plan (Phase 2 — after requirements accepted)
+soft-deps:
+  - req-{slug}
+
+# test-spec (Phase 3 — after API contracts and data models accepted)
+soft-deps:
+  - req-{slug}
+  - tp-{slug}   # optional reference to test plan
+scenario: req-{slug}#scenario-{N}   # specific scenario being tested
+
+# test-suite (Phase 3 — after related test-specs drafted)
+soft-deps:
+  - ts-{slug}   # one or more test-specs
+  - tp-{slug}   # optional reference to test plan
+```
+
+All test artifact dependencies are **soft-deps** by design — they provide
+traceability and generate warnings if missing, but do not block acceptance.
+This lets test artifacts be created and iterated in parallel with design work.
+
+### Interaction Patterns
+```
+Receives from : business-analyst    — requirements, scenarios (context)
+              : software-architect  — api-contracts, data-models (context)
+              : orchestrator        — activation signal
+Sends to      : backend-engineer    — test-specs as implementation targets
+              : frontend-engineer   — test-specs as implementation targets
+              : orchestrator        — ready-for-review signal, CR filings
+Files CR to   : business-analyst    — if scenario is ambiguous or untestable
+              : software-architect  — if API contract is missing needed fields
+```
+
+### Agent Memory
+```
+/agent-memory/qa-engineer/
+  ├── _state.md
+  ├── _context-cache.md       ← cached requirement and scenario summaries
+  └── scratch-{feature}.md    ← test case reasoning, rejected approaches
 ```
 
 ---
@@ -623,10 +713,12 @@ Phase 1
 
 Phase 2 (sequential default)
   ├── UX-UI Designer
-  └── Software Architect
+  ├── Software Architect
+  └── QA Engineer          (test-plan — can run parallel with UX/Arch)
 
 Phase 3
-  ├── Software Architect   (backend task decomposition)
+  ├── QA Engineer          (test-specs + test-suites — first, using Phase 2 output)
+  ├── Software Architect   (backend task decomposition — after test-specs drafted)
   ├── Backend Engineer     (backend task decomposition)
   └── Frontend Engineer    (frontend task decomposition)
 
@@ -640,8 +732,9 @@ Phase 5
 
 ### Parallel Execution Windows
 ```
-Phase 2: UX-UI Designer ‖ Software Architect   (user-triggered)
-Phase 4: Backend Engineer ‖ Frontend Engineer  (user-triggered)
+Phase 2: UX-UI Designer ‖ Software Architect ‖ QA Engineer  (user-triggered)
+Phase 3: QA Engineer → then Arch/BE/FE in parallel           (QA must go first)
+Phase 4: Backend Engineer ‖ Frontend Engineer                (user-triggered)
 ```
 
 Parallel execution only when:
@@ -649,29 +742,35 @@ Parallel execution only when:
 2. No blocking dependency between the two agents at that point
 3. Tasks have been clearly decomposed with explicit scope boundaries
 
+QA Engineer in Phase 3 runs **before** task decomposition so that tasks can
+soft-dep on existing test-specs. Task decomposition does not wait for
+test-suites — suites may be completed concurrently with early task decomposition.
+
 ---
 
 ## Capability Matrix
 
-| Capability                  | BA | UX | Arch | BE | FE | DevOps |
-|-----------------------------|----|----|------|----|----|--------|
-| Read raw research           | ✓  |    |      |    |    |        |
-| Write personas              | ✓  |    |      |    |    |        |
-| Write requirements          | ✓  |    |      |    |    |        |
-| Write stories               | ✓  |    |      |    |    |        |
-| Write user flows            |    | ✓  |      |    |    |        |
-| Write wireframes            |    | ✓  |      |    |    |        |
-| Write component specs       |    | ✓  |      |    |    |        |
-| Write ADRs                  |    |    | ✓    |    |    |        |
-| Write API contracts         |    |    | ✓    |    |    |        |
-| Write data models           |    |    | ✓    |    |    |        |
-| Write NFRs                  |    |    | ✓    |    |    |        |
-| Decompose backend tasks     |    |    | ✓    |    |    |        |
-| Decompose frontend tasks    |    |    |      |    | ✓  |        |
-| Implement backend services  |    |    |      | ✓  |    |        |
-| Implement UI components     |    |    |      |    | ✓  |        |
-| Write IaC + pipelines       |    |    |      |    |    | ✓      |
-| Write runbooks              |    |    |      |    |    | ✓      |
-| File change requests        | ✓  | ✓  | ✓    | ✓  | ✓  | ✓      |
-| Approve change requests     | ✓  | ✓  | ✓    | ✓  | ✓  | ✓      |
-| Write impl-notes (optional) |    |    |      | ✓  | ✓  |        |
+| Capability                  | BA | UX | Arch | QA | BE | FE | DevOps |
+|-----------------------------|----|----|------|----|----|-----|--------|
+| Read raw research           | ✓  |    |      |    |    |    |        |
+| Write personas              | ✓  |    |      |    |    |    |        |
+| Write requirements          | ✓  |    |      |    |    |    |        |
+| Write user flows            |    | ✓  |      |    |    |    |        |
+| Write wireframes            |    | ✓  |      |    |    |    |        |
+| Write component specs       |    | ✓  |      |    |    |    |        |
+| Write ADRs                  |    |    | ✓    |    |    |    |        |
+| Write API contracts         |    |    | ✓    |    |    |    |        |
+| Write data models           |    |    | ✓    |    |    |    |        |
+| Write NFRs                  |    |    | ✓    |    |    |    |        |
+| Write test plans            |    |    |      | ✓  |    |    |        |
+| Write test specs            |    |    |      | ✓  |    |    |        |
+| Write test suites           |    |    |      | ✓  |    |    |        |
+| Decompose backend tasks     |    |    | ✓    |    |    |    |        |
+| Decompose frontend tasks    |    |    |      |    |    | ✓  |        |
+| Implement backend services  |    |    |      |    | ✓  |    |        |
+| Implement UI components     |    |    |      |    |    | ✓  |        |
+| Write IaC + pipelines       |    |    |      |    |    |    | ✓      |
+| Write runbooks              |    |    |      |    |    |    | ✓      |
+| File change requests        | ✓  | ✓  | ✓    | ✓  | ✓  | ✓  | ✓      |
+| Approve change requests     | ✓  | ✓  | ✓    | ✓  | ✓  | ✓  | ✓      |
+| Write impl-notes (optional) |    |    |      |    | ✓  | ✓  |        |

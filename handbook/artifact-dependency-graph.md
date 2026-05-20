@@ -44,33 +44,38 @@ Add a new artifact type with deps defined
                         ▼
             [requirement (with scenarios)]
                         │
-              ┌─────────┴──────────────┐
-              ▼                        ▼
-       [user-flow]          [quality-requirement]
-              │                        │
-              │                        └──────┐
-              ▼                               ▼
-         [wireframe]          [architecture-decision]
-              │                        │
-              ▼                   ┌────┴────┐
-       [component-spec]           ▼         ▼
-              │              [api-contract] [data-model]
-              │                   │         │
-              └────┬──────────────┴────┬────┘
-                   ▼                   ▼
-               [task-fe]           [task-be]
-                   │                   │
-                   └────────┬──────────┘
-                            ▼
-                 [task-breakdown]   ← coordinates phased CR task sets
-                            │
-                         [infra]
-                            │
-                            ▼
-                 [change-request]   ← can reference any artifact
-                 [advisory]         ← orchestrator concern, non-blocking
-                 [milestone]        ← optional timeline coordination
+         ┌──────────────┼──────────────────────┐
+         ▼              ▼                       ▼
+  [user-flow]  [quality-requirement]        ○[test-plan]
+         │              │                       │
+         │              └──────┐               ○│ (soft)
+         ▼                     ▼                ▼
+    [wireframe]  [architecture-decision]   ○[test-spec]
+         │                     │                │
+         ▼               ┌─────┴─────┐         ○│ (soft)
+  [component-spec]        ▼           ▼    ○[test-suite]
+         │          [api-contract] [data-model]  │
+         │                  │          │         │
+         └─────┬────────────┴─────┬───┘         │
+               ▼                  ▼◄─────────────┘ (soft)
+           [task-fe]          [task-be]
+               │                  │
+               └──────────┬───────┘
+                          ▼
+               [task-breakdown]   ← coordinates phased CR task sets
+                          │
+                       [infra]
+                          │
+                          ▼
+               [change-request]   ← can reference any artifact
+               [advisory]         ← orchestrator concern, non-blocking
+               [milestone]        ← optional timeline coordination
 ```
+
+**TDD path notation:** `○` prefix indicates soft-dep participation.
+Test artifacts (test-plan, test-spec, test-suite) are connected exclusively
+via soft-deps — they provide traceability and generate warnings if missing,
+but do not block any hard-dep acceptance chain.
 
 ---
 
@@ -145,16 +150,48 @@ data-model
   hard-deps : api-contract (at least one)
   soft-deps : architecture-decision (zero or more)
   blocks    : task (backend)
+
+test-plan  [DESIGN phase — TDD path]
+  hard-deps : none
+  soft-deps : requirement (at least one)
+  blocks    : nothing — soft-dep only
+  owner     : qa-engineer
+  note      : created in Phase 2 alongside UX/Architect work
+              defines testing strategy, scope, coverage targets
+              lists test-specs to be written in Phase 3
 ```
 
 ### Build Layer
 
 ```
+test-spec  [BUILD phase — TDD path]
+  hard-deps : none
+  soft-deps : requirement (at least one)
+              test-plan (zero or one)
+  blocks    : nothing — soft-dep only
+  owner     : qa-engineer
+  metadata  : scenario (links to req-{slug}#scenario-N)
+              test-level (unit | integration | e2e)
+  note      : created in Phase 3 before task decomposition
+              each spec covers one requirement scenario
+              Given/When/Then format, edge and error cases
+
+test-suite  [BUILD phase — TDD path]
+  hard-deps : none
+  soft-deps : test-spec (one or more)
+              test-plan (zero or one)
+  blocks    : nothing — soft-dep only
+  owner     : qa-engineer
+  note      : created in Phase 3 after related test-specs drafted
+              groups test-specs, defines shared fixtures, run commands
+              sets coverage targets (line / branch / function)
+
 task (backend)
   hard-deps : api-contract (at least one)
               data-model (at least one)
               requirement (at least one)
   soft-deps : architecture-decision (zero or more)
+              test-spec (zero or more)   ← tests this task must pass
   blocks    : infra
   metadata  : scenario (links to req-{slug}#scenario-N)
               milestone (optional sprint/phase assignment)
@@ -164,6 +201,7 @@ task (frontend)
   hard-deps : component-spec (at least one)
               api-contract (at least one)
   soft-deps : requirement (zero or more)
+              test-spec (zero or more)   ← tests this task must pass
   blocks    : infra
   metadata  : scenario (links to req-{slug}#scenario-N)
               milestone (optional sprint/phase assignment)
@@ -230,7 +268,7 @@ Rows = artifact type. Columns = upstream dependency.
 `●` hard. `○` soft. Empty = no relationship.
 
 ```
-                     rn   pers feat req  qr   adr  uf   wf   cs   api  dm   task
+                     rn   pers feat req  qr   adr  uf   wf   cs   api  dm   tp   ts   task
 research-note
 persona              ●
 feature              ○    ○
@@ -242,8 +280,11 @@ wireframe                                     ●
 component-spec                                     ●
 api-contract                        ●    ○    ○
 data-model                                              ●
-task (backend)                 ●                   ●    ●
-task (frontend)                ●                   ●    ●
+test-plan                           ○
+test-spec                           ○                             ○
+test-suite                                                             ○
+task (backend)                 ●                   ●    ●              ○
+task (frontend)                ●                   ●    ●              ○
 task-breakdown       ← depends on change-request (applied)
 infra                                                             ●   ●
 milestone (optional) ← soft-deps on requirement + tasks (informational)
@@ -262,7 +303,9 @@ wf   = wireframe
 cs   = component-spec
 api  = api-contract
 dm   = data-model
-task = task
+tp   = test-plan
+ts   = test-spec
+task = task (backend or frontend)
 ```
 
 ---
@@ -374,7 +417,7 @@ Rejection is terminal. If the filer disagrees, they file a new CR rather than re
 
 Both are terminal. Advisories are never deleted — they remain as audit trail.
 
-**All remaining artifact types** (persona, feature, requirement, story, quality-requirement, user-flow, wireframe, component-spec, api-contract, data-model, research-note, infra) follow the standard artifact lifecycle. Research notes must reach `accepted` before a persona can be accepted. Infra is the terminal node — it reaches `accepted` when the deployment is approved.
+**All remaining artifact types** (persona, feature, requirement, story, quality-requirement, user-flow, wireframe, component-spec, api-contract, data-model, research-note, infra, test-plan, test-spec, test-suite) follow the standard artifact lifecycle. Research notes must reach `accepted` before a persona can be accepted. Infra is the terminal node — it reaches `accepted` when the deployment is approved. Test-specs reach `accepted` when the QA Engineer confirms all test cases pass in implementation (Phase 4). Test-suites reach `accepted` when all included test-specs are `accepted`.
 
 **Architecture decisions** follow the standard artifact lifecycle with two additional terminal states:
 

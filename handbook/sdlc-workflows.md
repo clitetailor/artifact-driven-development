@@ -12,6 +12,18 @@
 | Agents       | Produce artifacts within their ownership domain                      |
 | PKM          | Passive storage — status fields as state, filesystem as rollback     |
 
+### Agent Roster
+
+| Agent              | Activated in    | Primary output                            |
+|--------------------|-----------------|-------------------------------------------|
+| Business Analyst   | Intake, Phase 1 | requirement (with scenarios)              |
+| UX-UI Designer     | Phase 2         | user-flow, wireframe, component-spec      |
+| Software Architect | Phase 2, 3      | adr, api-contract, data-model, qr, tasks  |
+| QA Engineer        | Phase 2, 3      | test-plan, test-spec, test-suite          |
+| Backend Engineer   | Phase 3, 4      | task (be), implementation                 |
+| Frontend Engineer  | Phase 3, 4      | task (fe), implementation                 |
+| DevOps Engineer    | Phase 5         | infra                                     |
+
 ---
 
 ## Orchestrator Modes
@@ -253,18 +265,29 @@ User triggers each phase explicitly and approves at every gate.
 │           └── latency targets, uptime SLAs
 │               scalability limits, security requirements
 │
+│  ── QA ENGINEER ─────────────────────────────────────────────────
+│
+├─[AGNT]  QA — test plan
+│         reads  : /requirements/*, /personas/*
+│         writes : /test-plans/tp-{name}.md
+│           └── testing strategy, scope, test levels (unit/integration/e2e)
+│               coverage targets, entry/exit criteria
+│               risk assessment, list of test-specs to produce in Phase 3
+│         can run in parallel with UX and Architect work
+│
 ├─[ORCH]  Convention check + warn
 │           ✓ wireframe exists for each screen in user flow
 │           ✓ component spec exists for each wireframe
 │           ✓ ADRs exist for significant technical choices
 │           ✓ API contract refs relevant ADRs when present
 │           ✓ data model refs API contract
+│           ✓ test plan exists for the feature
 │           ✓ all refs resolve
 │           ⚠ warnings → /advisories/adv-{x}.md
 │
 ╔═════════════════════════════════════════════════════════════════════╗
 ║  GATE 2                                                             ║
-║  Presents all UX artifacts + architecture artifacts                 ║
+║  Presents: UX artifacts + architecture artifacts + test plan        ║
 ║  Warnings flagged clearly alongside artifacts                       ║
 ║  → approve   → refine [feedback]   → reject + delete               ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -274,25 +297,59 @@ User triggers each phase explicitly and approves at every gate.
 
 ---
 
-### PHASE 3 — Task Decomposition
-**Agents:** Architect + Backend Engineer + Frontend Engineer
+### PHASE 3 — Test Specs & Task Decomposition
+**Agents:** QA Engineer + Architect + Backend Engineer + Frontend Engineer
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│  PHASE 3 — Task Decomposition  [Architect + Backend + Frontend]      │
+│  PHASE 3 — Test Specs & Task Decomposition                          │
+│            [QA Engineer + Architect + Backend + Frontend]            │
 └─────────────────────────────────────────────────────────────────────┘
 │
+│  ── QA ENGINEER (runs first) ────────────────────────────────────
+│
+├─[AGNT]  QA — test specs (one per scenario)
+│         reads  : /requirements/*, /api-contracts/*, /test-plans/*
+│         writes : /test-specs/ts-{name}.md  (one per scenario)
+│           each spec contains:
+│             scenario    : req-{slug}#scenario-{N}  (links to requirement)
+│             test-level  : unit | integration | e2e
+│             test cases  : Given / When / Then
+│             edge cases, error cases, mocking strategy
+│             coverage target (percentage)
+│
+├─[AGNT]  QA — test suites (groups related specs)
+│         reads  : /test-specs/*, /test-plans/*
+│         writes : /test-suites/suite-{name}.md
+│           each suite contains:
+│             test-specs included (table)
+│             coverage goals (line / branch / function)
+│             shared test fixtures
+│             run commands (unit, coverage, CI mode)
+│             CI/CD integration (trigger, failure policy, timeout)
+│
+├─[ORCH]  Convention check (after QA artifacts)
+│           ✓ test spec exists for each scenario in accepted requirements
+│           ✓ test suite exists grouping related specs for the feature
+│           ✓ coverage targets defined in test suite
+│           ⚠ missing test spec for a scenario → advisory, does not block
+│
+│  ── ARCHITECT + ENGINEERS (after test specs drafted) ────────────
+│
 ├─[AGNT]  Architect decomposes backend tasks
-│         reads  : /api-contracts/*, /data-models/*, /requirements/*, /stories/*
+│         reads  : /api-contracts/*, /data-models/*, /requirements/*
+│                  /test-specs/*  (to reference in soft-deps)
 │         writes : /tasks/task-{name}-be.md  (one per task)
 │           each task contains:
 │             priority    : tier number (1 = first)
 │             depends-on  : [task-id, ...]
 │             scope       : what is included / excluded
 │             criteria    : testable acceptance conditions
+│             soft-deps   : [ts-{slug}, ...]  (test specs to satisfy)
 │
 ├─[AGNT]  Frontend decomposes frontend tasks
 │         reads  : /component-specs/*, /api-contracts/*
+│                  /test-specs/*  (to reference in soft-deps)
 │         writes : /tasks/task-{name}-fe.md  (one per task)
 │           same structure as backend tasks
 │
@@ -313,8 +370,8 @@ User triggers each phase explicitly and approves at every gate.
 │
 ╔═════════════════════════════════════════════════════════════════════╗
 ║  GATE 3                                                             ║
-║  Presents task board: backend + frontend tracks with tiers          ║
-║  User may add, remove, or adjust tasks before approving             ║
+║  Presents: test specs + test suites + task board (BE + FE tiers)   ║
+║  User may add, remove, or adjust before approving                   ║
 ║  → approve   → refine [feedback]   → reject + delete               ║
 ╚═════════════════════════════════════════════════════════════════════╝
 │
@@ -357,6 +414,12 @@ User triggers each phase explicitly and approves at every gate.
 │
 │  ── BOTH AGENTS ─────────────────────────────────────────────────
 │
+├─[AGNT]  Implements each task in TDD cycle (for tasks with test-specs)
+│           1. Run test-specs referenced by task (red — all fail)
+│           2. Implement minimum code to pass tests (green)
+│           3. Refactor, verify tests still pass
+│           4. Update task status → done; fill implementation-notes section
+│
 ├─[AGNT]  Files CR when gap found in upstream artifact
 │         writes : /change-requests/cr-{name}.md
 │           ├── minor CR → proceed optimistically
@@ -365,14 +428,21 @@ User triggers each phase explicitly and approves at every gate.
 │           └── major CR → hard block
 │                          wait for artifact owner to resolve
 │
+├─[AGNT]  QA — marks test-specs accepted when tests pass
+│         reads  : task implementation-notes sections
+│         writes : test-spec status: accepted (per passing spec)
+│                  test-suite status: accepted (when all included specs pass)
+│
 ├─[ORCH]  Convention check
 │           ✓ all tasks status: done or explicitly deferred
 │           ✓ open CRs resolved or status: deferred
 │           ✓ deferred CRs have advisorys created
+│           ⚠ test-specs still in draft → advisory (tests not confirmed passing)
 │
 ╔═════════════════════════════════════════════════════════════════════╗
 ║  GATE 4                                                             ║
-║  Presents: tasks completed, open CRs, deferred items               ║
+║  Presents: tasks completed, test coverage summary, open CRs,       ║
+║            deferred items                                           ║
 ║  → approve   → refine [feedback]   → reject + delete               ║
 ╚═════════════════════════════════════════════════════════════════════╝
 │
@@ -665,12 +735,21 @@ When user proceeds despite a warning:
 
 ## PKM Write Summary Per Phase
 
-| Phase      | Artifact Types Written                                          |
-|------------|-----------------------------------------------------------------|
-| Intake     | feature                                                         |
-| Phase 1    | requirement, optional story                                     |
-| Phase 2    | user-flow, wireframe, component-spec, decision, api-contract, data-model, constraint |
-| Phase 3    | task                                                            |
-| Phase 4    | task (status + implementation-notes), change-request                      |
-| Phase 5    | infra                                                           |
-| Any phase  | draft (warnings), change-request (gaps)                         |
+| Phase      | Artifact Types Written                                                          |
+|------------|---------------------------------------------------------------------------------|
+| Intake     | feature                                                                         |
+| Phase 1    | requirement (with scenarios)                                                    |
+| Phase 2    | user-flow, wireframe, component-spec, architecture-decision, api-contract, data-model, quality-requirement, **test-plan** |
+| Phase 3    | **test-spec**, **test-suite**, task (be + fe)                                   |
+| Phase 4    | task (status + implementation-notes), change-request; test-spec/suite → accepted |
+| Phase 5    | infra                                                                           |
+| Any phase  | advisory (warnings), change-request (gaps)                                      |
+
+### Test Artifact Phase Anchors
+
+| Artifact   | Created in | Trigger                                         | Owner       |
+|------------|------------|-------------------------------------------------|-------------|
+| test-plan  | Phase 2    | After requirements accepted                     | qa-engineer |
+| test-spec  | Phase 3    | After api-contracts + data-models accepted      | qa-engineer |
+| test-suite | Phase 3    | After related test-specs drafted                | qa-engineer |
+| test-spec  | Phase 4    | Status → accepted when implementation passes    | qa-engineer |
