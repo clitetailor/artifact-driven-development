@@ -6,11 +6,15 @@ status: draft
 version: 1.0
 feature: {feature-slug}
 module: {feature-slug}/{module-slug}
-hard-deps:
-soft-deps:
+triggered-by:
   - cr-{slug}
+hard-deps:
+  - cr-{slug}
+soft-deps: []
 refs:
   - cr-{slug}
+  - task-{slug}-be
+  - task-{slug}-fe
 ---
 
 # Task Breakdown: {title}

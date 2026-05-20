@@ -7,12 +7,17 @@ version: 1.0
 feature: {feature-slug}
 start-date: {YYYY-MM-DD}
 end-date: {YYYY-MM-DD}
+triggered-by:
+  - req-{slug}#scenario-1
+  - req-{slug}#scenario-2
 hard-deps: []
-soft-deps: []
+soft-deps:
+  - req-{slug}
 refs:
   - req-{slug}
   - task-{slug}-be
   - task-{slug}-fe
+  - cr-{slug}
 ---
 
 # Milestone: {title}
@@ -33,23 +38,31 @@ refs:
 |----------|-------------|--------|------------------|
 | Scenario 3: {title} | req-{slug}#scenario-3 | Not launch blocker | milestone-{name} |
 
+### Change Requests (Unplanned Work)
+<!-- CRs applied during this milestone that created additional tasks -->
+| CR ID | Priority | Status | Tasks Created | Impact |
+|-------|----------|--------|---------------|--------|
+| cr-{slug} | minor | applied | 2 tasks | Added rate limiting |
+
 ---
 
 ## Task Breakdown
 
 ### Backend Track
-| Task ID | Title | Scenario | Tier | Est. Hours | Status | Owner |
-|---------|-------|----------|------|------------|--------|-------|
+| Task ID | Title | Source | Tier | Est. Hours | Status | Owner |
+|---------|-------|--------|------|------------|--------|-------|
 | task-{slug}-be | {title} | scenario-1 | 1 | {N} | open | backend-engineer |
 | task-{slug}-be | {title} | scenario-1 | 2 | {N} | open | backend-engineer |
+| task-{slug}-be | {title} | cr-{slug} | 2 | {N} | open | backend-engineer |
 
 **Backend Total:** {N} hours
 
 ### Frontend Track
-| Task ID | Title | Scenario | Tier | Est. Hours | Status | Owner |
-|---------|-------|----------|------|------------|--------|-------|
+| Task ID | Title | Source | Tier | Est. Hours | Status | Owner |
+|---------|-------|--------|------|------------|--------|-------|
 | task-{slug}-fe | {title} | scenario-1 | 1 | {N} | open | frontend-engineer |
 | task-{slug}-fe | {title} | scenario-2 | 1 | {N} | open | frontend-engineer |
+| task-{slug}-fe | {title} | cr-{slug} | 1 | {N} | open | frontend-engineer |
 
 **Frontend Total:** {N} hours
 

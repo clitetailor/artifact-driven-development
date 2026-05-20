@@ -563,9 +563,28 @@ Single gate. No phase sequence.
 │         writes : updated artifact, version bumped
 │                  cr-{name}.md → status: applied
 │
+├─[ORCH]  Evaluates CR complexity for task creation
+│           simple CR (1 task):
+│             → create single task
+│             → stamp cr.resulted-in = [task-id]
+│           
+│           complex CR (3+ tasks):
+│             → create task-breakdown
+│             → stamp cr.resulted-in = [tb-id]
+│             → task-breakdown creates tasks
+│           
+│           no implementation needed:
+│             → cr.resulted-in remains empty
+│
+├─[ORCH]  Updates milestone if exists
+│         reads  : /milestones/* (find active milestone)
+│         writes : milestone updated with CR + new tasks
+│                  milestone.refs includes cr-id + task-ids
+│
 ╔═════════════════════════════════════════════════════════════════════╗
 ║  GATE — Final confirmation (all CRs)                                ║
 ║  Orchestrator confirms change applied, shows diff summary           ║
+║  Shows task-breakdown or tasks created (if any)                     ║
 ║  → approve   → refine [feedback]                                   ║
 ╚═════════════════════════════════════════════════════════════════════╝
 │
@@ -577,7 +596,8 @@ Single gate. No phase sequence.
 │  target artifact version bumped                                      │
 │  also-affects artifacts → status: needs-review                       │
 │  triggered-by task unblocked (if it was blocked-by this CR)          │
-│  resulted-in tasks created (if new work required)                    │
+│  resulted-in: [tb-id] or [task-id] or [] (stamped)                   │
+│  milestone updated with CR tasks (if milestone exists)               │
 │  downstream agents notified via _state.md needs-review section       │
 └─────────────────────────────────────────────────────────────────────┘
 ```

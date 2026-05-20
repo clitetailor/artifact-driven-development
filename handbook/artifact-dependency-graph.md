@@ -173,6 +173,8 @@ task-breakdown
   hard-deps : change-request (must be status: applied)
   soft-deps : none
   blocks    : tasks within it
+  metadata  : triggered-by (links to cr-{slug})
+              created only for complex CRs (3+ tasks)
 
 implementation-note (optional)
   hard-deps : task (at least one)
@@ -211,10 +213,13 @@ milestone (optional)
   hard-deps : none
   soft-deps : requirement (scenarios included in milestone)
               task (tasks assigned to milestone)
+              change-request (CRs applied during milestone)
   blocks    : nothing — coordination artifact, informational only
   special   : optional timeline coordination for sprints/phases
               aggregates scenarios and tasks for progress tracking
+              tracks both planned (scenario) and unplanned (CR) work
               does not gate progression
+  metadata  : triggered-by (links to req-{slug}#scenario-N)
 ```
 
 ---
