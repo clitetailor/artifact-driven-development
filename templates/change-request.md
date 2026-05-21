@@ -7,8 +7,6 @@ version: 1.0
 feature: {feature-slug}
 module: {feature-slug}/{module-slug}
 priority: {minor | major}
-from: {filing-agent-slug}
-to: {owning-agent-slug}
 created: {YYYY-MM-DD}
 resolved: ~
 refs:

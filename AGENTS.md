@@ -61,5 +61,9 @@ Bare `jj commit` always lands in `{docs-repo}` (default CWD).
 - **Keep agent prompts concise.** No preamble, no restating context the agent doesn't need.
 - **Pass paths, not content.** Standards docs and vault artifacts are stable — give the path.
 - **Load reference docs on demand.** Read them only when the task requires resolving a status transition, ownership question, or unfamiliar term.
-- **Skip CRs, advisories, and ADRs unless explicitly required.** Do not read `change-requests/cr-*`, `advisories/adv-*`, or `architecture-decisions/adr-*` files for orientation. Read them only when the task explicitly references a specific decision that directly affects implementation.
+- **Skip historical coordination artifacts; read live ones in scope.** Do not read `change-requests/cr-*`, `advisories/adv-*`, or `architecture-decisions/adr-*` files for orientation by default. Read them when any of these apply:
+    - The task's `refs` explicitly point to the artifact.
+    - A CR has `status: open` and its `refs` include any artifact in your task's upstream chain (the contract may be mid-change).
+    - An ADR lives in your task's feature/module scope (ADRs encode durable constraints; violating one is still wrong even if the task doesn't name it).
+    Skip applied/closed CRs and resolved advisories — their intent has already been funneled into tasks.
 - User instructions always override these rules.
