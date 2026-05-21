@@ -19,11 +19,9 @@
 ├── user-flows/             # User journey diagrams (Mermaid embedded)  (uf-)
 ├── wireframes/             # ASCII wireframes per screen               (wf-)
 ├── component-specs/        # UI component specs                        (cs-)
-├── implementation-notes/   # Optional cross-cutting impl notes         (in-)
 ├── infra/                  # IaC specs, CI/CD, monitoring, runbooks    (infra-)
 ├── change-requests/        # Inter-agent artifact modification requests (cr-)
 ├── advisories/             # Non-blocking orchestrator warnings         (adv-)
-├── agent-memory/           # Private agent working state (not indexed)
 ├── agents/                 # Agent design docs + repo/skill mappings
 ├── conventions/            # Enforced conventions (prescriptive)
 ├── reference/              # AI-friendly reference: vocabulary, lifecycle, ownership, SDLC phases, dep graph

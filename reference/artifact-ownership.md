@@ -8,6 +8,7 @@
 | Business Analyst | `agents/business-analyst.md` | `{docs-repo}/` |
 | UX-UI Designer | `agents/ux-ui-designer.md` | `{docs-repo}/` |
 | Software Architect | `agents/software-architect.md` | `{docs-repo}/` |
+| QA Engineer | `agents/qa-engineer.md` | `{docs-repo}/` |
 | Backend Engineer | `agents/backend-engineer.md` | `../{backend-repo}/` |
 | Frontend Engineer | `agents/frontend-engineer.md` | `../{frontend-repo}/` |
 | DevOps Engineer | `agents/devops-engineer.md` | `../{infra-repo}/` |
@@ -19,7 +20,8 @@
 | research-note, persona, feature, requirement | business-analyst |
 | user-flow, wireframe, component-spec | ux-ui-designer |
 | architecture-decision, api-contract, data-model, quality-requirement, task (be) | software-architect |
-| task (fe), implementation-note | frontend-engineer |
+| test-plan, test-spec, test-suite | qa-engineer |
+| task (fe) | frontend-engineer |
 | infra | devops-engineer |
 | change-request | any agent (files against upstream artifact owner) |
 | advisory | orchestrator |

@@ -19,9 +19,8 @@ Files CRs when contracts are insufficient.
 | Artifact | Notes |
 |---|---|
 | change-request | When filing against upstream |
-| implementation-note | Cross-cutting insights only |
 | task (be) status | open → in-progress → done |
-| task impl-notes section | Filled on completion |
+| task Implementation Notes section | Filled on completion |
 
 Collaborates on `task (be)` — Software Architect is owner.
 

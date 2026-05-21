@@ -29,7 +29,6 @@ updated: YYYY-MM-DD
 - test-spec
 - test-suite
 - task
-- implementation-note
 
 # OPERATE
 - infra
@@ -56,7 +55,6 @@ updated: YYYY-MM-DD
 - test-spec              : ts-
 - test-suite             : suite-
 - task                   : task-
-- implementation-note    : in-
 - infra                  : infra-
 - change-request         : cr-
 - advisory               : adv-

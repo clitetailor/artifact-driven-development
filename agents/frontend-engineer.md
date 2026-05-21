@@ -19,9 +19,8 @@ implementation boundary.
 |---|---|
 | task (fe) | `{docs-repo}/tasks/task-{name}-fe.md` |
 | change-request | When filing against upstream |
-| implementation-note | Cross-cutting insights only |
 | task (fe) status | open → in-progress → done |
-| task impl-notes section | Filled on completion |
+| task Implementation Notes section | Filled on completion |
 
 ## Frontend Architecture Boundary
 Component structure, state management, rendering strategy, and build

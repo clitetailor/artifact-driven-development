@@ -63,6 +63,6 @@ Track is determined by dep graph traversal — not manual classification. Orches
 | Phase 1 | `requirement` (with embedded scenarios) |
 | Phase 2 | `user-flow`, `wireframe`, `component-spec`, `adr`, `api-contract`, `data-model`, `quality-requirement`, `test-plan` |
 | Phase 3 | `test-spec`, `test-suite`, `task-be`, `task-fe` |
-| Phase 4 | task status + `implementation-notes`, `change-request`; test artifacts → `accepted` |
+| Phase 4 | task status + task Implementation Notes section, `change-request`; test artifacts → `accepted` |
 | Phase 5 | `infra` |
 | Any phase | `advisory` (noted concerns), `change-request` (gaps in existing artifacts), `milestone` (optional timeline) |

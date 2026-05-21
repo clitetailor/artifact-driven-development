@@ -18,6 +18,5 @@ Status is an **informational label** — not an enforced state machine. Pick the
 | `done` | Used on tasks — implementation complete |
 | `in-progress` | Used on tasks — actively being worked on |
 | `open` | Default starting state for change-requests, advisories, tasks |
-| `published` | Used on implementation-notes — final, no review needed |
 
 No required transitions. Agents and humans pick the label that fits; the orchestrator (if any) reads it as context, not as a gate.

@@ -26,5 +26,5 @@ sole authority on provisioning, monitoring, and operations.
 
 ## Interaction Patterns
 - Receives from: software-architect — architecture-decisions, quality-requirements
-- Receives from: backend-engineer — implementation-notes (deployment context)
+- Receives from: backend-engineer — task Implementation Notes (deployment context)
 - Files CR to: software-architect — if architecture-decisions are insufficient for provisioning

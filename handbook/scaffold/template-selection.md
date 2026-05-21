@@ -19,7 +19,6 @@ Use this guide to decide which templates to instantiate.
 - `data-model.md` when schema or persistence design matters
 - `quality-requirement.md` for explicit performance, reliability, or security constraints
 - `task.md` when work is ready for implementation planning
-- `implementation-note.md` only for cross-cutting implementation knowledge
 - `infra.md` when deployment, CI/CD, monitoring, or rollout planning is needed
 - `change-request.md` when an existing artifact needs to change
 - `advisory.md` when noting a deferred concern or future improvement worth remembering
