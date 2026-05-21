@@ -30,4 +30,16 @@ rg -l --glob '!.*' "milestone: sprint-1" {docs-repo}/tasks/
 
 # Find all test specs for a scenario
 rg -l --glob '!.*' "scenario: req-user-authentication#scenario-1" {docs-repo}/test-specs/
+
+# TDD traceability — tasks referencing a specific test-spec
+rg -l --glob '!.*' "refs:.*ts-user-authentication" {docs-repo}/tasks/
+
+# Test-suite containing a specific spec
+rg -l --glob '!.*' "refs:.*ts-user-login" {docs-repo}/test-suites/
+
+# Specs still in draft
+rg -l --glob '!.*' "type: test-spec" {docs-repo}/test-specs/ | xargs rg -l "status: draft"
+
+# Accepted specs (tests confirmed passing)
+rg -l --glob '!.*' "type: test-spec" {docs-repo}/test-specs/ | xargs rg -l "status: accepted"
 ```

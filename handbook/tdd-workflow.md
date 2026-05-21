@@ -92,22 +92,4 @@ Feature `user-authentication`:
 
 ## Query Examples
 
-```bash
-# Test plan for a feature
-rg -l "feature: user-authentication" test-plans/
-
-# All test specs for a feature
-rg -l "feature: user-authentication" test-specs/
-
-# Specs still in draft
-rg -l "type: test-spec" test-specs/ | xargs rg -l "status: draft"
-
-# Suite containing a specific spec
-rg -l "refs:.*ts-user-login" test-suites/
-
-# Tasks referencing a specific spec (TDD traceability)
-rg -l "refs:.*ts-user-authentication" tasks/
-
-# All accepted specs (tests confirmed passing)
-rg -l "type: test-spec" test-specs/ | xargs rg -l "status: accepted"
-```
+For test-related grep recipes (specs by scenario, TDD traceability, draft/accepted specs, suite-by-spec lookups), see `../reference/vault-queries.md`.

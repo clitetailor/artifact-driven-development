@@ -97,8 +97,8 @@ Owns all pre-design artifacts.
 reads  : /research-notes/*, /personas/*
 writes : /research-notes/rn-{name}.md
          /personas/persona-{name}.md
-         /features/feature-{name}.md
-         /requirements/requirement-{name}.md
+         /features/feat-{name}.md
+         /requirements/req-{name}.md
 ```
 
 ### Interaction Patterns
@@ -157,9 +157,9 @@ Owns all UI specification artifacts.
 ```
 reads  : /requirements/*, /personas/*
          /user-flows/* (self-reference for wireframe alignment)
-writes : /user-flows/userflow-{name}.md
-         /wireframes/wireframe-{screen}.md
-         /component-specs/component-spec-{name}.md
+writes : /user-flows/uf-{name}.md
+         /wireframes/wf-{screen}.md
+         /component-specs/cs-{name}.md
 ```
 
 ### Artifact Formats
@@ -220,8 +220,8 @@ reads  : /requirements/*, /quality-requirements/*
          /user-flows/* (for API surface understanding)
          /change-requests/* (to: software-architect)
 writes : /architecture-decisions/adr-{name}.md
-         /api-contracts/api-contract-{name}.md
-         /data-models/schema-{name}.md
+         /api-contracts/api-{name}.md
+         /data-models/dm-{name}.md
          /quality-requirements/qr-{name}.md
          /tasks/task-{name}-be.md
 ```
@@ -343,7 +343,6 @@ insufficient.
 | Artifact   | Role                                |
 |------------|-------------------------------------|
 | task (be)  | Collaborator (Architect is Owner)   |
-| change-request | Owner (when filing against upstream)|
 
 ### PKM Reads / Writes
 ```
@@ -403,7 +402,6 @@ rendering strategy are exclusively frontend decisions.
 | Artifact    | Role                                      |
 |-------------|-------------------------------------------|
 | task (fe)   | Owner                                     |
-| change-request | Owner (when filing against upstream)   |
 
 ### PKM Reads / Writes
 ```
@@ -532,7 +530,7 @@ Files CR to   : software-architect  — if architecture-decisions are
   "from": "{agent-slug}",
   "to": "{agent-slug}",
   "type": "handoff | change-request | review-request",
-  "artifact-id": "{note-id}",
+  "artifact-id": "{artifact-id}",
   "artifact-version": "{version}",
   "payload-ref": "/vault/{folder}/{id}.md",
   "requires-response": true,

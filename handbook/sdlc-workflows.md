@@ -67,12 +67,12 @@ Full waterfall SDLC from discovery to deployment. User triggers each phase expli
 Discovery artifacts are **not phase-bound**. The BA may produce them at any time (proactively from user research, or on demand when INTAKE references an audience that has no persona yet). No gate, no formal trigger. INTAKE simply references whichever discovery artifacts already exist; missing personas can be created during Phase 1 or noted as advisories.
 
 ### INTAKE
-**Agents**: Orchestrator (classifies) + Business Analyst (writes feature). Output: `features/feature-{name}.md`.
+**Agents**: Orchestrator (classifies) + Business Analyst (writes feature). Output: `features/feat-{name}.md`.
 
 1. User describes the feature in natural language.
 2. Orchestrator classifies as large track and scans PKM for related personas, research, and features.
 3. Orchestrator confirms understanding with the user (direct mode if intent is clear; one clarifying question if ambiguous).
-4. BA writes `features/feature-{name}.md` referencing relevant personas / research-notes.
+4. BA writes `features/feat-{name}.md` referencing relevant personas / research-notes.
 
 ### Phase 1 — Requirements
 **Agent**: Business Analyst. Output: `requirements/req-{name}.md`.
@@ -158,7 +158,7 @@ For each task with test-specs in `refs`, engineers follow the **TDD cycle** (red
 
 **Gate 5 — Final** — infra plan + complete deferred items list → approve / refine / reject.
 
-**On approval**: `features/feature-{name}.md` → `accepted`. All phase artifacts versioned and accepted in PKM. Deferred items remain open in `change-requests/`.
+**On approval**: `features/feat-{name}.md` → `accepted`. All phase artifacts versioned and accepted in PKM. Deferred items remain open in `change-requests/`.
 
 ---
 
