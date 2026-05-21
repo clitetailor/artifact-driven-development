@@ -1,5 +1,7 @@
 # Backend Engineer Process
 
+> Source material. Off-framework vocabulary intentional — see `_sources/README.md`. Do not reconcile against `_registry.md`.
+
 Detailed tasks and phases for the Backend Engineer role.
 
 ---

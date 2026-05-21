@@ -27,8 +27,9 @@ All design artifacts are stored in this repo (`{docs-repo}`) as a PKM vault.
 - **Reference docs** (vocabulary, lifecycle, ownership, dep graph, frontmatter, queries, folder structure, SDLC phases, coordination tree) → `reference/README.md`
 - **Scaffold setup** (starter prompt, onboarding, customization) → `handbook/scaffold/`
 - **Human workflow guides + diagrams** → `handbook/`
+- **Source material** (real-world process docs the framework was synthesized from) → `_sources/`. Do not load unless explicitly asked — uses off-framework vocabulary on purpose.
 
-Load reference docs only when the task requires them. Never load `handbook/` docs unless explicitly directed.
+Load reference docs only when the task requires them. Never load `handbook/` or `_sources/` docs unless explicitly directed.
 
 ---
 
