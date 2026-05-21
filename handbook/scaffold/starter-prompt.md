@@ -13,12 +13,12 @@ Follow this sequence strictly:
 
 1. Read the local docs vault `AGENTS.md` first.
 2. Read these workflow docs from the docs vault:
-   - `BOOTSTRAP-SEQUENCE.md`
-   - `AGENT-ONBOARDING-WORKFLOW.md`
-   - `REPO-INSPECTION-RULES.md`
-   - `TEMPLATE-SELECTION-GUIDE.md`
-   - `ARTIFACT-GENERATION-RULES.md`
-   - `CUSTOMIZATION-CHECKLIST.md`
+   - `handbook/scaffold/bootstrap.md`
+   - `handbook/scaffold/onboarding.md`
+   - `handbook/scaffold/repo-inspection-rules.md`
+   - `handbook/scaffold/template-selection.md`
+   - `handbook/scaffold/artifact-generation-rules.md`
+   - `handbook/scaffold/customization-checklist.md`
 3. Inspect the target workspace for existing guidance and conventions before asking broad questions:
    - `AGENTS.md`
    - `CLAUDE.md`
@@ -30,7 +30,7 @@ Follow this sequence strictly:
 7. Update `_registry.md` before creating any new feature or module artifacts.
 8. Decide which SDLC track applies: large, medium, or small/change-request.
 9. Select only the templates required for the current scope.
-10. Generate artifacts in dependency order with correct frontmatter, refs, and hard-deps.
+10. Generate artifacts in suggested creation order with correct frontmatter and `refs`.
 11. Keep artifacts minimal, accurate, and tailored to the actual project.
 12. Present the generated artifacts for review before treating them as accepted.
 ```

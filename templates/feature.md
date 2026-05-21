@@ -6,10 +6,6 @@ status: draft
 version: 1.0
 feature: {feature-slug}
 module: ~
-hard-deps: []
-soft-deps:
-  - rn-{slug}
-  - persona-{slug}
 refs:
   - rn-{slug}
   - persona-{slug}

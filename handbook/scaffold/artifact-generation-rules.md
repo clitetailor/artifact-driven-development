@@ -7,22 +7,21 @@
 - Use the correct template for the artifact type.
 - Place each artifact in the correct folder.
 - Keep IDs lowercase and hyphen-separated.
-- Ensure every `hard-dep` and `soft-dep` also appears in `refs`.
+- List all related artifacts in `refs`.
 
-## Generation Order
+## Suggested Generation Order
 
 1. Research notes and personas if needed
 2. Feature
-3. Requirement
-4. Optional stories
-5. Design artifacts
-6. Tasks
-7. Infra
+3. Requirement (with embedded scenarios)
+4. Design artifacts
+5. Tasks
+6. Infra
 
-## Dependency Rules
+## Dependency Guidance
 
-- Do not generate downstream artifacts without the needed upstream context.
-- If a required upstream artifact is missing, either create it first or ask the user whether to narrow scope.
+- The order above is a suggestion, not a hard rule. See `../artifact-dependency-graph.md` for the full graph.
+- Prefer to create upstream artifacts before downstream ones. If a needed upstream is missing, either create it first or ask the user whether to narrow scope.
 - Use change requests instead of silently changing upstream accepted artifacts.
 
 ## When To Ask The User

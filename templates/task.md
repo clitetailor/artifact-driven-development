@@ -13,16 +13,12 @@ milestone: sprint-{N}
 estimated-hours: {N}
 depends-on:
   - task-{slug}-{be|fe}
-hard-deps:
-soft-deps:
-  - api-{slug}
-  - dm-{slug}
-  - adr-{slug}
 refs:
   - api-{slug}
   - dm-{slug}
   - adr-{slug}
   - req-{slug}
+  - ts-{slug}
 ---
 
 # Task: {title}

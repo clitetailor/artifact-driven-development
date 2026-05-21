@@ -8,8 +8,6 @@ feature: {feature-slug}
 module: {feature-slug}/{module-slug}
 test-level: unit
 scenario: req-{slug}#scenario-{N}
-soft-deps:
-  - req-{slug}
 refs:
   - req-{slug}
 ---

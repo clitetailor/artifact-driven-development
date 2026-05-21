@@ -7,14 +7,10 @@ version: 1.0
 feature: {feature-slug}
 start-date: {YYYY-MM-DD}
 end-date: {YYYY-MM-DD}
-triggered-by:
-  - req-{slug}#scenario-1
-  - req-{slug}#scenario-2
-hard-deps: []
-soft-deps:
-  - req-{slug}
 refs:
   - req-{slug}
+  - req-{slug}#scenario-1
+  - req-{slug}#scenario-2
   - task-{slug}-be
   - task-{slug}-fe
   - cr-{slug}

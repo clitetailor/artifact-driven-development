@@ -11,7 +11,6 @@ Use this guide to decide which templates to instantiate.
 
 - `research-note.md` when discovery input is still raw
 - `persona.md` when user archetypes materially affect design or scope
-- `story.md` when scenario-level traceability is needed
 - `user-flow.md` when user journeys or branching paths matter
 - `wireframe.md` when UI layout needs review before implementation
 - `component-spec.md` when UI behavior or state detail matters
@@ -20,19 +19,18 @@ Use this guide to decide which templates to instantiate.
 - `data-model.md` when schema or persistence design matters
 - `quality-requirement.md` for explicit performance, reliability, or security constraints
 - `task.md` when work is ready for implementation planning
-- `task-breakdown.md` when change-request resolution expands into multiple implementation units
 - `implementation-note.md` only for cross-cutting implementation knowledge
 - `infra.md` when deployment, CI/CD, monitoring, or rollout planning is needed
-- `change-request.md` when a downstream artifact needs an upstream artifact changed
-- `advisory.md` when proceeding with a known non-blocking concern
+- `change-request.md` when an existing artifact needs to change
+- `advisory.md` when noting a deferred concern or future improvement worth remembering
+- `milestone.md` for sprint or phase timeline coordination
 
 ## By Track
 
 ### Large Track
 
 - feature
-- requirement
-- optional story
+- requirement (with scenarios)
 - user-flow
 - wireframe
 - component-spec
@@ -45,7 +43,7 @@ Use this guide to decide which templates to instantiate.
 
 ### Medium Track
 
-- update existing requirement or add story
+- update existing requirement (add scenarios)
 - generate only affected design artifacts
 - generate only new tasks
 - generate infra only if rollout changes
@@ -53,4 +51,4 @@ Use this guide to decide which templates to instantiate.
 ### Small Track
 
 - change-request
-- optional task-breakdown if more work is created from the CR
+- 0+ tasks listed in the CR's `refs`

@@ -26,13 +26,13 @@ Help a coding agent inspect the target project, ask the user the right questions
    - small / change-request
 7. Update `_registry.md` before creating any new feature or module artifacts.
 8. Select the required templates.
-9. Generate artifacts in dependency order:
+9. Generate artifacts in suggested creation order:
    - UNDERSTAND: research-notes, personas
-   - DEFINE: features, requirements, stories
+   - DEFINE: features, requirements (with embedded scenarios)
    - DESIGN: user-flows, wireframes, component-specs, ADRs, api-contracts, data-models, quality-requirements, test-plans
-   - BUILD: test-specs, test-suites (for TDD), then tasks, task-breakdowns
+   - BUILD: test-specs, test-suites (for TDD), then tasks
    - OPERATE: infra
-10. Validate refs, hard-deps, ownership, and naming.
+10. Validate refs, ownership, and naming.
 11. Present artifacts for review.
 
 ## Inspection Priorities

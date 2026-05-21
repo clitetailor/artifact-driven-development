@@ -6,9 +6,6 @@ status: draft
 version: 1.0
 feature: {feature-slug}
 module: {feature-slug}/{module-slug}
-soft-deps:
-  - ts-{feature}-{descriptor}
-  - ts-{feature}-{descriptor}
 refs:
   - ts-{feature}-{descriptor}
   - ts-{feature}-{descriptor}

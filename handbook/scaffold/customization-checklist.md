@@ -35,7 +35,7 @@ Use this after copying the scaffold into a new project.
 
 ## Product Context
 
-- Update `reference/product-context.md`
+- Update `handbook/scaffold/product-context.md`
 - Capture primary users
 - Capture core workflows
 - Capture deployment and compliance constraints

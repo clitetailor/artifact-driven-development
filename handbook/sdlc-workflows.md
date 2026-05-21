@@ -1,760 +1,279 @@
 # SDLC Agent Workflow
-> Full reference — large feature, medium, and small/change request tracks
+> Large feature, medium, and small/change-request tracks.
+
+## Overall Flow (Large Track)
+
+```mermaid
+flowchart TD
+    INTAKE([INTAKE — Orchestrator]) --> P1
+    P1([Phase 1 — Discovery & Requirements<br/>Business Analyst]) --> G1{Gate 1}
+    G1 --> P2([Phase 2 — Design<br/>UX · Architect · QA])
+    P2 --> G2{Gate 2}
+    G2 --> P3([Phase 3 — Test Specs + Tasks<br/>QA first → Arch · BE · FE])
+    P3 --> G3{Gate 3}
+    G3 --> P4([Phase 4 — Implementation<br/>BE · FE])
+    P4 --> G4{Gate 4}
+    G4 --> P5([Phase 5 — Deployment<br/>DevOps])
+    P5 --> G5{Gate 5 — Final}
+    G5 --> DONE([COMPLETE])
+```
+
+At each gate the user can **approve · refine · reject · proceed with concern**. Proceeding past a noted gap creates an advisory so the concern isn't forgotten.
 
 ---
 
 ## Actors
 
-| Actor        | Role                                                                 |
-|--------------|----------------------------------------------------------------------|
-| User         | Initiates work, approves/refines/rejects at gates, natural language |
-| Orchestrator | Routes tasks, enforces conventions, guides when needed, stamps PKM  |
-| Agents       | Produce artifacts within their ownership domain                      |
-| PKM          | Passive storage — status fields as state, filesystem as rollback     |
+| Actor | Role |
+|---|---|
+| User | Initiates work, approves/refines/rejects at gates, natural language |
+| Orchestrator | Routes tasks, surfaces convention gaps, guides when needed, stamps PKM |
+| Agents | Produce artifacts within their ownership domain |
+| PKM | Passive storage — status fields as state, filesystem as rollback |
 
-### Agent Roster
-
-| Agent              | Activated in    | Primary output                            |
-|--------------------|-----------------|-------------------------------------------|
-| Business Analyst   | Intake, Phase 1 | requirement (with scenarios)              |
-| UX-UI Designer     | Phase 2         | user-flow, wireframe, component-spec      |
-| Software Architect | Phase 2, 3      | adr, api-contract, data-model, qr, tasks  |
-| QA Engineer        | Phase 2, 3      | test-plan, test-spec, test-suite          |
-| Backend Engineer   | Phase 3, 4      | task (be), implementation                 |
-| Frontend Engineer  | Phase 3, 4      | task (fe), implementation                 |
-| DevOps Engineer    | Phase 5         | infra                                     |
-
----
+For the agent roster and ownership map, see `../reference/artifact-ownership.md` and `../reference/sdlc-phases.md`.
 
 ## Orchestrator Modes
 
-| Mode       | When                              | Behavior                                          |
-|------------|-----------------------------------|---------------------------------------------------|
-| Direct     | User knows what they want         | Confirm understanding, execute                    |
-| Guided     | User unsure of next step          | Propose next step, explain why, wait              |
-| Convention | Before every phase transition     | Validate completeness, block or warn accordingly  |
-
----
+| Mode | When | Behavior |
+|---|---|---|
+| Direct | User knows what they want | Confirm understanding, execute |
+| Guided | User unsure of next step | Propose next step, explain why, wait |
+| Convention | Before every phase transition | Surface gaps and missing references to the user |
 
 ## Convention Check Rules
 
-```
-Blocking  → must resolve before proceeding
-  - Required artifact for this phase is completely missing
-  - Frontmatter missing a required field
-  - Refs link to non-existent document
-  - Artifact type not in registry
-  - Hard-dep does not exist in vault
-  - Hard-dep exists but status is not accepted
-  - Circular dependency detected in hard-dep chain
+Gaps the orchestrator surfaces — **none are auto-blocking**. The user decides whether to act, defer, or proceed.
 
-Warning   → create advisory, proceed
-  - Soft-dep missing or still in draft
-  - Related decision not yet accepted
-  - Downstream artifact may conflict with unresolved item
-```
+- **Important** (typically worth resolving): required artifact missing · frontmatter incomplete · ref to non-existent document · artifact type not in registry
+- **Worth noting** (flag, then proceed): expected upstream still draft · related decision not yet accepted · downstream may conflict with unresolved item
 
-On warning — orchestrator creates:
-`/advisories/adv-{concern}.md`
-
-Status blockers are enforced by default. The orchestrator may bypass a status-based blocker only when the user explicitly instructs the agent to skip, bypass, or proceed without waiting for the blocking status to change. Bypassing a blocker does not imply changing the artifact status automatically.
-
----
-
-## Gate Outcomes
-
-At every phase gate the user has four options:
-
-| Outcome              | What happens                                                         |
-|----------------------|----------------------------------------------------------------------|
-| approve              | Artifacts → accepted. Orchestrator proposes next phase.              |
-| refine [feedback]    | Agent revises in same session. Re-presents at same gate.             |
-| reject + delete      | User deletes related files. Orchestrator detects, restarts phase.    |
-| proceed with concern | Orchestrator warns, user proceeds. Advisory created in `/advisories/`.|
-
-`proceed with concern` may be used to bypass a status-based blocker only on explicit user instruction. The orchestrator should record the bypass as a concern and continue without auto-promoting the blocking artifact.
-
-### needs-review Re-Review Flow
-
-Triggered when an already-accepted artifact's upstream hard-dep changes:
-
-```
-upstream artifact changes post-acceptance
-  → orchestrator traverses forward through hard-dep graph
-  → finds downstream accepted artifacts
-  → marks them status: needs-review
-  → stamps needs-review section in owning agent _state.md
-  → surfaces at next session or gate:
-      "adr-reset-token-strategy needs review —
-       requirement-password-reset scope changed on 2026-05-03"
-
-User decides:
-  → re-review now  : agent checks consistency, re-submits for approval
-  → defer          : stays needs-review, recorded as open item
-                     surfaced again at final gate (Phase 5)
-```
-
----
+When the user chooses to proceed past a noted gap, capture it as an advisory.
 
 ## Track Selection
 
-```
-User describes work in natural language
-              │
-              ▼
-       Orchestrator identifies entry point artifact
-       Traverses dependency graph — counts affected layers
-              │
-      ┌───────┼────────┐
-      ▼       ▼        ▼
-  1–2 layers  3–4    5+ layers
-  affected    layers  affected
-      │       affected    │
-      ▼           │       ▼
-  Small Track     ▼   Large Track
-  (CR only,   Medium   (full SDLC)
-   one gate)   Track
-              (partial
-               SDLC)
-```
-
-Track is determined by impact depth — not manual classification.
-Orchestrator traverses the dep graph from the entry point artifact
-and counts how many artifact layers are affected downstream.
-
-| Impact depth | Track | Entry point |
-|---|---|---|
-| 1–2 layers | Small — CR only, one gate | Specific artifact (e.g. component-spec) |
-| 3–4 layers | Medium — partial SDLC | Requirement or design artifact |
-| 5+ layers | Large — full SDLC | Feature or requirement (new capability) |
+Track is determined by **impact depth**, not manual classification. The orchestrator identifies the entry-point artifact, traverses the dependency graph backward and forward, and counts how many artifact layers are affected. For the impact-depth → track table, see `../reference/sdlc-phases.md#track-selection`.
 
 ---
 
 ## LARGE FEATURE TRACK
 
-Full waterfall SDLC from discovery to deployment.
-User triggers each phase explicitly and approves at every gate.
-
----
+Full waterfall SDLC from discovery to deployment. User triggers each phase explicitly and approves at every gate.
 
 ### INTAKE
+**Agent**: Orchestrator · **Reads**: features, research-notes, personas · **Writes**: features/feature-{name}.md
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│  INTAKE                                                              │
-└─────────────────────────────────────────────────────────────────────┘
-│
-├─[USER]  Describes feature in natural language
-│         No commands or structure required
-│
-├─[ORCH]  Classifies intent → large feature track
-│         Scans PKM for related personas, research, features
-│         reads : /features, /research, /personas
-│
-├─[ORCH]  Confirms understanding with user
-│           direct mode  → clear intent, reflects back, proceeds
-│           guided mode  → ambiguous, asks one clarifying question
-│         writes: /features/feature-{name}.md
-│
-▼
-```
+1. User describes the feature in natural language.
+2. Orchestrator classifies as large track and scans PKM for related personas, research, and features.
+3. Orchestrator confirms understanding with the user (direct mode if intent is clear; one clarifying question if ambiguous).
 
----
+### Phase 1 — Discovery & Requirements
+**Agent**: Business Analyst · **Reads**: research-notes, personas · **Writes**: requirements/req-{name}.md
 
-### PHASE 1 — Discovery & Requirements
-**Agent:** Business Analyst
+1. Orchestrator activates BA with research + persona context.
+2. BA drafts the requirement: scope, out-of-scope, user context, success metrics.
+3. BA writes scenarios directly in the requirement (priority, estimated effort, dependencies, timeline, narrative, acceptance criteria, error/edge cases).
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│  PHASE 1 — Discovery & Requirements          [Business Analyst]      │
-└─────────────────────────────────────────────────────────────────────┘
-│
-├─[ORCH]  Activates BA Agent
-│         Loads context: /research-notes/*, /personas/*
-│
-├─[AGNT]  BA drafts requirement document
-│         reads  : /research-notes/*, /personas/*
-│         writes : /requirements/req-{name}.md
-│           └── scope, out-of-scope, user context, success metrics
-│
-├─[AGNT]  BA writes scenarios directly in requirement document
-│         reads  : /requirements/req-{name}.md
-│         writes : /requirements/req-{name}.md  (updated, not a separate file)
-│         each scenario section contains:
-│           └── priority        (P0 launch blocker / P1 important / P2 nice-to-have)
-│               estimated effort (task count + hours — planning hint only)
-│               dependencies    (other scenarios this depends on)
-│               timeline        (sprint/phase hint)
-│               narrative       (as a / I want / so that)
-│               acceptance criteria (testable Given/When/Then conditions)
-│               error/edge cases (table of scenarios + expected behavior)
-│
-├─[ORCH]  Convention check
-│           ✓ frontmatter complete and registry-valid
-│           ✓ all refs resolve
-│           ✓ at least one scenario with acceptance criteria present in requirement
-│           ✓ scope and out-of-scope both defined
-│           ✓ each scenario has priority assigned
-│
-╔═════════════════════════════════════════════════════════════════════╗
-║  GATE 1                                                             ║
-║  Orchestrator presents: requirement summary + scenario list         ║
-║  → approve   → refine [feedback]   → reject + delete               ║
-╚═════════════════════════════════════════════════════════════════════╝
-│
-▼
-```
+**Convention check**: frontmatter complete and registry-valid · all refs resolve · ≥1 scenario with acceptance criteria · scope + out-of-scope both defined · each scenario has priority.
 
----
+**Gate 1** — Orchestrator presents requirement summary + scenario list → approve / refine / reject.
 
-### PHASE 2 — Design
-**Agents:** UX-UI Designer + Software Architect
-**Sequencing:** Sequential by default. Parallel on user request.
+### Phase 2 — Design
+**Agents**: UX-UI Designer, Software Architect, QA Engineer
+**Sequencing**: sequential by default; parallel on user request.
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│  PHASE 2 — Design              [UX-UI Designer + Architect]          │
-└─────────────────────────────────────────────────────────────────────┘
-│
-├─[USER]  Chooses sequencing
-│           sequential : UX completes → Architect uses UX output
-│           parallel   : both start simultaneously (user-triggered)
-│
-│  ── UX-UI DESIGNER ──────────────────────────────────────────────
-│
-├─[AGNT]  UX — user flows
-│         reads  : /requirements/*, /personas/*
-│         writes : /user-flows/userflow-{name}.md
-│           └── embedded Mermaid diagram
-│               happy path + all error/edge paths
-│               entry points, exit points
-│
-├─[AGNT]  UX — wireframes
-│         reads  : /user-flows/*
-│         writes : /wireframes/wireframe-{screen}.html
-│           └── one self-contained HTML file per screen
-│               human-previewable in any browser
-│               no external tools required
-│
-├─[AGNT]  UX — component specs
-│         reads  : /wireframes/*
-│         writes : /component-specs/component-spec-{name}.md
-│           └── states (default, hover, loading, error, disabled)
-│               variants, behavior, design tokens, accessibility
-│               refs wireframe and user flow
-│
-│  ── SOFTWARE ARCHITECT ──────────────────────────────────────────
-│
-├─[AGNT]  Architect — decisions (ADRs) when the technical choice is significant
-│         reads  : /requirements/*, /quality-requirements/*
-│         writes : /architecture-decisions/adr-{name}.md  (optional)
-│           └── context, decision, alternatives rejected, consequences
-│               one decision per file
-│
-├─[AGNT]  Architect — API contracts
-│         reads  : /requirements/*, /architecture-decisions/*
-│         writes : /api-contracts/api-contract-{name}.md
-│           └── endpoints, request/response shapes, error codes
-│               references relevant ADRs when they exist
-│
-├─[AGNT]  Architect — data models
-│         reads  : /api-contracts/*, /architecture-decisions/*
-│         writes : /data-models/schema-{name}.md
-│           └── schema, indexes, migration notes
-│
-├─[AGNT]  Architect — constraints (NFRs)
-│         reads  : /requirements/*
-│         writes : /constraints/qr-{name}.md
-│           └── latency targets, uptime SLAs
-│               scalability limits, security requirements
-│
-│  ── QA ENGINEER ─────────────────────────────────────────────────
-│
-├─[AGNT]  QA — test plan
-│         reads  : /requirements/*, /personas/*
-│         writes : /test-plans/tp-{name}.md
-│           └── testing strategy, scope, test levels (unit/integration/e2e)
-│               coverage targets, entry/exit criteria
-│               risk assessment, list of test-specs to produce in Phase 3
-│         can run in parallel with UX and Architect work
-│
-├─[ORCH]  Convention check + warn
-│           ✓ wireframe exists for each screen in user flow
-│           ✓ component spec exists for each wireframe
-│           ✓ ADRs exist for significant technical choices
-│           ✓ API contract refs relevant ADRs when present
-│           ✓ data model refs API contract
-│           ✓ test plan exists for the feature
-│           ✓ all refs resolve
-│           ⚠ warnings → /advisories/adv-{x}.md
-│
-╔═════════════════════════════════════════════════════════════════════╗
-║  GATE 2                                                             ║
-║  Presents: UX artifacts + architecture artifacts + test plan        ║
-║  Warnings flagged clearly alongside artifacts                       ║
-║  → approve   → refine [feedback]   → reject + delete               ║
-╚═════════════════════════════════════════════════════════════════════╝
-│
-▼
-```
+#### UX-UI Designer
+**Writes**: user-flows/, wireframes/, component-specs/
 
----
+1. **User flows** — embedded Mermaid; happy path + error/edge paths; entry/exit points. Reads requirements + personas.
+2. **Wireframes** — one self-contained HTML file per screen, browser-previewable. Reads user flows.
+3. **Component specs** — states (default/hover/loading/error/disabled), variants, behavior, design tokens, accessibility. Reads wireframes; refs wireframe + user flow.
 
-### PHASE 3 — Test Specs & Task Decomposition
-**Agents:** QA Engineer + Architect + Backend Engineer + Frontend Engineer
+#### Software Architect
+**Writes**: architecture-decisions/ (optional), api-contracts/, data-models/, quality-requirements/
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│  PHASE 3 — Test Specs & Task Decomposition                          │
-│            [QA Engineer + Architect + Backend + Frontend]            │
-└─────────────────────────────────────────────────────────────────────┘
-│
-│  ── QA ENGINEER (runs first) ────────────────────────────────────
-│
-├─[AGNT]  QA — test specs (one per scenario)
-│         reads  : /requirements/*, /api-contracts/*, /test-plans/*
-│         writes : /test-specs/ts-{name}.md  (one per scenario)
-│           each spec contains:
-│             scenario    : req-{slug}#scenario-{N}  (links to requirement)
-│             test-level  : unit | integration | e2e
-│             test cases  : Given / When / Then
-│             edge cases, error cases, mocking strategy
-│             coverage target (percentage)
-│
-├─[AGNT]  QA — test suites (groups related specs)
-│         reads  : /test-specs/*, /test-plans/*
-│         writes : /test-suites/suite-{name}.md
-│           each suite contains:
-│             test-specs included (table)
-│             coverage goals (line / branch / function)
-│             shared test fixtures
-│             run commands (unit, coverage, CI mode)
-│             CI/CD integration (trigger, failure policy, timeout)
-│
-├─[ORCH]  Convention check (after QA artifacts)
-│           ✓ test spec exists for each scenario in accepted requirements
-│           ✓ test suite exists grouping related specs for the feature
-│           ✓ coverage targets defined in test suite
-│           ⚠ missing test spec for a scenario → advisory, does not block
-│
-│  ── ARCHITECT + ENGINEERS (after test specs drafted) ────────────
-│
-├─[AGNT]  Architect decomposes backend tasks
-│         reads  : /api-contracts/*, /data-models/*, /requirements/*
-│                  /test-specs/*  (to reference in soft-deps)
-│         writes : /tasks/task-{name}-be.md  (one per task)
-│           each task contains:
-│             priority    : tier number (1 = first)
-│             depends-on  : [task-id, ...]
-│             scope       : what is included / excluded
-│             criteria    : testable acceptance conditions
-│             soft-deps   : [ts-{slug}, ...]  (test specs to satisfy)
-│
-├─[AGNT]  Frontend decomposes frontend tasks
-│         reads  : /component-specs/*, /api-contracts/*
-│                  /test-specs/*  (to reference in soft-deps)
-│         writes : /tasks/task-{name}-fe.md  (one per task)
-│           same structure as backend tasks
-│
-├─[ORCH]  Builds dependency graph from depends-on fields
-│         Groups tasks into priority tiers per track:
-│
-│         Backend track:
-│           tier 1 → [task-a, task-b]         ← no dependencies
-│           tier 2 → [task-c, task-d]         ← depends on tier 1
-│           tier 3 → [task-e]                 ← depends on tier 2
-│
-│         Frontend track:
-│           tier 1 → [task-f, task-g, task-h] ← no dependencies
-│           tier 2 → [task-i]                 ← depends on tier 1
-│           tier 3 → [task-j]                 ← depends on tier 2
-│
-│         Same-tier tasks within a track can run in parallel
-│
-╔═════════════════════════════════════════════════════════════════════╗
-║  GATE 3                                                             ║
-║  Presents: test specs + test suites + task board (BE + FE tiers)   ║
-║  User may add, remove, or adjust before approving                   ║
-║  → approve   → refine [feedback]   → reject + delete               ║
-╚═════════════════════════════════════════════════════════════════════╝
-│
-▼
-```
+1. **ADRs** — only when the technical choice is significant. Context, decision, alternatives rejected, consequences.
+2. **API contracts** — endpoints, request/response shapes, error codes. Refs relevant ADRs when they exist.
+3. **Data models** — schema, indexes, migration notes. Refs API contract.
+4. **Quality requirements** — latency targets, uptime SLAs, scalability limits, security requirements.
 
----
+#### QA Engineer
+**Writes**: test-plans/tp-{name}.md
 
-### PHASE 4 — Implementation
-**Agents:** Backend Engineer + Frontend Engineer
-**Sequencing:** Sequential by default. Parallel on user request.
+- Testing strategy, scope, test levels (unit/integration/e2e), coverage targets, entry/exit criteria, risk assessment, list of test-specs to produce in Phase 3.
+- Can run in parallel with UX and Architect.
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│  PHASE 4 — Implementation      [Backend Engineer + Frontend Eng.]    │
-└─────────────────────────────────────────────────────────────────────┘
-│
-├─[USER]  Triggers implementation
-│           sequential : backend → frontend  (default, lower token cost)
-│           parallel   : both simultaneously (user-triggered)
-│
-│  ── BACKEND ENGINEER ────────────────────────────────────────────
-│
-├─[AGNT]  Implements backend tasks tier by tier
-│         reads  : /tasks/*-be.md, /api-contracts/*
-│                  /data-models/*, /architecture-decisions/*
-│         writes : task status (open → in-progress → done)
-│                  task implementation-notes section on completion
-│           └── implementation-notes section covers:
-│               approach taken, deviations from spec
-│               known gaps, safe-to-modify notes
-│
-│  ── FRONTEND ENGINEER ───────────────────────────────────────────
-│
-├─[AGNT]  Implements frontend tasks tier by tier
-│         reads  : /tasks/*-fe.md, /component-specs/*
-│                  /api-contracts/*
-│         writes : task status (open → in-progress → done)
-│                  task implementation-notes section on completion
-│
-│  ── BOTH AGENTS ─────────────────────────────────────────────────
-│
-├─[AGNT]  Implements each task in TDD cycle (for tasks with test-specs)
-│           1. Run test-specs referenced by task (red — all fail)
-│           2. Implement minimum code to pass tests (green)
-│           3. Refactor, verify tests still pass
-│           4. Update task status → done; fill implementation-notes section
-│
-├─[AGNT]  Files CR when gap found in upstream artifact
-│         writes : /change-requests/cr-{name}.md
-│           ├── minor CR → proceed optimistically
-│           │             owner notified, 24h to object
-│           │             auto-applied if no response
-│           └── major CR → hard block
-│                          wait for artifact owner to resolve
-│
-├─[AGNT]  QA — marks test-specs accepted when tests pass
-│         reads  : task implementation-notes sections
-│         writes : test-spec status: accepted (per passing spec)
-│                  test-suite status: accepted (when all included specs pass)
-│
-├─[ORCH]  Convention check
-│           ✓ all tasks status: done or explicitly deferred
-│           ✓ open CRs resolved or status: deferred
-│           ✓ deferred CRs have advisorys created
-│           ⚠ test-specs still in draft → advisory (tests not confirmed passing)
-│
-╔═════════════════════════════════════════════════════════════════════╗
-║  GATE 4                                                             ║
-║  Presents: tasks completed, test coverage summary, open CRs,       ║
-║            deferred items                                           ║
-║  → approve   → refine [feedback]   → reject + delete               ║
-╚═════════════════════════════════════════════════════════════════════╝
-│
-▼
-```
+**Convention check**: wireframe per screen in flow · component spec per wireframe · ADRs for significant choices · API contract refs ADRs when present · data model refs API contract · test plan exists · all refs resolve.
 
----
+**Gate 2** — UX artifacts + architecture artifacts + test plan. Warnings flagged alongside artifacts → approve / refine / reject.
 
-### PHASE 5 — Deployment
-**Agent:** DevOps Engineer
+### Phase 3 — Test Specs & Task Decomposition
+**Agents**: QA Engineer (first), then Architect + Backend + Frontend
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│  PHASE 5 — Deployment                        [DevOps Engineer]       │
-└─────────────────────────────────────────────────────────────────────┘
-│
-├─[AGNT]  DevOps reads system artifacts
-│         reads  : /architecture-decisions/*, /quality-requirements/*, /tasks/*
-│
-├─[AGNT]  DevOps produces infra plan
-│         writes : /infra/infra-{name}.md
-│           └── IaC specification
-│               CI/CD pipeline config
-│               monitoring and alerting setup
-│               rollout strategy (canary or direct)
-│               runbook for on-call
-│
-├─[ORCH]  Surfaces all deferred open items before final gate
-│         reads  : /change-requests/* (status: open or deferred)
-│                  /advisories/* (status: open or resolved)
-│         presents alongside infra plan so user has full picture
-│
-╔═════════════════════════════════════════════════════════════════════╗
-║  GATE 5 — FINAL                                                     ║
-║  Presents: infra plan + complete deferred items list                ║
-║  → approve   → refine [feedback]   → reject + delete               ║
-╚═════════════════════════════════════════════════════════════════════╝
-│
-▼
+#### QA Engineer (runs first)
+**Writes**: test-specs/, test-suites/
 
-┌─────────────────────────────────────────────────────────────────────┐
-│  COMPLETE                                                            │
-│  /features/feature-{name}.md  → status: accepted                    │
-│  All phase artifacts versioned and accepted in PKM                   │
-│  Deferred items remain open in /change-requests                      │
-│  Session resumable from last accepted phase                          │
-└─────────────────────────────────────────────────────────────────────┘
-```
+1. **Test specs** — one per scenario. Frontmatter `scenario: req-{slug}#scenario-{N}`. Given/When/Then cases, edge/error cases, mocking strategy, coverage target.
+2. **Test suites** — group related specs. Coverage goals (line/branch/function), shared fixtures, run commands, CI integration.
+
+**Convention check (QA)**: test spec per scenario in accepted requirements · test suite groups related specs · coverage targets defined · missing test spec → advisory (does not block).
+
+#### Architect / Backend / Frontend (after test specs drafted)
+**Writes**: tasks/task-{name}-{be|fe}.md
+
+- Each task carries: `priority` (tier number), `depends-on: [task-id, ...]`, scope (included/excluded), criteria (testable AC), `refs: [api-{slug}, dm-{slug}, ts-{slug}, ...]`, `scenario: req-{slug}#scenario-{N}`.
+- Architect decomposes backend tasks (reads api-contracts, data-models, requirements, test-specs).
+- Frontend decomposes frontend tasks (reads component-specs, api-contracts, test-specs).
+
+Orchestrator builds a dependency graph from `depends-on` and groups tasks into priority tiers per track. Same-tier tasks within a track can run in parallel.
+
+**Gate 3** — test specs + test suites + task board (BE + FE tiers). User may add, remove, or adjust tasks → approve / refine / reject.
+
+### Phase 4 — Implementation
+**Agents**: Backend Engineer, Frontend Engineer
+**Sequencing**: sequential by default (backend → frontend); parallel on user request.
+
+For each task with test-specs in `refs`, follow the TDD cycle:
+
+1. Run referenced test-specs → all fail (red).
+2. Implement minimum code to pass → all pass (green).
+3. Refactor; verify tests still pass.
+4. Update task `status: done` and fill its **Implementation Notes** section (approach taken, deviations from spec, known gaps, safe-to-modify notes).
+
+**Cross-cutting during Phase 4**:
+- Engineers file a CR when they find a gap in an upstream artifact.
+  - **Minor CR**: engineer proceeds; owner reviews when convenient.
+  - **Major CR**: wait for owner to apply before continuing (user can override).
+- QA marks test-specs `accepted` as their cases pass; test-suite `accepted` when all included specs are accepted.
+
+**Convention check**: all tasks `done` or explicitly deferred · open CRs resolved or deferred · deferred CRs have advisories · test-specs still draft → advisory.
+
+**Gate 4** — tasks completed + test coverage summary + open CRs + deferred items → approve / refine / reject.
+
+### Phase 5 — Deployment
+**Agent**: DevOps Engineer · **Reads**: architecture-decisions, quality-requirements, tasks · **Writes**: infra/infra-{name}.md
+
+- IaC specification, CI/CD pipeline config, monitoring + alerting setup, rollout strategy (canary / direct), on-call runbook.
+- Orchestrator surfaces all deferred CRs and open advisories alongside the infra plan so the user has the full picture before final approval.
+
+**Gate 5 — Final** — infra plan + complete deferred items list → approve / refine / reject.
+
+**On approval**: `features/feature-{name}.md` → `accepted`. All phase artifacts versioned and accepted in PKM. Deferred items remain open in `change-requests/`. Session is resumable from the last accepted phase.
 
 ---
 
 ## MEDIUM TRACK
 
-For improvements or additions to an existing feature.
-Skips discovery and design phases — enters at requirements or task level.
+For improvements or additions to an existing feature. Skips discovery and design — enters at requirements or task level.
 
+```mermaid
+flowchart TD
+    START([User describes improvement]) --> ORCH{Entry point?}
+    ORCH -- new scenarios --> REQ([BA adds scenarios to existing requirement])
+    ORCH -- no new scenarios --> DESIGN
+    REQ --> DESIGN([Selective design updates: UX / Architect — only affected files])
+    DESIGN --> GDESIGN{Design Gate}
+    GDESIGN --> TASKS([Task decomposition for new work])
+    TASKS --> GTASKS{Tasks Gate}
+    GTASKS --> IMPL([Implementation of new tasks])
+    IMPL --> GIMPL{Impl Gate}
+    GIMPL --> INFRA([DevOps updates infra if needed])
+    INFRA --> GFINAL{Final Gate if infra changed}
+    GFINAL --> DONE([COMPLETE])
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│  MEDIUM TRACK — Feature Improvement                                  │
-└─────────────────────────────────────────────────────────────────────┘
-│
-├─[USER]  Describes improvement in natural language
-│         e.g. "add SMS fallback to the password reset flow"
-│
-├─[ORCH]  Classifies as medium track
-│         Identifies which existing feature is affected
-│         reads : /features/*, /requirements/*
-│
-├─[ORCH]  Confirms scope with user
-│         Determines entry point:
-│           existing scenarios cover it → enter at task decomposition
-│           new user scenario needed    → enter at requirements
-│
-│  ── IF NEW SCENARIOS NEEDED ────────────────────────────────────
-│
-├─[AGNT]  BA adds scenarios to existing requirement document
-│         reads  : /requirements/req-{name}.md
-│         writes : /requirements/req-{name}.md  (updated in place)
-│                  bumps version: 1.0 → 1.1
-│         each new scenario section contains:
-│           └── priority, estimated effort, dependencies, timeline
-│               narrative, acceptance criteria, error/edge cases
-│
-├─[ORCH]  Determines if design changes needed
-│           UI changes     → UX agent updates affected specs/flows
-│           API changes    → Architect updates contract (or CR)
-│           no UI/API gap  → proceed to task decomposition
-│
-│  ── SELECTIVE DESIGN UPDATES (if needed) ────────────────────────
-│
-├─[AGNT]  UX updates affected user flows / wireframes / component specs
-│         writes: updated files, version bumped
-│
-├─[AGNT]  Architect updates affected contracts / data models
-│         writes: updated files, version bumped
-│           └── or files CR to existing artifact if not owner
-│
-╔═════════════════════════════════════════════════════════════════════╗
-║  GATE — Design changes review (if any changes were made)            ║
-║  → approve   → refine [feedback]   → reject + delete               ║
-╚═════════════════════════════════════════════════════════════════════╝
-│
-├─[AGNT]  Task decomposition for new work only
-│         writes : /tasks/task-{name}-be.md or -fe.md
-│
-╔═════════════════════════════════════════════════════════════════════╗
-║  GATE — Task list review                                            ║
-║  → approve   → refine [feedback]   → reject + delete               ║
-╚═════════════════════════════════════════════════════════════════════╝
-│
-├─[AGNT]  Implementation of new tasks only
-│         same process as large track Phase 4
-│
-╔═════════════════════════════════════════════════════════════════════╗
-║  GATE — Implementation review                                       ║
-║  → approve   → refine [feedback]   → reject + delete               ║
-╚═════════════════════════════════════════════════════════════════════╝
-│
-├─[AGNT]  DevOps updates infra if deployment changes needed
-│         writes : updated /infra/infra-{name}.md (or no change)
-│
-╔═════════════════════════════════════════════════════════════════════╗
-║  GATE — Final (if infra changed)                                    ║
-║  → approve   → refine [feedback]   → reject + delete               ║
-╚═════════════════════════════════════════════════════════════════════╝
-│
-▼
 
-┌─────────────────────────────────────────────────────────────────────┐
-│  COMPLETE                                                            │
-│  Affected artifacts versioned and accepted                           │
-│  Feature document updated with new scope                            │
-└─────────────────────────────────────────────────────────────────────┘
-```
+### How it works
+
+1. User describes the improvement (e.g. "add SMS fallback to password reset").
+2. Orchestrator identifies the affected feature and confirms scope.
+3. Entry point:
+   - If existing scenarios cover the change → enter at **task decomposition**.
+   - If new scenarios are needed → enter at **requirements** (BA adds scenarios to existing requirement, bumps version).
+4. **Selective design updates** only for what changed:
+   - UI changes → UX updates affected user flows / wireframes / component specs.
+   - API changes → Architect updates contract directly (if owner) or files a CR.
+   - No UI/API gap → skip to task decomposition.
+5. **Tasks**: decompose only new work.
+6. **Implementation**: same TDD process as large track Phase 4.
+7. **Infra**: DevOps updates only if deployment changes are needed.
+
+Each step has its own gate. Skip the infra gate if no infra changes were made.
+
+**On completion**: affected artifacts versioned and accepted; feature document updated with new scope.
 
 ---
 
 ## SMALL TRACK — Change Request
 
-For targeted corrections to existing artifacts.
-Single gate. No phase sequence.
+Targeted correction to an existing artifact. Single gate. No phase sequence.
 
+```mermaid
+flowchart TD
+    START([User or agent describes change]) --> CR([Orchestrator files cr-name.md])
+    CR --> ROUTE{Minor or Major?}
+    ROUTE -- minor --> APPLY1([Owner agent applies change])
+    ROUTE -- major --> GMAJOR{Gate — user reviews impact}
+    GMAJOR --> APPLY2([Owner agent applies approved change])
+    APPLY1 --> TASKS([Orchestrator creates 0+ tasks; cr.refs += task-ids])
+    APPLY2 --> TASKS
+    TASKS --> MILE([Update active milestone if any])
+    MILE --> GFINAL{Final confirmation}
+    GFINAL --> DONE([cr.status: applied])
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│  SMALL TRACK — Change Request                                        │
-└─────────────────────────────────────────────────────────────────────┘
-│
-├─[USER]  Describes change in natural language
-│         e.g. "the reset email subject line should say
-│              'Reset your password' not 'Password Reset'"
-│
-│         Can be initiated by:
-│           user directly    → describes change in chat
-│           downstream agent → files CR automatically during impl
-│
-├─[ORCH]  Classifies as small track
-│         Identifies target artifact and its owner
-│         reads : /vault/* (locate artifact)
-│                 /_registry.md (confirm owner)
-│
-├─[ORCH]  Creates change request document
-│         writes : /change-requests/cr-{name}.md
-│           └── target     : artifact being modified
-│               also-affects: other impacted artifacts
-│               triggered-by: task or event that found the gap
-│               resulted-in : filled on resolution
-│               from, to, priority, proposed change
-│
-├─[ORCH]  Routes to artifact owner agent
-│         Loads artifact + CR into owner agent context
-│
-│  ── MINOR CR (non-breaking, additive) ───────────────────────────
-│
-├─[AGNT]  Owner agent applies change
-│         writes : updated artifact, version bumped
-│                  cr-{name}.md → status: applied
-│
-│  ── MAJOR CR (breaking, cross-cutting) ──────────────────────────
-│
-├─[ORCH]  Presents CR to user before applying
-│         explains impact and downstream effects
-│
-╔═════════════════════════════════════════════════════════════════════╗
-║  GATE (major CRs only)                                              ║
-║  User reviews proposed change and impact                            ║
-║  → approve   → refine [feedback]   → reject                        ║
-╚═════════════════════════════════════════════════════════════════════╝
-│
-├─[AGNT]  Owner agent applies approved change
-│         writes : updated artifact, version bumped
-│                  cr-{name}.md → status: applied
-│
-├─[ORCH]  Evaluates CR complexity for task creation
-│           simple CR (1 task):
-│             → create single task
-│             → stamp cr.resulted-in = [task-id]
-│           
-│           complex CR (3+ tasks):
-│             → create task-breakdown
-│             → stamp cr.resulted-in = [tb-id]
-│             → task-breakdown creates tasks
-│           
-│           no implementation needed:
-│             → cr.resulted-in remains empty
-│
-├─[ORCH]  Updates milestone if exists
-│         reads  : /milestones/* (find active milestone)
-│         writes : milestone updated with CR + new tasks
-│                  milestone.refs includes cr-id + task-ids
-│
-╔═════════════════════════════════════════════════════════════════════╗
-║  GATE — Final confirmation (all CRs)                                ║
-║  Orchestrator confirms change applied, shows diff summary           ║
-║  Shows task-breakdown or tasks created (if any)                     ║
-║  → approve   → refine [feedback]                                   ║
-╚═════════════════════════════════════════════════════════════════════╝
-│
-▼
 
-┌─────────────────────────────────────────────────────────────────────┐
-│  COMPLETE                                                            │
-│  cr-{name}.md → status: applied                                      │
-│  target artifact version bumped                                      │
-│  also-affects artifacts → status: needs-review                       │
-│  triggered-by task unblocked (if it was blocked-by this CR)          │
-│  resulted-in: [tb-id] or [task-id] or [] (stamped)                   │
-│  milestone updated with CR tasks (if milestone exists)               │
-│  downstream agents notified via _state.md needs-review section       │
-└─────────────────────────────────────────────────────────────────────┘
-```
+### How it works
+
+1. User describes the change (or a downstream agent files a CR automatically during implementation).
+2. Orchestrator locates the target artifact and its owner; creates `change-requests/cr-{name}.md` with `refs: [target, related artifacts, triggering task]` and body (problem, proposed change, justification, impact).
+3. Orchestrator routes to the artifact owner.
+4. **Minor CR** (non-breaking, additive): owner applies the change directly.
+5. **Major CR** (breaking, cross-cutting): orchestrator presents impact to user first → approve / refine / reject. Owner applies on approval.
+6. Orchestrator creates the 0, 1, or many tasks needed to carry out the CR; appends them to `cr.refs`. If no implementation is needed, no tasks are created.
+7. If an active milestone exists, the milestone's `refs` is updated to include the CR and any new tasks.
+
+**Gate (final)** — orchestrator confirms the change applied, shows diff summary and tasks created → approve / refine.
+
+**On completion**:
+- `cr.status: applied`
+- target artifact version bumped
+- related artifacts may be flagged `status: needs-review`
+- `cr.refs` contains target + any resulting task ids
+- milestone updated if one exists
+- downstream agents notified via `_state.md` notes
 
 ---
 
 ## Session Resume
 
-When user returns after closing a session:
+When a user returns after closing a session:
 
-```
-├─[USER]  "continue {feature name}"
-│
-├─[ORCH]  Reads agent _state.md files + feature document
-│         Reconstructs:
-│           last accepted phase
-│           in-progress planning artifacts (status: draft or ready-for-review)
-          in-progress tasks (task status: open or in-progress)
-│           open CRs and advisorys
-│           waiting-on and blocked-by from agent state
-│           artifacts now status: needs-review (upstream changed)
-│
-├─[ORCH]  Presents resume summary:
-│           "Feature {name} — Phase {N} in progress
-│            Last completed: {phase}
-│            In progress: {artifact list}
-│            Open CRs: {CR list}
-│            Needs review: {artifacts whose upstream changed}
-│            Resume from Phase {N}?"
-│
-├─[USER]  Confirms or redirects to a different phase
-│
-└─[ORCH]  Reactivates relevant agents with cached context
-```
+1. User: "continue {feature name}".
+2. Orchestrator reads agent `_state.md` files + feature document. Reconstructs:
+   - last accepted phase
+   - in-progress planning artifacts (`status: draft` or `ready-for-review`)
+   - in-progress tasks (task `status: open` or `in-progress`)
+   - open CRs and advisories
+   - `waiting-on` and recent notes from agent state
+   - artifacts now `status: needs-review` (upstream changed)
+3. Orchestrator presents a resume summary and asks "Resume from Phase {N}?"
+4. User confirms or redirects to a different phase.
+5. Orchestrator reactivates the relevant agents with cached context.
 
 ---
 
 ## Deferred Items Handling
 
-When user proceeds despite a warning:
+When the user proceeds past a warning:
 
-```
-├─[ORCH]  Creates advisory capturing concern
-│         writes : /advisories/adv-{concern}.md
-│           └── what was skipped, which artifact, suggested action
-│
-├─[ORCH]  Proceeds with user-directed work
-│
-│  At final gate (Phase 5) or on user request:
-│
-├─[ORCH]  Surfaces all advisorys and open CRs
-│         Presents as deferred items list
-│         User decides: resolve now or keep deferred
-│
-│  If user resolves deferred item:
-│   └── routes to small track (CR flow) for targeted fix
-│
-│  If user keeps deferred:
-│   └── advisory remains open
-│       cr-{name}.md stays status: deferred
-│       feature marked accepted with open items noted
-```
+1. Orchestrator creates `advisories/adv-{concern}.md` capturing what was skipped, which artifact, and the suggested action.
+2. Work continues.
+3. At Gate 5 (or on user request), the orchestrator surfaces all open advisories and CRs as a **deferred items list**.
+4. User chooses per item:
+   - **Resolve now** → routes to small track (CR flow) for targeted fix.
+   - **Keep deferred** → advisory remains open; CR stays `deferred`; feature can still be `accepted` with open items noted.
 
 ---
 
-## PKM Write Summary Per Phase
+## PKM Writes & Test Anchors
 
-| Phase      | Artifact Types Written                                                          |
-|------------|---------------------------------------------------------------------------------|
-| Intake     | feature                                                                         |
-| Phase 1    | requirement (with scenarios)                                                    |
-| Phase 2    | user-flow, wireframe, component-spec, architecture-decision, api-contract, data-model, quality-requirement, **test-plan** |
-| Phase 3    | **test-spec**, **test-suite**, task (be + fe)                                   |
-| Phase 4    | task (status + implementation-notes), change-request; test-spec/suite → accepted |
-| Phase 5    | infra                                                                           |
-| Any phase  | advisory (warnings), change-request (gaps)                                      |
-
-### Test Artifact Phase Anchors
-
-| Artifact   | Created in | Trigger                                         | Owner       |
-|------------|------------|-------------------------------------------------|-------------|
-| test-plan  | Phase 2    | After requirements accepted                     | qa-engineer |
-| test-spec  | Phase 3    | After api-contracts + data-models accepted      | qa-engineer |
-| test-suite | Phase 3    | After related test-specs drafted                | qa-engineer |
-| test-spec  | Phase 4    | Status → accepted when implementation passes    | qa-engineer |
+For the per-phase PKM write summary and test-artifact phase anchors, see `../reference/sdlc-phases.md` (sections "PKM Writes Per Phase" and "QA Phase Anchors").

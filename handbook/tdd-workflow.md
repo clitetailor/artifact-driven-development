@@ -2,36 +2,32 @@
 
 ## Overview
 
-Test artifacts span DESIGN and BUILD phases. The QA Engineer is activated in
-Phase 2 (test-plan) and Phase 3 (test-specs, test-suites) before implementation
-tasks are decomposed. Engineers implement code in Phase 4 to pass the specs.
+Test artifacts span DESIGN and BUILD phases. The QA Engineer is activated in Phase 2 (test-plan) and Phase 3 (test-specs, test-suites) before implementation tasks are decomposed. Engineers implement code in Phase 4 to pass the specs.
 
 ## Artifact Flow
 
 ```
 DESIGN (Phase 2)
-  requirement (with scenarios) ──○──▶ test-plan
-                                         │
-                                        ○│ (soft)
-BUILD (Phase 3)                          ▼
-  requirement + api-contract ───○──▶ test-spec ──○──▶ test-suite
-                                                           │
-                                                          ○│ (soft, referenced in task)
-BUILD (Phase 3–4)                                          ▼
-  task (implement to pass) ◄─────────────────────────────────
+  requirement (with scenarios) ──▶ test-plan
+
+BUILD (Phase 3)
+  requirement + api-contract ──▶ test-spec ──▶ test-suite
+
+BUILD (Phase 3–4)
+  task (refs test-spec) ◄────────────────────
   implement → verify test-spec passes → task status: done
   QA marks test-spec: accepted when all cases pass
 ```
 
 ## SDLC Phase Anchors
 
-| Artifact   | Phase created | Trigger                                               | Owner       |
-|------------|---------------|-------------------------------------------------------|-------------|
+| Artifact   | Phase created | Trigger                                                 | Owner       |
+|------------|---------------|---------------------------------------------------------|-------------|
 | test-plan  | Phase 2       | After requirements accepted; runs parallel with UX/Arch | qa-engineer |
-| test-spec  | Phase 3       | After api-contracts + data-models accepted            | qa-engineer |
-| test-suite | Phase 3       | After related test-specs drafted                      | qa-engineer |
-| test-spec  | Phase 4       | Status → `accepted` when implementation passes        | qa-engineer |
-| test-suite | Phase 4       | Status → `accepted` when all included specs accepted  | qa-engineer |
+| test-spec  | Phase 3       | After api-contracts + data-models accepted              | qa-engineer |
+| test-suite | Phase 3       | After related test-specs drafted                        | qa-engineer |
+| test-spec  | Phase 4       | Status → `accepted` when implementation passes          | qa-engineer |
+| test-suite | Phase 4       | Status → `accepted` when all included specs accepted    | qa-engineer |
 
 ## Orchestration Integration
 
@@ -49,12 +45,12 @@ Orchestrator activates QA Engineer alongside UX-UI Designer and Software Archite
 
 Convention check before Gate 2:
   ✓ test-plan exists for the feature
-  ⚠ test-plan missing → advisory only, does not block Gate 2
+  ⚠ test-plan missing → advisory, work continues
 ```
 
 ### Phase 3 — Test Spec + Suite Creation (before task decomp)
 
-QA Engineer runs first in Phase 3 so tasks can reference test-specs as soft-deps.
+QA Engineer runs first in Phase 3 so tasks can reference test-specs.
 
 ```
 [ORCH] Activates qa-engineer first in Phase 3
@@ -65,10 +61,10 @@ QA Engineer runs first in Phase 3 so tasks can reference test-specs as soft-deps
 Convention check before task decomp:
   ✓ test-spec exists for each scenario in accepted requirements
   ✓ test-suite exists grouping related specs for the feature
-  ⚠ missing test-spec → advisory, does not block task decomposition
+  ⚠ missing test-spec → advisory, work continues
 
 [ORCH] Activates arch/backend/frontend for task decomposition
-[AGNT] Tasks include: soft-deps: [ts-{slug}]  (tests this task satisfies)
+[AGNT] Tasks include refs: [ts-{slug}]  (tests this task satisfies)
 ```
 
 ### Phase 4 — TDD Implementation Cycle
@@ -76,7 +72,7 @@ Convention check before task decomp:
 Engineers follow the red-green-refactor cycle per task.
 
 ```
-For each task with test-spec soft-deps:
+For each task that references test-specs:
   1. Run test-spec test cases → all fail (red)
   2. Implement minimum code to pass → all pass (green)
   3. Refactor, verify tests still pass
@@ -112,27 +108,27 @@ Convention check before Gate 4:
 
 ## Dependency Pattern (Frontmatter)
 
-All test artifact dependencies are **soft-deps** to allow flexibility:
+Test artifacts use the single `refs` field — no separate hard/soft distinction. Missing test artifacts are flagged but never block work.
 
 ```yaml
 # test-plan
-soft-deps:
+refs:
   - req-{slug}
 
 # test-spec
-soft-deps:
+refs:
   - req-{slug}
   - tp-{slug}            # optional reference to test plan
 scenario: req-{slug}#scenario-{N}   # specific scenario being tested
 
 # test-suite
-soft-deps:
+refs:
   - ts-{slug}
   - ts-{slug}
   - tp-{slug}            # optional reference to test plan
 
-# task (optional reference to tests it must pass)
-soft-deps:
+# task
+refs:
   - ts-{slug}            # test specs this task satisfies
   - api-{slug}
   - dm-{slug}
@@ -154,7 +150,7 @@ scenario: req-{slug}#scenario-{N}   # scenario being implemented
 ### E2E Tests (When Possible)
 - Test complete user flows
 - Full stack with real or staging services
-- Verify user stories end-to-end
+- Verify user scenarios end-to-end
 
 ## TDD Cycle (Per Task)
 
@@ -188,7 +184,7 @@ For feature `user-authentication`:
 2. Create `ts-user-authentication-login` (unit tests for login scenario)
 3. Create `ts-user-authentication-token` (unit tests for token generation scenario)
 4. Create `suite-user-authentication` (groups both specs, refs test plan)
-5. Create `task-user-authentication-be` (soft-dep: ts-user-authentication-login, ts-user-authentication-token)
+5. Create `task-user-authentication-be` with refs: [ts-user-authentication-login, ts-user-authentication-token]
 
 **Phase 4:**
 6. Run `ts-user-authentication-login` → all tests fail (red)
@@ -215,13 +211,13 @@ rg -l --glob '!.*' "type: test-suite" test-suites/
 rg -l --glob '!.*' "type: test-spec" test-specs/ | xargs rg -l "status: draft"
 
 # Find which test suite contains a specific test spec
-rg -l --glob '!.*' "soft-deps:.*ts-user-login" test-suites/
+rg -l --glob '!.*' "refs:.*ts-user-login" test-suites/
 
 # Find all test artifacts (plan, specs, suites) for a feature
 rg -l --glob '!.*' "feature: user-authentication" test-plans/ test-specs/ test-suites/
 
 # Find tasks that reference a specific test spec (TDD traceability)
-rg -l --glob '!.*' "soft-deps:.*ts-user-authentication" tasks/
+rg -l --glob '!.*' "refs:.*ts-user-authentication" tasks/
 
 # Find all accepted test specs (tests confirmed passing)
 rg -l --glob '!.*' "type: test-spec" test-specs/ | xargs rg -l "status: accepted"

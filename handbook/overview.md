@@ -66,7 +66,7 @@ Vault artifacts are the handoff source of truth. The frontend engineer should re
 
 ### QA ↔ Engineering (TDD Cycle)
 
-Tasks reference test-specs as soft-deps. Engineers implement against test-specs.
+Tasks reference test-specs via `refs`. Engineers implement against test-specs.
 
 - Engineers run test-specs before implementation (all tests fail — red)
 - Engineers implement minimum code to make tests pass (green)

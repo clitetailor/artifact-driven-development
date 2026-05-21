@@ -11,15 +11,10 @@ from: {filing-agent-slug}
 to: {owning-agent-slug}
 created: {YYYY-MM-DD}
 resolved: ~
-
-target:
-  - {artifact-id}
-also-affects: []
-triggered-by: []
-resulted-in: []
-
 refs:
-  - {artifact-id}
+  - {target-artifact-id}      # the artifact being modified
+  - {related-artifact-id}     # any sibling artifacts impacted
+  - {triggering-artifact-id}  # the task or doc that surfaced the gap
 ---
 
 # CR: {title}

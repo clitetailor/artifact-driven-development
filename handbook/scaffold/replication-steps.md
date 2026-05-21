@@ -15,8 +15,8 @@ Copy this scaffold into a new project and turn it into that project's planning v
 7. Rewrite stack-specific convention docs if the target stack differs materially from the examples in this scaffold.
 8. Update `_registry.md` with real features and modules before generating artifacts.
 9. Run the onboarding workflow to ask the user discovery questions.
-10. Generate artifacts from templates in dependency order.
-11. Validate IDs, refs, hard-deps, and file placement.
+10. Generate artifacts from templates in suggested creation order.
+11. Validate IDs, refs, and file placement.
 
 ## Copy Guidance
 

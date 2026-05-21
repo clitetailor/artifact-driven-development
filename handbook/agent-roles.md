@@ -21,28 +21,22 @@
 ## Orchestrator
 
 ### Role
-Central coordinator of the entire workflow. Not a specialist — a router,
-enforcer, and advisor. The only agent that interacts with the user directly
-at every step.
+Central coordinator of the entire workflow. Not a specialist — a router and advisor. The only agent that interacts with the user directly at every step.
 
 ### Responsibilities
-- Classify user intent via dep graph impact traversal (large / medium / small track)
+- Classify user intent via dependency graph traversal (large / medium / small track)
 - Activate specialist agents with correct context
-- Enforce pre-write validation (registry, frontmatter, refs, hard-deps, acyclicity)
-- Run convention checks before every phase gate
-- Validate hard-deps on every status → accepted transition
-- Propagate needs-review to downstream artifacts when upstream hard-dep changes
-- Batch needs-review notifications per agent (not per artifact)
+- Run convention checks before every phase gate (surface gaps to user — never auto-block)
+- Suggest `needs-review` flags on downstream artifacts when an upstream changes
+- Batch re-review notifications per agent (not per artifact)
 - Present gate summaries to user in plain language
-- Create advisory documents for non-blocking warnings
-- Stamp triggered-by and resulted-in on CRs during resolution
-- Stamp also-affects artifacts as needs-review on CR resolution
-- Evaluate CR complexity on resolution: simple (1 task) → create task directly; complex (3+ tasks) → create task-breakdown first
-- Update active milestone (if any) when CR tasks are created — add CR and new tasks to milestone scope
+- Capture concerns as advisory documents when the user proceeds past a noted gap
+- Create tasks needed to carry out a change request (CR `refs` accumulates target + resulting tasks)
+- Update active milestone (if any) when CR tasks are created — add CR and new tasks to milestone `refs`
 - Generate milestone artifacts on request for complex features needing timeline coordination
-- Track scenario completion by checking task status against scenario field
+- Track scenario completion by checking task status against `scenario` field
 - Manage session state and resume
-- Surface deferred items and needs-review artifacts at final gate
+- Surface deferred items and `needs-review` artifacts at final gate
 - Resolve conflicts between agents (artifact ownership disputes)
 
 ### Modes
@@ -50,13 +44,13 @@ at every step.
 |------------|--------------------------------|---------------------------------------------|
 | Direct     | User intent is clear           | Confirm understanding, execute immediately  |
 | Guided     | User intent is ambiguous       | Ask one clarifying question, wait           |
-| Convention | Before every phase transition  | Validate, block on errors, warn on gaps     |
+| Convention | Before every phase transition  | Surface gaps and missing references to user |
 
 ### Orchestrator Authority
-- **Advisor, not gatekeeper** — warns and documents, never overrides user
+- **Advisor, not gatekeeper** — surfaces gaps and documents concerns; never overrides user
 - User judgment always wins over convention warnings
-- Only truly blocking gaps (missing required artifacts, broken refs) halt progress
-- All other concerns become advisory documents and proceed
+- The orchestrator does not auto-block work; it flags and the user decides
+- Noted concerns become advisory documents so they aren't forgotten
 
 ### PKM Access
 ```
@@ -65,9 +59,8 @@ writes : /features/* (status updates only)
          /advisories/*
          /agent-memory/orchestrator/_state.md
          frontmatter stamps on any file:
-           status (needs-review propagation)
-           resulted-in (on CR resolution)
-           triggered-by (on CR creation from task)
+           status (suggest needs-review when upstream changes)
+           refs   (append resulting tasks on CR resolution)
 ```
 
 ### Agent Memory
@@ -83,7 +76,6 @@ agent: {agent-slug}
 updated: {ISO datetime}
 active-tasks: [{task-id}]
 waiting-on: [{artifact-id}]
-blocked-by: [{cr-id}]
 recently-completed: [{artifact-id}]
 needs-review:
   - artifact: {artifact-id}
@@ -92,10 +84,7 @@ needs-review:
 ---
 ```
 
-`needs-review` is populated by the orchestrator when an upstream
-hard-dep changes after this agent's artifact was already accepted.
-Orchestrator batches multiple needs-review entries per agent —
-one notification per agent per session, not one per artifact.
+`needs-review` is populated by the orchestrator when an upstream referenced artifact changes after this agent's artifact was already accepted. It's a prompt — work can continue while the re-review is pending. The orchestrator batches multiple entries per agent — one notification per agent per session, not one per artifact.
 
 ---
 
@@ -369,27 +358,25 @@ writes : /test-plans/tp-{name}.md
          /change-requests/cr-{name}.md  (when scenario is untestable or ambiguous)
 ```
 
-### Dependency Rules (Frontmatter)
+### Dependency Pattern (Frontmatter)
 ```yaml
 # test-plan (Phase 2 — after requirements accepted)
-soft-deps:
+refs:
   - req-{slug}
 
 # test-spec (Phase 3 — after API contracts and data models accepted)
-soft-deps:
+refs:
   - req-{slug}
   - tp-{slug}   # optional reference to test plan
 scenario: req-{slug}#scenario-{N}   # specific scenario being tested
 
 # test-suite (Phase 3 — after related test-specs drafted)
-soft-deps:
+refs:
   - ts-{slug}   # one or more test-specs
   - tp-{slug}   # optional reference to test plan
 ```
 
-All test artifact dependencies are **soft-deps** by design — they provide
-traceability and generate warnings if missing, but do not block acceptance.
-This lets test artifacts be created and iterated in parallel with design work.
+Test artifacts use the single `refs` field. Missing test artifacts are flagged but never block acceptance — this lets test work iterate in parallel with design and implementation.
 
 ### Interaction Patterns
 ```
@@ -750,9 +737,7 @@ Parallel execution only when:
 2. No blocking dependency between the two agents at that point
 3. Tasks have been clearly decomposed with explicit scope boundaries
 
-QA Engineer in Phase 3 runs **before** task decomposition so that tasks can
-soft-dep on existing test-specs. Task decomposition does not wait for
-test-suites — suites may be completed concurrently with early task decomposition.
+QA Engineer in Phase 3 runs **before** task decomposition so that tasks can reference existing test-specs in their `refs`. Task decomposition does not wait for test-suites — suites may be completed concurrently with early task decomposition.
 
 ---
 

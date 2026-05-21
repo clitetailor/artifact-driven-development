@@ -6,10 +6,6 @@ status: draft
 version: 1.0
 feature: {feature-slug}
 module: {feature-slug}/{module-slug}
-hard-deps:
-soft-deps:
-  - adr-{slug}
-  - api-{slug}
 refs:
   - adr-{slug}
   - api-{slug}

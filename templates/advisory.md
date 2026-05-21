@@ -6,9 +6,6 @@ status: open
 version: 1.0
 feature: {feature-slug}
 module: {feature-slug}/{module-slug}
-hard-deps: []
-soft-deps:
-  - {concern-artifact-id}
 refs:
   - {concern-artifact-id}
 created: {YYYY-MM-DD}

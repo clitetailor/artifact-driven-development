@@ -6,8 +6,6 @@ status: draft
 version: 1.0
 feature: {feature-slug}
 module: {feature-slug}/{module-slug}
-soft-deps:
-  - req-{slug}
 refs:
   - req-{slug}
 ---
