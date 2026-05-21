@@ -1,108 +1,94 @@
-# Artifact Creation Order
-> A guide for which artifacts an agent typically creates before which others. Not enforced — just suggested order.
+# Artifact Dependency Graph — Human Guide
+> Narrative companion to `../reference/artifact-dep-graph.md`. Read this once to understand the model; refer to the reference file for lookups.
 
-## How to Read This
+## Why grouped, not flat
 
-Arrows point from an artifact to artifacts that usually reference it. When an agent is about to create artifact X, the graph tells them which artifacts likely already exist (and should be linked via `refs`).
+A flat artifact-by-artifact DAG (16 nodes, ~20 edges) is technically accurate but visually noisy and obscures the intent. Artifacts cluster naturally by the **question they answer** and the **role that owns them**. The grouped graph trades artifact-level precision for clarity of purpose. Artifact-level precision still lives in the **creation-order table**; the graph's job is the mental model.
 
-For the raw creation-order table, see `../reference/artifact-dep-graph.md`.
+Note: iteration in SDLC means **re-entering** an upstream group via a change-request, not reversing dependency direction. The graph is still a DAG.
 
----
+## The Groups
 
-## The Graph
+| Group | Purpose | Owner role |
+|---|---|---|
+| **Discovery** | Understand the user | Business Analyst |
+| **Product Definition** | Define what to build | Business Analyst |
+| **UX Design** | Design the experience | UX-UI Designer |
+| **System Design** | Design the structure | Software Architect |
+| **Quality** | Define and verify correctness | QA Engineer |
+| **Implementation** | Build it | Backend / Frontend Engineer |
+| **Operations** | Run it | DevOps Engineer |
+| **Coordination** | Cross-cutting concerns | Orchestrator |
 
-```
-                  [research-note]
-                        │
-                        ▼
-                    [persona]
-                        │
-                        ▼
-                    [feature]
-                        │
-                        ▼
-            [requirement (with scenarios)]
-                        │
-         ┌──────────────┼──────────────────────┐
-         ▼              ▼                       ▼
-  [user-flow]  [quality-requirement]        [test-plan]
-         │              │                       │
-         │              └──────┐                │
-         ▼                     ▼                ▼
-    [wireframe]  [architecture-decision]   [test-spec]
-         │                     │                │
-         ▼               ┌─────┴─────┐         ▼
-  [component-spec]        ▼           ▼    [test-suite]
-         │          [api-contract] [data-model]
-         │                  │          │
-         └─────┬────────────┴─────┬───┘
-               ▼                  ▼
-           [task-fe]          [task-be]
-                          │
-                          ▼
-                       [infra]
+For agent ownership detail: `../reference/artifact-ownership.md`.
 
-  Cross-cutting (any time):
-    [change-request]   ← documents a request to change an existing artifact
-    [advisory]         ← notes a future concern or improvement
-    [milestone]        ← optional timeline coordination
-```
+## How Groups Interact
 
----
+Five interaction types capture how any two groups relate. Most pairs use **Produces** as the dominant interaction, plus one or two secondary types.
 
-## Per-Layer Notes
+- **Produces** — A must exist before B. This is the classic dependency edge.
+- **Refines** — Creating B exposes a gap or contradiction in A. A is revised, usually via a change-request. This is how feedback flows backward without reversing the DAG.
+- **Constrains** — A bounds the valid shape of B without producing it. Example: a `quality-requirement` constrains all System Design choices without being their parent.
+- **Validates** — B asserts A is correct, complete, or testable. Example: a `test-suite` validates an `api-contract`.
+- **Co-evolves** — A and B are iterated in tandem. The clearest pair in this vault is **Quality ↔ Implementation** (TDD red-green-refactor). **UX Design ↔ System Design** *may* co-evolve when run in parallel, but Phase 2 sequencing is sequential by default — see `sdlc-workflows.md`.
 
-These are guidance — why the order makes sense in practice. Agents and humans can deviate if the situation warrants.
+Coordination artifacts (`change-request`, `advisory`, `milestone`) are an **overlay**: they touch any group from the side without sitting in the production flow. A CR is the formal vehicle for the "Refines" interaction.
 
-### Understand Layer
+For the full inter-group matrix: `../reference/artifact-dep-graph.md#inter-group-matrix`.
 
-- **research-note** is the root document. Interview notes, surveys, observation logs.
-- **persona** synthesizes one or more research notes. Creating a persona without grounding research is a smell.
+## Per-Group Notes
 
-### Define Layer
+Practical guidance — why the typical order works.
 
-- **feature** sketches a product capability. Can exist early (before research is complete), but a good feature references at least one persona.
-- **requirement** scopes one feature with embedded scenarios. Scenarios live inside the requirement doc — they are not separate artifacts.
+### Discovery
+- `research-note` is the root. Interview notes, surveys, observation logs.
+- `persona` synthesizes one or more research notes. A persona without grounding research is a smell.
 
-### Design Layer
+### Product Definition
+- `feature` sketches a capability. Can exist early (before research is complete); a good feature references at least one persona.
+- `requirement` scopes one feature with **embedded scenarios**. Scenarios live inside the requirement doc, not as separate artifacts.
 
-- **quality-requirement** captures performance/security/reliability constraints. Useful before committing to api-contracts.
-- **architecture-decision** is *optional*. Create one only for significant technical choices that deserve a written record.
-- **user-flow → wireframe → component-spec** is the UX chain. Each step refines the prior.
-- **api-contract** typically references specific scenarios from the requirement. Useful to know ADRs and quality-requirements first, but not required.
-- **data-model** is derived from api-contract shapes.
-- **test-plan** belongs in design (Phase 2) so testing strategy is decided alongside other design work.
+### UX Design
+- `user-flow → wireframe → component-spec` — each step refines the prior.
+- May co-evolve with System Design when run in parallel (component-spec assumes an api-contract shape; api-contract may bend to fit UX needs). Default sequencing in Phase 2 is sequential.
+- Body templates: `../templates/wireframe.md`, `../templates/user-flow.md`, `../templates/component-spec.md`.
 
-### Build Layer
+### System Design
+- `architecture-decision` is **optional** — only for significant technical choices that deserve a written record.
+- `quality-requirement` captures NFRs (performance, security, reliability) and **constrains** the rest of System Design plus Operations.
+- `api-contract` typically references relevant scenarios from the requirement.
+- `data-model` is derived from api-contract shapes.
 
-- **test-spec** covers one scenario; **test-suite** groups specs. These are TDD support artifacts.
-- **task (backend)** typically needs api-contract, data-model, and the requirement at hand.
-- **task (frontend)** typically needs component-spec and api-contract.
-- **implementation-note** is optional — write one only for cross-cutting insights spanning multiple tasks.
+### Quality
+- `test-plan` belongs in design — testing strategy decided alongside other design work.
+- `test-spec` covers one scenario; `test-suite` groups specs.
+- Co-evolves with Implementation via TDD. See `tdd-workflow.md`.
 
-### Operate Layer
+### Implementation
+- `task-be` typically needs api-contract, data-model, requirement.
+- `task-fe` typically needs component-spec, api-contract.
+- Per-task body template (includes **Implementation Notes** section): `../templates/task.md`. For cross-task insights, file an ADR (durable decision), a convention doc, or an advisory.
 
-- **infra** is the terminal node. It typically waits until tasks are done.
+### Operations
+- `infra` is the terminal node. Typically waits until tasks are done.
+- Constrained by `architecture-decision` and `quality-requirement` (Operations doesn't get to pick the database).
 
-### Cross-Cutting
-
-- **change-request** can be filed at any point against any artifact. Use when an existing artifact needs to change.
-- **advisory** is a noted-for-future tracker — agent or human writes when they spot a concern, deferred improvement, or limitation worth remembering. Not auto-generated; just exists until resolved or deleted.
-- **milestone** is optional timeline coordination. Tracks scenarios and tasks for a sprint or phase.
-
----
+### Coordination
+- `change-request` — file at any time against any artifact. The formal "Refines" vehicle. Body template: `../templates/change-request.md`. Routing rules: `sdlc-workflows.md#cr-routing-rules`.
+- `advisory` — noted-for-future tracker. Written when an agent or human spots a concern worth remembering. Not auto-generated. Body template: `../templates/advisory.md`.
+- `milestone` — optional timeline coordination. Tracks scenarios and tasks for a sprint or phase.
 
 ## How Agents Use This
 
 When asked to produce artifact X:
-1. Check the graph for what X typically references.
-2. Grep the vault for those upstream artifacts; read them.
-3. Create X, listing the referenced artifacts in `refs`.
-4. If an expected upstream doesn't exist, either create it first or note the gap to the user.
 
-The graph is a *prompt*, not a *gate*. If the user explicitly says "skip the persona", an agent should proceed and note the omission.
+1. Identify X's group; check the reference's intra-group diagram for upstream artifacts inside the same group.
+2. Check the inter-group matrix for upstream groups whose artifacts X typically references.
+3. Grep the vault for those upstream artifacts; read them.
+4. Create X; list referenced artifacts in `refs`.
+5. If an expected upstream doesn't exist, either create it first or note the gap to the user.
 
----
+The graph is a **prompt**, not a **gate**. If the user explicitly says "skip the persona", proceed and note the omission as an advisory.
 
 ## Impact Queries
 
@@ -116,4 +102,4 @@ grep -rl "refs:.*api-contract-auth-service" /vault
 grep -A 20 "^refs:" /vault/api-contracts/api-contract-auth-service.md
 ```
 
-For the full query recipe set, see `../reference/vault-queries.md`.
+For the full query recipe set: `../reference/vault-queries.md`.

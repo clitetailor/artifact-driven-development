@@ -35,16 +35,11 @@ Central coordinator of the entire workflow. Not a specialist — a router and ad
 - Update active milestone (if any) when CR tasks are created — add CR and new tasks to milestone `refs`
 - Generate milestone artifacts on request for complex features needing timeline coordination
 - Track scenario completion by checking task status against `scenario` field
-- Manage session state and resume
 - Surface deferred items and `needs-review` artifacts at final gate
 - Resolve conflicts between agents (artifact ownership disputes)
 
 ### Modes
-| Mode       | Trigger                        | Behavior                                    |
-|------------|--------------------------------|---------------------------------------------|
-| Direct     | User intent is clear           | Confirm understanding, execute immediately  |
-| Guided     | User intent is ambiguous       | Ask one clarifying question, wait           |
-| Convention | Before every phase transition  | Surface gaps and missing references to user |
+For the Direct / Guided / Convention mode table, see `sdlc-workflows.md#orchestrator-modes`.
 
 ### Orchestrator Authority
 - **Advisor, not gatekeeper** — surfaces gaps and documents concerns; never overrides user
@@ -57,34 +52,12 @@ Central coordinator of the entire workflow. Not a specialist — a router and ad
 reads  : all folders
 writes : /features/* (status updates only)
          /advisories/*
-         /agent-memory/orchestrator/_state.md
          frontmatter stamps on any file:
            status (suggest needs-review when upstream changes)
            refs   (append resulting tasks on CR resolution)
 ```
 
-### Agent Memory
-```
-/agent-memory/orchestrator/
-  └── _state.md              ← active feature, phase, waiting-on
-```
-
-### _state.md schema (all agents)
-```markdown
----
-agent: {agent-slug}
-updated: {ISO datetime}
-active-tasks: [{task-id}]
-waiting-on: [{artifact-id}]
-recently-completed: [{artifact-id}]
-needs-review:
-  - artifact: {artifact-id}
-    reason: upstream {artifact-id} changed on {date}
-    upstream-change: {brief description of what changed}
----
-```
-
-`needs-review` is populated by the orchestrator when an upstream referenced artifact changes after this agent's artifact was already accepted. It's a prompt — work can continue while the re-review is pending. The orchestrator batches multiple entries per agent — one notification per agent per session, not one per artifact.
+`needs-review` is suggested by the orchestrator when an upstream referenced artifact changes after this agent's artifact was already accepted. It's a prompt — work can continue while the re-review is pending.
 
 ---
 
@@ -135,14 +108,6 @@ Sends to      : ux-ui-designer         — requirement (with scenarios) (handoff
               : software-architect     — requirement (with scenarios) (handoff)
               : orchestrator           — ready-for-review signal
 Files CR to   : n/a (BA owns all upstream artifacts)
-```
-
-### Agent Memory
-```
-/agent-memory/business-analyst/
-  ├── _state.md
-  ├── _context-cache.md       ← digested persona and research summaries
-  └── scratch-{feature}.md    ← synthesis reasoning, open questions
 ```
 
 ### Scenario Format Rules
@@ -197,16 +162,8 @@ writes : /user-flows/userflow-{name}.md
          /component-specs/component-spec-{name}.md
 ```
 
-### Wireframe Format
-- Markdown file per screen with ASCII art layout in fenced code blocks
-- Human-readable in any text editor or markdown viewer
-- Represents layout, hierarchy, placeholder content
-- Does not include actual color or visual polish
-
-### User Flow Format
-- Markdown file with embedded Mermaid diagram
-- Covers: entry points, happy path, all error/edge paths, exit points
-- Renders natively in Obsidian, GitHub, Notion
+### Artifact Formats
+Body templates: `../templates/wireframe.md`, `../templates/user-flow.md`, `../templates/component-spec.md`.
 
 ### Interaction Patterns
 ```
@@ -217,14 +174,6 @@ Sends to      : frontend-engineer   — component specs, wireframes (handoff)
               : orchestrator        — ready-for-review signal
 Files CR to   : business-analyst    — if requirement is ambiguous
               : software-architect  — if API contract conflicts with UX flow
-```
-
-### Agent Memory
-```
-/agent-memory/ux-ui-designer/
-  ├── _state.md
-  ├── _context-cache.md       ← cached requirement and persona summaries
-  └── scratch-{screen}.md     ← layout reasoning, rejected approaches
 ```
 
 ---
@@ -277,11 +226,8 @@ writes : /architecture-decisions/adr-{name}.md
          /tasks/task-{name}-be.md
 ```
 
-### Decision (ADR) Format Rules
-- One decision per file — never bundle multiple choices
-- Must include: context, decision, alternatives considered, consequences
-- Alternatives must state reason for rejection, not just list them
-- Status: follows the standard artifact lifecycle; additional terminal states are `deprecated` (no longer applicable) and `superseded` (replaced by a newer ADR)
+### Decision (ADR) Format
+Body template: `../templates/architecture-decision.md`. One decision per file. Alternatives must state the reason for rejection.
 
 ### API Contract as Shared Truth
 The API contract is the single source of truth for the
@@ -301,14 +247,6 @@ Sends to      : backend-engineer    — api-contract, data-model, tasks (handoff
               : frontend-engineer   — api-contract (handoff)
               : devops-engineer     — architecture-decisions, quality-requirements (handoff)
               : orchestrator        — ready-for-review signal, CR decisions
-```
-
-### Agent Memory
-```
-/agent-memory/software-architect/
-  ├── _state.md
-  ├── _context-cache.md       ← cached requirement, quality-requirement summaries
-  └── scratch-{adr}.md   ← options analysis, rejected alternatives
 ```
 
 ---
@@ -359,24 +297,7 @@ writes : /test-plans/tp-{name}.md
 ```
 
 ### Dependency Pattern (Frontmatter)
-```yaml
-# test-plan (Phase 2 — after requirements accepted)
-refs:
-  - req-{slug}
-
-# test-spec (Phase 3 — after API contracts and data models accepted)
-refs:
-  - req-{slug}
-  - tp-{slug}   # optional reference to test plan
-scenario: req-{slug}#scenario-{N}   # specific scenario being tested
-
-# test-suite (Phase 3 — after related test-specs drafted)
-refs:
-  - ts-{slug}   # one or more test-specs
-  - tp-{slug}   # optional reference to test plan
-```
-
-Test artifacts use the single `refs` field. Missing test artifacts are flagged but never block acceptance — this lets test work iterate in parallel with design and implementation.
+See `tdd-workflow.md#frontmatter-pattern` for the consolidated test-plan / test-spec / test-suite / task frontmatter block. Missing test artifacts are flagged but never block acceptance — this lets test work iterate in parallel with design and implementation.
 
 ### Interaction Patterns
 ```
@@ -388,14 +309,6 @@ Sends to      : backend-engineer    — test-specs as implementation targets
               : orchestrator        — ready-for-review signal, CR filings
 Files CR to   : business-analyst    — if scenario is ambiguous or untestable
               : software-architect  — if API contract is missing needed fields
-```
-
-### Agent Memory
-```
-/agent-memory/qa-engineer/
-  ├── _state.md
-  ├── _context-cache.md       ← cached requirement and scenario summaries
-  └── scratch-{feature}.md    ← test case reasoning, rejected approaches
 ```
 
 ---
@@ -430,7 +343,6 @@ insufficient.
 | Artifact   | Role                                |
 |------------|-------------------------------------|
 | task (be)  | Collaborator (Architect is Owner)   |
-| implementation-note | Owner (optional, cross-cutting only)|
 | change-request | Owner (when filing against upstream)|
 
 ### PKM Reads / Writes
@@ -441,47 +353,14 @@ reads  : /tasks/*-be.md
          /architecture-decisions/*
          /quality-requirements/*
 writes : task status field (open → in-progress → done)
-         task implementation-notes section (on task completion)
+         task Implementation Notes section (on task completion)
          /change-requests/cr-{name}.md  (when gap found)
-         /implementation-notes/in-{name}.md (optional, cross-cutting)
 ```
 
-### Task Implementation Notes (on completion)
-Each done task gets an impl-notes section filled in:
-```
-## Implementation Notes
-approach taken and why
-
-## Deviations from Spec
-what differed from the task spec and why
-
-## Known Gaps
-what was deferred, why, CR filed if applicable
-
-## Safe to Modify
-what a future agent needs to know before changing this
-```
-
-### CR Filing Rules
-```
-on gap found during task implementation:
-  file /change-requests/cr-{name}.md with:
-    target      : artifact with the gap
-    also-affects: other artifacts impacted
-    triggered-by: this task id
-    resulted-in : (filled by orchestrator on resolution)
-
-minor CR (additive, non-breaking):
-  → file CR, proceed optimistically
-  → owner has 24h window to object
-  → auto-applied if no response
-  → task sets blocked-by: [] (not blocked)
-
-major CR (breaking, cross-cutting):
-  → file CR, hard block
-  → task sets blocked-by: [cr-id]
-  → do not proceed until owner resolves
-```
+### Artifact Formats
+- Task body template (incl. **Implementation Notes** section): `../templates/task.md`.
+- **CR** body template: `../templates/change-request.md`.
+- **CR routing rules** (minor/major, blocking behavior): see `sdlc-workflows.md#cr-routing-rules`.
 
 ### Interaction Patterns
 ```
@@ -490,14 +369,6 @@ Receives from : software-architect  — api-contract, data-model, tasks
 Sends to      : software-architect  — CRs on contracts/models
               : orchestrator        — task completion signals, CR filings
 Files CR to   : software-architect  — api-contract gaps, schema gaps
-```
-
-### Agent Memory
-```
-/agent-memory/backend-engineer/
-  ├── _state.md
-  ├── _context-cache.md       ← cached contract and schema summaries
-  └── scratch-{task}.md       ← implementation reasoning, rejected approaches
 ```
 
 ---
@@ -532,7 +403,6 @@ rendering strategy are exclusively frontend decisions.
 | Artifact    | Role                                      |
 |-------------|-------------------------------------------|
 | task (fe)   | Owner                                     |
-| implementation-note | Owner (optional, cross-cutting only)      |
 | change-request | Owner (when filing against upstream)   |
 
 ### PKM Reads / Writes
@@ -543,9 +413,8 @@ reads  : /tasks/*-fe.md
          /user-flows/*
          /wireframes/*
 writes : task status field (open → in-progress → done)
-         task implementation-notes section (on task completion)
+         task Implementation Notes section (on task completion)
          /change-requests/cr-{name}.md  (when gap found)
-         /implementation-notes/in-{name}.md (optional, cross-cutting)
 ```
 
 ### Frontend Architecture Boundary
@@ -569,14 +438,6 @@ Sends to      : ux-ui-designer      — CRs on component specs
               : orchestrator        — task completion signals, CR filings
 Files CR to   : ux-ui-designer      — component spec gaps, missing states
               : software-architect  — api-contract gaps, missing error shapes
-```
-
-### Agent Memory
-```
-/agent-memory/frontend-engineer/
-  ├── _state.md
-  ├── _context-cache.md       ← cached spec and contract summaries
-  └── scratch-{task}.md       ← implementation reasoning, rejected approaches
 ```
 
 ---
@@ -646,19 +507,11 @@ environment variables, secrets management approach
 ### Interaction Patterns
 ```
 Receives from : software-architect  — architecture-decisions, quality-requirements (handoff)
-              : backend-engineer    — implementation-notes (deployment context)
+              : backend-engineer    — task Implementation Notes (deployment context)
               : orchestrator        — activation signal
 Sends to      : orchestrator        — ready-for-review signal
 Files CR to   : software-architect  — if architecture-decisions are
                                       insufficient for provisioning
-```
-
-### Agent Memory
-```
-/agent-memory/devops-engineer/
-  ├── _state.md
-  ├── _context-cache.md       ← cached decision and constraint summaries
-  └── scratch-{feature}.md    ← provisioning reasoning, cost analysis
 ```
 
 ---
@@ -697,47 +550,9 @@ Files CR to   : software-architect  — if architecture-decisions are
 
 ---
 
-## Agent Activation Order (Large Track)
+## Activation Order
 
-```
-Intake
-  └── Orchestrator
-
-Phase 1
-  └── Business Analyst
-
-Phase 2 (sequential default)
-  ├── UX-UI Designer
-  ├── Software Architect
-  └── QA Engineer          (test-plan — can run parallel with UX/Arch)
-
-Phase 3
-  ├── QA Engineer          (test-specs + test-suites — first, using Phase 2 output)
-  ├── Software Architect   (backend task decomposition — after test-specs drafted)
-  ├── Backend Engineer     (backend task decomposition)
-  └── Frontend Engineer    (frontend task decomposition)
-
-Phase 4 (sequential default)
-  ├── Backend Engineer
-  └── Frontend Engineer
-
-Phase 5
-  └── DevOps Engineer
-```
-
-### Parallel Execution Windows
-```
-Phase 2: UX-UI Designer ‖ Software Architect ‖ QA Engineer  (user-triggered)
-Phase 3: QA Engineer → then Arch/BE/FE in parallel           (QA must go first)
-Phase 4: Backend Engineer ‖ Frontend Engineer                (user-triggered)
-```
-
-Parallel execution only when:
-1. User explicitly triggers it
-2. No blocking dependency between the two agents at that point
-3. Tasks have been clearly decomposed with explicit scope boundaries
-
-QA Engineer in Phase 3 runs **before** task decomposition so that tasks can reference existing test-specs in their `refs`. Task decomposition does not wait for test-suites — suites may be completed concurrently with early task decomposition.
+For phase-by-phase activation order and parallel execution windows, see `sdlc-workflows.md#agent-activation-order`.
 
 ---
 

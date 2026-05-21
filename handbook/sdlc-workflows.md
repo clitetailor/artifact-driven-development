@@ -1,12 +1,13 @@
 # SDLC Agent Workflow
-> Large feature, medium, and small/change-request tracks.
+> Large feature, medium, and small/change-request tracks. For the artifact dependency model that underlies these phases, see `artifact-dependency-graph.md`. For QA / TDD mechanics, see `tdd-workflow.md`.
 
 ## Overall Flow (Large Track)
 
 ```mermaid
 flowchart TD
-    INTAKE([INTAKE — Orchestrator]) --> P1
-    P1([Phase 1 — Discovery & Requirements<br/>Business Analyst]) --> G1{Gate 1}
+    PRE([Pre-INTAKE — Discovery<br/>Business Analyst<br/><i>optional, ungated</i>]) -.-> INTAKE
+    INTAKE([INTAKE — Orchestrator + BA]) --> P1
+    P1([Phase 1 — Requirements<br/>Business Analyst]) --> G1{Gate 1}
     G1 --> P2([Phase 2 — Design<br/>UX · Architect · QA])
     P2 --> G2{Gate 2}
     G2 --> P3([Phase 3 — Test Specs + Tasks<br/>QA first → Arch · BE · FE])
@@ -60,15 +61,21 @@ Track is determined by **impact depth**, not manual classification. The orchestr
 
 Full waterfall SDLC from discovery to deployment. User triggers each phase explicitly and approves at every gate.
 
+### Pre-INTAKE — Discovery *(optional, ungated)*
+**Agent**: Business Analyst — see `agent-roles.md#business-analyst-agent` for reads/writes.
+
+Discovery artifacts are **not phase-bound**. The BA may produce them at any time (proactively from user research, or on demand when INTAKE references an audience that has no persona yet). No gate, no formal trigger. INTAKE simply references whichever discovery artifacts already exist; missing personas can be created during Phase 1 or noted as advisories.
+
 ### INTAKE
-**Agent**: Orchestrator · **Reads**: features, research-notes, personas · **Writes**: features/feature-{name}.md
+**Agents**: Orchestrator (classifies) + Business Analyst (writes feature). Output: `features/feature-{name}.md`.
 
 1. User describes the feature in natural language.
 2. Orchestrator classifies as large track and scans PKM for related personas, research, and features.
 3. Orchestrator confirms understanding with the user (direct mode if intent is clear; one clarifying question if ambiguous).
+4. BA writes `features/feature-{name}.md` referencing relevant personas / research-notes.
 
-### Phase 1 — Discovery & Requirements
-**Agent**: Business Analyst · **Reads**: research-notes, personas · **Writes**: requirements/req-{name}.md
+### Phase 1 — Requirements
+**Agent**: Business Analyst. Output: `requirements/req-{name}.md`.
 
 1. Orchestrator activates BA with research + persona context.
 2. BA drafts the requirement: scope, out-of-scope, user context, success metrics.
@@ -83,22 +90,22 @@ Full waterfall SDLC from discovery to deployment. User triggers each phase expli
 **Sequencing**: sequential by default; parallel on user request.
 
 #### UX-UI Designer
-**Writes**: user-flows/, wireframes/, component-specs/
+Outputs: `user-flows/`, `wireframes/`, `component-specs/`.
 
 1. **User flows** — embedded Mermaid; happy path + error/edge paths; entry/exit points. Reads requirements + personas.
 2. **Wireframes** — one self-contained HTML file per screen, browser-previewable. Reads user flows.
 3. **Component specs** — states (default/hover/loading/error/disabled), variants, behavior, design tokens, accessibility. Reads wireframes; refs wireframe + user flow.
 
 #### Software Architect
-**Writes**: architecture-decisions/ (optional), api-contracts/, data-models/, quality-requirements/
+Outputs: `quality-requirements/`, `architecture-decisions/` (optional), `api-contracts/`, `data-models/`.
 
-1. **ADRs** — only when the technical choice is significant. Context, decision, alternatives rejected, consequences.
-2. **API contracts** — endpoints, request/response shapes, error codes. Refs relevant ADRs when they exist.
-3. **Data models** — schema, indexes, migration notes. Refs API contract.
-4. **Quality requirements** — latency targets, uptime SLAs, scalability limits, security requirements.
+1. **Quality requirements** — latency targets, uptime SLAs, scalability limits, security requirements. Drafted first because they constrain every choice that follows.
+2. **ADRs** — only when the technical choice is significant. Context, decision, alternatives rejected, consequences.
+3. **API contracts** — endpoints, request/response shapes, error codes. Refs relevant ADRs when they exist.
+4. **Data models** — schema, indexes, migration notes. Refs API contract.
 
 #### QA Engineer
-**Writes**: test-plans/tp-{name}.md
+Output: `test-plans/tp-{name}.md`.
 
 - Testing strategy, scope, test levels (unit/integration/e2e), coverage targets, entry/exit criteria, risk assessment, list of test-specs to produce in Phase 3.
 - Can run in parallel with UX and Architect.
@@ -111,7 +118,7 @@ Full waterfall SDLC from discovery to deployment. User triggers each phase expli
 **Agents**: QA Engineer (first), then Architect + Backend + Frontend
 
 #### QA Engineer (runs first)
-**Writes**: test-specs/, test-suites/
+Outputs: `test-specs/`, `test-suites/`.
 
 1. **Test specs** — one per scenario. Frontmatter `scenario: req-{slug}#scenario-{N}`. Given/When/Then cases, edge/error cases, mocking strategy, coverage target.
 2. **Test suites** — group related specs. Coverage goals (line/branch/function), shared fixtures, run commands, CI integration.
@@ -119,7 +126,7 @@ Full waterfall SDLC from discovery to deployment. User triggers each phase expli
 **Convention check (QA)**: test spec per scenario in accepted requirements · test suite groups related specs · coverage targets defined · missing test spec → advisory (does not block).
 
 #### Architect / Backend / Frontend (after test specs drafted)
-**Writes**: tasks/task-{name}-{be|fe}.md
+Output: `tasks/task-{name}-{be|fe}.md`.
 
 - Each task carries: `priority` (tier number), `depends-on: [task-id, ...]`, scope (included/excluded), criteria (testable AC), `refs: [api-{slug}, dm-{slug}, ts-{slug}, ...]`, `scenario: req-{slug}#scenario-{N}`.
 - Architect decomposes backend tasks (reads api-contracts, data-models, requirements, test-specs).
@@ -133,17 +140,10 @@ Orchestrator builds a dependency graph from `depends-on` and groups tasks into p
 **Agents**: Backend Engineer, Frontend Engineer
 **Sequencing**: sequential by default (backend → frontend); parallel on user request.
 
-For each task with test-specs in `refs`, follow the TDD cycle:
-
-1. Run referenced test-specs → all fail (red).
-2. Implement minimum code to pass → all pass (green).
-3. Refactor; verify tests still pass.
-4. Update task `status: done` and fill its **Implementation Notes** section (approach taken, deviations from spec, known gaps, safe-to-modify notes).
+For each task with test-specs in `refs`, engineers follow the **TDD cycle** (red → green → refactor → done + Implementation Notes → QA accepts spec). Full mechanics: see `tdd-workflow.md#tdd-cycle-per-task`.
 
 **Cross-cutting during Phase 4**:
-- Engineers file a CR when they find a gap in an upstream artifact.
-  - **Minor CR**: engineer proceeds; owner reviews when convenient.
-  - **Major CR**: wait for owner to apply before continuing (user can override).
+- Engineers file a CR when they find a gap in an upstream artifact (see [CR Routing Rules](#cr-routing-rules) below).
 - QA marks test-specs `accepted` as their cases pass; test-suite `accepted` when all included specs are accepted.
 
 **Convention check**: all tasks `done` or explicitly deferred · open CRs resolved or deferred · deferred CRs have advisories · test-specs still draft → advisory.
@@ -151,14 +151,14 @@ For each task with test-specs in `refs`, follow the TDD cycle:
 **Gate 4** — tasks completed + test coverage summary + open CRs + deferred items → approve / refine / reject.
 
 ### Phase 5 — Deployment
-**Agent**: DevOps Engineer · **Reads**: architecture-decisions, quality-requirements, tasks · **Writes**: infra/infra-{name}.md
+**Agent**: DevOps Engineer. Output: `infra/infra-{name}.md`.
 
 - IaC specification, CI/CD pipeline config, monitoring + alerting setup, rollout strategy (canary / direct), on-call runbook.
 - Orchestrator surfaces all deferred CRs and open advisories alongside the infra plan so the user has the full picture before final approval.
 
 **Gate 5 — Final** — infra plan + complete deferred items list → approve / refine / reject.
 
-**On approval**: `features/feature-{name}.md` → `accepted`. All phase artifacts versioned and accepted in PKM. Deferred items remain open in `change-requests/`. Session is resumable from the last accepted phase.
+**On approval**: `features/feature-{name}.md` → `accepted`. All phase artifacts versioned and accepted in PKM. Deferred items remain open in `change-requests/`.
 
 ---
 
@@ -239,25 +239,72 @@ flowchart TD
 - related artifacts may be flagged `status: needs-review`
 - `cr.refs` contains target + any resulting task ids
 - milestone updated if one exists
-- downstream agents notified via `_state.md` notes
 
 ---
 
-## Session Resume
+## Agent Activation Order
 
-When a user returns after closing a session:
+```
+Intake
+  └── Orchestrator
 
-1. User: "continue {feature name}".
-2. Orchestrator reads agent `_state.md` files + feature document. Reconstructs:
-   - last accepted phase
-   - in-progress planning artifacts (`status: draft` or `ready-for-review`)
-   - in-progress tasks (task `status: open` or `in-progress`)
-   - open CRs and advisories
-   - `waiting-on` and recent notes from agent state
-   - artifacts now `status: needs-review` (upstream changed)
-3. Orchestrator presents a resume summary and asks "Resume from Phase {N}?"
-4. User confirms or redirects to a different phase.
-5. Orchestrator reactivates the relevant agents with cached context.
+Phase 1
+  └── Business Analyst
+
+Phase 2 (sequential default)
+  ├── UX-UI Designer
+  ├── Software Architect
+  └── QA Engineer          (test-plan — can run parallel with UX/Arch)
+
+Phase 3
+  ├── QA Engineer          (test-specs + test-suites — first, using Phase 2 output)
+  ├── Software Architect   (backend task decomposition — after test-specs drafted)
+  ├── Backend Engineer     (backend task decomposition)
+  └── Frontend Engineer    (frontend task decomposition)
+
+Phase 4 (sequential default)
+  ├── Backend Engineer
+  └── Frontend Engineer
+
+Phase 5
+  └── DevOps Engineer
+```
+
+### Parallel Execution Windows
+```
+Phase 2: UX-UI Designer ‖ Software Architect ‖ QA Engineer  (user-triggered)
+Phase 3: QA Engineer → then Arch/BE/FE in parallel           (QA must go first)
+Phase 4: Backend Engineer ‖ Frontend Engineer                (user-triggered)
+```
+
+Parallel execution only when:
+1. User explicitly triggers it
+2. No blocking dependency between the two agents at that point
+3. Tasks have been clearly decomposed with explicit scope boundaries
+
+QA Engineer in Phase 3 runs **before** task decomposition so that tasks can reference existing test-specs in their `refs`. Task decomposition does not wait for test-suites — suites may be completed concurrently with early task decomposition.
+
+---
+
+## CR Routing Rules
+
+When an agent finds a gap in an upstream artifact during implementation, it files a CR (template: `../templates/change-request.md`) with:
+
+```
+target      : artifact with the gap
+also-affects: other artifacts impacted (in refs)
+triggered-by: triggering task id (in refs)
+resulted-in : (filled by orchestrator on resolution, appended to refs)
+```
+
+Routing depends on impact:
+
+| Class | Definition | Behavior |
+|---|---|---|
+| **Minor** | Additive, non-breaking | File CR and proceed optimistically. Owner has a 24h window to object; auto-applied if no response. Task `blocked-by: []`. |
+| **Major** | Breaking or cross-cutting | File CR and hard-block. Task `blocked-by: [cr-id]`. Do not proceed until owner resolves; orchestrator presents impact to user before owner applies. |
+
+User can override either default at any time.
 
 ---
 
