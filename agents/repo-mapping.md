@@ -1,15 +1,15 @@
 # Agent Repo Mapping
 > Canonical source of truth — hooked into AGENTS.md later
 
-| Agent | Slash Command | Writes code to | Reads PKM from |
-|---|---|---|---|
-| orchestrator | `/sdlc-orchestrator` | `{docs-repo}/` (status + advisories) | `{docs-repo}/` |
-| business-analyst | `/sdlc-business-analyst` | `{docs-repo}/` | `{docs-repo}/` |
-| ux-ui-designer | `/sdlc-ux-ui-designer` | `{docs-repo}/` | `{docs-repo}/` |
-| software-architect | `/sdlc-software-architect` | `{docs-repo}/` | `{docs-repo}/` |
-| backend-engineer | `/sdlc-backend-engineer` | `../{backend-repo}/` | `../{docs-repo}/` |
-| frontend-engineer | `/sdlc-frontend-engineer` | `../{frontend-repo}/` | `../{docs-repo}/` |
-| devops-engineer | `/sdlc-devops-engineer` | `../{infra-repo}/` | `../{docs-repo}/` |
+| Agent | Writes code to | Reads PKM from |
+|---|---|---|
+| orchestrator | `{docs-repo}/` (status + advisories) | `{docs-repo}/` |
+| business-analyst | `{docs-repo}/` | `{docs-repo}/` |
+| ux-ui-designer | `{docs-repo}/` | `{docs-repo}/` |
+| software-architect | `{docs-repo}/` | `{docs-repo}/` |
+| backend-engineer | `../{backend-repo}/` | `../{docs-repo}/` |
+| frontend-engineer | `../{frontend-repo}/` | `../{docs-repo}/` |
+| devops-engineer | `../{infra-repo}/` | `../{docs-repo}/` |
 
 ## Notes
 

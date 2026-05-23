@@ -25,7 +25,7 @@
 ├── agents/                 # Agent design docs + repo/skill mappings
 ├── conventions/            # Enforced conventions (prescriptive)
 ├── reference/              # AI-friendly reference: vocabulary, lifecycle, ownership, SDLC phases, dep graph
-├── handbook/               # Human-readable workflow guides + scaffold setup docs
+├── handbook/               # Human-readable workflow guides, setup prompt, playbooks, customization guide
 ├── _sources/               # Source material the framework was synthesized from; off-framework vocabulary; do not auto-load
 └── templates/              # Artifact doc templates
 ```

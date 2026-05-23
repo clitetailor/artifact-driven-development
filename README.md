@@ -11,19 +11,21 @@ The architecture is made up of four components:
 
 All components are designed to be flexible. The number of artifact types can be added or removed to fit the developer's development workflow. The SDLC can be adjusted. Skill mappings can be reconfigured. This project provides the base scaffold so anyone can start building their own PKM development workflow and evolve it over time.
 
-The setup supports multi-repo projects where the vault lives separately from the code repos as a sibling folder.
-
 ---
 
 ## Why It Works for AI-Assisted Development
 
-With more refined discovery, proposal, and design steps across defined roles — and fine-grained task breakdown — it becomes more reliable to build a batch of features in a consistent, structural, and systematic way. It brings more engineering to AI-assisted workflow.
+Without structure, coding agents improvise — filling gaps silently, absorbing inconsistent patterns, and losing context across sessions. ADD addresses this through five properties that make agent behavior more reliable and consistent.
 
-Without structure, agents improvise. With ADD:
+**Artifact types are created on-demand, preventing design doc bloat.** There is no need to create all artifact types upfront — developers can specify which artifacts to create or update, or let the coding agent decide based on the task. Because artifacts only exist when the workflow needs them, the vault stays lean — coding agents load a focused, task-relevant context rather than a growing document set that accumulates regardless of scope.
 
-- Agents receive bounded, well-defined context
-- The vault persists intent across context resets and model sessions
-- Roles and ownership reduce coordination ambiguity in multi-agent setups
+**Frontmatter refs let coding agents trace original intent and cross-validate requirements across related artifacts.** Every artifact links to its upstream, downstream, and sideways artifacts through the `refs` field. When working on a task, a coding agent follows these links to trace the chain of intent, navigate to related decisions, and cross-validate requirements before acting — without having to search the codebase.
+
+**A central design doc layer lets coding agents pre-verify requirements before creating tasks or writing code.** With all design artifacts in one place, agents can check consistency and catch conflicts early in the workflow rather than mid-implementation. This also enforces consistency throughout the codebase. It is also cost-effective — agents read the vault to understand architecture and design directly, rather than navigating the codebase to infer it.
+
+**Fine-grained tasks with detailed instructions reduce ambiguity and help coding agents comply with requirements.** Smaller, well-scoped tasks give coding agents less room to misinterpret intent. Each task also links to its related design artifacts — when gaps arise mid-implementation, the agent has direct access to richer context from upstream decisions rather than having to guess or halt. Concrete done conditions on each task also make it straightforward to verify the output against the original intent.
+
+**A separated convention layer enforces best practices on new code changes, independent of the existing codebase.** Large, legacy, or multi-contributor codebases accumulate inconsistent patterns over time — a coding agent reading existing code would absorb and propagate those patterns forward. By defining conventions in the vault, the vault becomes the authoritative source for how new code should be written, regardless of what the codebase currently looks like.
 
 ---
 
@@ -58,7 +60,10 @@ The full list of artifact types, ID prefixes, and SDLC phase groupings lives in 
 |---|---|
 | `reference/` | AI-friendly reference docs: vocabulary, lifecycle, ownership, dep graph, SDLC phases, frontmatter, vault queries, folder structure, coordination decision tree |
 | `handbook/` | Human-readable workflow guides: SDLC, TDD, role processes, coordination examples |
-| `handbook/scaffold/` | Setup, onboarding, and customization docs for replicating this scaffold |
+| `handbook/setup.md` | Prompt script — paste into AI chat to set up or use ADD in a project |
+| `handbook/playbooks/` | Step-by-step run instructions per scenario (agent + bash) |
+| `handbook/guide/` | Human guide for customizing ADD (artifacts, templates, SDLC, agent skills) |
+| `handbook/scripts/` | Bash scripts called by playbooks |
 | `templates/` | Artifact doc templates, one per artifact type |
 | `agents/` | Agent role definitions and repo/skill mappings |
 | `conventions/` | Enforced project conventions |
@@ -69,16 +74,7 @@ The full list of artifact types, ID prefixes, and SDLC phase groupings lives in 
 
 ## Getting Started
 
-The detailed setup docs live in `handbook/scaffold/`. Use this table as a map:
-
-| Step | Doc |
-|---|---|
-| Overall replication procedure | `handbook/scaffold/replication-steps.md` |
-| Customization checklist (what to rename, what to fill in) | `handbook/scaffold/customization-checklist.md` |
-| Agent-facing onboarding prompt | `handbook/scaffold/starter-prompt.md` |
-| Ongoing vault operation | `handbook/scaffold/onboarding.md` |
-| Bootstrapping the vault into an existing repo | `handbook/scaffold/bootstrap.md` |
-| Discovery questionnaire (for the first onboarding pass) | `handbook/scaffold/discovery-questionnaire.md` |
+The setup supports multi-repo projects where the vault lives separately from the code repos as a sibling folder.
 
 ### Walkthrough — fictional issue-tracker project
 
@@ -90,15 +86,13 @@ Assume you are starting a new project called `issue-tracker` with a React fronte
    ```
    This folder will hold the vault and all sibling code repos.
 
-2. **Copy this scaffold into the workspace as the docs repo.**
+2. **Copy this vault into the workspace as the docs repo.**
    ```
    cp -r /path/to/artifact-driven-development ./issue-tracker-docs
    cd issue-tracker-docs
    ```
 
-3. **Replace placeholders.** Open `AGENTS.md` and the templates under `templates/`. Replace `{docs-repo}` → `issue-tracker-docs`, `{frontend-repo}` → `issue-tracker-web`, `{backend-repo}` → `issue-tracker-api`. Walk the customization checklist (`handbook/scaffold/customization-checklist.md`) for the full list of placeholders.
-
-4. **Initialize the sibling code repos** as sibling folders:
+3. **Initialize the sibling code repos** as sibling folders:
    ```
    cd ..
    git init issue-tracker-web
@@ -107,12 +101,14 @@ Assume you are starting a new project called `issue-tracker` with a React fronte
    The workspace now looks like:
    ```
    issue-tracker/
-   ├── issue-tracker-docs/   ← this scaffold
+   ├── issue-tracker-docs/   ← this vault
    ├── issue-tracker-web/
    └── issue-tracker-api/
    ```
 
-5. **Run the starter prompt.** Open a coding agent in `issue-tracker-docs/` and point it at `handbook/scaffold/starter-prompt.md`. The agent will inspect the workspace, ask clarifying questions about the product, and generate the first wave of artifacts (personas, features, initial requirements) from the templates.
+4. **Run the setup prompt.** Open a coding agent in `issue-tracker-docs/` and reference `handbook/setup.md`. The agent will read the workspace, ask targeted questions about your product and repo layout, then run `handbook/playbooks/setup-new-repo.md` — replacing placeholders, initializing the registry, and reviewing convention docs.
+
+5. **Plan your first feature.** Tell the agent what you want to build. It will reference `handbook/setup.md` again, select `handbook/playbooks/plan-feature.md`, and walk through requirements, design artifacts, and tasks.
 
 6. **Iterate.** From here, work flows through the artifact dependency graph: features beget requirements, requirements beget design artifacts, design artifacts beget tasks. The `handbook/` workflow guides describe the day-to-day pattern.
 

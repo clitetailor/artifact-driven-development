@@ -16,7 +16,35 @@ Supporting docs:
 - [`../templates/`](../templates/) — fillable body templates for every artifact type (CR, advisory, ADR, wireframe, user-flow, task, etc.)
 - [`tdd-workflow.md`](./tdd-workflow.md) — QA-internal mechanics (red/green/refactor pairing)
 - [`coordination-examples.md`](./coordination-examples.md) — worked examples
-- [`scaffold/`](./scaffold/) — project bootstrap rules
+
+## Setup & Customization
+
+| File / Folder | Purpose |
+|---|---|
+| [`setup.md`](./setup.md) | Prompt script — paste into AI chat to set up or use ADD in a project |
+| [`playbooks/`](./playbooks/) | Step-by-step run instructions per scenario (agent + bash) |
+| [`guide/`](./guide/) | Human guide for customizing ADD (artifacts, templates, SDLC, agent skills) |
+| [`scripts/`](./scripts/) | Bash scripts called by playbooks |
+
+### Playbooks
+
+| Playbook | When to use |
+|---|---|
+| [`playbooks/setup-new-repo.md`](./playbooks/setup-new-repo.md) | First-time vault initialization |
+| [`playbooks/plan-feature.md`](./playbooks/plan-feature.md) | Plan a new feature or enhancement |
+| [`playbooks/plan-change.md`](./playbooks/plan-change.md) | File and apply a targeted change request |
+| [`playbooks/manage-repos.md`](./playbooks/manage-repos.md) | Add, remap, or remove a repo |
+| [`playbooks/cleanup-artifacts.md`](./playbooks/cleanup-artifacts.md) | Remove stale files or unused artifact type folders |
+
+### Guide
+
+| Guide | Covers |
+|---|---|
+| [`guide/artifacts.md`](./guide/artifacts.md) | Adding, removing, and naming artifact types |
+| [`guide/templates.md`](./guide/templates.md) | Creating and modifying artifact templates |
+| [`guide/sdlc-workflows.md`](./guide/sdlc-workflows.md) | Customizing tracks, phases, and gates |
+| [`guide/repos.md`](./guide/repos.md) | Repo layout model and incremental setup |
+| [`guide/agent-skills.md`](./guide/agent-skills.md) | Agent roles and skill integrations |
 
 ## Where the Specs Live
 
