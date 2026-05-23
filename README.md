@@ -120,6 +120,20 @@ The vault carries a `FRAMEWORK_VERSION` stamp. When upstream releases a new vers
 
 ---
 
+## Background
+
+ADD began as a spec-driven folder of Markdown plan files for coordinating a multi-repo project. Looking to integrate SDLC structure into that workflow, I evaluated existing tools — OpenSpec supported research and planning but lacked the flexibility I needed to model the full development lifecycle on my own terms.
+
+The PKM angle emerged by accident. While working with Claude to standardize the folder layout, one of its suggested structures mapped almost exactly onto how Capacities and Obsidian organize a personal knowledge base. That convergence is what introduced the PKM framing to the project.
+
+From there, the repo was refactored into an artifact-based layout. I was skeptical the approach would hold up in practice — but it did. The framework works for both greenfield and brownfield projects: on an existing codebase, I was able to reverse-sync the project architecture — including feature modules, API contracts, and data models — into the artifact vault and use it as the single source of truth going forward.
+
+ADD is the effort to formalize that structure so it can be versioned, shared, and evolved rather than reinvented for every project.
+
+The project draws inspiration from SpecKit and OpenSpec.
+
+---
+
 ## License
 
 MIT — see [`LICENSE`](LICENSE).
