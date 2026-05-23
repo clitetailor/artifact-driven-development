@@ -21,6 +21,18 @@ All design artifacts are stored in this repo (`{docs-repo}`) as a PKM vault.
 
 ---
 
+## File Ownership (for upgrades)
+
+When this vault is upgraded via `handbook/playbooks/upgrade-framework.md`, files fall into three classes:
+
+- **Framework-owned** (overwritten on upgrade): `handbook/`, `reference/`, `agents/`, `_sources/`, `README.md`. Do not edit these for project-specific customization — fork into a user-owned location instead.
+- **3-way merged** on upgrade: `AGENTS.md` (base cached at `.framework-cache/AGENTS.md`). Local edits survive but may produce conflict markers.
+- **User-owned** (never touched on upgrade): `_registry.md`, `templates/`, `conventions/`, and all vault artifact folders.
+
+`FRAMEWORK_VERSION` records the upstream version this vault was last synced to.
+
+---
+
 ## Where to Look
 
 - **Artifact types, prefixes, features, modules** → `_registry.md` (source of truth)

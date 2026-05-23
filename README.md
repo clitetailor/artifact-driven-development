@@ -114,6 +114,12 @@ Assume you are starting a new project called `issue-tracker` with a React fronte
 
 ---
 
+## Upgrading the Framework
+
+The vault carries a `FRAMEWORK_VERSION` stamp. When upstream releases a new version, run `handbook/playbooks/upgrade-framework.md` to sync framework-owned files (`handbook/`, `reference/`, `agents/`, `_sources/`, `README.md`) and 3-way merge `AGENTS.md`. User-owned content (`_registry.md`, `templates/`, `conventions/`, all vault folders) is never touched. The playbook accepts either a git URL pinned to a tag, or a local path to a source checkout.
+
+---
+
 ## License
 
 MIT — see [`LICENSE`](LICENSE).
