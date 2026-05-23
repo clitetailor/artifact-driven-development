@@ -4,7 +4,7 @@
 # Framework-owned (overwritten via rsync --delete):
 #   handbook/  reference/  agents/  README.md  _sources/
 #
-# 3-way merged (with .framework-cache/AGENTS.md as base):
+# 3-way merged (with .add/cache/AGENTS.md as base):
 #   AGENTS.md
 #
 # Never touched (user-owned):
@@ -122,9 +122,12 @@ for f in "${FRAMEWORK_FILES[@]}"; do
 done
 
 # 3-way merge AGENTS.md
+# Content between <!-- USER:BEGIN --> and <!-- USER:END --> is always preserved
+# from the local version — no conflict markers, but upstream's version of that
+# block is diffed and printed so the user can adopt changes manually.
 echo
 echo "Merging AGENTS.md (3-way) ..."
-BASE=".framework-cache/AGENTS.md"
+BASE=".add/cache/AGENTS.md"
 CURRENT="AGENTS.md"
 NEW="$SOURCE_DIR/AGENTS.md"
 
@@ -132,30 +135,92 @@ if [[ ! -f "$BASE" ]]; then
   echo "Warning: no merge base at $BASE."
   echo "         Falling back to overwrite. Your local AGENTS.md edits (if any) will be lost."
   if [[ $DRY_RUN -eq 0 ]]; then
-    mkdir -p .framework-cache
+    mkdir -p .add/cache
     cp "$NEW" "$CURRENT"
     cp "$NEW" "$BASE"
   fi
   AGENTS_STATUS="overwritten (no base)"
 else
   TMP_MERGED="$(mktemp)"
-  cp "$CURRENT" "$TMP_MERGED"
-  if git merge-file -p "$CURRENT" "$BASE" "$NEW" > "$TMP_MERGED.out" 2>/dev/null; then
-    AGENTS_STATUS="merged cleanly"
-  else
-    AGENTS_STATUS="MERGED WITH CONFLICTS — resolve <<<<<<< markers in AGENTS.md"
-  fi
-  if [[ $DRY_RUN -eq 0 ]]; then
-    mv "$TMP_MERGED.out" "$CURRENT"
-    # Update base to the new upstream version only if merge was clean.
-    # If conflicted, leave the old base in place so the user can re-run after editing upstream or resolving.
-    if [[ "$AGENTS_STATUS" == "merged cleanly" ]]; then
-      cp "$NEW" "$BASE"
+  TMP_USER_LOCAL="$(mktemp)"
+  TMP_USER_UPSTREAM="$(mktemp)"
+  TMP_FINAL="$(mktemp)"
+
+  # Check whether upstream still uses USER markers
+  HAS_MARKERS=0
+  grep -q '<!-- USER:BEGIN -->' "$NEW" 2>/dev/null && HAS_MARKERS=1
+
+  # Extract local and upstream user blocks (empty files if markers absent)
+  awk '/<!-- USER:BEGIN -->/{p=1; next} /<!-- USER:END -->/{p=0; next} p' \
+    "$CURRENT" > "$TMP_USER_LOCAL"
+  awk '/<!-- USER:BEGIN -->/{p=1; next} /<!-- USER:END -->/{p=0; next} p' \
+    "$NEW" > "$TMP_USER_UPSTREAM"
+
+  # Run the 3-way merge (may exit non-zero if there are conflicts)
+  git merge-file -p "$CURRENT" "$BASE" "$NEW" > "$TMP_MERGED" 2>/dev/null || true
+
+  if [[ $HAS_MARKERS -eq 1 ]]; then
+    # Re-inject the local user block, replacing whatever merge-file put there
+    awk -v userfile="$TMP_USER_LOCAL" '
+      /<!-- USER:BEGIN -->/ {
+        print "<!-- USER:BEGIN -->"
+        while ((getline line < userfile) > 0) print line
+        skip=1; next
+      }
+      /<!-- USER:END -->/ { print "<!-- USER:END -->"; skip=0; next }
+      !skip { print }
+    ' "$TMP_MERGED" > "$TMP_FINAL"
+
+    # Status depends only on conflicts outside the user block
+    if grep -q '^<<<<<<< ' "$TMP_FINAL"; then
+      AGENTS_STATUS="MERGED WITH CONFLICTS in framework sections — resolve <<<<<<< markers in AGENTS.md"
+    else
+      AGENTS_STATUS="merged cleanly (user block preserved)"
+    fi
+
+    # Report what upstream wanted in the user block
+    USER_DIFF="$(diff "$TMP_USER_LOCAL" "$TMP_USER_UPSTREAM" || true)"
+    if [[ -n "$USER_DIFF" ]]; then
+      echo "  Upstream wanted these changes in your USER block (your version kept — review manually):"
+      echo "$USER_DIFF" | sed 's/^/    /'
     fi
   else
-    rm -f "$TMP_MERGED.out"
+    # Upstream dropped the markers — fall back to plain merge result
+    cp "$TMP_MERGED" "$TMP_FINAL"
+    if grep -q '^<<<<<<< ' "$TMP_FINAL"; then
+      AGENTS_STATUS="MERGED WITH CONFLICTS — resolve <<<<<<< markers in AGENTS.md"
+    else
+      AGENTS_STATUS="merged cleanly"
+    fi
   fi
-  rm -f "$TMP_MERGED"
+
+  if [[ $DRY_RUN -eq 0 ]]; then
+    cp "$TMP_FINAL" "$CURRENT"
+    # Update base only when the merged file is conflict-free
+    if [[ "$AGENTS_STATUS" != *"CONFLICTS"* ]]; then
+      cp "$NEW" "$BASE"
+    fi
+  fi
+
+  rm -f "$TMP_MERGED" "$TMP_USER_LOCAL" "$TMP_USER_UPSTREAM" "$TMP_FINAL"
+fi
+
+# Re-apply repo name placeholders from .add/config (if present)
+echo
+PLACEHOLDER_STATUS="skipped (no .add/config)"
+if [[ -f ".add/config" ]]; then
+  echo "Re-applying repo name placeholders from .add/config ..."
+  PLACEHOLDER_SCRIPT="handbook/scripts/replace-placeholders.sh"
+  if [[ $DRY_RUN -eq 1 ]]; then
+    bash "$PLACEHOLDER_SCRIPT" --dry-run
+    PLACEHOLDER_STATUS="dry-run shown above"
+  else
+    bash "$PLACEHOLDER_SCRIPT"
+    PLACEHOLDER_STATUS="applied"
+  fi
+else
+  echo "No .add/config found — skipping placeholder replacement."
+  echo "Run handbook/scripts/replace-placeholders.sh --docs-repo=<name> ... to fill placeholders and create it."
 fi
 
 # Bump version stamp
@@ -165,8 +230,9 @@ fi
 
 echo
 echo "=== Summary ==="
-echo "Version    : $LOCAL_VERSION -> $SOURCE_VERSION"
-echo "AGENTS.md  : $AGENTS_STATUS"
+echo "Version      : $LOCAL_VERSION -> $SOURCE_VERSION"
+echo "AGENTS.md    : $AGENTS_STATUS"
+echo "Placeholders : $PLACEHOLDER_STATUS"
 if [[ $DRY_RUN -eq 1 ]]; then
   echo "(dry run — no files changed)"
 fi

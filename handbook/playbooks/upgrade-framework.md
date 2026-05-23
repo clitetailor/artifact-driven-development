@@ -7,10 +7,13 @@ Pull in upstream changes from the artifact-driven-development scaffold into this
 | Class | Paths | Upgrade behavior |
 |---|---|---|
 | Framework-owned | `handbook/`, `reference/`, `agents/`, `_sources/`, `README.md` | Overwritten (rsync `--delete` per dir; whole-file copy for files) |
-| 3-way merged | `AGENTS.md` | Merged against cached base at `.framework-cache/AGENTS.md` |
-| User-owned (never touched) | `_registry.md`, `templates/`, `conventions/`, all vault folders (`personas/`, `features/`, `requirements/`, …) | Untouched |
+| 3-way merged | `AGENTS.md` | Framework sections merged against ADD cache at `.add/cache/AGENTS.md`. Content between `<!-- USER:BEGIN -->` and `<!-- USER:END -->` is always kept from local — no conflict markers, but script prints what upstream wanted there. |
+| User-owned (never touched) | `_registry.md`, `templates/`, `conventions/`, `.add/config`, all vault folders (`personas/`, `features/`, `requirements/`, …) | Untouched |
+| ADD cache | `.add/cache/` | Written by upgrade script only — stores merge base for `AGENTS.md` |
 
 `FRAMEWORK_VERSION` records the upstream version this vault was last synced to. Rewritten on successful upgrade.
+
+`.add/config` stores the repo name values used by `replace-placeholders.sh`. Created on first placeholder run; read automatically by the upgrade script to re-apply names after syncing framework dirs.
 
 ---
 
@@ -62,19 +65,30 @@ The script will:
 2. Verify it looks like an ADD vault (`FRAMEWORK_VERSION` + `AGENTS.md` present).
 3. `rsync -a --delete` framework-owned dirs.
 4. Overwrite framework-owned files.
-5. 3-way merge `AGENTS.md` using `.framework-cache/AGENTS.md` as base.
-6. Update `.framework-cache/AGENTS.md` to the new upstream **only if the merge was clean**.
-7. Rewrite `FRAMEWORK_VERSION`.
+5. 3-way merge `AGENTS.md` using `.add/cache/AGENTS.md` as base.
+6. Update `.add/cache/AGENTS.md` to the new upstream **only if the merge was clean**.
+7. Re-apply repo name placeholders via `replace-placeholders.sh` if `.add/config` exists.
+8. Rewrite `FRAMEWORK_VERSION`.
 
 ---
 
-## Step 4 — Resolve AGENTS.md conflicts (if any)
+## Step 4 — Review AGENTS.md result
 
-**Agent:** If the script reports `MERGED WITH CONFLICTS`:
-- Open `AGENTS.md`, find `<<<<<<<` / `=======` / `>>>>>>>` markers
-- For each conflict, reconcile the user's customization with the upstream change
-- Remove all conflict markers
-- Re-run the upgrade script with the same `--source`/`--ref` to refresh the base cache (this is a no-op for framework dirs but updates `.framework-cache/AGENTS.md`)
+**Agent:** The script handles the `<!-- USER:BEGIN --> … <!-- USER:END -->` block (Project Role + Sibling Repos) without ever producing conflict markers there — it always keeps the local version and prints a diff of what upstream wanted.
+
+### 4a — Adopt upstream USER-block changes (if any were printed)
+
+If the script printed an upstream diff for the user block, review it now:
+- Lines prefixed `<` are the local version; lines prefixed `>` are what upstream suggests.
+- Edit `AGENTS.md` manually to adopt any changes you want (e.g., a new sibling-repo row the framework introduced).
+- Changes you ignore are silently kept as-is.
+
+### 4b — Resolve framework-section conflicts (if any)
+
+If the script reports `MERGED WITH CONFLICTS in framework sections`:
+- Open `AGENTS.md`, find `<<<<<<<` / `=======` / `>>>>>>>` markers (these are all outside the USER block)
+- Reconcile each conflict, then remove the markers
+- Re-run the upgrade script with the same `--source`/`--ref` to refresh the base cache
 
 ---
 
@@ -127,5 +141,8 @@ jj commit -m "Upgrade ADD framework to <new-version>
 
 - **User edited a framework-owned file** (e.g., `reference/sdlc-phases.md`): those edits are lost on upgrade. The script does not detect this. Tell the user to fork such customizations into a user-owned location (e.g., `conventions/`) before upgrading.
 - **Upstream renames a handbook path**: handled — `rsync --delete` removes stale files.
-- **First upgrade after older copies**: if `.framework-cache/AGENTS.md` is missing, the script falls back to overwriting AGENTS.md and warns. Seed the cache by copying your current AGENTS.md into `.framework-cache/` before upgrading if you want the first merge to be 3-way.
+- **First upgrade after older copies**: if `.add/cache/AGENTS.md` is missing, the script falls back to overwriting AGENTS.md and warns. Seed the ADD cache by copying your current AGENTS.md into `.add/cache/` before upgrading if you want the first merge to be 3-way.
+- **`.add/config` missing**: if no `.add/config` exists, placeholder re-application is skipped and a warning is printed. Run `replace-placeholders.sh --docs-repo=<name> ...` once to fill placeholders and create the file; subsequent upgrades will pick it up automatically.
 - **`--ref` is a branch, not a tag**: the script will accept it (`git clone --branch` works for both) but you lose reproducibility. Prefer tags.
+- **Upstream drops `<!-- USER:BEGIN/END -->` markers**: the script falls back to a plain 3-way merge for the whole file. Conflict markers may appear in the user-block area again. Re-add the markers manually after resolving.
+- **Adding content to the user block**: anything between `<!-- USER:BEGIN -->` and `<!-- USER:END -->` is fully user-owned and will never be overwritten. Keep Project Role and Sibling Repos there; do not put framework-level rules there or they will not receive upstream updates.

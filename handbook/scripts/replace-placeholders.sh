@@ -3,25 +3,33 @@
 # All repo flags are optional except --docs-repo.
 # Omit a flag (or pass "none") to skip that placeholder.
 #
+# Repo names are persisted to .add/config after a successful run so that
+# upgrade-framework.sh can re-apply them automatically after each upgrade.
+# If no flags are given, values are read from .add/config (must exist).
+#
 # Usage:
 #   replace-placeholders.sh --docs-repo=<name> [--frontend-repo=<name>]
 #                           [--backend-repo=<name>] [--infra-repo=<name>]
 #                           [--dry-run]
+#   replace-placeholders.sh  # reads from .add/config
 
 set -euo pipefail
+
+ADD_CONFIG=".add/config"
 
 DOCS_REPO=""
 FRONTEND_REPO=""
 BACKEND_REPO=""
 INFRA_REPO=""
 DRY_RUN=0
+FLAGS_GIVEN=0
 
 for arg in "$@"; do
   case "$arg" in
-    --docs-repo=*)     DOCS_REPO="${arg#--docs-repo=}" ;;
-    --frontend-repo=*) FRONTEND_REPO="${arg#--frontend-repo=}" ;;
-    --backend-repo=*)  BACKEND_REPO="${arg#--backend-repo=}" ;;
-    --infra-repo=*)    INFRA_REPO="${arg#--infra-repo=}" ;;
+    --docs-repo=*)     DOCS_REPO="${arg#--docs-repo=}";     FLAGS_GIVEN=1 ;;
+    --frontend-repo=*) FRONTEND_REPO="${arg#--frontend-repo=}"; FLAGS_GIVEN=1 ;;
+    --backend-repo=*)  BACKEND_REPO="${arg#--backend-repo=}";  FLAGS_GIVEN=1 ;;
+    --infra-repo=*)    INFRA_REPO="${arg#--infra-repo=}";   FLAGS_GIVEN=1 ;;
     --dry-run)         DRY_RUN=1 ;;
     *)
       echo "Unknown argument: $arg"
@@ -30,6 +38,25 @@ for arg in "$@"; do
       ;;
   esac
 done
+
+# If no repo flags were given, load values from .add/config
+if [[ $FLAGS_GIVEN -eq 0 ]]; then
+  if [[ ! -f "$ADD_CONFIG" ]]; then
+    echo "Error: no repo flags given and $ADD_CONFIG not found."
+    echo "Run with --docs-repo=<name> (and optional --frontend/backend/infra-repo) to create it."
+    exit 1
+  fi
+  echo "Reading repo names from $ADD_CONFIG ..."
+  while IFS='=' read -r key value; do
+    [[ "$key" =~ ^#|^[[:space:]]*$ ]] && continue
+    case "$key" in
+      docs-repo)     DOCS_REPO="$value" ;;
+      frontend-repo) FRONTEND_REPO="$value" ;;
+      backend-repo)  BACKEND_REPO="$value" ;;
+      infra-repo)    INFRA_REPO="$value" ;;
+    esac
+  done < "$ADD_CONFIG"
+fi
 
 if [[ -z "$DOCS_REPO" ]]; then
   echo "Error: --docs-repo is required."
@@ -40,6 +67,16 @@ fi
 [[ "$FRONTEND_REPO" == "none" ]] && FRONTEND_REPO=""
 [[ "$BACKEND_REPO"  == "none" ]] && BACKEND_REPO=""
 [[ "$INFRA_REPO"    == "none" ]] && INFRA_REPO=""
+
+# Persist the resolved values to .add/config (unless dry-run)
+if [[ $DRY_RUN -eq 0 ]]; then
+  {
+    echo "docs-repo=$DOCS_REPO"
+    [[ -n "$FRONTEND_REPO" ]] && echo "frontend-repo=$FRONTEND_REPO"
+    [[ -n "$BACKEND_REPO"  ]] && echo "backend-repo=$BACKEND_REPO"
+    [[ -n "$INFRA_REPO"    ]] && echo "infra-repo=$INFRA_REPO"
+  } > "$ADD_CONFIG"
+fi
 
 # Build sed expression from non-empty replacements
 SED_EXPR="-e s|{docs-repo}|$DOCS_REPO|g"

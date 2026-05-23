@@ -4,6 +4,7 @@
 
 ---
 
+<!-- USER:BEGIN -->
 ## Project Role
 
 Planning docs and implementation artifacts for a software project.
@@ -18,6 +19,7 @@ All design artifacts are stored in this repo (`{docs-repo}`) as a PKM vault.
 | `../{backend-repo}/` | Backend API |
 | `../{infra-repo}/` | Infrastructure / deployment repo |
 | `../{docs-repo}/` | Documentation vault — plans, SDLC artifacts |
+<!-- USER:END -->
 
 ---
 
@@ -26,8 +28,10 @@ All design artifacts are stored in this repo (`{docs-repo}`) as a PKM vault.
 When this vault is upgraded via `handbook/playbooks/upgrade-framework.md`, files fall into three classes:
 
 - **Framework-owned** (overwritten on upgrade): `handbook/`, `reference/`, `agents/`, `_sources/`, `README.md`. Do not edit these for project-specific customization — fork into a user-owned location instead.
-- **3-way merged** on upgrade: `AGENTS.md` (base cached at `.framework-cache/AGENTS.md`). Local edits survive but may produce conflict markers.
-- **User-owned** (never touched on upgrade): `_registry.md`, `templates/`, `conventions/`, and all vault artifact folders.
+- **3-way merged** on upgrade: `AGENTS.md` (base cached at `.add/cache/AGENTS.md`). Content between `<!-- USER:BEGIN -->` and `<!-- USER:END -->` is always preserved as-is — the script reports what upstream wanted there but never overwrites it. Framework sections outside those markers merge normally and may produce conflict markers.
+- **User-owned** (never touched on upgrade): `_registry.md`, `templates/`, `conventions/`, `.add/config`, and all vault artifact folders.
+
+`.add/config` stores repo name values (docs-repo, frontend-repo, etc.) and is read automatically by the upgrade script to re-apply placeholders in `reference/` and `agents/` after each sync.
 
 `FRAMEWORK_VERSION` records the upstream version this vault was last synced to.
 

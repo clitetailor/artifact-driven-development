@@ -4,6 +4,7 @@
 
 ---
 
+<!-- USER:BEGIN -->
 ## Project Role
 
 Planning docs and implementation artifacts for a software project.
@@ -18,6 +19,7 @@ All design artifacts are stored in this repo (`{docs-repo}`) as a PKM vault.
 | `../{backend-repo}/` | Backend API |
 | `../{infra-repo}/` | Infrastructure / deployment repo |
 | `../{docs-repo}/` | Documentation vault — plans, SDLC artifacts |
+<!-- USER:END -->
 
 ---
 
