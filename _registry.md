@@ -40,10 +40,10 @@ updated: YYYY-MM-DD
 
 ## ID Prefixes
 - research-note          : rn-
-- persona                : persona-
+- persona                : per-
 - feature                : feat-
 - requirement            : req-
-- milestone              : milestone-
+- milestone              : ms-
 - user-flow              : uf-
 - wireframe              : wf-
 - component-spec         : cs-
