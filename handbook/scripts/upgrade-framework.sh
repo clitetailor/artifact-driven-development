@@ -19,6 +19,22 @@
 
 set -euo pipefail
 
+usage() {
+  cat <<EOF
+Usage: upgrade-framework.sh --source=<git-url|path> [--ref=<tag>] [--dry-run]
+
+Options:
+  --source=<git-url|path>  Upstream source: a git URL or a local directory path
+  --ref=<tag>              Git tag to check out; required when --source is a URL
+  --dry-run                Show what would change without writing any files
+  -h, --help               Show this help message
+
+Framework-owned (overwritten):  handbook/  reference/  agents/  README.md  _sources/
+3-way merged:                   AGENTS.md
+Never touched:                  _registry.md  templates/  conventions/  vault artifact folders
+EOF
+}
+
 SOURCE=""
 REF=""
 DRY_RUN=0
@@ -28,9 +44,10 @@ for arg in "$@"; do
     --source=*) SOURCE="${arg#--source=}" ;;
     --ref=*)    REF="${arg#--ref=}" ;;
     --dry-run)  DRY_RUN=1 ;;
+    -h|--help)  usage; exit 0 ;;
     *)
       echo "Unknown argument: $arg"
-      echo "Usage: upgrade-framework.sh --source=<git-url|path> [--ref=<tag>] [--dry-run]"
+      usage
       exit 1
       ;;
   esac

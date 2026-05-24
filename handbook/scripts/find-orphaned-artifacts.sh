@@ -5,6 +5,31 @@
 
 set -euo pipefail
 
+usage() {
+  cat <<EOF
+Usage: find-orphaned-artifacts.sh [-h]
+
+Lists artifact files that no other artifact references via refs: frontmatter.
+Output includes file path, artifact ID, and current status.
+These are candidates for cleanup review — not automatically stale.
+Exits 0 in all cases; review candidates manually before removing.
+
+Options:
+  -h, --help  Show this help message
+EOF
+}
+
+for arg in "$@"; do
+  case "$arg" in
+    -h|--help) usage; exit 0 ;;
+    *)
+      echo "Unknown argument: $arg"
+      usage
+      exit 1
+      ;;
+  esac
+done
+
 ORPHANS=0
 
 while IFS= read -r file; do

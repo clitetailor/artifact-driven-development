@@ -4,6 +4,30 @@
 
 set -euo pipefail
 
+usage() {
+  cat <<EOF
+Usage: validate-refs.sh [-h]
+
+Validates that every ref ID in artifact frontmatter resolves to a real file.
+Prints "BROKEN  <file> → <ref-id>" for each unresolvable ref.
+Exits 1 if any broken refs are found, 0 otherwise.
+
+Options:
+  -h, --help  Show this help message
+EOF
+}
+
+for arg in "$@"; do
+  case "$arg" in
+    -h|--help) usage; exit 0 ;;
+    *)
+      echo "Unknown argument: $arg"
+      usage
+      exit 1
+      ;;
+  esac
+done
+
 BROKEN=0
 CHECKED=0
 

@@ -15,6 +15,23 @@
 
 set -euo pipefail
 
+usage() {
+  cat <<EOF
+Usage: replace-placeholders.sh --docs-repo=<name> [--frontend-repo=<name>]
+                                [--backend-repo=<name>] [--infra-repo=<name>]
+                                [--dry-run]
+       replace-placeholders.sh   # reads repo names from .add/config
+
+Options:
+  --docs-repo=<name>      Docs repo name (required unless .add/config exists)
+  --frontend-repo=<name>  Frontend repo name (optional; pass "none" to skip)
+  --backend-repo=<name>   Backend repo name (optional; pass "none" to skip)
+  --infra-repo=<name>     Infra repo name (optional; pass "none" to skip)
+  --dry-run               Print files that would change without modifying them
+  -h, --help              Show this help message
+EOF
+}
+
 ADD_CONFIG=".add/config"
 
 DOCS_REPO=""
@@ -31,9 +48,10 @@ for arg in "$@"; do
     --backend-repo=*)  BACKEND_REPO="${arg#--backend-repo=}";  FLAGS_GIVEN=1 ;;
     --infra-repo=*)    INFRA_REPO="${arg#--infra-repo=}";   FLAGS_GIVEN=1 ;;
     --dry-run)         DRY_RUN=1 ;;
+    -h|--help)         usage; exit 0 ;;
     *)
       echo "Unknown argument: $arg"
-      echo "Usage: replace-placeholders.sh --docs-repo=<name> [--frontend-repo=<name>] [--backend-repo=<name>] [--infra-repo=<name>] [--dry-run]"
+      usage
       exit 1
       ;;
   esac
