@@ -12,7 +12,7 @@
 | Quality | test-plan, test-spec, test-suite | How do we know it works? |
 | Implementation | task-fe, task-be | Build it |
 | Operations | infra | Run it |
-| Coordination *(overlay)* | change-request, advisory, milestone | Cross-cutting |
+| Coordination *(overlay)* | change-request, advisory, milestone, bug-report | Cross-cutting |
 
 ## Group Flow
 
@@ -66,7 +66,7 @@ Solid = produces; double = co-evolves; dashed = overlay or optional co-evolution
 | Q ↔ IMPL | test-spec → task (TDD) | failing test → fix code or spec | | test-suite gates task done | tests & tasks iterated together |
 | SD → OPS | quality-requirement → infra SLA | runtime breach → quality-requirement CR | ADR binds infra (e.g. postgres) | | |
 | IMPL → OPS | tasks done → infra deploy | prod issue → task CR | | | |
-| Coordination ⟂ all | milestone groups artifacts | CR reopens any artifact | advisory flags future constraint | | |
+| Coordination ⟂ all | milestone groups artifacts | CR reopens any artifact; bug-report spawns fix task | advisory flags future constraint | | |
 
 Q ↔ IMPL mechanics: see `../handbook/tdd-workflow.md`.
 
@@ -123,5 +123,6 @@ graph LR
 | change-request | target artifact |
 | advisory | (none) |
 | milestone | (none) |
+| bug-report | (none — filed against any artifact; optionally refs a fix task) |
 
 Cross-refs live in `refs` frontmatter. See `artifact-frontmatter.md`.

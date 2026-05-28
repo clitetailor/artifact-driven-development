@@ -7,14 +7,14 @@
 
 ## For The Agent
 
-The user has referenced this file. Ask all questions below in a single message, then dispatch based on the answers. Do not ask one question at a time.
+The user has referenced this file. Ask one question at a time using the `AskUserQuestion` tool — render each question as a UI picker with its options as selectable choices. Wait for the user's answer before proceeding to the next question. Do not ask multiple questions at once.
 
 For setup questions (Q2, Q2a/b/c, Q3): act on the option the user picks —
 - **S** — preserve existing config, move on
 - **A** — append new entries without touching existing ones
 - **U** — modify existing entries
 
-Skip any question the user has already answered in their opening message.
+Skip any question the user has already answered in their opening message. Skip conditional questions (Q2a/b/c, Q4, Q5) if their prerequisite answer makes them irrelevant.
 
 ---
 

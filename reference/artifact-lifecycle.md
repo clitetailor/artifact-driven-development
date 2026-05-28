@@ -13,8 +13,9 @@ Status is an **informational label** — not an enforced state machine. Pick the
 | `superseded` | Replaced by a newer version of the same kind (common for ADRs) |
 | `applied` | Used on change-requests — the change has been incorporated |
 | `withdrawn` | Used on change-requests — filer cancelled before action |
-| `resolved` | Used on advisories — the concern was addressed |
+| `resolved` | Used on advisories and bug-reports — the concern/defect was addressed |
 | `dismissed` | Used on advisories — explicitly decided not to act |
+| `wont-fix` | Used on bug-reports — acknowledged but will not be fixed |
 | `done` | Used on tasks — implementation complete |
 | `in-progress` | Used on tasks — actively being worked on |
 | `open` | Default starting state for change-requests, advisories, tasks |

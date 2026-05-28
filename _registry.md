@@ -37,6 +37,7 @@ updated: YYYY-MM-DD
 - change-request
 - advisory      # noted-for-future tracker
 - milestone     # optional timeline coordination
+- bug-report    # defect tracking; spawns fix task or closed directly
 
 ## ID Prefixes
 - research-note          : rn-
@@ -58,6 +59,7 @@ updated: YYYY-MM-DD
 - infra                  : infra-
 - change-request         : cr-
 - advisory               : adv-
+- bug-report             : bug-
 
 ## Features
 - {feature-slug}

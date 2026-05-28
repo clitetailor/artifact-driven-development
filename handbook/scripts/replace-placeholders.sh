@@ -96,11 +96,11 @@ if [[ $DRY_RUN -eq 0 ]]; then
   } > "$ADD_CONFIG"
 fi
 
-# Build sed expression from non-empty replacements
-SED_EXPR="-e s|{docs-repo}|$DOCS_REPO|g"
-[[ -n "$FRONTEND_REPO" ]] && SED_EXPR="$SED_EXPR -e s|{frontend-repo}|$FRONTEND_REPO|g"
-[[ -n "$BACKEND_REPO"  ]] && SED_EXPR="$SED_EXPR -e s|{backend-repo}|$BACKEND_REPO|g"
-[[ -n "$INFRA_REPO"    ]] && SED_EXPR="$SED_EXPR -e s|{infra-repo}|$INFRA_REPO|g"
+# Build sed args array from non-empty replacements
+SED_ARGS=(-e "s|{docs-repo}|$DOCS_REPO|g")
+[[ -n "$FRONTEND_REPO" ]] && SED_ARGS+=(-e "s|{frontend-repo}|$FRONTEND_REPO|g")
+[[ -n "$BACKEND_REPO"  ]] && SED_ARGS+=(-e "s|{backend-repo}|$BACKEND_REPO|g")
+[[ -n "$INFRA_REPO"    ]] && SED_ARGS+=(-e "s|{infra-repo}|$INFRA_REPO|g")
 
 # Build grep pattern for files that contain at least one active placeholder
 PATTERN="{docs-repo}"
@@ -115,7 +115,7 @@ while IFS= read -r f; do
     if [[ $DRY_RUN -eq 1 ]]; then
       echo "  would update: $f"
     else
-      eval sed -i "$SED_EXPR" "\"$f\""
+      sed -i "${SED_ARGS[@]}" "$f"
     fi
     COUNT=$((COUNT + 1))
   fi

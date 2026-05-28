@@ -22,6 +22,7 @@
 ├── infra/                  # IaC specs, CI/CD, monitoring, runbooks    (infra-)
 ├── change-requests/        # Inter-agent artifact modification requests (cr-)
 ├── advisories/             # Non-blocking orchestrator warnings         (adv-)
+├── bug-reports/            # Defect tracking artifacts                  (bug-)
 ├── agents/                 # Agent design docs + repo/skill mappings
 ├── conventions/            # Enforced conventions (prescriptive)
 ├── reference/              # AI-friendly reference: vocabulary, lifecycle, ownership, SDLC phases, dep graph

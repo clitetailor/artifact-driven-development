@@ -25,6 +25,7 @@
 | infra | devops-engineer |
 | change-request | any agent (files against upstream artifact owner) |
 | advisory | orchestrator |
+| bug-report | qa-engineer |
 
 No agent writes an artifact it does not own. Downstream agents file CRs instead.
 
