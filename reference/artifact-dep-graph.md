@@ -1,132 +1,95 @@
 # Artifact Dependency Graph
-> Groups, group flow, inter-group interactions, intra-group dependencies, creation order. Not enforced. Narrative: `../handbook/artifact-dependency-graph.md`.
+> Phases, agents, artifact dependencies, creation order. Visualized: `../handbook/sdlc-swimlane-graph.html`.
 
-## Groups
+## Phases
 
-| Group | Artifacts | Question |
-|---|---|---|
-| Discovery | research-note, persona | Who? |
-| Product Definition | feature, requirement | What? |
-| UX Design | user-flow, wireframe, component-spec | How does the user experience it? |
-| System Design | architecture-decision, quality-requirement, api-contract, data-model, tech-design | How is it structured? |
-| Quality | test-plan, test-spec, test-suite | How do we know it works? |
-| Implementation | task-fe, task-be | Build it |
-| Operations | infra | Run it |
-| Coordination *(overlay)* | change-request, advisory, milestone, bug-report | Cross-cutting |
+| Phase | Question | Agents | Artifacts |
+|---|---|---|---|
+| 1 — Requirements & Planning | What are we building and for whom? | business-analyst, product-owner, ux-designer | research-note, persona, feature, requirement |
+| 2 — Design | How does the user experience it? | ux-designer, ui-designer | user-flow, wireframe, component-spec |
+| 3 — Architecture | How is it structured? | software-architect, backend-engineer | architecture-decision, api-contract, data-model, quality-requirement |
+| 4 — Development | How is it built? | backend-engineer, frontend-engineer | tech-design, task |
+| 5 — Testing & QA | How do we know it works? | qa-engineer, ux-designer | test-plan, test-spec, test-suite, bug-report |
+| 6 — Deployment & Ops | How do we run it? | devops-engineer, incident-commander | infra |
+| WORKFLOW | Cross-cutting coordination | — | change-request, advisory, milestone |
 
-## Group Flow
+## Phase Flow
 
 ```mermaid
 graph TD
-    D[Discovery] --> PD[Product Definition]
-    PD --> UX[UX Design]
-    PD --> SD[System Design]
-    PD --> Q[Quality]
-    UX -.-> SD
-    SD -.-> UX
-    UX --> IMPL[Implementation]
-    SD --> IMPL
-    SD --> OPS[Operations]
-    Q <--> IMPL
-    IMPL --> OPS
-    COORD[Coordination]:::overlay -.-> PD
-    COORD -.-> UX
-    COORD -.-> SD
-    COORD -.-> Q
-    COORD -.-> IMPL
-    COORD -.-> OPS
-    classDef overlay fill:#fef3c7,stroke:#f59e0b,stroke-dasharray:5
+    REQ[Requirements & Planning] --> DES[Design]
+    REQ --> ARC[Architecture]
+    REQ --> TST[Testing & QA]
+    DES --> DEV[Development]
+    ARC --> DEV
+    ARC --> TST
+    ARC --> OPS[Deployment & Ops]
+    DEV --> TST
+    DEV --> OPS
+    TST -.-> DEV
+    TST --> OPS
 ```
 
-Solid = produces; double = co-evolves; dashed = overlay or optional co-evolution.
+Solid = produces; dashed = feedback/refines.
 
 ## Interaction Types
 
 | Type | Symbol | Meaning |
 |---|---|---|
 | Produces | `A → B` | A required before B |
-| Refines | `A ↩ B` | B exposes gap in A; revise via CR |
+| Refines | `A ↩ B` | B exposes gap in A; revise A |
 | Constrains | `A ⊳ B` | A bounds B's valid shape |
-| Validates | `A ⊨ B` | B asserts A correct/testable |
 | Co-evolves | `A ↔ B` | iterated together |
 
-## Inter-Group Matrix
-
-| From → To | Produces | Refines | Constrains | Validates | Co-evolves |
-|---|---|---|---|---|---|
-| Discovery → PD | research/persona → feature, requirement | gaps → new research-note | persona scopes audience | | |
-| PD → UX | requirement → user-flow | edge cases → requirement | persona scopes flow | | |
-| PD → SD | requirement → ADR, api-contract | infeasibility → CR | quality-requirement bounds SD | | |
-| PD → Q | requirement → test-plan, test-spec | untestable → rewrite | | test-spec proves testable | |
-| UX ↔ SD *(optional)* | | api shape vs UX needs | data-model limits UX surface | | component-spec ↔ api-contract (when run in parallel) |
-| UX → Q | user-flow → e2e test-spec | | | test-suite verifies flow | |
-| SD → Q | api-contract → contract test | | | test-suite verifies contract/model | |
-| UX → IMPL | component-spec → task-fe | impl reveals design gap → CR | | | |
-| SD → IMPL | api-contract → task-fe; tech-design → task-be | impl reveals contract gap → CR | ADR constrains tech choices | | |
-| Q ↔ IMPL | test-spec → task (TDD) | failing test → fix code or spec | | test-suite gates task done | tests & tasks iterated together |
-| SD → OPS | quality-requirement → infra SLA | runtime breach → quality-requirement CR | ADR binds infra (e.g. postgres) | | |
-| IMPL → OPS | tasks done → infra deploy | prod issue → task CR | | | |
-| Coordination ⟂ all | milestone groups artifacts | CR reopens any artifact; bug-report spawns fix task | advisory flags future constraint | | |
-
-Q ↔ IMPL mechanics: see `../handbook/tdd-workflow.md`.
-
-## Intra-Group Dependencies
+## Dependencies
 
 ```mermaid
 graph LR
-    subgraph Discovery
-        RN[research-note] --> P[persona]
+    subgraph REQ[Requirements & Planning]
+        RN[research-note] --> PER[persona]
+        PER --> FEAT[feature]
+        FEAT --> REQ2[requirement]
     end
-    subgraph PD[Product Definition]
-        F[feature] --> R[requirement]
+    subgraph DES[Design]
+        UF[user-flow] --> WF[wireframe]
+        WF --> CS[component-spec]
     end
-    subgraph UX[UX Design]
-        UF[user-flow] --> WF[wireframe] --> CS[component-spec]
+    subgraph ARC[Architecture]
+        ADR[architecture-decision] --> API[api-contract]
+        ADR --> DM[data-model]
+        ADR --> QR[quality-requirement]
     end
-    subgraph SD[System Design]
-        ADR[architecture-decision]
-        QR[quality-requirement]
-        API[api-contract] --> DM[data-model]
-        ADR --> TD[tech-design]
-        API --> TD
-        DM --> TD
+    subgraph DEV[Development]
+        TD[tech-design] --> TASK[task]
     end
-    subgraph Quality
-        TP[test-plan] --> TS[test-spec] --> SU[test-suite]
+    subgraph TST[Testing & QA]
+        TP[test-plan] --> TS[test-spec]
+        TS --> SUITE[test-suite]
+        TS --> BUG[bug-report]
     end
-    subgraph Implementation
-        TFE[task-fe]
-        TBE[task-be]
-    end
-    subgraph Operations
-        INF[infra]
+    subgraph OPS[Deployment & Ops]
+        INFRA[infra]
     end
 ```
-
-## Creation Order
 
 | To create… | First create… |
 |---|---|
 | persona | research-note |
-| feature | (entry point) |
+| feature | persona |
 | requirement | feature |
-| quality-requirement | requirement |
-| architecture-decision | requirement |
-| user-flow | requirement |
+| user-flow | requirement, persona |
 | wireframe | user-flow |
 | component-spec | wireframe |
-| api-contract | requirement |
-| data-model | api-contract |
-| tech-design | architecture-decision, api-contract, data-model |
-| test-plan | requirement |
-| test-spec | requirement (+ test-plan) |
+| architecture-decision | requirement |
+| api-contract | architecture-decision |
+| data-model | architecture-decision |
+| quality-requirement | requirement, architecture-decision |
+| tech-design | architecture-decision, requirement |
+| task | tech-design |
+| test-plan | quality-requirement |
+| test-spec | test-plan, api-contract, task |
 | test-suite | test-spec |
-| task-be | tech-design |
-| task-fe | component-spec, api-contract |
-| infra | tasks complete + quality-requirement |
-| change-request | target artifact |
-| advisory | (none) |
-| milestone | (none) |
-| bug-report | (none — filed against any artifact; optionally refs a fix task) |
+| infra | architecture-decision |
+| bug-report | test-spec |
 
 Cross-refs live in `refs` frontmatter. See `artifact-frontmatter.md`.
