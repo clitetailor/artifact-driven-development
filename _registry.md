@@ -7,11 +7,9 @@ updated: YYYY-MM-DD
 
 ## Artifact Types
 
-# UNDERSTAND
+# REQUIREMENTS & PLANNING
 - research-note
 - persona
-
-# DEFINE
 - feature
 - requirement
 
@@ -19,19 +17,23 @@ updated: YYYY-MM-DD
 - user-flow
 - wireframe
 - component-spec
+
+# ARCHITECTURE
 - architecture-decision
 - api-contract
 - data-model
-- tech-design
 - quality-requirement
-- test-plan
 
-# BUILD
-- test-spec
-- test-suite
+# DEVELOPMENT
+- tech-design
 - task
 
-# OPERATE
+# TESTING & QA
+- test-plan
+- test-spec
+- test-suite
+
+# DEPLOYMENT & OPS
 - infra
 
 # WORKFLOW
