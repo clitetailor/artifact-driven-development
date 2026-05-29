@@ -22,7 +22,7 @@ flowchart TD
 |---|---|---|---|
 | INTAKE | orchestrator | `feature` | — |
 | 1 — Define | business-analyst | `requirement` (with scenarios) | all scenarios have AC + priority; scope defined |
-| 2 — Design | ux-ui-designer, software-architect, qa-engineer | `user-flow`, `wireframe`, `component-spec`, `adr`, `api-contract`, `data-model`, `quality-requirement`, `test-plan` | expected upstream artifacts accepted; concerns noted as advisories |
+| 2 — Design | ux-ui-designer, software-architect, qa-engineer | `user-flow`, `wireframe`, `component-spec`, `adr`, `api-contract`, `data-model`, `tech-design`, `quality-requirement`, `test-plan` | expected upstream artifacts accepted; concerns noted as advisories |
 | 3 — Test + Tasks | qa-engineer (first), software-architect, backend-engineer, frontend-engineer | `test-spec`, `test-suite`, `task-be`, `task-fe` | test spec per scenario; task list with tiers presented |
 | 4 — Implementation | backend-engineer, frontend-engineer | task status updates, `change-request` | all tasks done or explicitly deferred; open CRs resolved or deferred |
 | 5 — Deployment | devops-engineer | `infra` | infra plan approved; all deferred items surfaced to user |
@@ -61,7 +61,7 @@ Track is determined by dep graph traversal — not manual classification. Orches
 |---|---|
 | INTAKE | `feature` |
 | Phase 1 | `requirement` (with embedded scenarios) |
-| Phase 2 | `user-flow`, `wireframe`, `component-spec`, `adr`, `api-contract`, `data-model`, `quality-requirement`, `test-plan` |
+| Phase 2 | `user-flow`, `wireframe`, `component-spec`, `adr`, `api-contract`, `data-model`, `tech-design`, `quality-requirement`, `test-plan` |
 | Phase 3 | `test-spec`, `test-suite`, `task-be`, `task-fe` |
 | Phase 4 | task status + task Implementation Notes section, `change-request`; test artifacts → `accepted` |
 | Phase 5 | `infra` |

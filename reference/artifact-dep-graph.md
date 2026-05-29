@@ -8,7 +8,7 @@
 | Discovery | research-note, persona | Who? |
 | Product Definition | feature, requirement | What? |
 | UX Design | user-flow, wireframe, component-spec | How does the user experience it? |
-| System Design | architecture-decision, quality-requirement, api-contract, data-model | How is it structured? |
+| System Design | architecture-decision, quality-requirement, api-contract, data-model, tech-design | How is it structured? |
 | Quality | test-plan, test-spec, test-suite | How do we know it works? |
 | Implementation | task-fe, task-be | Build it |
 | Operations | infra | Run it |
@@ -62,7 +62,7 @@ Solid = produces; double = co-evolves; dashed = overlay or optional co-evolution
 | UX → Q | user-flow → e2e test-spec | | | test-suite verifies flow | |
 | SD → Q | api-contract → contract test | | | test-suite verifies contract/model | |
 | UX → IMPL | component-spec → task-fe | impl reveals design gap → CR | | | |
-| SD → IMPL | api-contract → task-fe/be; data-model → task-be | impl reveals contract gap → CR | ADR constrains tech choices | | |
+| SD → IMPL | api-contract → task-fe; tech-design → task-be | impl reveals contract gap → CR | ADR constrains tech choices | | |
 | Q ↔ IMPL | test-spec → task (TDD) | failing test → fix code or spec | | test-suite gates task done | tests & tasks iterated together |
 | SD → OPS | quality-requirement → infra SLA | runtime breach → quality-requirement CR | ADR binds infra (e.g. postgres) | | |
 | IMPL → OPS | tasks done → infra deploy | prod issue → task CR | | | |
@@ -87,6 +87,9 @@ graph LR
         ADR[architecture-decision]
         QR[quality-requirement]
         API[api-contract] --> DM[data-model]
+        ADR --> TD[tech-design]
+        API --> TD
+        DM --> TD
     end
     subgraph Quality
         TP[test-plan] --> TS[test-spec] --> SU[test-suite]
@@ -114,10 +117,11 @@ graph LR
 | component-spec | wireframe |
 | api-contract | requirement |
 | data-model | api-contract |
+| tech-design | architecture-decision, api-contract, data-model |
 | test-plan | requirement |
 | test-spec | requirement (+ test-plan) |
 | test-suite | test-spec |
-| task-be | api-contract, data-model, requirement |
+| task-be | tech-design |
 | task-fe | component-spec, api-contract |
 | infra | tasks complete + quality-requirement |
 | change-request | target artifact |

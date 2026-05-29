@@ -22,6 +22,7 @@ updated: YYYY-MM-DD
 - architecture-decision
 - api-contract
 - data-model
+- tech-design
 - quality-requirement
 - test-plan
 
@@ -51,6 +52,7 @@ updated: YYYY-MM-DD
 - architecture-decision  : adr-
 - api-contract           : api-
 - data-model             : dm-
+- tech-design            : td-
 - quality-requirement    : qr-
 - test-plan              : tp-
 - test-spec              : ts-

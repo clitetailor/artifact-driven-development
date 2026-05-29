@@ -19,7 +19,7 @@
 |---|---|
 | research-note, persona, feature, requirement | business-analyst |
 | user-flow, wireframe, component-spec | ux-ui-designer |
-| architecture-decision, api-contract, data-model, quality-requirement, task (be) | software-architect |
+| architecture-decision, api-contract, data-model, tech-design, quality-requirement, task (be) | software-architect |
 | test-plan, test-spec, test-suite | qa-engineer |
 | task (fe) | frontend-engineer |
 | infra | devops-engineer |

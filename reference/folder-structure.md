@@ -16,6 +16,7 @@
 ├── quality-requirements/   # NFRs                                      (qr-)
 ├── api-contracts/          # Endpoint specs, request/response shapes   (api-)
 ├── data-models/            # Schemas, indexes, migration notes         (dm-)
+├── tech-designs/           # Technical design documents per feature    (td-)
 ├── user-flows/             # User journey diagrams (Mermaid embedded)  (uf-)
 ├── wireframes/             # ASCII wireframes per screen               (wf-)
 ├── component-specs/        # UI component specs                        (cs-)
