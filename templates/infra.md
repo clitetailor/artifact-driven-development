@@ -4,8 +4,8 @@ type: infra
 owner: devops-engineer
 status: draft
 version: 1.0
-feature: {feature-slug}
-module: {feature-slug}/{module-slug}
+charter: {charter-slug}
+prd: {charter-slug}/{prd-slug}
 refs:
   - adr-{slug}
   - qr-{slug}

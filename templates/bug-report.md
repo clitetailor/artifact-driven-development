@@ -4,8 +4,8 @@ type: bug-report
 owner: qa-engineer
 status: open
 version: 1.0
-feature: {feature-slug}
-module: {feature-slug}/{module-slug}
+charter: {charter-slug}
+prd: {charter-slug}/{prd-slug}
 severity: {critical | high | medium | low}
 created: {YYYY-MM-DD}
 resolved: ~

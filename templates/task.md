@@ -4,11 +4,11 @@ type: task
 owner: {software-architect | frontend-engineer}
 status: open
 version: 1.0
-feature: {feature-slug}
-module: {feature-slug}/{module-slug}
+charter: {charter-slug}
+prd: {charter-slug}/{prd-slug}
 track: {backend | frontend}
 priority: {tier-number}
-scenario: req-{slug}#scenario-{N}
+story: story-{slug}
 milestone: sprint-{N}
 estimated-hours: {N}
 depends-on:
@@ -17,7 +17,7 @@ refs:
   - api-{slug}
   - dm-{slug}
   - adr-{slug}
-  - req-{slug}
+  - story-{slug}
   - ts-{slug}
 ---
 
@@ -44,7 +44,7 @@ refs:
 
 - api-{slug} → `{endpoint or section}`
 - dm-{slug} → `{table or section}`
-- req-{slug} → Scenario {N}: {scenario-title}
+- story-{slug} → {story-title}
 
 ---
 

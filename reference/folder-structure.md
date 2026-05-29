@@ -2,11 +2,11 @@
 
 ```
 {docs-repo}/
-├── _registry.md            # Artifact type + feature registry (source of truth)
-├── research-notes/         # Raw discovery notes, interview summaries  (rn-)
-├── personas/               # Synthesized user archetypes               (persona-)
-├── features/               # Feature-level scope documents             (feat-)
-├── requirements/           # PRDs with embedded scenarios              (req-)
+├── _registry.md            # Artifact type + charter registry (source of truth)
+├── user-journey-maps/      # End-to-end user experience maps, grounded in research (ujm-)
+├── project-charters/       # Capability authorizations with scope + success criteria (charter-)
+├── prds/                   # Product Requirements Documents, scoped per charter area  (prd-)
+├── user-stories/           # Verifiable user-value units with Given/When/Then AC      (story-)
 ├── milestones/             # Optional timeline coordination artifacts  (milestone-)
 ├── test-plans/             # Testing strategy per feature              (tp-)
 ├── test-specs/             # Test specifications (unit/integration/e2e) (ts-)

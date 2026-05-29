@@ -5,7 +5,7 @@
 
 | Phase | Question | Agents | Artifacts |
 |---|---|---|---|
-| 1 — Requirements & Planning | What are we building and for whom? | business-analyst, product-owner, ux-designer | research-note, persona, feature, requirement |
+| 1 — Requirements & Planning | What are we building and for whom? | business-analyst, product-owner, ux-designer | user-journey-map, project-charter, prd, user-story, stakeholder-matrix |
 | 2 — Design | How does the user experience it? | ux-designer, ui-designer | user-flow, wireframe, component-spec |
 | 3 — Architecture | How is it structured? | software-architect, backend-engineer | architecture-decision, api-contract, data-model, quality-requirement |
 | 4 — Development | How is it built? | backend-engineer, frontend-engineer | tech-design, task |
@@ -46,9 +46,10 @@ Solid = produces; dashed = feedback/refines.
 ```mermaid
 graph LR
     subgraph REQ[Requirements & Planning]
-        RN[research-note] --> PER[persona]
-        PER --> FEAT[feature]
-        FEAT --> REQ2[requirement]
+        UJM[user-journey-map] --> CHARTER[project-charter]
+        CHARTER --> PRD[prd]
+        PRD --> STORY[user-story]
+        UJM -.-> SM[stakeholder-matrix]
     end
     subgraph DES[Design]
         UF[user-flow] --> WF[wireframe]
@@ -74,20 +75,21 @@ graph LR
 
 | To create… | First create… |
 |---|---|
-| persona | research-note |
-| feature | persona |
-| requirement | feature |
-| user-flow | requirement, persona |
+| project-charter | user-journey-map |
+| prd | project-charter |
+| user-story | prd |
+| stakeholder-matrix | project-charter |
+| user-flow | prd, user-journey-map |
 | wireframe | user-flow |
 | component-spec | wireframe |
-| architecture-decision | requirement |
+| architecture-decision | prd |
 | api-contract | architecture-decision |
 | data-model | architecture-decision |
-| quality-requirement | requirement, architecture-decision |
-| tech-design | architecture-decision, requirement |
+| quality-requirement | prd, architecture-decision |
+| tech-design | architecture-decision, prd |
 | task | tech-design |
 | test-plan | quality-requirement |
-| test-spec | test-plan, api-contract, task |
+| test-spec | test-plan, api-contract, user-story |
 | test-suite | test-spec |
 | infra | architecture-decision |
 | bug-report | test-spec |

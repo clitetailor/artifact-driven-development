@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDLC Artifact Dependency Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#070910;
+  --surface:#0d0f18;
+  --surface2:#12141f;
+  --border:#1c1f2e;
+  --border2:#252840;
+  --text:#e2e6f3;
+  --dim:#7a82a8;
+  --muted:#3d4260;
+
+  --c0:#4e79ff; /* requirements */
+  --c1:#a855f7; /* design       */
+  --c2:#10b981; /* architecture */
+  --c3:#f59e0b; /* development  */
+  --c4:#ef4477; /* testing      */
+  --c5:#0ea5e9; /* deployment   */
+}
+
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sans-serif}
+
+/* ── CHROME ─────────────────────────────────────────── */
+#chrome{
+  position:fixed;inset:0;z-index:50;
+  display:flex;flex-direction:column;
+  pointer-events:none;
+}
+
+#topbar{
+  pointer-events:all;
+  display:flex;align-items:center;gap:0;
+  height:52px;
+  background:rgba(7,9,16,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:0 20px;
+  gap:16px;
+  flex-shrink:0;
+}
+
+.tb-title{
+  font-size:14px;font-weight:700;letter-spacing:0.02em;
+  white-space:nowrap;
+}
+.tb-title em{font-style:normal;color:var(--c0);}
+.tb-sep{width:1px;height:20px;background:var(--border2);flex-shrink:0;}
+
+.tb-legend{display:flex;gap:4px;flex-wrap:wrap;flex:1;}
+.leg{
+  display:flex;align-items:center;gap:5px;
+  padding:4px 10px;border-radius:20px;
+  font-size:11px;font-weight:500;
+  border:1px solid transparent;
+  cursor:pointer;pointer-events:all;
+  transition:all .15s;
+  white-space:nowrap;
+  color:var(--dim);
+}
+.leg:hover,.leg.on{color:var(--text);}
+.leg.on{border-color:var(--border2);background:var(--surface2);}
+.leg-pip{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+
+.tb-controls{display:flex;gap:4px;margin-left:auto;flex-shrink:0;}
+.ctrl{
+  width:28px;height:28px;
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:5px;color:var(--dim);font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;pointer-events:all;transition:all .15s;
+}
+.ctrl:hover{color:var(--text);border-color:var(--dim);}
+
+/* ── CANVAS WRAP ─────────────────────────────────────── */
+#outer{
+  position:fixed;inset:52px 0 0 0;
+  overflow:auto;
+  cursor:grab;
+}
+#outer.dragging{cursor:grabbing;}
+
+#canvas{
+  position:relative;
+  /* sized by JS */
+  transform-origin:0 0;
+}
+
+/* ── SVG ARROWS ──────────────────────────────────────── */
+#svg-layer{
+  position:absolute;inset:0;
+  pointer-events:none;
+  overflow:visible;
+}
+
+/* ── PHASE SWIMLANES ─────────────────────────────────── */
+.phase-lane{
+  position:absolute;
+  left:0;right:0;
+}
+.lane-bg{
+  position:absolute;inset:0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.lane-label{
+  position:sticky;left:0;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:0 14px;
+  height:100%;
+  z-index:5;
+  pointer-events:none;
+}
+.lane-label-inner{
+  display:flex;flex-direction:column;
+  gap:2px;
+  background:var(--bg);
+  border-right:1px solid var(--border2);
+  padding:12px 14px 12px 0;
+  height:100%;
+  justify-content:center;
+  min-width:130px;
+}
+.lane-num{
+  font-family:'Fira Code',monospace;
+  font-size:10px;color:var(--muted);letter-spacing:.1em;
+}
+.lane-name{
+  font-size:12px;font-weight:700;
+  writing-mode:horizontal-tb;
+}
+
+/* ── ARTIFACT CARDS ──────────────────────────────────── */
+.acard{
+  position:absolute;
+  width:148px;
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:10px;
+  padding:10px 12px;
+  cursor:pointer;
+  transition:border-color .2s, box-shadow .2s, transform .15s;
+  z-index:10;
+  user-select:none;
+}
+.acard:hover{
+  transform:translateY(-2px);
+  z-index:20;
+}
+.acard.selected{
+  z-index:30;
+  transform:translateY(-2px);
+}
+.acard.dimmed{
+  opacity:.18;
+  transform:none;
+}
+.acard.highlighted{
+  z-index:25;
+}
+
+.acard-top{display:flex;align-items:center;gap:7px;margin-bottom:6px;}
+.acard-icon{font-size:16px;line-height:1;flex-shrink:0;}
+.acard-owner{
+  font-family:'Fira Code',monospace;
+  font-size:8.5px;color:var(--dim);
+  line-height:1.3;
+}
+.acard-name{
+  font-size:11px;font-weight:700;
+  line-height:1.3;
+  color:var(--text);
+}
+.acard-bar{
+  height:2px;border-radius:1px;margin-top:8px;opacity:.5;
+}
+
+/* ── DETAIL PANEL ────────────────────────────────────── */
+#detail{
+  position:fixed;right:0;top:52px;bottom:0;
+  width:280px;
+  background:rgba(10,12,22,0.96);
+  backdrop-filter:blur(16px);
+  border-left:1px solid var(--border2);
+  display:flex;flex-direction:column;
+  z-index:60;
+  transform:translateX(100%);
+  transition:transform .25s cubic-bezier(.4,0,.2,1);
+  pointer-events:all;
+}
+#detail.open{transform:translateX(0);}
+
+.det-header{
+  padding:18px 18px 14px;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.det-close{
+  float:right;
+  width:22px;height:22px;
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:4px;color:var(--dim);font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .15s;margin-top:2px;
+}
+.det-close:hover{color:var(--text);}
+.det-eyebrow{
+  font-family:'Fira Code',monospace;font-size:9px;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:5px;
+}
+.det-title{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:3px;}
+.det-phase{font-size:10px;font-weight:600;font-family:'Fira Code',monospace;}
+
+.det-body{flex:1;overflow-y:auto;padding:16px 18px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+
+.det-section{margin-bottom:18px;}
+.det-section-title{
+  font-family:'Fira Code',monospace;font-size:9px;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:8px;
+  display:flex;align-items:center;gap:6px;
+}
+.det-section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+
+.dep-row{
+  display:flex;align-items:center;gap:7px;
+  padding:6px 9px;margin-bottom:4px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;cursor:pointer;
+  transition:all .12s;
+}
+.dep-row:hover{border-color:var(--border2);transform:translateX(2px);}
+.dep-pip{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.dep-name{font-size:11px;font-weight:600;flex:1;line-height:1.3;}
+.dep-arr{font-size:10px;color:var(--muted);}
+
+.empty-note{font-size:11px;color:var(--muted);font-style:italic;}
+
+.det-footer{
+  padding:12px 18px;border-top:1px solid var(--border);
+  font-family:'Fira Code',monospace;font-size:9px;color:var(--muted);
+  line-height:1.7;flex-shrink:0;
+}
+</style>
+</head>
+<body>
+
+<!-- CHROME -->
+<div id="chrome">
+  <div id="topbar">
+    <div class="tb-title">SDLC <em>Artifact</em> Dependency Map</div>
+    <div class="tb-sep"></div>
+    <div class="tb-legend" id="legend"></div>
+    <div class="tb-controls">
+      <div class="ctrl" id="zoomIn">+</div>
+      <div class="ctrl" id="zoomOut">−</div>
+      <div class="ctrl" id="resetBtn">⊙</div>
+    </div>
+  </div>
+</div>
+
+<!-- CANVAS -->
+<div id="outer">
+  <div id="canvas">
+    <svg id="svg-layer" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+</div>
+
+<!-- DETAIL PANEL -->
+<div id="detail">
+  <div class="det-header">
+    <div class="det-close" id="detClose">✕</div>
+    <div class="det-eyebrow">Artifact</div>
+    <div class="det-title" id="detTitle">—</div>
+    <div class="det-phase" id="detPhase"></div>
+  </div>
+  <div class="det-body" id="detBody"></div>
+  <div class="det-footer">
+    ↑ Upstream feeds into this artifact<br>
+    ↓ Downstream receives from this artifact
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════════
+
+const PHASES = [
+  { id:'req', label:'Requirements & Planning', color:'#4e79ff', num:'01' },
+  { id:'des', label:'Design',                  color:'#a855f7', num:'02' },
+  { id:'arc', label:'Architecture',            color:'#10b981', num:'03' },
+  { id:'dev', label:'Development',             color:'#f59e0b', num:'04' },
+  { id:'tst', label:'Testing & QA',            color:'#ef4477', num:'05' },
+  { id:'ops', label:'Deployment & Ops',        color:'#0ea5e9', num:'06' },
+];
+
+const phaseMap = {};
+PHASES.forEach(p => phaseMap[p.id] = p);
+
+// Cards: id, phase, icon, name, owner, col (0-based column within lane)
+const CARDS = [
+  // Requirements
+  { id:'charter',    phase:'req', icon:'📋', name:'Project Charter',       owner:'BA / PM',          col:0 },
+  { id:'prd',        phase:'req', icon:'📰', name:'PRD',                    owner:'BA / PO',           col:1 },
+  { id:'stories',    phase:'req', icon:'👤', name:'User Stories',           owner:'BA / PO',           col:2 },
+  { id:'journey',    phase:'req', icon:'🗺️', name:'User Journey Map',       owner:'UX / BA',           col:3 },
+  { id:'stake',      phase:'req', icon:'📊', name:'Stakeholder Matrix',     owner:'BA / PM',           col:4 },
+
+  // Design
+  { id:'wireframes', phase:'des', icon:'🎨', name:'Wireframes',             owner:'UX/UI Designer',    col:0 },
+  { id:'userflow',   phase:'des', icon:'🔀', name:'User Flow Diagrams',     owner:'UX Designer',       col:1 },
+  { id:'hifi',       phase:'des', icon:'🖥️', name:'Hi-Fi Mockups',          owner:'UX/UI Designer',    col:2 },
+  { id:'ispec',      phase:'des', icon:'📐', name:'Interaction Spec',       owner:'UX/UI Designer',    col:3 },
+
+  // Architecture
+  { id:'sysarch',    phase:'arc', icon:'📦', name:'System Architecture',    owner:'Architect',         col:0 },
+  { id:'adr',        phase:'arc', icon:'🏛️', name:'ADRs',                   owner:'Architect',         col:1 },
+  { id:'apispec',    phase:'arc', icon:'🔌', name:'API Contract',           owner:'Architect / BE',    col:2 },
+  { id:'datamodel',  phase:'arc', icon:'🗄️', name:'Data Model / ERD',       owner:'Architect / BE',    col:3 },
+  { id:'secarch',    phase:'arc', icon:'🔒', name:'Security Architecture',  owner:'Architect / DevOps',col:4 },
+
+  // Development
+  { id:'tdd',        phase:'dev', icon:'📝', name:'Tech Design Doc',        owner:'BE / FE Engineer',  col:0 },
+  { id:'src',        phase:'dev', icon:'📚', name:'Source Code & Docs',     owner:'All Engineers',     col:1 },
+  { id:'pr',         phase:'dev', icon:'🔄', name:'PR Template',            owner:'All Engineers',     col:2 },
+  { id:'changelog',  phase:'dev', icon:'📋', name:'Changelog',              owner:'BE / FE Engineer',  col:3 },
+
+  // Testing
+  { id:'testplan',   phase:'tst', icon:'🧪', name:'Test Plan',              owner:'QA / Engineers',    col:0 },
+  { id:'testcases',  phase:'tst', icon:'✅', name:'Test Cases',             owner:'QA Engineer',       col:1 },
+  { id:'bugreport',  phase:'tst', icon:'🐛', name:'Bug Report',             owner:'QA / Contributors', col:2 },
+  { id:'a11y',       phase:'tst', icon:'♿', name:'Accessibility Audit',    owner:'QA / UX Designer',  col:3 },
+
+  // Deployment
+  { id:'iac',        phase:'ops', icon:'⚙️', name:'Infra as Code',          owner:'DevOps',            col:0 },
+  { id:'deployplan', phase:'ops', icon:'🚀', name:'Deployment Plan',        owner:'DevOps',            col:1 },
+  { id:'observ',     phase:'ops', icon:'📈', name:'Observability Plan',     owner:'DevOps / BE',       col:2 },
+  { id:'runbook',    phase:'ops', icon:'📖', name:'Runbook',                owner:'DevOps',            col:3 },
+  { id:'postmortem', phase:'ops', icon:'📜', name:'Post-Mortem',            owner:'Incident Cmd',      col:4 },
+];
+
+// Directed edges: source feeds INTO target
+const EDGES = [
+  // Charter → many
+  ['charter','prd'],['charter','stake'],['charter','sysarch'],
+  // PRD → many
+  ['prd','stories'],['prd','journey'],['prd','wireframes'],['prd','testplan'],['prd','sysarch'],
+  // Stories
+  ['stories','wireframes'],['stories','userflow'],['stories','testcases'],['stories','tdd'],
+  // Journey
+  ['journey','userflow'],['journey','wireframes'],
+  // Design chain
+  ['wireframes','userflow'],['wireframes','hifi'],
+  ['userflow','hifi'],
+  ['hifi','ispec'],['hifi','src'],
+  ['ispec','src'],
+  // Architecture
+  ['sysarch','adr'],['sysarch','apispec'],['sysarch','datamodel'],['sysarch','secarch'],['sysarch','iac'],
+  ['adr','tdd'],
+  ['apispec','tdd'],['apispec','testcases'],
+  ['datamodel','tdd'],['datamodel','src'],
+  ['secarch','tdd'],['secarch','deployplan'],['secarch','iac'],
+  // Development
+  ['tdd','src'],['tdd','pr'],
+  ['src','changelog'],['src','testcases'],
+  ['pr','src'],
+  // Testing
+  ['testplan','testcases'],
+  ['testcases','bugreport'],['testcases','a11y'],['testcases','deployplan'],
+  ['bugreport','src'],
+  ['a11y','src'],
+  // Ops
+  ['iac','deployplan'],['iac','observ'],
+  ['changelog','deployplan'],
+  ['deployplan','runbook'],
+  ['observ','runbook'],
+  ['runbook','postmortem'],
+];
+
+const cardMap = {};
+CARDS.forEach(c => cardMap[c.id] = c);
+
+// upstream / downstream index
+CARDS.forEach(c => { c.upstream=[]; c.downstream=[]; });
+EDGES.forEach(([s,t]) => {
+  cardMap[s].downstream.push(t);
+  cardMap[t].upstream.push(s);
+});
+
+// ═══════════════════════════════════════════════════════════════
+// LAYOUT CONSTANTS
+// ═══════════════════════════════════════════════════════════════
+
+const CARD_W   = 148;
+const CARD_H   = 86;
+const COL_GAP  = 24;   // gap between columns
+const LANE_PAD_TOP    = 28;
+const LANE_PAD_BOTTOM = 28;
+const LANE_H   = CARD_H + LANE_PAD_TOP + LANE_PAD_BOTTOM;
+const LANE_LABEL_W = 144;
+const LEFT_PAD = LANE_LABEL_W + 24;
+const RIGHT_PAD = 80;
+
+// Maximum columns across all phases
+const maxCol = Math.max(...CARDS.map(c => c.col));
+const TOTAL_COLS = maxCol + 1;
+const CANVAS_W = LEFT_PAD + TOTAL_COLS * (CARD_W + COL_GAP) + RIGHT_PAD;
+const CANVAS_H = PHASES.length * LANE_H;
+
+// Compute absolute card center positions
+function cardCenter(card) {
+  const phaseIdx = PHASES.findIndex(p => p.id === card.phase);
+  const x = LEFT_PAD + card.col * (CARD_W + COL_GAP) + CARD_W / 2;
+  const y = phaseIdx * LANE_H + LANE_PAD_TOP + CARD_H / 2;
+  return { x, y };
+}
+
+function cardRect(card) {
+  const { x, y } = cardCenter(card);
+  return { x: x - CARD_W/2, y: y - CARD_H/2, w: CARD_W, h: CARD_H };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// BUILD DOM
+// ═══════════════════════════════════════════════════════════════
+
+const canvas = document.getElementById('canvas');
+const svgEl  = document.getElementById('svg-layer');
+
+canvas.style.width  = CANVAS_W + 'px';
+canvas.style.height = CANVAS_H + 'px';
+svgEl.setAttribute('width',  CANVAS_W);
+svgEl.setAttribute('height', CANVAS_H);
+
+// Defs: arrowhead markers
+const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
+PHASES.forEach(ph => {
+  const marker = document.createElementNS('http://www.w3.org/2000/svg','marker');
+  marker.setAttribute('id', 'arr-'+ph.id);
+  marker.setAttribute('viewBox','0 -4 8 8');
+  marker.setAttribute('refX','7');
+  marker.setAttribute('refY','0');
+  marker.setAttribute('markerWidth','5');
+  marker.setAttribute('markerHeight','5');
+  marker.setAttribute('orient','auto');
+  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d','M0,-4L8,0L0,4');
+  path.setAttribute('fill', ph.color);
+  path.setAttribute('opacity','0.7');
+  marker.appendChild(path);
+  defs.appendChild(marker);
+});
+svgEl.appendChild(defs);
+
+// Phase swimlanes
+PHASES.forEach((ph, i) => {
+  const lane = document.createElement('div');
+  lane.className = 'phase-lane';
+  lane.id = 'lane-'+ph.id;
+  lane.style.top    = (i * LANE_H) + 'px';
+  lane.style.height = LANE_H + 'px';
+
+  const bg = document.createElement('div');
+  bg.className = 'lane-bg';
+  bg.style.background = i % 2 === 0 ? 'rgba(255,255,255,0.012)' : 'rgba(255,255,255,0.004)';
+  lane.appendChild(bg);
+
+  // Sticky label
+  const lbl = document.createElement('div');
+  lbl.className = 'lane-label';
+  lbl.style.width = LANE_LABEL_W + 'px';
+
+  const inner = document.createElement('div');
+  inner.className = 'lane-label-inner';
+  inner.innerHTML = `
+    <div class="lane-num" style="color:${ph.color}">${ph.num}</div>
+    <div class="lane-name" style="color:${ph.color}">${ph.label}</div>
+  `;
+  lbl.appendChild(inner);
+  lane.appendChild(lbl);
+  canvas.appendChild(lane);
+});
+
+// Artifact cards
+const cardEls = {};
+CARDS.forEach(card => {
+  const ph  = phaseMap[card.phase];
+  const rect = cardRect(card);
+
+  const el = document.createElement('div');
+  el.className = 'acard';
+  el.id = 'card-'+card.id;
+  el.style.left   = rect.x + 'px';
+  el.style.top    = rect.y + 'px';
+  el.style.width  = CARD_W + 'px';
+  el.style.borderColor = ph.color + '44';
+  el.style.boxShadow   = `0 0 0 0 ${ph.color}00`;
+
+  el.innerHTML = `
+    <div class="acard-top">
+      <span class="acard-icon">${card.icon}</span>
+      <span class="acard-owner">${card.owner}</span>
+    </div>
+    <div class="acard-name">${card.name}</div>
+    <div class="acard-bar" style="background:${ph.color}"></div>
+  `;
+
+  el.addEventListener('click', e => { e.stopPropagation(); selectCard(card.id); });
+  canvas.appendChild(el);
+  cardEls[card.id] = el;
+});
+
+// ═══════════════════════════════════════════════════════════════
+// DRAW EDGES
+// ═══════════════════════════════════════════════════════════════
+
+const edgeGroup = document.createElementNS('http://www.w3.org/2000/svg','g');
+edgeGroup.setAttribute('id','edges');
+svgEl.appendChild(edgeGroup);
+
+const edgeEls = {}; // key: "src->tgt"
+
+EDGES.forEach(([sid, tid]) => {
+  const sc = cardMap[sid];
+  const tc = cardMap[tid];
+  const sp = phaseMap[sc.phase];
+  const tp = phaseMap[tc.phase];
+
+  const s = cardCenter(sc);
+  const t = cardCenter(tc);
+
+  // Port selection: exit right or bottom, enter left or top
+  const samePhase = sc.phase === tc.phase;
+  const goingRight = t.x > s.x;
+  const goingDown  = PHASES.findIndex(p=>p.id===tc.phase) > PHASES.findIndex(p=>p.id===sc.phase);
+
+  let x1,y1,x2,y2,cx1,cy1,cx2,cy2;
+
+  if (samePhase) {
+    // horizontal bezier within lane
+    x1 = s.x + CARD_W/2; y1 = s.y;
+    x2 = t.x - CARD_W/2; y2 = t.y;
+    const dx = Math.abs(x2 - x1);
+    cx1 = x1 + dx * 0.5; cy1 = y1;
+    cx2 = x2 - dx * 0.5; cy2 = y2;
+  } else if (goingDown) {
+    // exit bottom of source card, enter top of target card
+    x1 = s.x; y1 = s.y + CARD_H/2;
+    x2 = t.x; y2 = t.y - CARD_H/2;
+    const dy = Math.abs(y2 - y1);
+    const dx = t.x - s.x;
+    cx1 = x1 + dx * 0.3; cy1 = y1 + dy * 0.5;
+    cx2 = x2 - dx * 0.3; cy2 = y2 - dy * 0.5;
+  } else {
+    // cross-phase upward (e.g. bug → src)
+    x1 = s.x + (goingRight ? CARD_W/2 : -CARD_W/2); y1 = s.y;
+    x2 = t.x + (goingRight ? -CARD_W/2 : CARD_W/2); y2 = t.y;
+    const dx = Math.abs(x2 - x1) * 0.6;
+    cx1 = x1 + (goingRight ? dx : -dx); cy1 = y1;
+    cx2 = x2 + (goingRight ? -dx : dx); cy2 = y2;
+  }
+
+  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d', `M${x1},${y1} C${cx1},${cy1} ${cx2},${cy2} ${x2},${y2}`);
+  path.setAttribute('stroke', sp.color);
+  path.setAttribute('stroke-width', '1.5');
+  path.setAttribute('stroke-opacity', '0.3');
+  path.setAttribute('fill', 'none');
+  path.setAttribute('marker-end', `url(#arr-${sc.phase})`);
+  path.setAttribute('data-src', sid);
+  path.setAttribute('data-tgt', tid);
+  edgeGroup.appendChild(path);
+  edgeEls[`${sid}->${tid}`] = path;
+});
+
+// ═══════════════════════════════════════════════════════════════
+// SELECTION
+// ═══════════════════════════════════════════════════════════════
+
+let selectedId = null;
+
+function selectCard(id) {
+  if (selectedId === id) { clearSelection(); return; }
+  selectedId = id;
+  const card = cardMap[id];
+  const ph   = phaseMap[card.phase];
+  const upSet   = new Set(card.upstream);
+  const downSet = new Set(card.downstream);
+  const relSet  = new Set([id, ...card.upstream, ...card.downstream]);
+
+  // Style cards
+  CARDS.forEach(c => {
+    const el = cardEls[c.id];
+    const cph = phaseMap[c.phase];
+    el.classList.remove('selected','dimmed','highlighted');
+    if (c.id === id) {
+      el.classList.add('selected');
+      el.style.borderColor = cph.color + 'cc';
+      el.style.boxShadow   = `0 0 16px ${cph.color}44, 0 0 0 2px ${cph.color}66`;
+    } else if (relSet.has(c.id)) {
+      el.classList.add('highlighted');
+      el.style.borderColor = cph.color + '99';
+      el.style.boxShadow   = `0 0 8px ${cph.color}22`;
+    } else {
+      el.classList.add('dimmed');
+      el.style.borderColor = cph.color + '22';
+      el.style.boxShadow   = 'none';
+    }
+  });
+
+  // Style edges
+  Object.entries(edgeEls).forEach(([key, path]) => {
+    const [s,t] = key.split('->');
+    const isRel = s === id || t === id;
+    path.setAttribute('stroke-opacity', isRel ? '0.9' : '0.04');
+    path.setAttribute('stroke-width',   isRel ? '2.2' : '1');
+  });
+
+  // Panel
+  openPanel(card);
+}
+
+function clearSelection() {
+  selectedId = null;
+  CARDS.forEach(c => {
+    const el = cardEls[c.id];
+    const cph = phaseMap[c.phase];
+    el.classList.remove('selected','dimmed','highlighted');
+    el.style.borderColor = cph.color + '44';
+    el.style.boxShadow   = 'none';
+  });
+  Object.values(edgeEls).forEach(path => {
+    path.setAttribute('stroke-opacity','0.3');
+    path.setAttribute('stroke-width','1.5');
+  });
+  closePanel();
+}
+
+document.getElementById('outer').addEventListener('click', () => clearSelection());
+
+// ═══════════════════════════════════════════════════════════════
+// DETAIL PANEL
+// ═══════════════════════════════════════════════════════════════
+
+const detPanel = document.getElementById('detail');
+const detTitle = document.getElementById('detTitle');
+const detPhase = document.getElementById('detPhase');
+const detBody  = document.getElementById('detBody');
+document.getElementById('detClose').addEventListener('click', clearSelection);
+
+function openPanel(card) {
+  const ph = phaseMap[card.phase];
+  detTitle.textContent = card.name;
+  detPhase.textContent = ph.label;
+  detPhase.style.color = ph.color;
+
+  const upNodes   = card.upstream.map(id => cardMap[id]);
+  const downNodes = card.downstream.map(id => cardMap[id]);
+
+  const chipHTML = (nodes, arrow) => nodes.length === 0
+    ? '<div class="empty-note">None</div>'
+    : nodes.map(n => {
+        const nph = phaseMap[n.phase];
+        return `<div class="dep-row" onclick="selectCard('${n.id}')">
+          <div class="dep-pip" style="background:${nph.color}"></div>
+          <div class="dep-name">${n.icon} ${n.name}</div>
+          <div class="dep-arr">${arrow}</div>
+        </div>`;
+      }).join('');
+
+  detBody.innerHTML = `
+    <div class="det-section">
+      <div class="det-section-title">Upstream (${upNodes.length})</div>
+      ${chipHTML(upNodes,'→')}
+    </div>
+    <div class="det-section">
+      <div class="det-section-title">Downstream (${downNodes.length})</div>
+      ${chipHTML(downNodes,'→')}
+    </div>`;
+
+  detPanel.classList.add('open');
+}
+
+function closePanel() {
+  detPanel.classList.remove('open');
+}
+
+window.selectCard = selectCard;
+
+// ═══════════════════════════════════════════════════════════════
+// LEGEND
+// ═══════════════════════════════════════════════════════════════
+
+const legendEl = document.getElementById('legend');
+PHASES.forEach(ph => {
+  const el = document.createElement('div');
+  el.className = 'leg';
+  el.innerHTML = `<div class="leg-pip" style="background:${ph.color}"></div>${ph.label}`;
+  el.addEventListener('click', () => {
+    const on = el.classList.toggle('on');
+    CARDS.forEach(c => {
+      const cel = cardEls[c.id];
+      if (on) {
+        if (c.phase === ph.id) {
+          cel.style.opacity = '1';
+        } else {
+          cel.style.opacity = '0.1';
+        }
+      } else {
+        cel.style.opacity = '1';
+      }
+    });
+    Object.entries(edgeEls).forEach(([key, path]) => {
+      const [s] = key.split('->');
+      const sp = cardMap[s].phase;
+      if (on) {
+        path.setAttribute('stroke-opacity', sp === ph.id ? '0.7' : '0.03');
+      } else {
+        path.setAttribute('stroke-opacity', '0.3');
+      }
+    });
+  });
+  legendEl.appendChild(el);
+});
+
+// ═══════════════════════════════════════════════════════════════
+// PAN + ZOOM
+// ═══════════════════════════════════════════════════════════════
+
+const outer  = document.getElementById('outer');
+let scale = 1;
+let panX = 0, panY = 0;
+let isPanning = false, startX, startY, startScrollX, startScrollY;
+
+function applyZoom(newScale, pivotX, pivotY) {
+  const clamp = v => Math.max(0.3, Math.min(2, v));
+  const ns = clamp(newScale);
+  // Adjust scroll to keep pivot fixed
+  const ratio = ns / scale;
+  const rect = outer.getBoundingClientRect();
+  const ox = (pivotX - rect.left + outer.scrollLeft);
+  const oy = (pivotY - rect.top  + outer.scrollTop);
+  scale = ns;
+  canvas.style.transform = `scale(${scale})`;
+  canvas.style.transformOrigin = '0 0';
+  // Re-size outer scrollable area
+  canvas.style.width  = CANVAS_W + 'px';
+  canvas.style.height = CANVAS_H + 'px';
+  outer.scrollLeft = ox * ratio - (pivotX - rect.left);
+  outer.scrollTop  = oy * ratio - (pivotY - rect.top);
+  // Update SVG arrow marker sizes inversely
+  updateArrowScale();
+}
+
+function updateArrowScale() {
+  // markers scale with canvas; nothing to do since SVG is inside canvas
+}
+
+// Wheel zoom
+outer.addEventListener('wheel', e => {
+  if (!e.ctrlKey && !e.metaKey) return;
+  e.preventDefault();
+  const delta = e.deltaY > 0 ? 0.9 : 1.1;
+  applyZoom(scale * delta, e.clientX, e.clientY);
+}, { passive: false });
+
+// Pan via middle-mouse or space+drag
+outer.addEventListener('mousedown', e => {
+  if (e.button === 1 || e.button === 0 && e.target === outer) {
+    isPanning = true;
+    startX = e.clientX; startY = e.clientY;
+    startScrollX = outer.scrollLeft;
+    startScrollY = outer.scrollTop;
+    outer.classList.add('dragging');
+    e.preventDefault();
+  }
+});
+window.addEventListener('mousemove', e => {
+  if (!isPanning) return;
+  outer.scrollLeft = startScrollX - (e.clientX - startX);
+  outer.scrollTop  = startScrollY - (e.clientY - startY);
+});
+window.addEventListener('mouseup', () => {
+  isPanning = false;
+  outer.classList.remove('dragging');
+});
+
+// Buttons
+document.getElementById('zoomIn').addEventListener('click',  () => {
+  const r = outer.getBoundingClientRect();
+  applyZoom(scale * 1.2, r.left + r.width/2, r.top + r.height/2);
+});
+document.getElementById('zoomOut').addEventListener('click', () => {
+  const r = outer.getBoundingClientRect();
+  applyZoom(scale * 0.8, r.left + r.width/2, r.top + r.height/2);
+});
+document.getElementById('resetBtn').addEventListener('click', () => {
+  scale = 1;
+  canvas.style.transform = `scale(1)`;
+  outer.scrollLeft = 0;
+  outer.scrollTop  = 0;
+});
+
+// ═══════════════════════════════════════════════════════════════
+// INITIAL SCROLL CENTER
+// ═══════════════════════════════════════════════════════════════
+window.addEventListener('load', () => {
+  // slight left-center
+  outer.scrollLeft = 0;
+  outer.scrollTop  = 0;
+});
+</script>
+</body>
+</html>

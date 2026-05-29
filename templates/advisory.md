@@ -4,8 +4,8 @@ type: advisory
 owner: orchestrator
 status: open
 version: 1.0
-feature: {feature-slug}
-module: {feature-slug}/{module-slug}
+charter: {charter-slug}
+prd: {charter-slug}/{prd-slug}
 refs:
   - {concern-artifact-id}
 created: {YYYY-MM-DD}

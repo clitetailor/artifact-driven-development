@@ -17,7 +17,7 @@
 
 | Artifact types | Owner |
 |---|---|
-| research-note, persona, feature, requirement | business-analyst |
+| user-journey-map, project-charter, prd, user-story, stakeholder-matrix | business-analyst |
 | user-flow, wireframe, component-spec | ux-ui-designer |
 | architecture-decision, api-contract, data-model, tech-design, quality-requirement, task (be) | software-architect |
 | test-plan, test-spec, test-suite | qa-engineer |

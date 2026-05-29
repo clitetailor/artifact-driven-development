@@ -4,13 +4,13 @@ type: milestone
 owner: orchestrator
 status: draft
 version: 1.0
-feature: {feature-slug}
+charter: {charter-slug}
 start-date: {YYYY-MM-DD}
 end-date: {YYYY-MM-DD}
 refs:
-  - req-{slug}
-  - req-{slug}#scenario-1
-  - req-{slug}#scenario-2
+  - prd-{charter}-{descriptor}
+  - story-{slug}
+  - story-{slug}
   - task-{slug}-be
   - task-{slug}-fe
   - cr-{slug}
@@ -23,16 +23,16 @@ refs:
 
 ## Scope
 
-### Scenarios Included
-| Scenario | Requirement | Priority | Status |
-|----------|-------------|----------|--------|
-| Scenario 1: {title} | req-{slug}#scenario-1 | P0 | pending |
-| Scenario 2: {title} | req-{slug}#scenario-2 | P1 | pending |
+### Stories Included
+| Story | PRD | Priority | Status |
+|-------|-----|----------|--------|
+| story-{slug}: {title} | prd-{charter}-{descriptor} | P0 | pending |
+| story-{slug}: {title} | prd-{charter}-{descriptor} | P1 | pending |
 
-### Scenarios Deferred
-| Scenario | Requirement | Reason | Target Milestone |
-|----------|-------------|--------|------------------|
-| Scenario 3: {title} | req-{slug}#scenario-3 | Not launch blocker | milestone-{name} |
+### Stories Deferred
+| Story | PRD | Reason | Target Milestone |
+|-------|-----|--------|------------------|
+| story-{slug}: {title} | prd-{charter}-{descriptor} | Not launch blocker | milestone-{name} |
 
 ### Change Requests (Unplanned Work)
 <!-- CRs applied during this milestone that created additional tasks -->
@@ -47,8 +47,8 @@ refs:
 ### Backend Track
 | Task ID | Title | Source | Tier | Est. Hours | Status | Owner |
 |---------|-------|--------|------|------------|--------|-------|
-| task-{slug}-be | {title} | scenario-1 | 1 | {N} | open | backend-engineer |
-| task-{slug}-be | {title} | scenario-1 | 2 | {N} | open | backend-engineer |
+| task-{slug}-be | {title} | story-{slug} | 1 | {N} | open | backend-engineer |
+| task-{slug}-be | {title} | story-{slug} | 2 | {N} | open | backend-engineer |
 | task-{slug}-be | {title} | cr-{slug} | 2 | {N} | open | backend-engineer |
 
 **Backend Total:** {N} hours
@@ -56,8 +56,8 @@ refs:
 ### Frontend Track
 | Task ID | Title | Source | Tier | Est. Hours | Status | Owner |
 |---------|-------|--------|------|------------|--------|-------|
-| task-{slug}-fe | {title} | scenario-1 | 1 | {N} | open | frontend-engineer |
-| task-{slug}-fe | {title} | scenario-2 | 1 | {N} | open | frontend-engineer |
+| task-{slug}-fe | {title} | story-{slug} | 1 | {N} | open | frontend-engineer |
+| task-{slug}-fe | {title} | story-{slug} | 2 | {N} | open | frontend-engineer |
 | task-{slug}-fe | {title} | cr-{slug} | 1 | {N} | open | frontend-engineer |
 
 **Frontend Total:** {N} hours
@@ -101,7 +101,7 @@ gantt
 ---
 
 ## Success Criteria
-- [ ] All P0 scenarios have passing acceptance criteria
+- [ ] All P0 stories have passing acceptance criteria
 - [ ] All tasks status: done
 - [ ] No open CRs blocking deployment
 - [ ] Test coverage >{N}%

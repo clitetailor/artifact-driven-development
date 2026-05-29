@@ -4,8 +4,8 @@ type: change-request
 owner: {filing-agent-slug}
 status: open
 version: 1.0
-feature: {feature-slug}
-module: {feature-slug}/{module-slug}
+charter: {charter-slug}
+prd: {charter-slug}/{prd-slug}
 priority: {minor | major}
 created: {YYYY-MM-DD}
 resolved: ~
@@ -25,12 +25,13 @@ refs:
 <!-- Exact description of what should change. Concrete enough for the artifact owner to apply without further discussion. -->
 
 ## Justification
-<!-- Which story, requirement, or implementation constraint requires this change. Link the artifact. -->
+<!-- Which user story, PRD requirement, or implementation constraint requires this change. Link the artifact. -->
 
 ## Impact Assessment
 - **Breaking:** yes / no
 - **Migration needed:** yes / no
 - **Downstream affected:** {list artifact IDs or "none"}
+- **Charter re-approval needed:** yes / no <!-- only relevant when target is project-charter -->
 
 ---
 

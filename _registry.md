@@ -8,10 +8,11 @@ updated: YYYY-MM-DD
 ## Artifact Types
 
 # REQUIREMENTS & PLANNING
-- research-note
-- persona
-- feature
-- requirement
+- user-journey-map
+- project-charter
+- prd
+- user-story
+- stakeholder-matrix     # optional governance artifact
 
 # DESIGN
 - user-flow
@@ -43,10 +44,11 @@ updated: YYYY-MM-DD
 - bug-report    # defect tracking; spawns fix task or closed directly
 
 ## ID Prefixes
-- research-note          : rn-
-- persona                : per-
-- feature                : feat-
-- requirement            : req-
+- user-journey-map       : ujm-
+- project-charter        : charter-
+- prd                    : prd-
+- user-story             : story-
+- stakeholder-matrix     : sm-
 - milestone              : ms-
 - user-flow              : uf-
 - wireframe              : wf-
@@ -65,11 +67,11 @@ updated: YYYY-MM-DD
 - advisory               : adv-
 - bug-report             : bug-
 
-## Features
-- {feature-slug}
+## Charters
+- {charter-slug}
 
-## Modules
-- {feature-slug}/{module-slug}
+## PRDs
+- {charter-slug}/{prd-slug}
 
 ---
 
