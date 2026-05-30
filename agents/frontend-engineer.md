@@ -17,7 +17,7 @@ implementation boundary.
 ## Owned Artifacts (RACI)
 | Artifact | Notes |
 |---|---|
-| task (fe) | `{docs-repo}/tasks/task-{name}-fe.md` |
+| task (fe) | `tasks/task-{name}-fe.md` |
 | change-request | When filing against upstream |
 | task (fe) status | open → in-progress → done |
 | task Implementation Notes section | Filled on completion |
@@ -26,10 +26,6 @@ implementation boundary.
 Component structure, state management, rendering strategy, and build
 tooling are exclusively frontend decisions. The Architect defines the
 API boundary — everything inside the frontend is not their concern.
-
-## Repo Scope
-- Writes implementation: `../{frontend-repo}/`
-- Reads PKM: `../{docs-repo}/`
 
 ## Interaction Patterns
 - Receives from: product-designer — component specs, wireframes

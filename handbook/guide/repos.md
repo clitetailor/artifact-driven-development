@@ -3,7 +3,7 @@
 How repo layout works in an ADD vault and when to add repos.
 
 Canonical sources:
-- `agents/repo-mapping.md` — which agent writes to which repo
+- `_registry.md` → Repo Mapping — which agent writes to which repo
 - `AGENTS.md` — sibling repo table and vault role
 - `reference/folder-structure.md` — vault folder layout
 
@@ -13,7 +13,7 @@ For adding, remapping, or removing repos: `handbook/playbooks/manage-repos.md`.
 
 ## How repo layout works
 
-Every agent has a write target and a PKM read source defined in `agents/repo-mapping.md`. Agents that write planning artifacts (BA, UX, Architect, QA) write to the docs vault. Agents that write code (Backend, Frontend, DevOps) write to their respective sibling repos and read planning artifacts from the vault.
+Every agent has a write target and a PKM read source defined in `_registry.md` → Repo Mapping. Agents that write planning artifacts (BA, UX, Architect, QA) write to the docs vault. Agents that write code (Backend, Frontend, DevOps) write to their respective sibling repos and read planning artifacts from the vault.
 
 `AGENTS.md` is the human- and agent-facing entry point that names the sibling repos and their paths.
 
@@ -42,6 +42,6 @@ The vault works the same way in both layouts — only the paths differ.
 
 **Multi-repo (default):** Each repo is a sibling directory. Agent write paths use `../` prefix (e.g., `../{backend-repo}/`). The vault is one of the sibling directories.
 
-**Monorepo:** All code and the vault live under one root. Agent write paths are relative to the monorepo root (e.g., `packages/backend/`). Update `agents/repo-mapping.md` write targets accordingly and remove the `../` prefix.
+**Monorepo:** All code and the vault live under one root. Agent write paths are relative to the monorepo root (e.g., `packages/backend/`). Update the **Repo Mapping** table in `_registry.md` write targets accordingly and remove the `../` prefix.
 
 There is no other structural difference — artifact types, ownership, and the dep graph are layout-agnostic.

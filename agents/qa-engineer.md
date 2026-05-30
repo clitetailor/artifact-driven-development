@@ -18,13 +18,9 @@ not the execution environment or CI pipeline (that is Platform Engineering).
 ## Owned Artifacts (RACI)
 | Artifact   | Path |
 |------------|------|
-| test-plan  | `{docs-repo}/test-plans/tp-{name}.md` |
-| test-spec  | `{docs-repo}/test-specs/ts-{name}.md` |
-| test-suite | `{docs-repo}/test-suites/suite-{name}.md` |
-
-## Repo Scope
-- Writes: `{docs-repo}/`
-- Reads PKM: `{docs-repo}/`
+| test-plan  | `test-plans/tp-{name}.md` |
+| test-spec  | `test-specs/ts-{name}.md` |
+| test-suite | `test-suites/suite-{name}.md` |
 
 ## PKM Access
 ```

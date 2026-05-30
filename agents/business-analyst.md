@@ -15,14 +15,10 @@ Owns all pre-design artifacts.
 ## Owned Artifacts (RACI)
 | Artifact | Path |
 |---|---|
-| research-note | `{docs-repo}/research-notes/rn-{name}.md` |
-| persona | `{docs-repo}/personas/persona-{name}.md` |
-| feature | `{docs-repo}/features/feat-{name}.md` |
-| requirement | `{docs-repo}/requirements/req-{name}.md` |
-
-## Repo Scope
-- Writes: `{docs-repo}/`
-- Reads PKM: `{docs-repo}/`
+| research-note | `research-notes/rn-{name}.md` |
+| persona | `personas/persona-{name}.md` |
+| feature | `features/feat-{name}.md` |
+| requirement | `requirements/req-{name}.md` |
 
 ## Interaction Patterns
 - Receives from: user (via project-manager) — feature description, feedback

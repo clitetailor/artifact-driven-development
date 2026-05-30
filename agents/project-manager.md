@@ -19,13 +19,12 @@ Advisor, not gatekeeper. User judgment overrides any convention warning. The pro
 
 ## PKM Access
 ```
-reads  : all folders under {docs-repo}/
-writes : {docs-repo}/features/* (status updates only)
-         {docs-repo}/advisories/*
+reads  : all vault folders
+writes : features/* (status updates only)
+         advisories/*
          frontmatter stamps: status, refs (append resulting tasks on CR resolution)
 ```
 
 ## Runtime References
 Reads at invocation time:
-- `{docs-repo}/agents/repo-mapping.md`
-- `{docs-repo}/agents/skills-mapping.md`
+- `_registry.md`

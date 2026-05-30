@@ -3,8 +3,7 @@
 How to configure agent roles, repo mappings, and skill integrations.
 
 Canonical sources:
-- `agents/repo-mapping.md` — which agent writes to which repo
-- `agents/skills-mapping.md` — registered skills and their status
+- `_registry.md` — repo mapping, skills, artifact types, and ID prefixes
 - `reference/artifact-ownership.md` — which agent owns which artifact type
 - `agents/{role}.md` — per-agent design doc (capabilities, PKM access, runtime references)
 
@@ -35,9 +34,9 @@ Skills extend what an agent can do within its scope — they do not change artif
 
 Skills may be Claude Code slash commands, external tools, or MCP integrations. Note the install path or command.
 
-**2. Register in `agents/skills-mapping.md`**
+**2. Register in `_registry.md` → Skills**
 
-Add a row to the **Registered Skills** table:
+Add a row to the **Skills** table:
 
 | Skill | Source | Status | Applied to |
 |---|---|---|---|
@@ -66,9 +65,9 @@ Copy the closest existing doc (e.g., `agents/software-architect.md`) to `agents/
 - **PKM Access** — what it reads and writes
 - **Runtime References** — which vault files it loads at invocation
 
-**2. Add to `agents/repo-mapping.md`**
+**2. Add to `_registry.md` → Repo Mapping**
 
-Add a row with the new role's slash command and write/read targets.
+Add a row with the new role's write and read targets.
 
 **3. Add to `reference/artifact-ownership.md`**
 
@@ -86,7 +85,7 @@ Edit `handbook/sdlc-workflows.md` — add it to the **Agent Activation Order** t
 Before removing a role, reassign its artifact ownership to another agent in `reference/artifact-ownership.md`. An artifact type with no owner will cause the project-manager to skip it silently.
 
 Then remove the role from:
-- `agents/repo-mapping.md`
+- `_registry.md` → Repo Mapping
 - `handbook/sdlc-workflows.md` — Actors table and Agent Activation Order
 - `reference/sdlc-phases.md` — Phase Summary agents column
 - `agents/{role}.md` — delete the file

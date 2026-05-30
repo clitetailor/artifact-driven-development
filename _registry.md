@@ -67,6 +67,32 @@ updated: YYYY-MM-DD
 - advisory               : adv-
 - bug-report             : bug-
 
+## Repo Mapping
+
+| Agent | Writes to | Also reads |
+|---|---|---|
+| project-manager | `{docs-repo}/` | — |
+| business-analyst | `{docs-repo}/` | — |
+| product-designer | `{docs-repo}/` | — |
+| software-architect | `{docs-repo}/` | — |
+| backend-engineer | `../{backend-repo}/` | `../{docs-repo}/` |
+| frontend-engineer | `../{frontend-repo}/` | `../{docs-repo}/` |
+| platform-engineer | `../{infra-repo}/` | `../{backend-repo}/`, `../{frontend-repo}/`, `../{docs-repo}/` |
+
+All agents read PKM artifacts from `{docs-repo}/`. Implementation agents additionally read from their own code repos for context.
+
+## Skills
+
+| Skill | Source | Status | Applied to |
+|---|---|---|---|
+| brainstorming | TBD | deferred | ideation phases |
+| tdd | TBD | deferred | test-driven implementation |
+| impeccable | pbakaus/impeccable | deferred | output quality pass |
+
+When a skill is integrated: update `Status` to `active`, add the install path to `Source`, update the relevant `agents/{role}.md` `## Skill Composition` section. Skills apply within each agent's scope — they do not expand artifact ownership.
+
+**Tooling note:** `.claude/skills/` is the source set for Claude-oriented SDLC skills. `.codex/skills/` contains Codex-compatible mirrors — keep them aligned with Claude definitions unless explicitly diverged.
+
 ## Charters
 - {charter-slug}
 

@@ -39,7 +39,7 @@ When this vault is upgraded via `handbook/playbooks/upgrade-framework.md`, files
 
 ## Where to Look
 
-- **Artifact types, prefixes, features, modules** → `_registry.md` (source of truth)
+- **Artifact types, prefixes, repo mapping** → `_registry.md` (source of truth)
 - **Reference docs** (vocabulary, lifecycle, ownership, dep graph, frontmatter, queries, folder structure, SDLC phases, coordination tree) → `reference/README.md`
 - **Project setup, playbooks, customization guide** → `handbook/setup.md` (entry point), `handbook/playbooks/`, `handbook/guide/`
 - **Human workflow guides + diagrams** → `handbook/`

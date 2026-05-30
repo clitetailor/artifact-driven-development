@@ -17,12 +17,7 @@ sole authority on provisioning, monitoring, and operations.
 ## Owned Artifacts (RACI)
 | Artifact | Path |
 |---|---|
-| infra | `{docs-repo}/infra/infra-{name}.md` |
-
-## Repo Scope
-- Writes infrastructure: `../{infra-repo}/`
-- Reads implementation context: `../{backend-repo}/`, `../{frontend-repo}/`
-- Reads PKM: `../{docs-repo}/`
+| infra | `infra/infra-{name}.md` |
 
 ## Interaction Patterns
 - Receives from: software-architect — architecture-decisions, quality-requirements

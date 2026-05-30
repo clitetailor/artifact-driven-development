@@ -26,12 +26,12 @@ Use this when adding a new code repo (e.g., a second backend service, a mobile a
 |---|---|
 | `../{new-repo}/` | Description of what this repo contains |
 
-### Step 2 — Add to `agents/repo-mapping.md`
+### Step 2 — Add to `_registry.md` → Repo Mapping
 
 **Agent:** Determine whether the new repo needs a dedicated agent role or is covered by an existing one.
 
 - **New role needed** (e.g., a mobile engineer): add a row to the table and follow `handbook/guide/agent-skills.md` — Adding an agent role.
-- **Existing role covers it** (e.g., a second backend handled by backend-engineer): add a note in the **Notes** section of `agents/repo-mapping.md` rather than a new row. Update `agents/{role}.md` PKM Access section to include the additional write target.
+- **Existing role covers it** (e.g., a second backend handled by backend-engineer): add a note below the **Repo Mapping** table in `_registry.md` rather than a new row. Update `agents/{role}.md` to include the additional write target.
 
 ### Step 3 — Replace the placeholder
 
@@ -45,7 +45,7 @@ handbook/scripts/replace-placeholders.sh --docs-repo={docs-repo} --backend-repo=
 handbook/scripts/replace-placeholders.sh --docs-repo={docs-repo} --backend-repo={new-repo}
 ```
 
-Use the flag that matches the role (`--frontend-repo`, `--backend-repo`, or `--infra-repo`). For a role with no matching default flag, replace the placeholder manually in `AGENTS.md` and `agents/repo-mapping.md`.
+Use the flag that matches the role (`--frontend-repo`, `--backend-repo`, or `--infra-repo`). For a role with no matching default flag, replace the placeholder manually in `AGENTS.md` and `_registry.md` → Repo Mapping.
 
 ---
 
@@ -53,9 +53,9 @@ Use the flag that matches the role (`--frontend-repo`, `--backend-repo`, or `--i
 
 Use this when a repo has been renamed or moved to a different path.
 
-### Step 1 — Update `agents/repo-mapping.md`
+### Step 1 — Update `_registry.md` → Repo Mapping
 
-**Agent:** Update the **Writes code to** column for the affected agent row.
+**Agent:** Update the **Writes to** column for the affected agent row.
 
 ### Step 2 — Update `AGENTS.md`
 
@@ -76,10 +76,10 @@ grep -rl "{old-repo-name}" . --include="*.md" -l
 
 ### Step 1 — Reassign or remove the agent role
 
-**Agent:** Before removing the repo, check `agents/repo-mapping.md` for the agent that writes to it.
+**Agent:** Before removing the repo, check `_registry.md` → Repo Mapping for the agent that writes to it.
 
 - If the role is repo-specific and no longer needed: follow `handbook/guide/agent-skills.md` — Removing an agent role.
-- If an existing shared role covered it: update that agent's row in `agents/repo-mapping.md` to remove the target.
+- If an existing shared role covered it: update that agent's row in `_registry.md` → Repo Mapping to remove the target.
 
 ### Step 2 — Check for affected artifacts
 
@@ -93,9 +93,9 @@ grep -rl "{repo-name}" . --include="*.md" \
 
 **Agent:** For any artifact in the output that references this repo, flag it to the user — those artifacts may reference tasks or paths that will no longer resolve.
 
-### Step 3 — Remove from `agents/repo-mapping.md` and `AGENTS.md`
+### Step 3 — Remove from `_registry.md` and `AGENTS.md`
 
-**Agent:** Remove the agent row from `agents/repo-mapping.md` and the directory row from the **Sibling Repos** table in `AGENTS.md`.
+**Agent:** Remove the agent row from the **Repo Mapping** table in `_registry.md` and the directory row from the **Sibling Repos** table in `AGENTS.md`.
 
 ### Step 4 — Validate
 

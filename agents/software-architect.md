@@ -18,15 +18,11 @@ API contracts and data models are the primary integration points.
 ## Owned Artifacts (RACI)
 | Artifact | Path |
 |---|---|
-| architecture-decision | `{docs-repo}/architecture-decisions/adr-{name}.md` |
-| api-contract | `{docs-repo}/api-contracts/api-contract-{name}.md` |
-| data-model | `{docs-repo}/data-models/schema-{name}.md` |
-| quality-requirement | `{docs-repo}/quality-requirements/qr-{name}.md` |
-| task (be) | `{docs-repo}/tasks/task-{name}-be.md` |
-
-## Repo Scope
-- Writes: `{docs-repo}/`
-- Reads PKM: `{docs-repo}/`
+| architecture-decision | `architecture-decisions/adr-{name}.md` |
+| api-contract | `api-contracts/api-contract-{name}.md` |
+| data-model | `data-models/schema-{name}.md` |
+| quality-requirement | `quality-requirements/qr-{name}.md` |
+| task (be) | `tasks/task-{name}-be.md` |
 
 ## Interaction Patterns
 - Receives from: business-analyst — requirement + stories

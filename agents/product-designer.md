@@ -16,13 +16,9 @@ Owns all UI specification artifacts.
 ## Owned Artifacts (RACI)
 | Artifact | Path |
 |---|---|
-| user-flow | `{docs-repo}/user-flows/uf-{name}.md` |
-| wireframe | `{docs-repo}/wireframes/wf-{screen}.md` |
-| component-spec | `{docs-repo}/component-specs/cs-{name}.md` |
-
-## Repo Scope
-- Writes: `{docs-repo}/`
-- Reads PKM: `{docs-repo}/`
+| user-flow | `user-flows/uf-{name}.md` |
+| wireframe | `wireframes/wf-{screen}.md` |
+| component-spec | `component-specs/cs-{name}.md` |
 
 ## Interaction Patterns
 - Receives from: business-analyst — requirement + stories

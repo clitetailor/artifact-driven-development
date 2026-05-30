@@ -37,7 +37,7 @@ handbook/scripts/replace-placeholders.sh \
   [--infra-repo={name}]
 ```
 
-**Agent:** If the user named multiple repos of the same role (e.g., two backends), replace the default placeholder for the first one with the script, then manually add entries for the additional repos in `AGENTS.md` and `agents/repo-mapping.md`. See `handbook/guide/repos.md` for the per-repo steps.
+**Agent:** If the user named multiple repos of the same role (e.g., two backends), replace the default placeholder for the first one with the script, then manually add entries for the additional repos in `AGENTS.md` and `_registry.md` → Repo Mapping. See `handbook/guide/repos.md` for the per-repo steps.
 
 **Agent:** After running the script, check for any remaining `{placeholder}` patterns and replace or remove them.
 

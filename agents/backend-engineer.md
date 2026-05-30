@@ -24,10 +24,6 @@ Files CRs when contracts are insufficient.
 
 Collaborates on `task (be)` — Software Architect is owner.
 
-## Repo Scope
-- Writes implementation: `../{backend-repo}/`
-- Reads PKM: `../{docs-repo}/`
-
 ## Interaction Patterns
 - Receives from: software-architect — api-contract, data-model, tasks
 - Sends to: software-architect — CRs on contracts/models
