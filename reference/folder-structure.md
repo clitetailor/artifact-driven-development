@@ -22,7 +22,7 @@
 ├── component-specs/        # UI component specs                        (cs-)
 ├── infra/                  # IaC specs, CI/CD, monitoring               (infra-)
 ├── change-requests/        # Inter-agent artifact modification requests (cr-)
-├── advisories/             # Non-blocking orchestrator warnings         (adv-)
+├── advisories/             # Non-blocking project manager warnings      (adv-)
 ├── bug-reports/            # Defect tracking artifacts                  (bug-)
 ├── agents/                 # Agent design docs + repo/skill mappings
 ├── conventions/            # Enforced conventions (prescriptive)

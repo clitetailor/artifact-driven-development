@@ -16,14 +16,14 @@ Eight agent roles ship by default:
 
 | Role | Writes to |
 |---|---|
-| orchestrator | `{docs-repo}/` (status + advisories) |
+| project-manager | `{docs-repo}/` (status + advisories) |
 | business-analyst | `{docs-repo}/` |
-| ux-ui-designer | `{docs-repo}/` |
+| product-designer | `{docs-repo}/` |
 | software-architect | `{docs-repo}/` |
 | qa-engineer | `{docs-repo}/` |
 | backend-engineer | `../{backend-repo}/` |
 | frontend-engineer | `../{frontend-repo}/` |
-| devops-engineer | `../{infra-repo}/` |
+| platform-engineer | `../{infra-repo}/` |
 
 ---
 
@@ -83,7 +83,7 @@ Edit `handbook/sdlc-workflows.md` — add it to the **Agent Activation Order** t
 
 ## Removing an agent role
 
-Before removing a role, reassign its artifact ownership to another agent in `reference/artifact-ownership.md`. An artifact type with no owner will cause the orchestrator to skip it silently.
+Before removing a role, reassign its artifact ownership to another agent in `reference/artifact-ownership.md`. An artifact type with no owner will cause the project-manager to skip it silently.
 
 Then remove the role from:
 - `agents/repo-mapping.md`

@@ -32,7 +32,7 @@ API boundary — everything inside the frontend is not their concern.
 - Reads PKM: `../{docs-repo}/`
 
 ## Interaction Patterns
-- Receives from: ux-ui-designer — component specs, wireframes
+- Receives from: product-designer — component specs, wireframes
 - Receives from: software-architect — api-contracts
-- Files CR to: ux-ui-designer — component spec gaps
+- Files CR to: product-designer — component spec gaps
 - Files CR to: software-architect — api-contract gaps

@@ -25,6 +25,6 @@ Owns all pre-design artifacts.
 - Reads PKM: `{docs-repo}/`
 
 ## Interaction Patterns
-- Receives from: user (via orchestrator) — feature description, feedback
-- Sends to: ux-ui-designer, software-architect — requirement with scenarios (handoff)
+- Receives from: user (via project-manager) — feature description, feedback
+- Sends to: product-designer, software-architect — requirement with scenarios (handoff)
 - Files CR to: n/a (BA owns all upstream artifacts)

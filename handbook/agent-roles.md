@@ -7,18 +7,18 @@
 
 | Agent               | Slug                 | SDLC Phase(s)                    |
 |---------------------|----------------------|----------------------------------|
-| Orchestrator        | orchestrator         | All phases                       |
+| Project Manager     | project-manager      | All phases                       |
 | Business Analyst    | business-analyst     | Intake, Phase 1                  |
-| UX-UI Designer      | ux-ui-designer       | Phase 2                          |
+| Product Designer    | product-designer     | Phase 2                          |
 | Software Architect  | software-architect   | Phase 2, Phase 3                 |
 | QA Engineer         | qa-engineer          | Phase 2 (test-plan), Phase 3 (test-specs/suites) |
 | Backend Engineer    | backend-engineer     | Phase 3, Phase 4                 |
 | Frontend Engineer   | frontend-engineer    | Phase 3, Phase 4                 |
-| DevOps Engineer     | devops-engineer      | Phase 5                          |
+| Platform Engineer   | platform-engineer    | Phase 5                          |
 
 ---
 
-## Orchestrator
+## Project Manager
 
 ### Role
 Central coordinator of the entire workflow. Not a specialist — a router and advisor. The only agent that interacts with the user directly at every step.
@@ -39,12 +39,12 @@ Central coordinator of the entire workflow. Not a specialist — a router and ad
 - Resolve conflicts between agents (artifact ownership disputes)
 
 ### Modes
-For the Direct / Guided / Convention mode table, see `sdlc-workflows.md#orchestrator-modes`.
+For the Direct / Guided / Convention mode table, see `sdlc-workflows.md#project-manager-modes`.
 
-### Orchestrator Authority
+### Project Manager Authority
 - **Advisor, not gatekeeper** — surfaces gaps and documents concerns; never overrides user
 - User judgment always wins over convention warnings
-- The orchestrator does not auto-block work; it flags and the user decides
+- The project-manager does not auto-block work; it flags and the user decides
 - Noted concerns become advisory documents so they aren't forgotten
 
 ### PKM Access
@@ -57,7 +57,7 @@ writes : /features/* (status updates only)
            refs   (append resulting tasks on CR resolution)
 ```
 
-`needs-review` is suggested by the orchestrator when an upstream referenced artifact changes after this agent's artifact was already accepted. It's a prompt — work can continue while the re-review is pending.
+`needs-review` is suggested by the project-manager when an upstream referenced artifact changes after this agent's artifact was already accepted. It's a prompt — work can continue while the re-review is pending.
 
 ---
 
@@ -103,10 +103,10 @@ writes : /research-notes/rn-{name}.md
 
 ### Interaction Patterns
 ```
-Receives from : user (via orchestrator) — feature description, feedback
-Sends to      : ux-ui-designer         — requirement (with scenarios) (handoff)
+Receives from : user (via project-manager) — feature description, feedback
+Sends to      : product-designer         — requirement (with scenarios) (handoff)
               : software-architect     — requirement (with scenarios) (handoff)
-              : orchestrator           — ready-for-review signal
+              : project-manager           — ready-for-review signal
 Files CR to   : n/a (BA owns all upstream artifacts)
 ```
 
@@ -123,7 +123,7 @@ Each scenario section includes:
 
 ---
 
-## UX-UI Designer Agent
+## Product Designer Agent
 
 ### Role
 Translates requirements (with embedded scenarios) into visual and interaction artifacts
@@ -168,10 +168,10 @@ Body templates: `../templates/wireframe.md`, `../templates/user-flow.md`, `../te
 ### Interaction Patterns
 ```
 Receives from : business-analyst    — requirement (with scenarios) (handoff)
-              : orchestrator        — activation signal
+              : project-manager        — activation signal
 Sends to      : frontend-engineer   — component specs, wireframes (handoff)
               : software-architect  — user flows (for API design context)
-              : orchestrator        — ready-for-review signal
+              : project-manager        — ready-for-review signal
 Files CR to   : business-analyst    — if requirement is ambiguous
               : software-architect  — if API contract conflicts with UX flow
 ```
@@ -239,14 +239,14 @@ backend/frontend integration boundary:
 ### Interaction Patterns
 ```
 Receives from : business-analyst    — requirement (with scenarios) (handoff)
-              : ux-ui-designer      — user flows (context)
+              : product-designer      — user flows (context)
               : backend-engineer    — CRs on contracts/models
               : frontend-engineer   — CRs on contracts
-              : orchestrator        — activation signal
+              : project-manager        — activation signal
 Sends to      : backend-engineer    — api-contract, data-model, tasks (handoff)
               : frontend-engineer   — api-contract (handoff)
-              : devops-engineer     — architecture-decisions, quality-requirements (handoff)
-              : orchestrator        — ready-for-review signal, CR decisions
+              : platform-engineer     — architecture-decisions, quality-requirements (handoff)
+              : project-manager        — ready-for-review signal, CR decisions
 ```
 
 ---
@@ -257,7 +257,7 @@ Sends to      : backend-engineer    — api-contract, data-model, tasks (handoff
 Defines the testing strategy and writes all test artifacts before implementation
 begins. Works across DESIGN (test-plan) and BUILD (test-spec, test-suite) phases.
 Owns the definition of quality — what it means for each scenario to be correct —
-not the execution environment or CI pipeline (that is DevOps).
+not the execution environment or CI pipeline (that is Platform Engineering).
 
 ### Responsibilities
 - Write test plans defining overall testing strategy and coverage targets per feature
@@ -303,10 +303,10 @@ See `tdd-workflow.md#frontmatter-pattern` for the consolidated test-plan / test-
 ```
 Receives from : business-analyst    — requirements, scenarios (context)
               : software-architect  — api-contracts, data-models (context)
-              : orchestrator        — activation signal
+              : project-manager        — activation signal
 Sends to      : backend-engineer    — test-specs as implementation targets
               : frontend-engineer   — test-specs as implementation targets
-              : orchestrator        — ready-for-review signal, CR filings
+              : project-manager        — ready-for-review signal, CR filings
 Files CR to   : business-analyst    — if scenario is ambiguous or untestable
               : software-architect  — if API contract is missing needed fields
 ```
@@ -364,9 +364,9 @@ writes : task status field (open → in-progress → done)
 ### Interaction Patterns
 ```
 Receives from : software-architect  — api-contract, data-model, tasks
-              : orchestrator        — activation signal
+              : project-manager        — activation signal
 Sends to      : software-architect  — CRs on contracts/models
-              : orchestrator        — task completion signals, CR filings
+              : project-manager        — task completion signals, CR filings
 Files CR to   : software-architect  — api-contract gaps, schema gaps
 ```
 
@@ -428,19 +428,19 @@ Everything inside the frontend boundary is not the Architect's concern.
 
 ### Interaction Patterns
 ```
-Receives from : ux-ui-designer      — component specs, wireframes
+Receives from : product-designer      — component specs, wireframes
               : software-architect  — api-contracts
-              : orchestrator        — activation signal
-Sends to      : ux-ui-designer      — CRs on component specs
+              : project-manager        — activation signal
+Sends to      : product-designer      — CRs on component specs
               : software-architect  — CRs on api-contracts
-              : orchestrator        — task completion signals, CR filings
-Files CR to   : ux-ui-designer      — component spec gaps, missing states
+              : project-manager        — task completion signals, CR filings
+Files CR to   : product-designer      — component spec gaps, missing states
               : software-architect  — api-contract gaps, missing error shapes
 ```
 
 ---
 
-## DevOps Engineer Agent
+## Platform Engineer Agent
 
 ### Role
 Provisions and maintains the infrastructure required to run what
@@ -506,8 +506,8 @@ environment variables, secrets management approach
 ```
 Receives from : software-architect  — architecture-decisions, quality-requirements (handoff)
               : backend-engineer    — task Implementation Notes (deployment context)
-              : orchestrator        — activation signal
-Sends to      : orchestrator        — ready-for-review signal
+              : project-manager        — activation signal
+Sends to      : project-manager        — ready-for-review signal
 Files CR to   : software-architect  — if architecture-decisions are
                                       insufficient for provisioning
 ```
@@ -522,7 +522,7 @@ Files CR to   : software-architect  — if architecture-decisions are
 |-----------------|------------------------------------------|----------------------------------|
 | Handoff         | Artifact complete, downstream activates  | Status → ready-for-review        |
 | Change Request  | Downstream needs upstream artifact fixed | /change-requests/cr-{name}.md   |
-| Review Request  | Producer wants consumer validation       | Orchestrator routes explicitly   |
+| Review Request  | Producer wants consumer validation       | Project Manager routes explicitly   |
 
 ### Message Envelope (inter-agent)
 ```json
@@ -556,27 +556,27 @@ For phase-by-phase activation order and parallel execution windows, see `sdlc-wo
 
 ## Capability Matrix
 
-| Capability                  | BA | UX | Arch | QA | BE | FE | DevOps |
-|-----------------------------|----|----|------|----|----|-----|--------|
-| Read raw research           | ✓  |    |      |    |    |    |        |
-| Write personas              | ✓  |    |      |    |    |    |        |
-| Write requirements          | ✓  |    |      |    |    |    |        |
-| Write user flows            |    | ✓  |      |    |    |    |        |
-| Write wireframes            |    | ✓  |      |    |    |    |        |
-| Write component specs       |    | ✓  |      |    |    |    |        |
-| Write ADRs                  |    |    | ✓    |    |    |    |        |
-| Write API contracts         |    |    | ✓    |    |    |    |        |
-| Write data models           |    |    | ✓    |    |    |    |        |
-| Write NFRs                  |    |    | ✓    |    |    |    |        |
-| Write test plans            |    |    |      | ✓  |    |    |        |
-| Write test specs            |    |    |      | ✓  |    |    |        |
-| Write test suites           |    |    |      | ✓  |    |    |        |
-| Decompose backend tasks     |    |    | ✓    |    |    |    |        |
-| Decompose frontend tasks    |    |    |      |    |    | ✓  |        |
-| Implement backend services  |    |    |      |    | ✓  |    |        |
-| Implement UI components     |    |    |      |    |    | ✓  |        |
-| Write IaC + pipelines       |    |    |      |    |    |    | ✓      |
-| Write runbooks              |    |    |      |    |    |    | ✓      |
-| File change requests        | ✓  | ✓  | ✓    | ✓  | ✓  | ✓  | ✓      |
-| Approve change requests     | ✓  | ✓  | ✓    | ✓  | ✓  | ✓  | ✓      |
-| Write impl-notes (optional) |    |    |      |    | ✓  | ✓  |        |
+| Capability                  | BA | PD | Arch | QA | BE | FE | PE |
+|-----------------------------|----|----|------|----|----|----|----|
+| Read raw research           | ✓  |    |      |    |    |    |    |
+| Write personas              | ✓  |    |      |    |    |    |    |
+| Write requirements          | ✓  |    |      |    |    |    |    |
+| Write user flows            |    | ✓  |      |    |    |    |    |
+| Write wireframes            |    | ✓  |      |    |    |    |    |
+| Write component specs       |    | ✓  |      |    |    |    |    |
+| Write ADRs                  |    |    | ✓    |    |    |    |    |
+| Write API contracts         |    |    | ✓    |    |    |    |    |
+| Write data models           |    |    | ✓    |    |    |    |    |
+| Write NFRs                  |    |    | ✓    |    |    |    |    |
+| Write test plans            |    |    |      | ✓  |    |    |    |
+| Write test specs            |    |    |      | ✓  |    |    |    |
+| Write test suites           |    |    |      | ✓  |    |    |    |
+| Decompose backend tasks     |    |    | ✓    |    |    |    |    |
+| Decompose frontend tasks    |    |    |      |    |    | ✓  |    |
+| Implement backend services  |    |    |      |    | ✓  |    |    |
+| Implement UI components     |    |    |      |    |    | ✓  |    |
+| Write IaC + pipelines       |    |    |      |    |    |    | ✓  |
+| Write runbooks              |    |    |      |    |    |    | ✓  |
+| File change requests        | ✓  | ✓  | ✓    | ✓  | ✓  | ✓  | ✓  |
+| Approve change requests     | ✓  | ✓  | ✓    | ✓  | ✓  | ✓  | ✓  |
+| Write impl-notes (optional) |    |    |      |    | ✓  | ✓  |    |

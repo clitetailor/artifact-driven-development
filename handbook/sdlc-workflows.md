@@ -6,7 +6,7 @@
 ```mermaid
 flowchart TD
     PRE([Pre-INTAKE — Discovery<br/>Business Analyst<br/><i>optional, ungated</i>]) -.-> INTAKE
-    INTAKE([INTAKE — Orchestrator + BA]) --> P1
+    INTAKE([INTAKE — Project Manager + BA]) --> P1
     P1([Phase 1 — Requirements<br/>Business Analyst]) --> G1{Gate 1}
     G1 --> P2([Phase 2 — Design<br/>UX · Architect · QA])
     P2 --> G2{Gate 2}
@@ -28,13 +28,13 @@ At each gate the user can **approve · refine · reject · proceed with concern*
 | Actor | Role |
 |---|---|
 | User | Initiates work, approves/refines/rejects at gates, natural language |
-| Orchestrator | Routes tasks, surfaces convention gaps, guides when needed, stamps PKM |
+| Project Manager | Routes tasks, surfaces convention gaps, guides when needed, stamps PKM |
 | Agents | Produce artifacts within their ownership domain |
 | PKM | Passive storage — status fields as state, filesystem as rollback |
 
 For the agent roster and ownership map, see `../reference/artifact-ownership.md` and `../reference/sdlc-phases.md`.
 
-## Orchestrator Modes
+## Project Manager Modes
 
 | Mode | When | Behavior |
 |---|---|---|
@@ -44,7 +44,7 @@ For the agent roster and ownership map, see `../reference/artifact-ownership.md`
 
 ## Convention Check Rules
 
-Gaps the orchestrator surfaces — **none are auto-blocking**. The user decides whether to act, defer, or proceed.
+Gaps the project-manager surfaces — **none are auto-blocking**. The user decides whether to act, defer, or proceed.
 
 - **Important** (typically worth resolving): required artifact missing · frontmatter incomplete · ref to non-existent document · artifact type not in registry
 - **Worth noting** (flag, then proceed): expected upstream still draft · related decision not yet accepted · downstream may conflict with unresolved item
@@ -53,7 +53,7 @@ When the user chooses to proceed past a noted gap, capture it as an advisory.
 
 ## Track Selection
 
-Track is determined by **impact depth**, not manual classification. The orchestrator identifies the entry-point artifact, traverses the dependency graph backward and forward, and counts how many artifact layers are affected. For the impact-depth → track table, see `../reference/sdlc-phases.md#track-selection`.
+Track is determined by **impact depth**, not manual classification. The project-manager identifies the entry-point artifact, traverses the dependency graph backward and forward, and counts how many artifact layers are affected. For the impact-depth → track table, see `../reference/sdlc-phases.md#track-selection`.
 
 ---
 
@@ -67,29 +67,29 @@ Full waterfall SDLC from discovery to deployment. User triggers each phase expli
 Discovery artifacts are **not phase-bound**. The BA may produce them at any time (proactively from user research, or on demand when INTAKE references an audience that has no persona yet). No gate, no formal trigger. INTAKE simply references whichever discovery artifacts already exist; missing personas can be created during Phase 1 or noted as advisories.
 
 ### INTAKE
-**Agents**: Orchestrator (classifies) + Business Analyst (writes feature). Output: `features/feat-{name}.md`.
+**Agents**: Project Manager (classifies) + Business Analyst (writes feature). Output: `features/feat-{name}.md`.
 
 1. User describes the feature in natural language.
-2. Orchestrator classifies as large track and scans PKM for related personas, research, and features.
-3. Orchestrator confirms understanding with the user (direct mode if intent is clear; one clarifying question if ambiguous).
+2. Project Manager classifies as large track and scans PKM for related personas, research, and features.
+3. Project Manager confirms understanding with the user (direct mode if intent is clear; one clarifying question if ambiguous).
 4. BA writes `features/feat-{name}.md` referencing relevant personas / research-notes.
 
 ### Phase 1 — Requirements
 **Agent**: Business Analyst. Output: `requirements/req-{name}.md`.
 
-1. Orchestrator activates BA with research + persona context.
+1. Project Manager activates BA with research + persona context.
 2. BA drafts the requirement: scope, out-of-scope, user context, success metrics.
 3. BA writes scenarios directly in the requirement (priority, estimated effort, dependencies, timeline, narrative, acceptance criteria, error/edge cases).
 
 **Convention check**: frontmatter complete and registry-valid · all refs resolve · ≥1 scenario with acceptance criteria · scope + out-of-scope both defined · each scenario has priority.
 
-**Gate 1** — Orchestrator presents requirement summary + scenario list → approve / refine / reject.
+**Gate 1** — Project Manager presents requirement summary + scenario list → approve / refine / reject.
 
 ### Phase 2 — Design
-**Agents**: UX-UI Designer, Software Architect, QA Engineer
+**Agents**: Product Designer, Software Architect, QA Engineer
 **Sequencing**: sequential by default; parallel on user request.
 
-#### UX-UI Designer
+#### Product Designer
 Outputs: `user-flows/`, `wireframes/`, `component-specs/`.
 
 1. **User flows** — embedded Mermaid; happy path + error/edge paths; entry/exit points. Reads requirements + personas.
@@ -132,7 +132,7 @@ Output: `tasks/task-{name}-{be|fe}.md`.
 - Architect decomposes backend tasks (reads api-contracts, data-models, requirements, test-specs).
 - Frontend decomposes frontend tasks (reads component-specs, api-contracts, test-specs).
 
-Orchestrator builds a dependency graph from `depends-on` and groups tasks into priority tiers per track. Same-tier tasks within a track can run in parallel.
+Project Manager builds a dependency graph from `depends-on` and groups tasks into priority tiers per track. Same-tier tasks within a track can run in parallel.
 
 **Gate 3** — test specs + test suites + task board (BE + FE tiers). User may add, remove, or adjust tasks → approve / refine / reject.
 
@@ -151,10 +151,10 @@ For each task with test-specs in `refs`, engineers follow the **TDD cycle** (red
 **Gate 4** — tasks completed + test coverage summary + open CRs + deferred items → approve / refine / reject.
 
 ### Phase 5 — Deployment
-**Agent**: DevOps Engineer. Output: `infra/infra-{name}.md`.
+**Agent**: Platform Engineer. Output: `infra/infra-{name}.md`.
 
 - IaC specification, CI/CD pipeline config, monitoring + alerting setup, rollout strategy (canary / direct), on-call runbook.
-- Orchestrator surfaces all deferred CRs and open advisories alongside the infra plan so the user has the full picture before final approval.
+- Project Manager surfaces all deferred CRs and open advisories alongside the infra plan so the user has the full picture before final approval.
 
 **Gate 5 — Final** — infra plan + complete deferred items list → approve / refine / reject.
 
@@ -185,7 +185,7 @@ flowchart TD
 ### How it works
 
 1. User describes the improvement (e.g. "add SMS fallback to password reset").
-2. Orchestrator identifies the affected feature and confirms scope.
+2. Project Manager identifies the affected feature and confirms scope.
 3. Entry point:
    - If existing scenarios cover the change → enter at **task decomposition**.
    - If new scenarios are needed → enter at **requirements** (BA adds scenarios to existing requirement, bumps version).
@@ -209,12 +209,12 @@ Targeted correction to an existing artifact. Single gate. No phase sequence.
 
 ```mermaid
 flowchart TD
-    START([User or agent describes change]) --> CR([Orchestrator files cr-name.md])
+    START([User or agent describes change]) --> CR([Project Manager files cr-name.md])
     CR --> ROUTE{Minor or Major?}
     ROUTE -- minor --> APPLY1([Owner agent applies change])
     ROUTE -- major --> GMAJOR{Gate — user reviews impact}
     GMAJOR --> APPLY2([Owner agent applies approved change])
-    APPLY1 --> TASKS([Orchestrator creates 0+ tasks; cr.refs += task-ids])
+    APPLY1 --> TASKS([Project Manager creates 0+ tasks; cr.refs += task-ids])
     APPLY2 --> TASKS
     TASKS --> MILE([Update active milestone if any])
     MILE --> GFINAL{Final confirmation}
@@ -224,14 +224,14 @@ flowchart TD
 ### How it works
 
 1. User describes the change (or a downstream agent files a CR automatically during implementation).
-2. Orchestrator locates the target artifact and its owner; creates `change-requests/cr-{name}.md` with `refs: [target, related artifacts, triggering task]` and body (problem, proposed change, justification, impact).
-3. Orchestrator routes to the artifact owner.
+2. Project Manager locates the target artifact and its owner; creates `change-requests/cr-{name}.md` with `refs: [target, related artifacts, triggering task]` and body (problem, proposed change, justification, impact).
+3. Project Manager routes to the artifact owner.
 4. **Minor CR** (non-breaking, additive): owner applies the change directly.
-5. **Major CR** (breaking, cross-cutting): orchestrator presents impact to user first → approve / refine / reject. Owner applies on approval.
-6. Orchestrator creates the 0, 1, or many tasks needed to carry out the CR; appends them to `cr.refs`. If no implementation is needed, no tasks are created.
+5. **Major CR** (breaking, cross-cutting): project-manager presents impact to user first → approve / refine / reject. Owner applies on approval.
+6. Project Manager creates the 0, 1, or many tasks needed to carry out the CR; appends them to `cr.refs`. If no implementation is needed, no tasks are created.
 7. If an active milestone exists, the milestone's `refs` is updated to include the CR and any new tasks.
 
-**Gate (final)** — orchestrator confirms the change applied, shows diff summary and tasks created → approve / refine.
+**Gate (final)** — project-manager confirms the change applied, shows diff summary and tasks created → approve / refine.
 
 **On completion**:
 - `cr.status: applied`
@@ -246,13 +246,13 @@ flowchart TD
 
 ```
 Intake
-  └── Orchestrator
+  └── Project Manager
 
 Phase 1
   └── Business Analyst
 
 Phase 2 (sequential default)
-  ├── UX-UI Designer
+  ├── Product Designer
   ├── Software Architect
   └── QA Engineer          (test-plan — can run parallel with UX/Arch)
 
@@ -267,12 +267,12 @@ Phase 4 (sequential default)
   └── Frontend Engineer
 
 Phase 5
-  └── DevOps Engineer
+  └── Platform Engineer
 ```
 
 ### Parallel Execution Windows
 ```
-Phase 2: UX-UI Designer ‖ Software Architect ‖ QA Engineer  (user-triggered)
+Phase 2: Product Designer ‖ Software Architect ‖ QA Engineer  (user-triggered)
 Phase 3: QA Engineer → then Arch/BE/FE in parallel           (QA must go first)
 Phase 4: Backend Engineer ‖ Frontend Engineer                (user-triggered)
 ```
@@ -294,7 +294,7 @@ When an agent finds a gap in an upstream artifact during implementation, it file
 target      : artifact with the gap
 also-affects: other artifacts impacted (in refs)
 triggered-by: triggering task id (in refs)
-resulted-in : (filled by orchestrator on resolution, appended to refs)
+resulted-in : (filled by project-manager on resolution, appended to refs)
 ```
 
 Routing depends on impact:
@@ -302,7 +302,7 @@ Routing depends on impact:
 | Class | Definition | Behavior |
 |---|---|---|
 | **Minor** | Additive, non-breaking | File CR and proceed optimistically. Owner has a 24h window to object; auto-applied if no response. Task `blocked-by: []`. |
-| **Major** | Breaking or cross-cutting | File CR and hard-block. Task `blocked-by: [cr-id]`. Do not proceed until owner resolves; orchestrator presents impact to user before owner applies. |
+| **Major** | Breaking or cross-cutting | File CR and hard-block. Task `blocked-by: [cr-id]`. Do not proceed until owner resolves; project-manager presents impact to user before owner applies. |
 
 User can override either default at any time.
 
@@ -312,9 +312,9 @@ User can override either default at any time.
 
 When the user proceeds past a warning:
 
-1. Orchestrator creates `advisories/adv-{concern}.md` capturing what was skipped, which artifact, and the suggested action.
+1. Project Manager creates `advisories/adv-{concern}.md` capturing what was skipped, which artifact, and the suggested action.
 2. Work continues.
-3. At Gate 5 (or on user request), the orchestrator surfaces all open advisories and CRs as a **deferred items list**.
+3. At Gate 5 (or on user request), the project-manager surfaces all open advisories and CRs as a **deferred items list**.
 4. User chooses per item:
    - **Resolve now** → routes to small track (CR flow) for targeted fix.
    - **Keep deferred** → advisory remains open; CR stays `deferred`; feature can still be `accepted` with open items noted.

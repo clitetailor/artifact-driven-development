@@ -13,12 +13,12 @@ Note: iteration in SDLC means **re-entering** an upstream group via a change-req
 |---|---|---|
 | **Discovery** | Understand the user | Business Analyst |
 | **Product Definition** | Define what to build | Business Analyst |
-| **UX Design** | Design the experience | UX-UI Designer |
+| **UX Design** | Design the experience | Product Designer |
 | **System Design** | Design the structure | Software Architect |
 | **Quality** | Define and verify correctness | QA Engineer |
 | **Implementation** | Build it | Backend / Frontend Engineer |
-| **Operations** | Run it | DevOps Engineer |
-| **Coordination** | Cross-cutting concerns | Orchestrator |
+| **Operations** | Run it | Platform Engineer |
+| **Coordination** | Cross-cutting concerns | Project Manager |
 
 For agent ownership detail: `../reference/artifact-ownership.md`.
 

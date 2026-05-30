@@ -5,13 +5,13 @@
 
 | Phase | Question | Agents | Artifacts |
 |---|---|---|---|
-| 1 — Requirements & Planning | What are we building and for whom? | business-analyst, product-owner, ux-designer | user-journey-map, project-charter, prd, user-story, stakeholder-matrix |
-| 2 — Design | How does the user experience it? | ux-designer, ui-designer | user-flow, wireframe, component-spec |
+| 1 — Requirements & Planning | What are we building and for whom? | project-manager, business-analyst | user-journey-map, project-charter, prd, user-story, stakeholder-matrix |
+| 2 — Design | How does the user experience it? | product-designer | user-flow, wireframe, component-spec |
 | 3 — Architecture | How is it structured? | software-architect, backend-engineer | architecture-decision, api-contract, data-model, quality-requirement |
 | 4 — Development | How is it built? | backend-engineer, frontend-engineer | tech-design, task |
-| 5 — Testing & QA | How do we know it works? | qa-engineer, ux-designer | test-plan, test-spec, test-suite, bug-report |
-| 6 — Deployment & Ops | How do we run it? | devops-engineer, incident-commander | infra |
-| WORKFLOW | Cross-cutting coordination | — | change-request, advisory, milestone |
+| 5 — Testing & QA | How do we know it works? | qa-engineer | test-plan, test-spec, test-suite, bug-report |
+| 6 — Deployment & Ops | How do we run it? | platform-engineer | infra |
+| WORKFLOW | Cross-cutting coordination | project-manager | change-request, advisory, milestone |
 
 ## Phase Flow
 

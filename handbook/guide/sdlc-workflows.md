@@ -9,7 +9,7 @@ For the narrative workflow with diagrams: `handbook/sdlc-workflows.md`.
 
 ## The three tracks
 
-Track selection is driven by impact depth — how many artifact layers a change touches — not by manual classification. The orchestrator traverses the dependency graph forward and backward from the entry-point artifact and counts affected layers.
+Track selection is driven by impact depth — how many artifact layers a change touches — not by manual classification. The project-manager traverses the dependency graph forward and backward from the entry-point artifact and counts affected layers.
 
 | Track | Impact depth | Entry point | Gates |
 |---|---|---|---|
@@ -56,7 +56,7 @@ Phases are defined in two places that must stay in sync:
 
 Gate conditions live in the **Gate condition** column of the Phase Summary table in `reference/sdlc-phases.md`. Edit the text there.
 
-Gate conditions are guidance for the orchestrator, not enforced checks. Changing them adjusts what the orchestrator surfaces to the user at each review point — it does not add or remove hard blocks.
+Gate conditions are guidance for the project-manager, not enforced checks. Changing them adjusts what the project-manager surfaces to the user at each review point — it does not add or remove hard blocks.
 
 ---
 
@@ -73,7 +73,7 @@ To allow a new parallel window:
 
 ## Deferred items and advisories
 
-When the user proceeds past a gate warning, the orchestrator files an `advisory`. Advisories accumulate until the final gate or until the user asks to clear them.
+When the user proceeds past a gate warning, the project-manager files an `advisory`. Advisories accumulate until the final gate or until the user asks to clear them.
 
 To change how deferred items are handled — for example, auto-resolving certain advisory types — edit the **Deferred Items Handling** section in `handbook/sdlc-workflows.md`. That section defines the four user choices (resolve now / keep deferred / escalate / dismiss) and when each applies.
 

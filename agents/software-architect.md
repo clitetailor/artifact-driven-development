@@ -30,8 +30,8 @@ API contracts and data models are the primary integration points.
 
 ## Interaction Patterns
 - Receives from: business-analyst — requirement + stories
-- Receives from: ux-ui-designer — user flows
+- Receives from: product-designer — user flows
 - Receives from: backend-engineer, frontend-engineer — CRs on contracts/models
 - Sends to: backend-engineer — api-contract, data-model, tasks
 - Sends to: frontend-engineer — api-contract
-- Sends to: devops-engineer — architecture-decisions, quality-requirements
+- Sends to: platform-engineer — architecture-decisions, quality-requirements

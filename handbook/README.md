@@ -67,13 +67,13 @@ Supporting docs:
 | Role | Lead phases | Owns |
 |---|---|---|
 | Business Analyst | 1 | research-notes, personas, features, requirements |
-| UX-UI Designer | 2 | user-flows, wireframes, component-specs |
+| Product Designer | 2 | user-flows, wireframes, component-specs |
 | Software Architect | 2, 3 | ADRs, api-contracts, data-models, quality-requirements, backend tasks |
 | QA Engineer | 2 (test-plan), 3 (specs/suites) | test-plans, test-specs, test-suites |
 | Frontend Engineer | 3, 4 | frontend tasks, UI implementation |
 | Backend Engineer | 4 | backend implementation, task notes |
-| DevOps Engineer | 5 | infra |
-| Orchestrator | all | advisories, milestone, status stamps |
+| Platform Engineer | 5 | infra |
+| Project Manager | all | advisories, milestone, status stamps |
 
 Full responsibilities, capabilities, PKM scopes, and interaction patterns are in [`agent-roles.md`](./agent-roles.md).
 

@@ -20,4 +20,4 @@ Status is an **informational label** — not an enforced state machine. Pick the
 | `in-progress` | Used on tasks — actively being worked on |
 | `open` | Default starting state for change-requests, advisories, tasks |
 
-No required transitions. Agents and humans pick the label that fits; the orchestrator (if any) reads it as context, not as a gate.
+No required transitions. Agents and humans pick the label that fits; the project manager (if any) reads it as context, not as a gate.

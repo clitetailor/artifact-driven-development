@@ -4,27 +4,27 @@
 
 | Agent | Design Doc | Writes to |
 |---|---|---|
-| Orchestrator | `agents/orchestrator.md` | `{docs-repo}/` (status + advisories) |
+| Project Manager | `agents/project-manager.md` | `{docs-repo}/` (status + advisories) |
 | Business Analyst | `agents/business-analyst.md` | `{docs-repo}/` |
-| UX-UI Designer | `agents/ux-ui-designer.md` | `{docs-repo}/` |
+| Product Designer | `agents/product-designer.md` | `{docs-repo}/` |
 | Software Architect | `agents/software-architect.md` | `{docs-repo}/` |
 | QA Engineer | `agents/qa-engineer.md` | `{docs-repo}/` |
 | Backend Engineer | `agents/backend-engineer.md` | `../{backend-repo}/` |
 | Frontend Engineer | `agents/frontend-engineer.md` | `../{frontend-repo}/` |
-| DevOps Engineer | `agents/devops-engineer.md` | `../{infra-repo}/` |
+| Platform Engineer | `agents/platform-engineer.md` | `../{infra-repo}/` |
 
 ## Artifact Ownership
 
 | Artifact types | Owner |
 |---|---|
 | user-journey-map, project-charter, prd, user-story, stakeholder-matrix | business-analyst |
-| user-flow, wireframe, component-spec | ux-ui-designer |
+| user-flow, wireframe, component-spec | product-designer |
 | architecture-decision, api-contract, data-model, tech-design, quality-requirement, task (be) | software-architect |
 | test-plan, test-spec, test-suite | qa-engineer |
 | task (fe) | frontend-engineer |
-| infra | devops-engineer |
+| infra | platform-engineer |
 | change-request | any agent (files against upstream artifact owner) |
-| advisory | orchestrator |
+| advisory | project-manager |
 | bug-report | qa-engineer |
 
 No agent writes an artifact it does not own. Downstream agents file CRs instead.

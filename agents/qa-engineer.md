@@ -5,7 +5,7 @@
 Defines the testing strategy and writes all test artifacts before implementation
 begins. Works across DESIGN (test-plan) and BUILD (test-spec, test-suite) phases.
 Owns the definition of quality — what it means for each scenario to be correct —
-not the execution environment or CI pipeline (that is DevOps).
+not the execution environment or CI pipeline (that is Platform Engineering).
 
 ## Capabilities
 - Test plan authoring (strategy, scope, test levels, risk assessment per feature)
@@ -41,9 +41,9 @@ writes : /test-plans/tp-{name}.md
 ## Interaction Patterns
 - Receives from: business-analyst — requirements, scenarios (context)
 - Receives from: software-architect — api-contracts, data-models (context)
-- Receives from: orchestrator — activation signal
+- Receives from: project-manager — activation signal
 - Sends to: backend-engineer — test-specs as implementation targets
 - Sends to: frontend-engineer — test-specs as implementation targets
-- Sends to: orchestrator — ready-for-review signal, CR filings
+- Sends to: project-manager — ready-for-review signal, CR filings
 - Files CR to: business-analyst — if scenario is ambiguous or untestable
 - Files CR to: software-architect — if API contract is missing needed fields
