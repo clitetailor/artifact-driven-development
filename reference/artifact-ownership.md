@@ -19,7 +19,7 @@
 |---|---|
 | user-journey-map, project-charter, prd, user-story, stakeholder-matrix | business-analyst |
 | user-flow, wireframe, component-spec | product-designer |
-| architecture-decision, api-contract, data-model, tech-design, quality-requirement, task (be) | software-architect |
+| system-architecture, architecture-decision, api-contract, data-model, tech-design, quality-requirement, task (be) | software-architect |
 | test-plan, test-spec, test-suite | qa-engineer |
 | task (fe) | frontend-engineer |
 | infra | platform-engineer |

@@ -7,7 +7,7 @@
 |---|---|---|---|
 | 1 — Requirements & Planning | What are we building and for whom? | project-manager, business-analyst | user-journey-map, project-charter, prd, user-story, stakeholder-matrix |
 | 2 — Design | How does the user experience it? | product-designer | user-flow, wireframe, component-spec |
-| 3 — Architecture | How is it structured? | software-architect, backend-engineer | architecture-decision, api-contract, data-model, quality-requirement |
+| 3 — Architecture | How is it structured? | software-architect, backend-engineer | system-architecture, architecture-decision, api-contract, data-model, quality-requirement |
 | 4 — Development | How is it built? | backend-engineer, frontend-engineer | tech-design, task |
 | 5 — Testing & QA | How do we know it works? | qa-engineer | test-plan, test-spec, test-suite, bug-report |
 | 6 — Deployment & Ops | How do we run it? | platform-engineer | infra |
@@ -56,7 +56,8 @@ graph LR
         WF --> CS[component-spec]
     end
     subgraph ARC[Architecture]
-        ADR[architecture-decision] --> API[api-contract]
+        SA[system-architecture] --> ADR[architecture-decision]
+        ADR --> API[api-contract]
         ADR --> DM[data-model]
         ADR --> QR[quality-requirement]
     end
@@ -82,7 +83,8 @@ graph LR
 | user-flow | prd, user-journey-map |
 | wireframe | user-flow |
 | component-spec | wireframe |
-| architecture-decision | prd |
+| system-architecture | prd |
+| architecture-decision | system-architecture, prd |
 | api-contract | architecture-decision |
 | data-model | architecture-decision |
 | quality-requirement | prd, architecture-decision |

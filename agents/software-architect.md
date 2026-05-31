@@ -7,6 +7,7 @@ and technical decisions. The most consequential agent in the graph —
 API contracts and data models are the primary integration points.
 
 ## Capabilities
+- System architecture (system-wide structural view)
 - Architecture decisions (ADR authoring)
 - API contract design (OpenAPI-style, sole write authority)
 - Data modeling (schema, indexes, migrations)
@@ -18,6 +19,7 @@ API contracts and data models are the primary integration points.
 ## Owned Artifacts (RACI)
 | Artifact | Path |
 |---|---|
+| system-architecture | `system-architectures/sa-{name}.md` |
 | architecture-decision | `architecture-decisions/adr-{name}.md` |
 | api-contract | `api-contracts/api-contract-{name}.md` |
 | data-model | `data-models/schema-{name}.md` |

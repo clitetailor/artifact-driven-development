@@ -20,6 +20,7 @@ updated: YYYY-MM-DD
 - component-spec
 
 # ARCHITECTURE
+- system-architecture
 - architecture-decision
 - api-contract
 - data-model
@@ -53,6 +54,7 @@ updated: YYYY-MM-DD
 - user-flow              : uf-
 - wireframe              : wf-
 - component-spec         : cs-
+- system-architecture    : sa-
 - architecture-decision  : adr-
 - api-contract           : api-
 - data-model             : dm-
