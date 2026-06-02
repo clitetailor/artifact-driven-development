@@ -114,7 +114,7 @@ Assume you are starting a new project called `issue-tracker` with a React fronte
 
 ## Upgrading the Framework
 
-The vault carries a `FRAMEWORK_VERSION` stamp. When upstream releases a new version, framework-owned files (`handbook/`, `reference/`, `agents/`, `_sources/`, `README.md`) are synced and `AGENTS.md` is 3-way merged. User-owned content (`registry.yaml`, `templates/`, `conventions/`, all vault folders) is never touched. The seedbed source and ref are stored in `registry.yaml` under `seedbed`; the `orchard upgrade` CLI command (Phase 3) will automate this with a git-style 3-way merge.
+The vault's `registry.yaml` stores the `framework_version` field (the upstream seedbed version last synced). When upstream releases a new version, framework-owned files (`handbook/`, `reference/`, `agents/`, `_sources/`, `README.md`) are synced and `AGENTS.md` is 3-way merged. User-owned content (`registry.yaml`, `templates/`, `conventions/`, all vault folders) is never touched. The seedbed source and ref are stored in `registry.yaml` under `seedbed`; the `orchard upgrade` CLI command (Phase 3) will automate this with a git-style 3-way merge.
 
 ---
 
