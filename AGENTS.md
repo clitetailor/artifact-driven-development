@@ -29,9 +29,9 @@ When this vault is upgraded via `handbook/playbooks/upgrade-framework.md`, files
 
 - **Framework-owned** (overwritten on upgrade): `handbook/`, `reference/`, `agents/`, `_sources/`, `README.md`. Do not edit these for project-specific customization — fork into a user-owned location instead.
 - **3-way merged** on upgrade: `AGENTS.md` (base cached at `.add/cache/AGENTS.md`). Content between `<!-- USER:BEGIN -->` and `<!-- USER:END -->` is always preserved as-is — the script reports what upstream wanted there but never overwrites it. Framework sections outside those markers merge normally and may produce conflict markers.
-- **User-owned** (never touched on upgrade): `_registry.md`, `templates/`, `conventions/`, `.add/config`, and all vault artifact folders.
+- **User-owned** (never touched on upgrade): `registry.yaml`, `templates/`, `conventions/`, and all vault artifact folders.
 
-`.add/config` stores repo name values (docs-repo, frontend-repo, etc.) and is read automatically by the upgrade script to re-apply placeholders in `reference/` and `agents/` after each sync.
+`registry.yaml` stores repo name values (docs-repo, frontend-repo, etc.) under `repos`; these are re-applied as placeholders in `reference/` and `agents/` on upgrade.
 
 `FRAMEWORK_VERSION` records the upstream version this vault was last synced to.
 
@@ -39,7 +39,7 @@ When this vault is upgraded via `handbook/playbooks/upgrade-framework.md`, files
 
 ## Where to Look
 
-- **Artifact types, prefixes, repo mapping** → `_registry.md` (source of truth)
+- **Artifact types, prefixes, agent roster, skills, statuses, repo names** → `registry.yaml` (source of truth)
 - **Reference docs** (vocabulary, lifecycle, ownership, dep graph, frontmatter, queries, folder structure, SDLC phases, coordination tree) → `reference/README.md`
 - **Project setup, playbooks, customization guide** → `handbook/setup.md` (entry point), `handbook/playbooks/`, `handbook/guide/`
 - **Human workflow guides + diagrams** → `handbook/`

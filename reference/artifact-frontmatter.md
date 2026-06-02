@@ -20,10 +20,10 @@ refs:
 ## Field Notes
 
 - `id` — globally unique; pattern below
-- `type` — must exist in `_registry.md`
+- `type` — must exist in `../registry.yaml` under `types`
 - `owner` — see `artifact-ownership.md`
 - `status` — informational label; see `artifact-lifecycle.md` for common values
-- `charter` — must exist in `_registry.md` `## Charters` (add it first if new)
+- `charter` — charter slug; must correspond to an existing `project-charters/charter-{slug}.md` artifact on disk
 - `refs` — all related artifacts this one references (upstream, downstream, sideways). Used for navigation and impact queries.
 
 ## Optional Fields
@@ -40,6 +40,6 @@ These are conventions, not enforced.
 
 - No auto-incrementing integers
 - No timestamps
-- Prefix list is authoritative in `_registry.md`
+- Prefix list is authoritative in `../registry.yaml` under `types`
 
 Examples: `prd-user-authentication-login`, `api-user-authentication`, `task-token-generation-be`, `cr-api-missing-rate-limit`.

@@ -1,0 +1,204 @@
+version: 1                        # config schema version
+framework_version: "0.2.0"        # upstream seedbed version last synced
+
+# --- Project metadata ---
+project:
+  name: ""                        # project / vault name
+  author: ""
+  # description: >               # optional
+
+# --- Runtime / local ---
+seedbed:
+  source: ""                      # https://github.com/{org}/software-seedbed.git
+  ref: ""                         # tag / branch / commit fetched on upgrade
+
+repos:                            # placeholders re-applied across reference/ & agents/
+  docs-repo: "{docs-repo}"
+  frontend-repo: "{frontend-repo}"
+  backend-repo: "{backend-repo}"
+  infra-repo: "{infra-repo}"
+
+feature_type: charter/prd         # what `orchard query --pattern` treats as a feature
+
+# --- Artifact types (prefix folded in; was Types + Prefixes in _registry.md) ---
+# No `phase` here: phase grouping is a workflow concept owned by
+# reference/artifact-dep-graph.md. Comments below are human dividers only.
+types:
+  # Requirements & Planning
+  - name: user-journey-map
+    prefix: ujm-
+    template: templates/user-journey-map.md
+  - name: project-charter
+    prefix: charter-
+    template: templates/project-charter.md
+  - name: prd
+    prefix: prd-
+    template: templates/prd.md
+  - name: user-story
+    prefix: story-
+    template: templates/user-story.md
+  - name: stakeholder-matrix
+    prefix: sm-
+    optional: true
+    description: optional governance artifact
+    template: templates/stakeholder-matrix.md   # template TBD
+
+  # Design
+  - name: user-flow
+    prefix: uf-
+    template: templates/user-flow.md
+  - name: wireframe
+    prefix: wf-
+    template: templates/wireframe.md
+  - name: component-spec
+    prefix: cs-
+    template: templates/component-spec.md
+
+  # Architecture
+  - name: system-architecture
+    prefix: sa-
+    template: templates/system-architecture.md
+  - name: architecture-decision
+    prefix: adr-
+    template: templates/architecture-decision.md
+  - name: api-contract
+    prefix: api-
+    template: templates/api-contract.md
+  - name: data-model
+    prefix: dm-
+    template: templates/data-model.md
+  - name: quality-requirement
+    prefix: qr-
+    template: templates/quality-requirement.md
+
+  # Development
+  - name: tech-design
+    prefix: td-
+    template: templates/tech-design.md
+  - name: task
+    prefix: task-
+    template: templates/task.md
+    # conditional ownership (be → software-architect, fe → frontend-engineer)
+    # lives in reference/artifact-ownership.md, not here.
+
+  # Testing & QA
+  - name: test-plan
+    prefix: tp-
+    template: templates/test-plan.md
+  - name: test-spec
+    prefix: ts-
+    template: templates/test-spec.md
+  - name: test-suite
+    prefix: suite-
+    template: templates/test-suite.md
+  - name: bug-report
+    prefix: bug-
+    description: defect tracking; spawns fix task or closed directly
+    template: templates/bug-report.md
+
+  # Deployment & Ops
+  - name: infra
+    prefix: infra-
+    template: templates/infra.md
+
+  # Workflow (cross-cutting)
+  - name: change-request
+    prefix: cr-
+    template: templates/change-request.md
+  - name: advisory
+    prefix: adv-
+    description: noted-for-future tracker
+    template: templates/advisory.md
+  - name: milestone
+    prefix: ms-
+    optional: true
+    description: optional timeline coordination
+    template: templates/milestone.md
+
+# --- Agents (identity roster; prose/behavior stays in design-doc) ---
+# Repo-mapping (writes-to/also-reads) dropped: repo ownership is vague and the coding
+# agent tool instructs agents directly. Artifact ownership (type→agent) stays in
+# reference/artifact-ownership.md.
+agents:
+  - slug: project-manager
+    name: Project Manager
+    design-doc: agents/project-manager.md
+  - slug: business-analyst
+    name: Business Analyst
+    design-doc: agents/business-analyst.md
+  - slug: product-designer
+    name: Product Designer
+    design-doc: agents/product-designer.md
+  - slug: software-architect
+    name: Software Architect
+    design-doc: agents/software-architect.md
+  - slug: qa-engineer
+    name: QA Engineer
+    design-doc: agents/qa-engineer.md
+  - slug: backend-engineer
+    name: Backend Engineer
+    design-doc: agents/backend-engineer.md
+  - slug: frontend-engineer
+    name: Frontend Engineer
+    design-doc: agents/frontend-engineer.md
+  - slug: platform-engineer
+    name: Platform Engineer
+    design-doc: agents/platform-engineer.md
+
+# --- Skills ---
+skills:
+  - name: brainstorming
+    source: TBD
+    status: deferred                       # deferred | active
+    applied-to: ideation phases
+  - name: tdd
+    source: TBD
+    status: deferred
+    applied-to: test-driven implementation
+  - name: impeccable
+    source: pbakaus/impeccable
+    status: deferred
+    applied-to: output quality pass
+
+# --- Statuses (valid labels + one-line meaning; narrative framing stays in
+#     reference/artifact-lifecycle.md — "informational label, not a state machine") ---
+statuses:
+  - name: draft
+    description: Being written; not ready for review
+  - name: ready-for-review
+    description: Author marks complete; awaiting human approval
+  - name: accepted
+    description: Approved as the current source of truth
+  - name: needs-review
+    description: Was accepted, but an upstream changed — re-confirm consistency
+  - name: rejected
+    description: Will not be used in its current form
+  - name: deprecated
+    description: Replaced or no longer applicable; kept for history
+  - name: superseded
+    description: Replaced by a newer version of the same kind
+    applies-to: [architecture-decision]
+  - name: applied
+    description: The change has been incorporated
+    applies-to: [change-request]
+  - name: withdrawn
+    description: Filer cancelled before action
+    applies-to: [change-request]
+  - name: resolved
+    description: The concern/defect was addressed
+    applies-to: [advisory, bug-report]
+  - name: dismissed
+    description: Explicitly decided not to act
+    applies-to: [advisory]
+  - name: wont-fix
+    description: Acknowledged but will not be fixed
+    applies-to: [bug-report]
+  - name: done
+    description: Implementation complete
+    applies-to: [task]
+  - name: in-progress
+    description: Actively being worked on
+    applies-to: [task]
+  - name: open
+    description: Default starting state
+    applies-to: [change-request, advisory, task]

@@ -1,7 +1,7 @@
 # Vault Queries
 
 **Never `ls` a folder to find artifacts.** Use grep against frontmatter fields.
-Charters and PRDs are listed in `_registry.md` — read it first to scope queries.
+Charters and PRDs are discovered via live scan — use `rg` directly or `orchard query --pattern 'charter/prd'` once the CLI is available.
 
 ```bash
 # All artifacts for a charter

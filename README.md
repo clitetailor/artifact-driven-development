@@ -40,7 +40,7 @@ Artifacts are the unit of work in the vault. Each one is a Markdown file with fr
 - `task-` — a fine-grained unit of implementation work, tied back to a requirement
 - `cr-` — a change request, used when an existing contract needs to evolve
 
-The full list of artifact types, ID prefixes, and SDLC phase groupings lives in `_registry.md`. The SDLC phases themselves are defined in `reference/sdlc-phases.md`, and the artifact dependency graph — which artifact must exist before which — lives in `reference/artifact-dep-graph.md`.
+The full list of artifact types, ID prefixes, agents, skills, and statuses lives in `registry.yaml`. The artifact dependency graph — which artifact must exist before which — lives in `reference/artifact-dep-graph.md`.
 
 ---
 
@@ -51,19 +51,17 @@ The full list of artifact types, ID prefixes, and SDLC phase groupings lives in 
 | File | Purpose |
 |---|---|
 | `AGENTS.md` | Core operating instructions for agents working in the vault |
-| `_registry.md` | Source of truth for artifact types, ID prefixes, features, and modules |
+| `registry.yaml` | Source of truth for artifact types, ID prefixes, agents, skills, and statuses |
 | `README.md` | This file — entry point for humans and agents |
 
 **Folders**
 
 | Folder | Purpose |
 |---|---|
-| `reference/` | AI-friendly reference docs: vocabulary, lifecycle, ownership, dep graph, SDLC phases, frontmatter, vault queries, folder structure, coordination decision tree |
-| `handbook/` | Human-readable workflow guides: SDLC, TDD, role processes, coordination examples |
+| `reference/` | AI-friendly reference docs: vocabulary, lifecycle, ownership, dep graph, frontmatter, vault queries, folder structure, coordination decision tree |
+| `handbook/` | Entry point (`setup.md`) and playbooks placeholder |
 | `handbook/setup.md` | Prompt script — paste into AI chat to set up or use ADD in a project |
-| `handbook/playbooks/` | Step-by-step run instructions per scenario (agent + bash) |
-| `handbook/guide/` | Human guide for customizing ADD (artifacts, templates, SDLC, agent skills) |
-| `handbook/scripts/` | Bash scripts called by playbooks |
+| `handbook/playbooks/` | Step-by-step run instructions (CLI-backed skills; placeholder for now) |
 | `templates/` | Artifact doc templates, one per artifact type |
 | `agents/` | Agent role definitions and repo/skill mappings |
 | `conventions/` | Enforced project conventions |
@@ -116,7 +114,7 @@ Assume you are starting a new project called `issue-tracker` with a React fronte
 
 ## Upgrading the Framework
 
-The vault carries a `FRAMEWORK_VERSION` stamp. When upstream releases a new version, run `handbook/playbooks/upgrade-framework.md` to sync framework-owned files (`handbook/`, `reference/`, `agents/`, `_sources/`, `README.md`) and 3-way merge `AGENTS.md`. User-owned content (`_registry.md`, `templates/`, `conventions/`, all vault folders) is never touched. The playbook accepts either a git URL pinned to a tag, or a local path to a source checkout.
+The vault carries a `FRAMEWORK_VERSION` stamp. When upstream releases a new version, framework-owned files (`handbook/`, `reference/`, `agents/`, `_sources/`, `README.md`) are synced and `AGENTS.md` is 3-way merged. User-owned content (`registry.yaml`, `templates/`, `conventions/`, all vault folders) is never touched. The seedbed source and ref are stored in `registry.yaml` under `seedbed`; the `orchard upgrade` CLI command (Phase 3) will automate this with a git-style 3-way merge.
 
 ---
 

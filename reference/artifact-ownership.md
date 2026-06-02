@@ -1,17 +1,6 @@
 # Agent Roles & Artifact Ownership
 
-## Agent Roster
-
-| Agent | Design Doc | Writes to |
-|---|---|---|
-| Project Manager | `agents/project-manager.md` | `{docs-repo}/` (status + advisories) |
-| Business Analyst | `agents/business-analyst.md` | `{docs-repo}/` |
-| Product Designer | `agents/product-designer.md` | `{docs-repo}/` |
-| Software Architect | `agents/software-architect.md` | `{docs-repo}/` |
-| QA Engineer | `agents/qa-engineer.md` | `{docs-repo}/` |
-| Backend Engineer | `agents/backend-engineer.md` | `../{backend-repo}/` |
-| Frontend Engineer | `agents/frontend-engineer.md` | `../{frontend-repo}/` |
-| Platform Engineer | `agents/platform-engineer.md` | `../{infra-repo}/` |
+For the agent identity roster (slug, name, design-doc), see `../registry.yaml` under `agents`.
 
 ## Artifact Ownership
 

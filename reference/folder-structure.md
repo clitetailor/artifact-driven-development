@@ -2,7 +2,7 @@
 
 ```
 {docs-repo}/
-├── _registry.md            # Artifact type + charter registry (source of truth)
+├── registry.yaml           # Artifact types, prefixes, agent roster, skills, statuses (source of truth)
 ├── user-journey-maps/      # End-to-end user experience maps, grounded in research (ujm-)
 ├── project-charters/       # Capability authorizations with scope + success criteria (charter-)
 ├── prds/                   # Product Requirements Documents, scoped per charter area  (prd-)
@@ -34,4 +34,4 @@
 └── templates/              # Artifact doc templates
 ```
 
-See `_registry.md` for the authoritative artifact type + prefix list.
+See `registry.yaml` for the authoritative artifact type + prefix list.

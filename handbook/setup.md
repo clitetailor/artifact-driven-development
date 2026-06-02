@@ -1,18 +1,13 @@
 # ADD Setup
 
 > Reference this file in your AI chat to set up or use Artifact-Driven Development in a project.
-> The agent will ask you a set of questions, then run the right playbook.
+> The agent will ask you a set of questions to understand the context, then proceed accordingly.
 
 ---
 
 ## For The Agent
 
 The user has referenced this file. Ask one question at a time using the `AskUserQuestion` tool — render each question as a UI picker with its options as selectable choices. Wait for the user's answer before proceeding to the next question. Do not ask multiple questions at once.
-
-For setup questions (Q2, Q2a/b/c, Q3): act on the option the user picks —
-- **S** — preserve existing config, move on
-- **A** — append new entries without touching existing ones
-- **U** — modify existing entries
 
 Skip any question the user has already answered in their opening message. Skip conditional questions (Q2a/b/c, Q4, Q5) if their prerequisite answer makes them irrelevant.
 
@@ -27,15 +22,15 @@ What do you want to do?
 - **A** — Set up this repo with ADD for the first time
 - **B** — Plan a new feature
 - **C** — Plan a change or fix to an existing feature
-- **D** — Manage repos (add, remap, or remove a repo)
-- **E** — Customize ADD (add/remove artifact types, modify SDLC workflow, agent skills)
+- **D** — Manage repo names (update `registry.yaml` → `repos`)
+- **E** — Query artifacts (find by status, charter, type, or refs)
 - **F** — Clean up stale or unused artifacts
 
 ---
 
 ### Q2 — Repo layout
 
-- **S** — Skip — already configured in `AGENTS.md`, no change needed
+- **S** — Skip — already configured in `registry.yaml` and `AGENTS.md`, no change needed
 - **U** — Update — layout is changing (answer below)
 
 If U: how is this project laid out?
@@ -45,7 +40,7 @@ If U: how is this project laid out?
 
 ---
 
-### Q2a — Frontend repos _(ask only for Q2 = U, or when adding repos to an existing setup)_
+### Q2a — Frontend repos _(ask only for Q2 = U, or when adding repos)_
 
 - **S** — Skip — already configured, no change
 - **A** — Add — adding new frontend repos (list names below)
@@ -55,7 +50,7 @@ Examples: `web`, `mobile`, `admin-ui`
 
 ---
 
-### Q2b — Backend repos _(ask only for Q2 = U, or when adding repos to an existing setup)_
+### Q2b — Backend repos _(ask only for Q2 = U, or when adding repos)_
 
 - **S** — Skip — already configured, no change
 - **A** — Add — adding new backend repos (list names below)
@@ -65,7 +60,7 @@ Examples: `api`, `auth-service`, `data-pipeline`
 
 ---
 
-### Q2c — Infra repo _(ask only for Q2 = U, or when adding repos to an existing setup)_
+### Q2c — Infra repo _(ask only for Q2 = U, or when adding repos)_
 
 - **S** — Skip — already configured, no change
 - **A** — Add — adding an infra repo (give name below)
@@ -102,31 +97,20 @@ What kind of work is this?
 
 How much planning do you want generated now?
 
-- **A** — Full SDLC — feature, requirements, design artifacts, tasks
+- **A** — Full SDLC — charter, PRD, design artifacts, tasks
 - **B** — Selected artifacts — pick only what this scope needs
 - **C** — Change request only — a targeted correction, no new planning artifacts _(only valid when Q1 = C)_
 
 ---
 
-## Dispatch
+## What to do with the answers
 
-Once you have the answers, read the matching playbook in full before starting.
-
-| Condition | Playbook |
+| Condition | Action |
 |---|---|
-| Q1 = A | `handbook/playbooks/setup-new-repo.md` |
-| Q1 = B | `handbook/playbooks/plan-feature.md` |
-| Q1 = C, Q5 = A or B | `handbook/playbooks/plan-feature.md` |
-| Q1 = C, Q5 = C | `handbook/playbooks/plan-change.md` |
-| Q1 = D | `handbook/playbooks/manage-repos.md` |
-| Q1 = E | `handbook/guide/` — point the user to the relevant guide |
-| Q1 = F | `handbook/playbooks/cleanup-artifacts.md` |
+| Q1 = A | Fill in `registry.yaml` (`project`, `repos`, `seedbed`); create artifact folders for types in use; update `AGENTS.md` `<!-- USER:BEGIN -->` section |
+| Q1 = B or C | Read `registry.yaml` to confirm types + prefixes; follow the artifact dependency graph in `reference/artifact-dep-graph.md` |
+| Q1 = D | Update `repos` section of `registry.yaml`; re-apply placeholders in `reference/` and `agents/` |
+| Q1 = E | Use grep recipes in `reference/vault-queries.md` |
+| Q1 = F | Scan for artifacts with `status: deprecated` or no `refs`; remove stale files |
 
-Pass collected answers into the playbook as context. Do not re-ask questions the user already answered.
-
----
-
-## Standalone Use
-
-Each playbook in `handbook/playbooks/` can also be run directly without going through this file.
-Every playbook starts with a short prerequisites block listing what context it needs.
+Pass collected answers into your work as context. Do not re-ask questions the user already answered.
