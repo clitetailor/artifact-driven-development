@@ -12,11 +12,15 @@ seedbed:
   source: ""                      # https://github.com/{org}/software-seedbed.git
   ref: ""                         # tag / branch / commit fetched on upgrade
 
-repos:                            # placeholders re-applied across reference/ & agents/
-  docs-repo: "{docs-repo}"
-  frontend-repo: "{frontend-repo}"
-  backend-repo: "{backend-repo}"
-  infra-repo: "{infra-repo}"
+repos:                            # list of repo names and paths
+  - name: identity
+    path: ../identity
+  - name: billing
+    path: ../billing
+  - name: notifications
+    path: ../notifications
+  - name: analytics
+    path: ../analytics
 
 feature_type: charter/prd         # what `orchard query --pattern` treats as a feature
 

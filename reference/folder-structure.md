@@ -1,7 +1,9 @@
 # Vault Folder Structure
 
+`{vault-root}` is the vault repo itself — the current repo/folder you're working in (default CWD), where `registry.yaml` lives.
+
 ```
-{docs-repo}/
+{vault-root}/
 ├── registry.yaml           # Artifact types, prefixes, agent roster, skills, statuses (source of truth)
 ├── user-journey-maps/      # End-to-end user experience maps, grounded in research (ujm-)
 ├── project-charters/       # Capability authorizations with scope + success criteria (charter-)

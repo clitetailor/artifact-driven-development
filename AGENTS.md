@@ -11,6 +11,8 @@
 - **Project setup** → `handbook/setup.md`
 - **Source material** (real-world process docs the framework was synthesized from) → `_sources/`. Do not load unless explicitly asked — uses off-framework vocabulary on purpose.
 
+`{vault-root}` (used throughout reference docs) = the current repo/folder you're working in (default CWD), where `registry.yaml` lives. Sibling code repos are listed under `repos:` in `registry.yaml`.
+
 Load reference docs only when the task requires them. Never load `handbook/` or `_sources/` docs unless explicitly directed.
 
 ---
@@ -27,7 +29,7 @@ jj commit -m "Short imperative summary
 ```
 
 For a sibling repo specifically: `jj -R ../{repo-name} commit -m "..."`.
-Bare `jj commit` always lands in `{docs-repo}` (default CWD).
+Bare `jj commit` always lands in `{vault-root}` (default CWD).
 
 ---
 

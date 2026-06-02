@@ -1,116 +1,90 @@
 # ADD Setup
 
-> Reference this file in your AI chat to set up or use Artifact-Driven Development in a project.
-> The agent will ask you a set of questions to understand the context, then proceed accordingly.
+> Reference this file in your AI chat to configure `registry.yaml` for your project.
+> The agent will walk you through the configuration step by step.
 
 ---
 
 ## For The Agent
 
-The user has referenced this file. Ask one question at a time using the `AskUserQuestion` tool — render each question as a UI picker with its options as selectable choices. Wait for the user's answer before proceeding to the next question. Do not ask multiple questions at once.
+The user has referenced this file. Follow the steps below in order.
 
-Skip any question the user has already answered in their opening message. Skip conditional questions (Q2a/b/c, Q4, Q5) if their prerequisite answer makes them irrelevant.
+**Important:**
+- Ask one question at a time using your question/prompt tool
+- Wait for the user's answer before proceeding to the next question
+- Do not ask multiple questions at once, except the Step 2 metadata form (see Step 2)
+- The field questions (Steps 2–4) are free-text and optional — the user skips a field by leaving it blank
+- The confirmation gates (Steps 1 and 5) are the only Yes/Cancel choices; render them as a picker if your tool supports it
+- Use descriptive, detailed question text as shown in the examples below
 
----
+Skip any question the user has already answered in their opening message.
 
-## Questions
-
-### Q1 — Intent
-
-What do you want to do?
-
-- **A** — Set up this repo with ADD for the first time
-- **B** — Plan a new feature
-- **C** — Plan a change or fix to an existing feature
-- **D** — Manage repo names (update `registry.yaml` → `repos`)
-- **E** — Query artifacts (find by status, charter, type, or refs)
-- **F** — Clean up stale or unused artifacts
+All answers will be saved to `registry.yaml`.
 
 ---
 
-### Q2 — Repo layout
+## Step 1 — Onboarding Overview
 
-- **S** — Skip — already configured in `registry.yaml` and `AGENTS.md`, no change needed
-- **U** — Update — layout is changing (answer below)
+Agent: I will guide you through configuring `registry.yaml` for your project (project metadata, repository names, and feature type pattern). Artifact types, agents, skills, and statuses will keep their defaults. Continue? (Yes / Cancel)
 
-If U: how is this project laid out?
-- Monorepo — all code and docs in one repo
-- Multi-repo — sibling directories on the same machine
-- Multi-repo — separate remotes
+If user selects **Cancel**: Exit the guide. No further questions.
+
+If user selects **Yes**: Proceed to Step 2.
 
 ---
 
-### Q2a — Frontend repos _(ask only for Q2 = U, or when adding repos)_
+## Step 2 — Project Metadata
 
-- **S** — Skip — already configured, no change
-- **A** — Add — adding new frontend repos (list names below)
-- **U** — Update — changing an existing frontend repo name or path (list old → new below)
+Agent: **Project metadata.** Collect the three fields below. If your tool can render a multi-field form, present all three together in a single prompt; otherwise, fall back to asking them one at a time in order. Every field is optional — a field left blank is skipped.
 
-Examples: `web`, `mobile`, `admin-ui`
+1. Project name
+2. Author — name and optionally an email (e.g., "Jane Doe <jane@example.com>")
+3. Project description
 
----
-
-### Q2b — Backend repos _(ask only for Q2 = U, or when adding repos)_
-
-- **S** — Skip — already configured, no change
-- **A** — Add — adding new backend repos (list names below)
-- **U** — Update — changing an existing backend repo name or path (list old → new below)
-
-Examples: `api`, `auth-service`, `data-pipeline`
+After collecting these fields, proceed to Step 3.
 
 ---
 
-### Q2c — Infra repo _(ask only for Q2 = U, or when adding repos)_
+## Step 3 — Repository Names
 
-- **S** — Skip — already configured, no change
-- **A** — Add — adding an infra repo (give name below)
-- **U** — Update — changing the infra repo name or path (give old → new below)
+Agent: **Repository names.** These are the names and paths of your repositories used throughout the framework's reference docs and agent files.
 
-Example: `infra`, `deploy`
+Agent: What are your repository names? Provide a comma-separated list — use the repo name alone for sibling repos (e.g., `identity,billing,notifications`), or `name:path` for repos at a custom path (e.g., `identity:../../monorepo/services/identity`). (Optional — leave blank to keep the example repos.)
 
----
-
-### Q3 — Product context
-
-- **S** — Skip — already established in README or planning artifacts
-- **U** — Update — product context has changed (answer below)
-
-If U:
-- What is this product or system called?
-- What problem does it solve?
-- Who are the primary users?
-- What are the main workflows?
+After completing this question, proceed to Step 4.
 
 ---
 
-### Q4 — Scope _(ask only for Q1 = B or C)_
+## Step 4 — Feature Type Pattern
 
-What kind of work is this?
+Agent: **Feature type pattern.** This defines what counts as a feature — it's the pattern `orchard query --pattern` matches against.
 
-- **A** — New capability — nothing like this exists yet
-- **B** — Enhancement — improving or extending something that already exists
-- **C** — Correction — fixing a specific bug or targeted issue
+Agent: Which pattern should identify a feature? (Default is `charter/prd` — a feature is anything matching that pattern. Optional — leave blank to keep the default.)
 
----
-
-### Q5 — Planning depth _(ask only for Q1 = B or C)_
-
-How much planning do you want generated now?
-
-- **A** — Full SDLC — charter, PRD, design artifacts, tasks
-- **B** — Selected artifacts — pick only what this scope needs
-- **C** — Change request only — a targeted correction, no new planning artifacts _(only valid when Q1 = C)_
+After completing this question, proceed to Step 5.
 
 ---
 
-## What to do with the answers
+## Step 5 — Preview and Apply Changes
 
-| Condition | Action |
-|---|---|
-| Q1 = A | Fill in `registry.yaml` (`project`, `repos`, `seedbed`); create artifact folders for types in use; update `AGENTS.md` `<!-- USER:BEGIN -->` section |
-| Q1 = B or C | Read `registry.yaml` to confirm types + prefixes; follow the artifact dependency graph in `reference/artifact-dep-graph.md` |
-| Q1 = D | Update `repos` section of `registry.yaml`; re-apply placeholders in `reference/` and `agents/` |
-| Q1 = E | Use grep recipes in `reference/vault-queries.md` |
-| Q1 = F | Scan for artifacts with `status: deprecated` or no `refs`; remove stale files |
+Agent: I have collected all the configuration information. Here is a preview of the changes that will be made to `registry.yaml`:
 
-Pass collected answers into your work as context. Do not re-ask questions the user already answered.
+[Preview the changes by listing each field that will be updated with its new value]
+
+Apply these changes? (Yes / Cancel)
+
+If user selects **Cancel**: Exit without making changes. The user can re-run this guide later.
+
+If user selects **Yes**: Apply the changes to `registry.yaml` using the Edit tool. Update only the fields the user provided answers for; leave all other fields unchanged.
+
+After applying changes:
+
+Agent: Configuration complete. `registry.yaml` has been updated with your project settings. You can now use the vault with your configured values. If you need to make changes later, you can either edit `registry.yaml` directly or re-run this guide.
+
+---
+
+## Notes
+
+- The `types`, `agents`, `skills`, and `statuses` sections in `registry.yaml` are kept at their default values. If you need to customize these (e.g., add a new artifact type or agent), edit `registry.yaml` directly.
+- The `seedbed` section (source and ref) is assumed to be already configured and is not covered by this guide.
+- Repository names are used as placeholders in `reference/` and `agents/` files. If you change them later, you may need to re-apply placeholders manually or wait for the `orchard upgrade` CLI command (Phase 3).
