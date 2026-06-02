@@ -4,45 +4,11 @@
 
 ---
 
-<!-- USER:BEGIN -->
-## Project Role
-
-Planning docs and implementation artifacts for a software project.
-Code lives in sibling repos (`{frontend-repo}`, `{backend-repo}`).
-All design artifacts are stored in this repo (`{docs-repo}`) as a PKM vault.
-
-## Sibling Repos
-
-| Directory | Purpose |
-|---|---|
-| `../{frontend-repo}/` | Frontend application |
-| `../{backend-repo}/` | Backend API |
-| `../{infra-repo}/` | Infrastructure / deployment repo |
-| `../{docs-repo}/` | Documentation vault — plans, SDLC artifacts |
-<!-- USER:END -->
-
----
-
-## File Ownership (for upgrades)
-
-When this vault is upgraded via `handbook/playbooks/upgrade-framework.md`, files fall into three classes:
-
-- **Framework-owned** (overwritten on upgrade): `handbook/`, `reference/`, `agents/`, `_sources/`, `README.md`. Do not edit these for project-specific customization — fork into a user-owned location instead.
-- **3-way merged** on upgrade: `AGENTS.md` (base cached at `.add/cache/AGENTS.md`). Content between `<!-- USER:BEGIN -->` and `<!-- USER:END -->` is always preserved as-is — the script reports what upstream wanted there but never overwrites it. Framework sections outside those markers merge normally and may produce conflict markers.
-- **User-owned** (never touched on upgrade): `registry.yaml`, `templates/`, `conventions/`, and all vault artifact folders.
-
-`registry.yaml` stores repo name values (docs-repo, frontend-repo, etc.) under `repos`; these are re-applied as placeholders in `reference/` and `agents/` on upgrade.
-
-`FRAMEWORK_VERSION` records the upstream version this vault was last synced to.
-
----
-
 ## Where to Look
 
 - **Artifact types, prefixes, agent roster, skills, statuses, repo names** → `registry.yaml` (source of truth)
-- **Reference docs** (vocabulary, lifecycle, ownership, dep graph, frontmatter, queries, folder structure, SDLC phases, coordination tree) → `reference/README.md`
-- **Project setup, playbooks, customization guide** → `handbook/setup.md` (entry point), `handbook/playbooks/`, `handbook/guide/`
-- **Human workflow guides + diagrams** → `handbook/`
+- **Reference docs** (vocabulary, lifecycle, ownership, dep graph, frontmatter, queries, folder structure, coordination tree) → `reference/README.md`
+- **Project setup** → `handbook/setup.md`
 - **Source material** (real-world process docs the framework was synthesized from) → `_sources/`. Do not load unless explicitly asked — uses off-framework vocabulary on purpose.
 
 Load reference docs only when the task requires them. Never load `handbook/` or `_sources/` docs unless explicitly directed.
