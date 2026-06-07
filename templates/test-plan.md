@@ -168,3 +168,6 @@ refs:
 - [ ] QA Lead
 - [ ] Software Architect
 - [ ] Product Owner
+
+## References
+- [req-{slug}](../prds/req-{slug}.md)

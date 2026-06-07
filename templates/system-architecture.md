@@ -61,10 +61,12 @@ refs:
 <!-- Hard constraints (budget, compliance, existing systems) and assumptions
      the architecture depends on. -->
 
-## Related Decisions
-<!-- ADRs that elaborate or refine this architecture (created downstream).
-     Link by ID for navigation. -->
-- adr-{slug}
+## Related ADRs
+<!-- ADRs that elaborate or refine this architecture (created downstream). -->
+- [adr-{slug}](../architecture-decisions/adr-{slug}.md)
 
 ## Open Questions
 - [ ] 
+
+## References
+- [story-{slug}](../user-stories/story-{slug}.md)

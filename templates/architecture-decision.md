@@ -42,3 +42,7 @@ proposed
 ## Review Trigger
 <!-- Conditions under which this decision should be revisited. -->
 Revisit if: {condition}
+
+## References
+- [req-{slug}](../prds/req-{slug}.md)
+- [qr-{slug}](../quality-requirements/qr-{slug}.md)

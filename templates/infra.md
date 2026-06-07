@@ -95,3 +95,9 @@ refs:
 | Variable | Environment | Value Source | Description |
 |----------|-------------|--------------|-------------|
 |          |             |              |             |
+
+## References
+- [adr-{slug}](../architecture-decisions/adr-{slug}.md)
+- [qr-{slug}](../quality-requirements/qr-{slug}.md)
+- [task-{slug}-be](../tasks/task-{slug}-be.md)
+- [task-{slug}-fe](../tasks/task-{slug}-fe.md)

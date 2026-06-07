@@ -56,5 +56,5 @@ refs:
 
 States not shown here — see component spec cs-{slug}.
 
-## Flow Reference
-uf-{slug} — {step name in the flow this screen covers}
+## References
+- [uf-{slug}](../user-flows/uf-{slug}.md)

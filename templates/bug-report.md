@@ -55,3 +55,7 @@ refs:
 **Status:** open
 **Resolved:** ~
 **Resolution note:** ~
+
+## References
+- [{affected-artifact-id}](../{folder}/{affected-artifact-id}.md)
+- [{task-fix-id}](../tasks/{task-fix-id}.md)

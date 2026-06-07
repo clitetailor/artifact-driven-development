@@ -54,3 +54,6 @@ refs:
 <!-- Unresolved questions that must be answered before downstream work (PRDs) can begin. -->
 
 - 
+
+## References
+- [ujm-{slug}](../user-journey-maps/ujm-{slug}.md)

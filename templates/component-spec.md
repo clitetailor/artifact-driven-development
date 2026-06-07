@@ -16,12 +16,6 @@ refs:
 ## Purpose
 <!-- What this component does and where it appears in the product. -->
 
-## References
-- Wireframe: wf-{slug}
-- User flow: uf-{slug}
-
----
-
 ## Variants
 
 | Variant | Description |
@@ -90,3 +84,7 @@ refs:
 
 ## Implementation Notes
 <!-- Constraints or context the frontend engineer needs that aren't obvious from the spec. -->
+
+## References
+- [wf-{slug}](../wireframes/wf-{slug}.md)
+- [uf-{slug}](../user-flows/uf-{slug}.md)

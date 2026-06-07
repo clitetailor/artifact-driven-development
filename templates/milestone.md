@@ -132,3 +132,10 @@ gantt
 
 ### Action Items
 - 
+
+## References
+- [prd-{charter}-{descriptor}](../prds/prd-{charter}-{descriptor}.md)
+- [story-{slug}](../user-stories/story-{slug}.md)
+- [task-{slug}-be](../tasks/task-{slug}-be.md)
+- [task-{slug}-fe](../tasks/task-{slug}-fe.md)
+- [cr-{slug}](../change-requests/cr-{slug}.md)

@@ -37,7 +37,7 @@ Bare `jj commit` always lands in `{vault-root}` (default CWD).
 
 - **Ask before acting on ambiguity.** If a task or requirement is unclear, ask first.
 - **Think before acting.** Read all relevant artifact and conventions docs before writing any agent prompt.
-- **Only read what the task requires.** Read the target artifact and its direct upstream references (from the `refs` field). Do not read artifacts owned by other agents unless explicitly referenced by the task.
+- **Only read what the task requires.** Read the target artifact and its direct upstream references (from the `refs` field). Do not read artifacts owned by other agents unless explicitly referenced by the task. To navigate to a referenced artifact, use the `## References` section links at the bottom of the artifact body, or resolve the ID to a path via the grep recipes in `reference/vault-queries.md`.
 - **Do not re-read files already read in this session** unless the file may have changed.
 - **Use `offset`/`limit` on Read for large files.** When only a specific section is needed (e.g. frontmatter, a single entity definition), read only that portion — not the whole file.
 - **One read is enough as a pattern.** When applying the same structural change to multiple similar files, read one file to confirm the pattern, then edit the rest without re-reading each.

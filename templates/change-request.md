@@ -41,3 +41,8 @@ refs:
 **Status:** ~
 **Reason:** ~
 **Alternative (if rejected):** ~
+
+## References
+- [{target-artifact-id}](../{folder}/{target-artifact-id}.md)
+- [{related-artifact-id}](../{folder}/{related-artifact-id}.md)
+- [{triggering-artifact-id}](../{folder}/{triggering-artifact-id}.md)

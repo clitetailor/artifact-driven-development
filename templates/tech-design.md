@@ -44,3 +44,9 @@ refs:
 ## Open Questions
 <!-- Unresolved items that must be answered before tasks can start. -->
 - [ ] 
+
+## References
+- [adr-{slug}](../architecture-decisions/adr-{slug}.md)
+- [api-{slug}](../api-contracts/api-{slug}.md)
+- [dm-{slug}](../data-models/dm-{slug}.md)
+- [req-{slug}](../prds/req-{slug}.md)

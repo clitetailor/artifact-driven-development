@@ -61,3 +61,7 @@ refs:
 
 ## Seed Data
 <!-- Required seed rows. Leave empty if none. -->
+
+## References
+- [adr-{slug}](../architecture-decisions/adr-{slug}.md)
+- [api-{slug}](../api-contracts/api-{slug}.md)

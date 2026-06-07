@@ -97,3 +97,6 @@ refs:
 - **Trigger**: {on commit | on PR | nightly}
 - **Failure Policy**: {block merge | warn only}
 - **Timeout**: {duration}
+
+## References
+- [ts-{feature}-{descriptor}](../test-specs/ts-{feature}-{descriptor}.md)

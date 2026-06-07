@@ -36,3 +36,6 @@ refs:
 
 ## Failure Impact
 <!-- What happens if this requirement is not met in production. -->
+
+## References
+- [req-{slug}](../prds/req-{slug}.md)

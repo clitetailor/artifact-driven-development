@@ -85,3 +85,8 @@ Body:
 
 ## Rate Limits
 <!-- Limits per endpoint or per client. Reference QR doc if defined there. -->
+
+## References
+- [adr-{slug}](../architecture-decisions/adr-{slug}.md)
+- [req-{slug}](../prds/req-{slug}.md)
+- [qr-{slug}](../quality-requirements/qr-{slug}.md)

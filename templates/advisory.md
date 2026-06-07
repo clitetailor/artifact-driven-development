@@ -38,3 +38,6 @@ User proceeded at Gate {N} on {date} with this item unresolved.
 **Status:** open
 **Resolved:** ~
 **Resolution note:** ~
+
+## References
+- [{concern-artifact-id}](../{folder}/{concern-artifact-id}.md)

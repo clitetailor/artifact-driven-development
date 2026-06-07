@@ -65,3 +65,7 @@ Priority: `must` (launch blocker) / `should` (important but not blocking) / `cou
 <!-- Must be empty before status can reach accepted. -->
 
 - 
+
+## References
+- [charter-{slug}](../project-charters/charter-{slug}.md)
+- [ujm-{slug}](../user-journey-maps/ujm-{slug}.md)

@@ -60,3 +60,7 @@ flowchart TD
 <!-- Scenarios outside the happy path that the flow must handle. -->
 
 - 
+
+## References
+- [req-{slug}](../prds/req-{slug}.md)
+- [persona-{slug}](../user-journey-maps/ujm-{slug}.md)

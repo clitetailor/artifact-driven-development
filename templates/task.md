@@ -60,3 +60,10 @@ refs:
 
 ### Safe to Modify
 <!-- What a future engineer should know before changing this. -->
+
+## References
+- [api-{slug}](../api-contracts/api-{slug}.md)
+- [dm-{slug}](../data-models/dm-{slug}.md)
+- [adr-{slug}](../architecture-decisions/adr-{slug}.md)
+- [story-{slug}](../user-stories/story-{slug}.md)
+- [ts-{slug}](../test-specs/ts-{slug}.md)

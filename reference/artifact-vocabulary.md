@@ -9,7 +9,7 @@
 | **user-journey-map** | Visual + narrative of a user's end-to-end experience: touchpoints, emotions, pain points, and opportunities. Grounds all downstream design and requirements in real user research. Replaces the former research-note + persona pair. |
 | **task** | Agent-sized implementation unit, derived from API contract or component spec, links to a specific user-story |
 | **milestone** | Optional coordination artifact for cross-cutting timeline tracking (sprints/phases) |
-| **refs** | Frontmatter field listing all related artifacts — upstream, downstream, sideways. The only link field. |
+| **refs** | Frontmatter field listing all related artifact IDs — upstream, downstream, sideways. Plain IDs only; used for grep-based queries. Human-navigable markdown links live in the artifact body under `## References`. |
 | **CR** | Change request — filed when an agent or user needs an existing artifact changed |
 | **advisory** | Noted-for-future tracker — a concern, deferred improvement, or known limitation worth remembering |
 | **needs-review** | Status applied to an artifact when an upstream it references has changed; a prompt (not a block) to re-confirm consistency |

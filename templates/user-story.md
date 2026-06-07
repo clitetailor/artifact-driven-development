@@ -44,3 +44,7 @@ so that **{outcome or value}**.
 - **Effort:** {N} tasks (~{N} hours)
 - **Dependencies:** None | story-{slug}
 - **Timeline:** Sprint {N} | Phase {N}
+
+## References
+- [prd-{charter}-{descriptor}](../prds/prd-{charter}-{descriptor}.md)
+- [ujm-{slug}](../user-journey-maps/ujm-{slug}.md)

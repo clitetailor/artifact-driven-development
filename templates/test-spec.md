@@ -104,3 +104,6 @@ unit
 
 ## Notes
 <!-- Implementation hints, gotchas, or special considerations -->
+
+## References
+- [req-{slug}](../prds/req-{slug}.md)
