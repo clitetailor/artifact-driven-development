@@ -7,10 +7,10 @@ version: 1.0
 charter: {charter-slug}
 prd: {charter-slug}/{prd-slug}
 refs:
-  - adr-{slug}
+  - sa-{slug}
   - api-{slug}
-  - dm-{slug}
-  - req-{slug}
+  - dd-{slug}
+  - prd-{charter}-{descriptor}
 ---
 
 # Technical Design: {title}
@@ -21,16 +21,21 @@ refs:
 ## Scope
 <!-- What is and is not covered by this design. -->
 
-## Architecture
-<!-- How the pieces fit together. Diagrams, component boundaries, data flow. -->
+## Architectural Context
+<!-- References to system-architecture decisions that constrain this feature.
+     No new architecture here — system-architecture owns that. -->
+
+| System Architecture Decision | Impact on This Feature |
+|---|---|
+| sa-{slug}: {ADR title} | {how it constrains this feature} |
 
 ## Key Decisions
-<!-- Implementation-level decisions (not architecture-level — those live in ADRs).
-     Reference constraining ADRs with their IDs. -->
+<!-- Implementation-level decisions (not architecture-level — those live in system-architecture).
+     Feature-scoped decisions only. System-wide decisions belong in system-architecture ADRs. -->
 
-| Decision | Choice | Reason |
-|---|---|---|
-|   |   |   |
+| Decision | Choice | Reason | Constrained by |
+|---|---|---|---|
+|   |   |   | sa-{slug} |
 
 ## Implementation Plan
 <!-- Ordered steps or phases. Each step should map 1:1 to a task artifact. -->
@@ -46,7 +51,7 @@ refs:
 - [ ] 
 
 ## References
-- [adr-{slug}](../architecture-decisions/adr-{slug}.md)
-- [api-{slug}](../api-contracts/api-{slug}.md)
-- [dm-{slug}](../data-models/dm-{slug}.md)
-- [req-{slug}](../prds/req-{slug}.md)
+- [sa-{slug}](../system-architectures/sa-{slug}.md)
+- [api-{slug}](../api-specs/api-{slug}.md)
+- [dd-{slug}](../data-designs/dd-{slug}.md)
+- [prd-{charter}-{descriptor}](../prds/prd-{charter}-{descriptor}.md)

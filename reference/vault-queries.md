@@ -8,7 +8,9 @@ Charters and PRDs are discovered via live scan — use `rg` directly or `orchard
 rg -l --glob '!.*' "charter: user-authentication" {vault-root}/
 
 # All artifacts of a given type
-rg -l --glob '!.*' "type: api-contract" {vault-root}/
+rg -l --glob '!.*' "type: api-spec" {vault-root}/
+rg -l --glob '!.*' "type: data-design" {vault-root}/
+rg -l --glob '!.*' "type: ticket" {vault-root}/
 
 # All accepted artifacts for a charter
 rg -l --glob '!.*' "charter: user-authentication" {vault-root}/ | xargs rg -l "status: accepted"
@@ -25,8 +27,11 @@ rg -l --glob '!.*' "^id: prd-user-authentication-login" {vault-root}/
 # Find all tasks for a specific user story
 rg -l --glob '!.*' "story: story-user-login" {vault-root}/tasks/
 
-# Find all tasks assigned to a milestone
-rg -l --glob '!.*' "milestone: sprint-1" {vault-root}/tasks/
+# Find all tasks for a specific ticket
+rg -l --glob '!.*' "ticket: ticket-add-rate-limiting" {vault-root}/tasks/
+
+# Find all tickets of a given kind
+rg -l --glob '!.*' "kind: defect" {vault-root}/tickets/
 
 # Find all test specs for a user story
 rg -l --glob '!.*' "refs:.*story-user-login" {vault-root}/test-specs/
@@ -34,12 +39,15 @@ rg -l --glob '!.*' "refs:.*story-user-login" {vault-root}/test-specs/
 # TDD traceability — tasks referencing a specific test-spec
 rg -l --glob '!.*' "refs:.*ts-user-authentication" {vault-root}/tasks/
 
-# Test-suite containing a specific spec
-rg -l --glob '!.*' "refs:.*ts-user-login" {vault-root}/test-suites/
-
 # Specs still in draft
 rg -l --glob '!.*' "type: test-spec" {vault-root}/test-specs/ | xargs rg -l "status: draft"
 
 # Accepted specs (tests confirmed passing)
 rg -l --glob '!.*' "type: test-spec" {vault-root}/test-specs/ | xargs rg -l "status: accepted"
+
+# Open tickets
+rg -l --glob '!.*' "type: ticket" {vault-root}/tickets/ | xargs rg -l "status: open"
+
+# Data designs referencing a specific api-spec
+rg -l --glob '!.*' "refs:.*api-user-authentication" {vault-root}/data-designs/
 ```

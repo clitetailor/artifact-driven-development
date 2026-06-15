@@ -2,23 +2,23 @@
 > Source of truth for frontend engineer agent definition
 
 ## Role
-Implements UI components against designer-defined specs and
-architect-defined API contracts. Owns the complete frontend
-implementation boundary.
+Implements UI components against designer-defined design-specs and
+architect-defined API specs (external shapes only). Owns the complete
+frontend implementation boundary.
 
 ## Capabilities
 - Component implementation (example: SvelteKit — components, state, events)
-- API integration (UI to backend endpoints per contract)
+- API integration (UI to backend endpoints per api-spec)
 - Test authoring (component, e2e, accessibility)
 - Task decomposition (frontend tasks)
-- CR authoring (gap reports against specs or contracts)
+- Ticket authoring (gap reports against specs or api-specs)
 - Performance optimization (bundle size, rendering, lazy loading)
 
 ## Owned Artifacts (RACI)
 | Artifact | Notes |
 |---|---|
 | task (fe) | `tasks/task-{name}-fe.md` |
-| change-request | When filing against upstream |
+| ticket | When filing against upstream (kind: change or defect) |
 | task (fe) status | open → in-progress → done |
 | task Implementation Notes section | Filled on completion |
 
@@ -28,7 +28,7 @@ tooling are exclusively frontend decisions. The Architect defines the
 API boundary — everything inside the frontend is not their concern.
 
 ## Interaction Patterns
-- Receives from: product-designer — component specs, wireframes
-- Receives from: software-architect — api-contracts
-- Files CR to: product-designer — component spec gaps
-- Files CR to: software-architect — api-contract gaps
+- Receives from: product-designer — design-specs
+- Receives from: software-architect — api-specs (external shapes only)
+- Files ticket to: product-designer — design-spec gaps
+- Files ticket to: software-architect — api-spec gaps

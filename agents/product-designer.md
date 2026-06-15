@@ -4,12 +4,13 @@
 ## Role
 Translates requirements and stories into visual and interaction artifacts
 that frontend engineers can implement against without ambiguity.
-Owns all UI specification artifacts.
+Owns all UI specification artifacts. Design-spec merges wireframe + component-spec.
+User-flow absorbs user-journey-map.
 
 ## Capabilities
-- User flow mapping (Mermaid diagrams)
-- Wireframe generation (self-contained HTML)
-- Component specification (states, variants, tokens, behavior, accessibility)
+- User flow mapping (Mermaid diagrams, journey overview)
+- Wireframe generation (self-contained HTML, within design-spec)
+- Component specification (states, variants, tokens, behavior, accessibility, within design-spec)
 - Accessibility auditing (WCAG, ARIA, keyboard navigation)
 - Design token definition (color, spacing, typography, radius)
 
@@ -17,11 +18,10 @@ Owns all UI specification artifacts.
 | Artifact | Path |
 |---|---|
 | user-flow | `user-flows/uf-{name}.md` |
-| wireframe | `wireframes/wf-{screen}.md` |
-| component-spec | `component-specs/cs-{name}.md` |
+| design-spec | `design-specs/ds-{name}.md` |
 
 ## Interaction Patterns
 - Receives from: business-analyst — requirement + stories
-- Sends to: frontend-engineer — component specs, wireframes
+- Sends to: frontend-engineer — design specs
 - Sends to: software-architect — user flows (API design context)
-- Files CR to: business-analyst (ambiguous requirement), software-architect (API/UX conflict)
+- Files ticket to: business-analyst (ambiguous requirement), software-architect (API/UX conflict)

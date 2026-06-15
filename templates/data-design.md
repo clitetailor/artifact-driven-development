@@ -1,22 +1,22 @@
 ---
-id: dm-{slug}
-type: data-model
+id: dd-{slug}
+type: data-design
 owner: software-architect
 status: draft
 version: 1.0
 charter: {charter-slug}
 prd: {charter-slug}/{prd-slug}
 refs:
-  - adr-{slug}
+  - sa-{slug}
   - api-{slug}
 ---
 
-# Data Model: {title}
+# Data Design: {title}
 
 ## Overview
-<!-- What data this model manages and why it exists. -->
+<!-- What data this design manages and why it exists. Internal data shapes + detailed data flows. -->
 
-## Tables / Collections
+## Entity Definitions
 
 ### `{table_name}`
 
@@ -43,6 +43,33 @@ refs:
 {table_c} >──< {table_d}  (many-to-many via {join_table})
 ```
 
+## Data Flows
+<!-- Detailed: entity state machines, pipeline stages, transformation logic.
+     High-level service-to-service communication belongs in system-architecture. -->
+
+### State Machine: {Entity}
+
+```mermaid
+stateDiagram-v2
+    [*] --> {State1}
+    {State1} --> {State2}: {trigger}
+    {State2} --> [*]: {trigger}
+```
+
+### Pipeline: {Flow Name}
+
+| Stage | Input | Transform | Output |
+|-------|-------|-----------|--------|
+|       |       |           |        |
+
+### Transformations
+
+| Transform | Source Entity | Target Entity | Logic |
+|-----------|-------------|---------------|-------|
+|           |             |               |       |
+
+---
+
 ## Migrations
 
 ### Migration: {migration-name}
@@ -63,5 +90,5 @@ refs:
 <!-- Required seed rows. Leave empty if none. -->
 
 ## References
-- [adr-{slug}](../architecture-decisions/adr-{slug}.md)
-- [api-{slug}](../api-contracts/api-{slug}.md)
+- [sa-{slug}](../system-architectures/sa-{slug}.md)
+- [api-{slug}](../api-specs/api-{slug}.md)

@@ -1,7 +1,7 @@
 # Handbook
 
 > Entry point for the Artifact-Driven Development handbook.
-> Narrative companion to the canonical schemas in `../reference/` and `../registry.yaml`.
+> Narrative companion to the canonical schemas in `../reference/` and `../manifest.yaml`.
 
 ## Contents
 
@@ -14,7 +14,7 @@
 
 | Concern | File |
 |---|---|
-| Artifact types, prefixes, agents, skills, statuses | `../registry.yaml` |
+| Artifact types, prefixes, agents, skills, statuses | `../manifest.yaml` |
 | Folder tree | `../reference/folder-structure.md` |
 | Frontmatter schema + ID naming pattern | `../reference/artifact-frontmatter.md` |
 | Status lifecycle framing | `../reference/artifact-lifecycle.md` |

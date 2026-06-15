@@ -13,6 +13,13 @@ refs:
 
 # User Flow: {title}
 
+## Journey Overview
+<!-- From user-journey-map: stages, emotions, pain points. High-level narrative of the end-to-end experience. -->
+
+| Stage | User Action | Touchpoint | Emotion | Pain Point | Opportunity |
+|-------|-------------|------------|---------|------------|-------------|
+|       |             |            |         |            |             |
+
 ## Entry Points
 <!-- Where the user can arrive at this flow from. -->
 

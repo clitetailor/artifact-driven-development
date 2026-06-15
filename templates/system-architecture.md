@@ -31,9 +31,9 @@ refs:
 <!-- Internal building blocks within each container and their boundaries.
      Diagram + short notes. -->
 
-## Data Flow
-<!-- How data moves through the system for the primary scenarios.
-     Sequence or flow diagram. -->
+## Data Flow Overview
+<!-- High-level: which services talk to which, integration points.
+     Detailed data flows (state machines, pipelines, transformations) belong in data-design. -->
 
 ## Integration Points
 <!-- External systems, third-party APIs, message brokers. -->
@@ -57,13 +57,33 @@ refs:
 | availability |  |  |
 | security |  |  |
 
+## Architecture Decision Records
+<!-- ADRs absorbed as subsections. Each with context/decision/consequences. -->
+
+### ADR: {title}
+
+**Status:** proposed | accepted | deprecated | superseded
+
+**Context:**
+<!-- The problem or constraint that forced a decision. -->
+
+**Decision:**
+<!-- The choice made. One clear sentence, then elaboration. -->
+
+**Consequences:**
+- Positive: 
+- Negative / Trade-offs: 
+
+---
+
 ## Constraints & Assumptions
 <!-- Hard constraints (budget, compliance, existing systems) and assumptions
      the architecture depends on. -->
 
-## Related ADRs
-<!-- ADRs that elaborate or refine this architecture (created downstream). -->
-- [adr-{slug}](../architecture-decisions/adr-{slug}.md)
+## Related Artifacts
+<!-- Downstream artifacts that elaborate or refine this architecture. -->
+- Data design: [dd-{slug}](../data-designs/dd-{slug}.md)
+- API spec: [api-{slug}](../api-specs/api-{slug}.md)
 
 ## Open Questions
 - [ ] 

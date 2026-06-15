@@ -31,16 +31,21 @@ Without structure, coding agents improvise — filling gaps silently, absorbing 
 
 ## Artifacts
 
-Artifacts are the unit of work in the vault. Each one is a Markdown file with frontmatter, an ID prefix, and explicit references to its upstream artifacts. The scaffold ships with a starting set of artifact types covering the full SDLC, for example:
+Artifacts are the unit of work in the vault. Each one is a Markdown file with frontmatter, an ID prefix, and explicit references to its upstream artifacts. The scaffold ships with 11 artifact types covering the full SDLC:
 
-- `persona-` — a user archetype the product is being built for
-- `feat-` — a feature that captures a user-facing capability
-- `req-` — a requirement, scoped to a feature
-- `adr-` — an architecture decision record, capturing a durable constraint
-- `task-` — a fine-grained unit of implementation work, tied back to a requirement
-- `cr-` — a change request, used when an existing contract needs to evolve
+- `prd-` — product requirements (absorbs charter, stakeholder-matrix, quality-requirement)
+- `story-` — a verifiable unit of user value
+- `uf-` — user flow with journey overview (absorbs user-journey-map)
+- `ds-` — design spec (merges wireframe + component-spec)
+- `sa-` — system architecture with embedded ADRs (absorbs architecture-decision)
+- `api-` — API spec, external contract only (from api-contract; add Entity Mapping)
+- `dd-` — data design, internal shapes + detailed data flows (new)
+- `td-` — technical design, feature-scoped (reframed: Architectural Context, not new architecture)
+- `task-` — a fine-grained unit of implementation work, tied to a ticket
+- `ts-` — test spec with embedded test plan (absorbs test-plan)
+- `ticket-` — coordination artifact (replaces change-request, advisory, milestone, bug-report)
 
-The full list of artifact types, ID prefixes, agents, skills, and statuses lives in `registry.yaml`. The artifact dependency graph — which artifact must exist before which — lives in `reference/artifact-dep-graph.md`.
+The full list of artifact types, ID prefixes, agents, skills, and statuses lives in `manifest.yaml`. The artifact dependency graph — which artifact must exist before which — lives in `reference/artifact-dep-graph.md`.
 
 ---
 
@@ -51,7 +56,8 @@ The full list of artifact types, ID prefixes, agents, skills, and statuses lives
 | File | Purpose |
 |---|---|
 | `AGENTS.md` | Core operating instructions for agents working in the vault |
-| `registry.yaml` | Source of truth for artifact types, ID prefixes, agents, skills, and statuses |
+| `manifest.yaml` | Source of truth for artifact types, ID prefixes, agents, skills, and statuses |
+| `PROJECT.md` | Human-readable project overview (active tickets, PRDs, status) |
 | `README.md` | This file — entry point for humans and agents |
 
 **Folders**
@@ -66,7 +72,7 @@ The full list of artifact types, ID prefixes, agents, skills, and statuses lives
 | `agents/` | Agent role definitions and repo/skill mappings |
 | `conventions/` | Enforced project conventions |
 | `_sources/` | Source material the framework was synthesized from (off-framework vocabulary — do not load by default) |
-| `personas/`, `features/`, `requirements/`, `user-flows/`, `wireframes/`, `component-specs/`, `architecture-decisions/`, `api-contracts/`, `data-models/`, `quality-requirements/`, `test-plans/`, `test-specs/`, `test-suites/`, `tasks/`, `infra/`, `change-requests/`, `advisories/`, `milestones/`, `research-notes/` | Vault artifact folders, one per artifact type. Populated during onboarding. |
+| `prds/`, `user-stories/`, `user-flows/`, `design-specs/`, `system-architectures/`, `api-specs/`, `data-designs/`, `tech-designs/`, `tasks/`, `test-specs/`, `tickets/` | Vault artifact folders, one per artifact type. Populated during onboarding. |
 
 ---
 
@@ -114,7 +120,7 @@ Assume you are starting a new project called `issue-tracker` with a React fronte
 
 ## Upgrading the Framework
 
-The vault's `registry.yaml` stores the `framework_version` field (the upstream seedbed version last synced). When upstream releases a new version, framework-owned files (`handbook/`, `reference/`, `agents/`, `_sources/`, `README.md`) are synced and `AGENTS.md` is 3-way merged. User-owned content (`registry.yaml`, `templates/`, `conventions/`, all vault folders) is never touched. The seedbed source and ref are stored in `registry.yaml` under `seedbed`; the `orchard upgrade` CLI command (Phase 3) will automate this with a git-style 3-way merge.
+The vault's `manifest.yaml` stores the `framework_version` field (the upstream seedbed version last synced). When upstream releases a new version, framework-owned files (`handbook/`, `reference/`, `agents/`, `_sources/`, `README.md`) are synced and `AGENTS.md` is 3-way merged. User-owned content (`manifest.yaml`, `templates/`, `conventions/`, all vault folders) is never touched. The seedbed source and ref are stored in `manifest.yaml` under `seedbed`; the `orchard upgrade` CLI command (Phase 3) will automate this with a git-style 3-way merge.
 
 ---
 

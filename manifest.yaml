@@ -24,56 +24,36 @@ repos:                            # list of repo names and paths
 
 feature_type: charter/prd         # what `orchard query --pattern` treats as a feature
 
-# --- Artifact types (prefix folded in; was Types + Prefixes in _registry.md) ---
+# --- Artifact types (11 core + ticket) ---
 # No `phase` here: phase grouping is a workflow concept owned by
 # reference/artifact-dep-graph.md. Comments below are human dividers only.
 types:
-  # Requirements & Planning
-  - name: user-journey-map
-    prefix: ujm-
-    template: templates/user-journey-map.md
-  - name: project-charter
-    prefix: charter-
-    template: templates/project-charter.md
+  # Requirements
   - name: prd
     prefix: prd-
     template: templates/prd.md
   - name: user-story
     prefix: story-
     template: templates/user-story.md
-  - name: stakeholder-matrix
-    prefix: sm-
-    optional: true
-    description: optional governance artifact
-    template: templates/stakeholder-matrix.md
 
   # Design
   - name: user-flow
     prefix: uf-
     template: templates/user-flow.md
-  - name: wireframe
-    prefix: wf-
-    template: templates/wireframe.md
-  - name: component-spec
-    prefix: cs-
-    template: templates/component-spec.md
+  - name: design-spec
+    prefix: ds-
+    template: templates/design-spec.md
 
   # Architecture
   - name: system-architecture
     prefix: sa-
     template: templates/system-architecture.md
-  - name: architecture-decision
-    prefix: adr-
-    template: templates/architecture-decision.md
-  - name: api-contract
+  - name: api-spec
     prefix: api-
-    template: templates/api-contract.md
-  - name: data-model
-    prefix: dm-
-    template: templates/data-model.md
-  - name: quality-requirement
-    prefix: qr-
-    template: templates/quality-requirement.md
+    template: templates/api-spec.md
+  - name: data-design
+    prefix: dd-
+    template: templates/data-design.md
 
   # Development
   - name: tech-design
@@ -85,39 +65,15 @@ types:
     # conditional ownership (be → software-architect, fe → frontend-engineer)
     # lives in reference/artifact-ownership.md, not here.
 
-  # Testing & QA
-  - name: test-plan
-    prefix: tp-
-    template: templates/test-plan.md
+  # Verification
   - name: test-spec
     prefix: ts-
     template: templates/test-spec.md
-  - name: test-suite
-    prefix: suite-
-    template: templates/test-suite.md
-  - name: bug-report
-    prefix: bug-
-    description: defect tracking; spawns fix task or closed directly
-    template: templates/bug-report.md
 
-  # Deployment & Ops
-  - name: infra
-    prefix: infra-
-    template: templates/infra.md
-
-  # Workflow (cross-cutting)
-  - name: change-request
-    prefix: cr-
-    template: templates/change-request.md
-  - name: advisory
-    prefix: adv-
-    description: noted-for-future tracker
-    template: templates/advisory.md
-  - name: milestone
-    prefix: ms-
-    optional: true
-    description: optional timeline coordination
-    template: templates/milestone.md
+  # Coordination
+  - name: ticket
+    prefix: ticket-
+    template: templates/ticket.md
 
 # --- Agents (identity roster; prose/behavior stays in design-doc) ---
 # Repo-mapping (writes-to/also-reads) dropped: repo ownership is vague and the coding
@@ -179,30 +135,15 @@ statuses:
     description: Will not be used in its current form
   - name: deprecated
     description: Replaced or no longer applicable; kept for history
-  - name: superseded
-    description: Replaced by a newer version of the same kind
-    applies-to: [architecture-decision]
-  - name: applied
-    description: The change has been incorporated
-    applies-to: [change-request]
-  - name: withdrawn
-    description: Filer cancelled before action
-    applies-to: [change-request]
-  - name: resolved
-    description: The concern/defect was addressed
-    applies-to: [advisory, bug-report]
-  - name: dismissed
-    description: Explicitly decided not to act
-    applies-to: [advisory]
-  - name: wont-fix
-    description: Acknowledged but will not be fixed
-    applies-to: [bug-report]
-  - name: done
-    description: Implementation complete
-    applies-to: [task]
+  - name: open
+    description: Filed, not yet started
+    applies-to: [ticket, task]
   - name: in-progress
     description: Actively being worked on
-    applies-to: [task]
-  - name: open
-    description: Default starting state
-    applies-to: [change-request, advisory, task]
+    applies-to: [ticket, task]
+  - name: done
+    description: Implementation complete
+    applies-to: [ticket, task]
+  - name: withdrawn
+    description: Cancelled by filer
+    applies-to: [ticket]

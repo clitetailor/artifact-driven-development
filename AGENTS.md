@@ -6,12 +6,12 @@
 
 ## Where to Look
 
-- **Artifact types, prefixes, agent roster, skills, statuses, repo names** → `registry.yaml` (source of truth)
+- **Artifact types, prefixes, agent roster, skills, statuses, repo names** → `manifest.yaml` (source of truth)
 - **Reference docs** (vocabulary, lifecycle, ownership, dep graph, frontmatter, queries, folder structure, coordination tree) → `reference/README.md`
 - **Project setup** → `handbook/setup.md`
 - **Source material** (real-world process docs the framework was synthesized from) → `_sources/`. Do not load unless explicitly asked — uses off-framework vocabulary on purpose.
 
-`{vault-root}` (used throughout reference docs) = the current repo/folder you're working in (default CWD), where `registry.yaml` lives. Sibling code repos are listed under `repos:` in `registry.yaml`.
+`{vault-root}` (used throughout reference docs) = the current repo/folder you're working in (default CWD), where `manifest.yaml` lives. Sibling code repos are listed under `repos:` in `manifest.yaml`.
 
 Load reference docs only when the task requires them. Never load `handbook/` or `_sources/` docs unless explicitly directed.
 
@@ -46,9 +46,9 @@ Bare `jj commit` always lands in `{vault-root}` (default CWD).
 - **Keep agent prompts concise.** No preamble, no restating context the agent doesn't need.
 - **Pass paths, not content.** Standards docs and vault artifacts are stable — give the path.
 - **Load reference docs on demand.** Read them only when the task requires resolving a status transition, ownership question, or unfamiliar term.
-- **Skip historical coordination artifacts; read live ones in scope.** Do not read `change-requests/cr-*`, `advisories/adv-*`, or `architecture-decisions/adr-*` files for orientation by default. Read them when any of these apply:
-    - The task's `refs` explicitly point to the artifact.
-    - A CR has `status: open` and its `refs` include any artifact in your task's upstream chain (the contract may be mid-change).
-    - An ADR lives in your task's feature/module scope (ADRs encode durable constraints; violating one is still wrong even if the task doesn't name it).
-    Skip applied/closed CRs and resolved advisories — their intent has already been funneled into tasks.
+- **Skip historical coordination artifacts; read live ones in scope.** Do not read closed/done `tickets/ticket-*` files for orientation by default. Read them when any of these apply:
+    - The task's `refs` explicitly point to the ticket.
+    - A ticket has `status: open` or `in-progress` and its `refs` include any artifact in your task's upstream chain.
+    - A ticket's `kind: review` targets an artifact in your scope (review tickets set `needs-review` on affected artifacts).
+    Skip done/withdrawn tickets — their intent has already been funneled into tasks.
 - User instructions always override these rules.

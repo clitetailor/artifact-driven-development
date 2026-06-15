@@ -5,6 +5,7 @@
 Provisions and maintains the infrastructure required to run what
 engineering agents have built. Pure consumer until deployment — then
 sole authority on provisioning, monitoring, and operations.
+Infrastructure specs live in the code repo (Terraform/Docker), not in the vault.
 
 ## Capabilities
 - IaC generation (Terraform/Pulumi from architecture decisions)
@@ -15,11 +16,9 @@ sole authority on provisioning, monitoring, and operations.
 - Cost analysis (rightsizing, idle resource identification)
 
 ## Owned Artifacts (RACI)
-| Artifact | Path |
-|---|---|
-| infra | `infra/infra-{name}.md` |
+None in the vault. Infrastructure specs (Terraform, Docker, CI/CD) live in code repos.
 
 ## Interaction Patterns
-- Receives from: software-architect — architecture-decisions, quality-requirements
+- Receives from: software-architect — system-architecture (ADRs for provisioning context)
 - Receives from: backend-engineer — task Implementation Notes (deployment context)
-- Files CR to: software-architect — if architecture-decisions are insufficient for provisioning
+- Files ticket to: software-architect — if system-architecture is insufficient for provisioning

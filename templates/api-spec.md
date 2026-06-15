@@ -1,27 +1,26 @@
 ---
 id: api-{slug}
-type: api-contract
+type: api-spec
 owner: software-architect
 status: draft
 version: 1.0
 charter: {charter-slug}
 prd: {charter-slug}/{prd-slug}
 refs:
-  - adr-{slug}
-  - req-{slug}
-  - qr-{slug}
+  - sa-{slug}
+  - dd-{slug}
 ---
 
-# API Contract: {title}
+# API Spec: {title}
 
 ## Overview
-<!-- What service or capability this contract defines. One paragraph. -->
+<!-- What service or capability this spec defines. One paragraph. External contract only — entity relationships and internal data shapes belong in data-design. -->
 
 ## Base Path
 `/api/v{N}/{resource}`
 
 ## Authentication
-<!-- Required auth mechanism. Reference ADR if a decision was made. -->
+<!-- Required auth mechanism. Reference system-architecture ADR if a decision was made. -->
 
 ---
 
@@ -75,18 +74,32 @@ Body:
 ---
 
 ## Shared Types
+<!-- External shapes only — what consumers see. TypeScript-style type definitions for request/response DTOs. -->
 
 ```typescript
-// TypeScript-style type definitions for shared request/response shapes
+// Request/response type definitions (external shapes only)
 ```
+
+## Entity Mapping
+<!-- Which data-design entities back each endpoint's request/response. -->
+
+| Endpoint | Request → Entity | Response ← Entity |
+|----------|-----------------|-------------------|
+| POST /{resource} | {RequestDTO} → dd-{slug}.{Entity} | {Entity} → {ResponseDTO} |
+
+## Error Codes
+<!-- Application-specific error codes beyond HTTP status codes. -->
+
+| Code | Meaning | HTTP Status |
+|------|---------|-------------|
+|      |         |             |
 
 ## Versioning Policy
 <!-- How breaking changes will be handled. -->
 
 ## Rate Limits
-<!-- Limits per endpoint or per client. Reference QR doc if defined there. -->
+<!-- Limits per endpoint or per client. -->
 
 ## References
-- [adr-{slug}](../architecture-decisions/adr-{slug}.md)
-- [req-{slug}](../prds/req-{slug}.md)
-- [qr-{slug}](../quality-requirements/qr-{slug}.md)
+- [sa-{slug}](../system-architectures/sa-{slug}.md)
+- [dd-{slug}](../data-designs/dd-{slug}.md)

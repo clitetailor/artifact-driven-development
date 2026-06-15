@@ -7,6 +7,7 @@ version: 1.0
 charter: {charter-slug}
 prd: {charter-slug}/{prd-slug}
 track: {backend | frontend}
+ticket: ticket-{slug}
 priority: {tier-number}
 story: story-{slug}
 milestone: sprint-{N}
@@ -15,8 +16,8 @@ depends-on:
   - task-{slug}-{be|fe}
 refs:
   - api-{slug}
-  - dm-{slug}
-  - adr-{slug}
+  - dd-{slug}
+  - sa-{slug}
   - story-{slug}
   - ts-{slug}
 ---
@@ -43,7 +44,7 @@ refs:
 <!-- Direct links to the specific sections of contracts / specs this task implements. -->
 
 - api-{slug} → `{endpoint or section}`
-- dm-{slug} → `{table or section}`
+- dd-{slug} → `{entity or section}`
 - story-{slug} → {story-title}
 
 ---
@@ -62,8 +63,8 @@ refs:
 <!-- What a future engineer should know before changing this. -->
 
 ## References
-- [api-{slug}](../api-contracts/api-{slug}.md)
-- [dm-{slug}](../data-models/dm-{slug}.md)
-- [adr-{slug}](../architecture-decisions/adr-{slug}.md)
+- [api-{slug}](../api-specs/api-{slug}.md)
+- [dd-{slug}](../data-designs/dd-{slug}.md)
+- [sa-{slug}](../system-architectures/sa-{slug}.md)
 - [story-{slug}](../user-stories/story-{slug}.md)
 - [ts-{slug}](../test-specs/ts-{slug}.md)

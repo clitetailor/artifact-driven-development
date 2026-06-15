@@ -6,16 +6,13 @@ status: draft
 version: 1.0
 charter: {charter-slug}
 refs:
-  - charter-{slug}
-  - ujm-{slug}
+  - {related-artifact-id}
 ---
 
 # PRD: {title}
 
-## Problem Statement
-<!-- What user or business problem this PRD addresses. One paragraph. -->
-
-## Scope
+## Vision & Scope
+<!-- From project-charter: summary, in-scope, out-of-scope. One paragraph on what this capability is and why it exists. -->
 
 ### In Scope
 - 
@@ -24,6 +21,32 @@ refs:
 ### Out of Scope
 - 
 - 
+
+## Success Criteria
+<!-- Measurable outcomes only. "Improve user experience" is not a success criterion. -->
+
+| Criterion | Target | Measurement Method |
+|-----------|--------|--------------------|
+|           |        |                    |
+
+## Stakeholders
+<!-- From stakeholder-matrix: simplified table. -->
+
+| Name / Role | Interest | Influence | Engagement |
+|-------------|----------|-----------|------------|
+|             | H/M/L    | H/M/L     | inform / consult / collaborate / approve |
+
+- **Interest** — How much this stakeholder is affected by the outcome.
+- **Influence** — How much power this stakeholder has over decisions.
+- **Engagement** — Minimum interaction level required.
+
+## Constraints
+<!-- Hard limits: regulatory, technical, budget, timeline. Anything the work must not violate. -->
+
+- 
+
+## Problem Statement
+<!-- What user or business problem this PRD addresses. One paragraph. -->
 
 ## Functional Requirements
 
@@ -50,16 +73,11 @@ Priority: `must` (launch blocker) / `should` (important but not blocking) / `cou
 - story-{slug} — {one-line summary}
 
 ## Success Metrics
-<!-- Measurable outcomes. Inherits from charter; override or extend here if needed. -->
+<!-- Measurable outcomes. Inherits from success criteria; override or extend here if needed. -->
 
 | Metric | Target |
 |--------|--------|
 |        |        |
-
-## Constraints
-<!-- Hard limits not already captured in the charter. -->
-
-- 
 
 ## Open Questions
 <!-- Must be empty before status can reach accepted. -->
@@ -67,5 +85,4 @@ Priority: `must` (launch blocker) / `should` (important but not blocking) / `cou
 - 
 
 ## References
-- [charter-{slug}](../project-charters/charter-{slug}.md)
-- [ujm-{slug}](../user-journey-maps/ujm-{slug}.md)
+- [{related-artifact-id}](../{folder}/{related-artifact-id}.md)

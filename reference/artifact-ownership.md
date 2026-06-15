@@ -1,22 +1,19 @@
 # Agent Roles & Artifact Ownership
 
-For the agent identity roster (slug, name, design-doc), see `../registry.yaml` under `agents`.
+For the agent identity roster (slug, name, design-doc), see `../manifest.yaml` under `agents`.
 
 ## Artifact Ownership
 
 | Artifact types | Owner |
 |---|---|
-| user-journey-map, project-charter, prd, user-story, stakeholder-matrix | business-analyst |
-| user-flow, wireframe, component-spec | product-designer |
-| system-architecture, architecture-decision, api-contract, data-model, tech-design, quality-requirement, task (be) | software-architect |
-| test-plan, test-spec, test-suite | qa-engineer |
+| prd, user-story | business-analyst |
+| user-flow, design-spec | product-designer |
+| system-architecture, api-spec, data-design, tech-design, task (be) | software-architect |
+| test-spec | qa-engineer |
 | task (fe) | frontend-engineer |
-| infra | platform-engineer |
-| change-request | any agent (files against upstream artifact owner) |
-| advisory | project-manager |
-| bug-report | qa-engineer |
+| ticket | project-manager |
 
-No agent writes an artifact it does not own. Downstream agents file CRs instead.
+No agent writes an artifact it does not own. Downstream agents file tickets instead.
 
 ## Conventions to Pass per Agent
 
@@ -27,4 +24,4 @@ Only pass conventions when the task involves new implementation; skip for read-o
 | **frontend-engineer** | `conventions/frontend-conventions.md`, `conventions/design-system.md` |
 | **backend-engineer** | `conventions/backend-api-structure.md`, `conventions/api-conventions.md` |
 
-Pass any relevant vault artifacts the agent needs (requirements, API contracts, component specs, ADRs) by path — let the agent read them.
+Pass any relevant vault artifacts the agent needs (requirements, API specs, design specs, data designs) by path — let the agent read them.

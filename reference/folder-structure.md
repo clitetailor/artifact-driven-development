@@ -1,33 +1,22 @@
 # Vault Folder Structure
 
-`{vault-root}` is the vault repo itself — the current repo/folder you're working in (default CWD), where `registry.yaml` lives.
+`{vault-root}` is the vault repo itself — the current repo/folder you're working in (default CWD), where `manifest.yaml` lives.
 
 ```
 {vault-root}/
-├── registry.yaml           # Artifact types, prefixes, agent roster, skills, statuses (source of truth)
-├── user-journey-maps/      # End-to-end user experience maps, grounded in research (ujm-)
-├── project-charters/       # Capability authorizations with scope + success criteria (charter-)
-├── prds/                   # Product Requirements Documents, scoped per charter area  (prd-)
-├── user-stories/           # Verifiable user-value units with Given/When/Then AC      (story-)
-├── stakeholder-matrices/   # Stakeholder identification and influence mapping         (sm-)
-├── milestones/             # Optional timeline coordination artifacts  (milestone-)
-├── test-plans/             # Testing strategy per feature              (tp-)
-├── test-specs/             # Test specifications (unit/integration/e2e) (ts-)
-├── test-suites/            # Grouped test specs with coverage targets  (suite-)
-├── tasks/                  # Decomposed implementation units           (task-)
-├── system-architectures/   # System-wide structural views               (sa-)
-├── architecture-decisions/ # Architecture decisions                      (adr-)
-├── quality-requirements/   # NFRs                                      (qr-)
-├── api-contracts/          # Endpoint specs, request/response shapes   (api-)
-├── data-models/            # Schemas, indexes, migration notes         (dm-)
-├── tech-designs/           # Technical design documents per feature    (td-)
-├── user-flows/             # User journey diagrams (Mermaid embedded)  (uf-)
-├── wireframes/             # ASCII wireframes per screen               (wf-)
-├── component-specs/        # UI component specs                        (cs-)
-├── infra/                  # IaC specs, CI/CD, monitoring               (infra-)
-├── change-requests/        # Inter-agent artifact modification requests (cr-)
-├── advisories/             # Non-blocking project manager warnings      (adv-)
-├── bug-reports/            # Defect tracking artifacts                  (bug-)
+├── manifest.yaml           # Artifact types, prefixes, agent roster, skills, statuses (source of truth)
+├── PROJECT.md              # Human-readable project overview (active tickets, PRDs, status)
+├── prds/                   # Product Requirements Documents (prd-)
+├── user-stories/           # Verifiable user-value units with Given/When/Then AC (story-)
+├── user-flows/             # User flow diagrams with journey overview (uf-)
+├── design-specs/           # Wireframes + component behavior specs (ds-)
+├── system-architectures/   # System-wide structural views with ADRs (sa-)
+├── api-specs/              # External API contracts with entity mapping (api-)
+├── data-designs/           # Internal data shapes + detailed data flows (dd-)
+├── tech-designs/           # Technical design documents per feature (td-)
+├── tasks/                  # Decomposed implementation units (task-)
+├── test-specs/             # Test specifications with embedded test plan (ts-)
+├── tickets/                # Coordination artifacts (ticket-)
 ├── agents/                 # Agent design docs + repo/skill mappings
 ├── conventions/            # Enforced conventions (prescriptive)
 ├── reference/              # AI-friendly reference: vocabulary, lifecycle, ownership, SDLC phases, dep graph
@@ -36,4 +25,4 @@
 └── templates/              # Artifact doc templates
 ```
 
-See `registry.yaml` for the authoritative artifact type + prefix list.
+See `manifest.yaml` for the authoritative artifact type + prefix list.
