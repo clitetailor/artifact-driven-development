@@ -21,12 +21,14 @@ refs:
 <!-- What is and is not covered by this design. -->
 
 ## Architectural Context
-<!-- References to system-architecture decisions that constrain this feature.
-     No new architecture here — system-architecture owns that. -->
+<!-- References to ADR artifacts that constrain this feature.
+     No new architecture here — system-architecture and adr own that.
+     If this feature requires a new system-wide decision, author an adr-{slug}.md first,
+     get it accepted, then reference it here. -->
 
-| System Architecture Decision | Impact on This Feature |
+| ADR | Impact on This Feature |
 |---|---|
-| sa-{slug}: {ADR title} | {how it constrains this feature} |
+| [adr-{slug}](../adrs/adr-{slug}.md): {ADR title} | {how it constrains this feature} |
 
 ## Key Decisions
 <!-- Implementation-level decisions (not architecture-level — those live in system-architecture).

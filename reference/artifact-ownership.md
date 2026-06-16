@@ -8,7 +8,7 @@ For the agent identity roster (slug, name, design-doc), see `../manifest.yaml` u
 |---|---|
 | feature-brief, user-story | business-analyst |
 | user-flow, design-spec | product-designer |
-| system-architecture, api-spec, data-design, tech-design, task (be) | software-architect |
+| adr, system-architecture, api-spec, data-design, tech-design, task (be) | software-architect |
 | test-spec | qa-engineer |
 | task (fe) | frontend-engineer |
 | ticket | project-manager |

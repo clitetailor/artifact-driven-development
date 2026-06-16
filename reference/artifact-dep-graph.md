@@ -7,7 +7,7 @@
 |---|---|---|---|
 | 1 — Requirements | What are we building and for whom? | project-manager, business-analyst | feature-brief, user-story |
 | 2 — Design | How does the user experience it? | product-designer | user-flow, design-spec |
-| 3 — Architecture | How is it structured? | software-architect | system-architecture, api-spec, data-design |
+| 3 — Architecture | How is it structured? | software-architect | adr, system-architecture, api-spec, data-design |
 | 4 — Development | How is it built? | backend-engineer, frontend-engineer | tech-design, task |
 | 5 — Verification | How do we know it works? | qa-engineer | test-spec |
 
@@ -47,6 +47,7 @@ graph LR
         UF[user-flow] --> DS[design-spec]
     end
     subgraph ARC[Architecture]
+        SA[system-architecture] --> ADR[adr]
         SA[system-architecture] --> API[api-spec]
         SA --> DD[data-design]
     end
@@ -65,6 +66,7 @@ graph LR
 | user-flow | feature-brief |
 | design-spec | user-flow |
 | system-architecture | feature-brief |
+| adr | system-architecture |
 | api-spec | system-architecture |
 | data-design | system-architecture |
 | tech-design | system-architecture, feature-brief |

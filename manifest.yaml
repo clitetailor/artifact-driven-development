@@ -45,6 +45,9 @@ types:
     template: templates/design-spec.md
 
   # Architecture
+  - name: adr
+    prefix: adr-
+    template: templates/adr.md
   - name: system-architecture
     prefix: sa-
     template: templates/system-architecture.md

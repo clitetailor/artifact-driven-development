@@ -56,24 +56,14 @@ refs:
 | availability |  |  |
 | security |  |  |
 
-## Architecture Decision Records
-<!-- ADRs absorbed as subsections. Each with context/decision/consequences. -->
+## Architectural Decisions
+<!-- Links to accepted ADR artifacts that shaped this architecture.
+     Each ADR is a standalone artifact (adr-{slug}.md) — do not embed decisions here.
+     When a new decision is accepted, add it to this list and update the sections above to reflect the outcome. -->
 
-### ADR: {title}
-
-**Status:** proposed | accepted | deprecated | superseded
-
-**Context:**
-<!-- The problem or constraint that forced a decision. -->
-
-**Decision:**
-<!-- The choice made. One clear sentence, then elaboration. -->
-
-**Consequences:**
-- Positive: 
-- Negative / Trade-offs: 
-
----
+| ADR | Decision Summary | Status |
+|---|---|---|
+| [adr-{slug}](../adrs/adr-{slug}.md) |  | accepted |
 
 ## Constraints & Assumptions
 <!-- Hard constraints (budget, compliance, existing systems) and assumptions
@@ -81,6 +71,7 @@ refs:
 
 ## Related Artifacts
 <!-- Downstream artifacts that elaborate or refine this architecture. -->
+- ADRs: [adr-{slug}](../adrs/adr-{slug}.md)
 - Data design: [dd-{slug}](../data-designs/dd-{slug}.md)
 - API spec: [api-{slug}](../api-specs/api-{slug}.md)
 
