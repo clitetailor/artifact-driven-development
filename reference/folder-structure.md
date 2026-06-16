@@ -10,6 +10,7 @@
 ├── user-stories/           # Verifiable user-value units with Given/When/Then AC (story-)
 ├── user-flows/             # User flow diagrams with journey overview (uf-)
 ├── design-specs/           # Wireframes + component behavior specs (ds-)
+│   └── wireframes/         #   Supporting HTML wireframe files linked from design-spec markdown
 ├── system-architectures/   # System-wide structural views with ADRs (sa-)
 ├── api-specs/              # External API contracts with entity mapping (api-)
 ├── data-designs/           # Internal data shapes + detailed data flows (dd-)
