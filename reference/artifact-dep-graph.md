@@ -10,7 +10,6 @@
 | 3 — Architecture | How is it structured? | software-architect | system-architecture, api-spec, data-design |
 | 4 — Development | How is it built? | backend-engineer, frontend-engineer | tech-design, task |
 | 5 — Verification | How do we know it works? | qa-engineer | test-spec |
-| COORDINATION | Cross-cutting coordination | project-manager | ticket |
 
 ## Phase Flow
 
@@ -57,9 +56,6 @@ graph LR
     subgraph VER[Verification]
         TS[test-spec]
     end
-    subgraph COORD[Coordination]
-        TICKET[ticket]
-    end
 ```
 
 | To create… | First create… |
@@ -74,6 +70,5 @@ graph LR
 | tech-design | system-architecture, feature-brief |
 | task | tech-design |
 | test-spec | api-spec, user-story |
-| ticket | — |
 
 Cross-refs live in `refs` frontmatter. See `artifact-frontmatter.md`.

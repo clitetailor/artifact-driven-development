@@ -1,85 +1,83 @@
-# Coordination Artifact Decisions
-> When to create tickets and which kind to use.
+# Coordination Decision Tree
+> When to create user-stories or tasks and how to structure work.
 
 ---
 
 ## Decision Matrix
 
-| Situation | Create ticket kind | Skip |
+| Situation | Create | Skip |
 |---|---|---|
-| New capability end-to-end | `feature` | — |
-| Modify existing spec artifacts | `change` | — |
-| Fix inconsistency or error in specs | `defect` | — |
-| Research before committing to changes | `investigation` | — |
-| Time-boxed exploration | `spike` | — |
-| Re-verify accepted artifacts after upstream shift | `review` | — |
-| Simple change owner can apply directly | — | Ticket not needed |
-| Defining a new feature brief | User Stories (in feature-brief or as story- artifacts) | — |
+| New user-facing capability | `user-story` | — |
+| Technical chore or infrastructure work | `task` | — |
+| Modify existing spec artifacts | `task` (change type) | — |
+| Fix inconsistency or error in specs | `task` (defect type) | — |
+| Research before committing to changes | Add investigation notes to `feature-brief` | — |
+| Time-boxed exploration | `task` with spike label | — |
+| Simple change owner can apply directly | — | Direct edit, no new artifact needed |
+| Re-verify accepted artifacts after upstream shift | Create review `task` | — |
 
 ---
 
-## Ticket Kinds
+## Work Types
 
-### `feature`
-New capability end-to-end. Creates feature-brief → user-flow → api-spec → tech-design → task chain. Typical scope: multiple artifacts across phases.
+### `user-story`
+New user-facing capability. Derived from feature-brief. Format: "As a [role], I want [goal], so that [benefit]". Includes Given/When/Then acceptance criteria and an execution checklist for sub-tasks.
 
-### `change`
-Modify existing spec artifacts. Updates one or more existing artifacts. Typical scope: targeted updates to accepted artifacts.
-
-### `defect`
-Fix inconsistency or error in specs. Updates artifact(s) with incorrect content. Replaces the former bug-report artifact.
-
-### `investigation`
-Research before committing to changes. May produce no artifact changes, only Discussion notes. Replaces the former advisory artifact for research purposes.
-
-### `spike`
-Time-boxed exploration. May create or update artifacts as side effect.
-
-### `review`
-Re-verify accepted artifacts after upstream shift. Sets `needs-review` status on affected artifacts.
+### `task`
+Agent-sized implementation unit. Types:
+- **feature**: Building new capability
+- **change**: Modifying existing artifacts  
+- **defect**: Fixing errors or inconsistencies
+- **spike**: Time-boxed exploration
+- **review**: Re-verification after upstream changes
 
 ---
 
-## Ticket–Task Relationship
+## User-Story–Task Relationship
 
-- **Ticket** = planning & coordination (what to do, which artifacts change, why)
-- **Task** = implementation (how to build it, acceptance criteria, implementation notes)
-- A ticket spawns tasks — ticket owns the "what", task owns the "how"
-- `task` frontmatter includes a `ticket: ticket-{slug}` field
+- **User Story** = product value (what the user gets, acceptance criteria, sub-task checklist)
+- **Task** = technical implementation (how to build it, acceptance criteria, implementation notes)
+- Both link to `feature-brief` as the Epic-level grouping
+- `task` frontmatter includes `story: story-{slug}` when derived from a user story
+- Granular execution steps (sub-tasks) live as checklists inside the parent artifact
 
 ---
 
-## Ticket Frontmatter
+## Task Frontmatter
 
 ```yaml
 ---
-id: ticket-{slug}
-type: ticket
-kind: feature | change | defect | investigation | spike | review
+id: task-{slug}
+type: task
 owner: {agent-slug}
-status: open
+status: open | in-progress | done
 version: 1.0
-charter: {charter-slug}
+feature-brief: fb-{slug}
+tech-design: td-{slug}
+story: story-{slug}  # optional, if derived from user story
+priority: {tier-number}
+estimated-hours: {N}
+depends-on:
+  - task-{slug}
 refs:
-  - {artifact-id-1}
-  - {artifact-id-2}
-created: {YYYY-MM-DD}
-closed: ~
+  - api-{slug}
 ---
 ```
 
-Direction of the relationship (target vs resulting task vs sibling) is inferred from context, not from typed fields.
-
 ---
 
-## Pattern
+## Execution Pattern
 
 ```
-User Stories (user value, in feature-brief or story- artifacts)
+Feature Brief (Epic level — what and why)
   ↓
-Tickets (coordination — what to do, which artifacts change)
+Tech Design (how — architectural context)
   ↓
-Tasks (implementation — how to build it)
-
-Tickets file against any artifact at any time.
+User Stories (user value) ─────┐
+  ↓                              │
+Tasks (implementation) ←─────────┘
+  ↓
+Execution Checklist (sub-tasks inside task/story)
 ```
+
+Work is filed as tasks or user-stories at any time. Sub-tasks are tracked via Markdown checklists, not separate artifacts.

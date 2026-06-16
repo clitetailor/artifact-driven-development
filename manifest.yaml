@@ -24,7 +24,7 @@ repos:                            # list of repo names and paths
 
 feature_type: feature-brief         # what `orchard query --pattern` treats as a feature
 
-# --- Artifact types (11 core + ticket) ---
+# --- Artifact types (11 core) ---
 # No `phase` here: phase grouping is a workflow concept owned by
 # reference/artifact-dep-graph.md. Comments below are human dividers only.
 types:
@@ -69,11 +69,6 @@ types:
   - name: test-spec
     prefix: ts-
     template: templates/test-spec.md
-
-  # Coordination
-  - name: ticket
-    prefix: ticket-
-    template: templates/ticket.md
 
 # --- Agents (identity roster; prose/behavior stays in design-doc) ---
 # Repo-mapping (writes-to/also-reads) dropped: repo ownership is vague and the coding
@@ -137,13 +132,13 @@ statuses:
     description: Replaced or no longer applicable; kept for history
   - name: open
     description: Filed, not yet started
-    applies-to: [ticket, task]
+    applies-to: [user-story, task]
   - name: in-progress
     description: Actively being worked on
-    applies-to: [ticket, task]
+    applies-to: [user-story, task]
   - name: done
     description: Implementation complete
-    applies-to: [ticket, task]
+    applies-to: [user-story, task]
   - name: withdrawn
     description: Cancelled by filer
-    applies-to: [ticket]
+    applies-to: [user-story, task]

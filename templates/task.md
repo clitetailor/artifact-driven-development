@@ -5,8 +5,8 @@ owner: {software-architect | frontend-engineer}
 status: open
 version: 1.0
 feature-brief: {fb-slug}
+tech-design: td-{slug}
 track: {backend | frontend}
-ticket: ticket-{slug}
 priority: {tier-number}
 story: story-{slug}
 milestone: sprint-{N}
@@ -38,6 +38,13 @@ refs:
 
 - [ ] 
 - [ ] 
+
+## Execution Checklist (Sub-Tasks)
+<!-- Agents: Check off these items as work is completed. -->
+
+- [ ] {sub-task 1}
+- [ ] {sub-task 2}
+- [ ] {sub-task 3}
 
 ## Relevant Specs
 <!-- Direct links to the specific sections of contracts / specs this task implements. -->

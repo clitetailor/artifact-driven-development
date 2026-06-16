@@ -11,8 +11,7 @@
 | **api-spec** | External API contract — endpoints, request/response DTOs, entity mapping. Internal data shapes belong in data-design. Owned by software-architect. |
 | **data-design** | Internal data shapes + detailed data flows. Entity definitions, relationships, state machines, pipeline stages, transformations, migrations. Owned by software-architect. |
 | **tech-design** | Feature-scoped technical design. Architectural Context (refs only) + implementation decisions constrained by system-architecture ADRs. Bridges system-architecture and task. Owned by software-architect. |
-| **task** | Agent-sized implementation unit, derived from api-spec or design-spec, links to a specific user-story and ticket |
+| **task** | Agent-sized implementation unit, derived from api-spec or design-spec. Links to a specific user-story and feature-brief. Execution steps tracked via internal checklist. |
 | **test-spec** | Test specification with embedded test plan. Covers scope, strategy, environment, test cases, edge cases, error cases. Absorbs test-plan. Owned by qa-engineer. |
-| **ticket** | Coordination artifact — groups related changes, tracks work across artifacts. Replaces change-request, advisory, milestone, and bug-report. Kind: feature, change, defect, investigation, spike, or review. Owned by project-manager. |
 | **refs** | Frontmatter field listing all related artifact IDs — upstream, downstream, sideways. Plain IDs only; used for grep-based queries. Human-navigable markdown links live in the artifact body under `## References`. |
 | **needs-review** | Status applied to an artifact when an upstream it references has changed; a prompt (not a block) to re-confirm consistency |

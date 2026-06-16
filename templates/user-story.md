@@ -2,15 +2,14 @@
 id: story-{slug}
 type: user-story
 owner: business-analyst
-status: draft
+status: open | in-progress | done
 version: 1.0
-charter: {charter-slug}
+feature-brief: fb-{slug}
 priority: {P0 | P1 | P2}
 estimated-hours: {N}
 depends-on:
   - story-{slug}
 refs:
-  - fb-{descriptor}
   - ujm-{slug}
 ---
 
@@ -45,6 +44,13 @@ so that **{outcome or value}**.
 - **Dependencies:** None | story-{slug}
 - **Timeline:** Sprint {N} | Phase {N}
 
+## Execution Checklist (Sub-Tasks)
+<!-- Agents: Check off these items as work is completed. -->
+
+- [ ] {sub-task 1}
+- [ ] {sub-task 2}
+- [ ] {sub-task 3}
+
 ## References
-- [fb-{descriptor}](../feature-briefs/fb-{descriptor}.md)
+- [fb-{slug}](../feature-briefs/fb-{slug}.md)
 - [ujm-{slug}](../user-journey-maps/ujm-{slug}.md)

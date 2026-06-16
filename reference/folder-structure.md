@@ -17,7 +17,6 @@
 ├── tech-designs/           # Technical design documents per feature (td-)
 ├── tasks/                  # Decomposed implementation units (task-)
 ├── test-specs/             # Test specifications with embedded test plan (ts-)
-├── tickets/                # Coordination artifacts (ticket-)
 ├── agents/                 # Agent design docs + repo/skill mappings
 ├── conventions/            # Enforced conventions (prescriptive)
 ├── reference/              # AI-friendly reference: vocabulary, lifecycle, ownership, SDLC phases, dep graph
