@@ -5,7 +5,7 @@
 
 | Phase | Question | Agents | Artifacts |
 |---|---|---|---|
-| 1 — Requirements | What are we building and for whom? | project-manager, business-analyst | prd, user-story |
+| 1 — Requirements | What are we building and for whom? | project-manager, business-analyst | feature-brief, user-story |
 | 2 — Design | How does the user experience it? | product-designer | user-flow, design-spec |
 | 3 — Architecture | How is it structured? | software-architect | system-architecture, api-spec, data-design |
 | 4 — Development | How is it built? | backend-engineer, frontend-engineer | tech-design, task |
@@ -42,7 +42,7 @@ Solid = produces; dashed = feedback/refines.
 ```mermaid
 graph LR
     subgraph REQ[Requirements]
-        PRD[prd] --> STORY[user-story]
+        FB[feature-brief] --> STORY[user-story]
     end
     subgraph DES[Design]
         UF[user-flow] --> DS[design-spec]
@@ -64,14 +64,14 @@ graph LR
 
 | To create… | First create… |
 |---|---|
-| prd | — |
-| user-story | prd |
-| user-flow | prd |
+| feature-brief | — |
+| user-story | feature-brief |
+| user-flow | feature-brief |
 | design-spec | user-flow |
-| system-architecture | prd |
+| system-architecture | feature-brief |
 | api-spec | system-architecture |
 | data-design | system-architecture |
-| tech-design | system-architecture, prd |
+| tech-design | system-architecture, feature-brief |
 | task | tech-design |
 | test-spec | api-spec, user-story |
 | ticket | — |

@@ -59,7 +59,7 @@ After completing this question, proceed to Step 4.
 
 Agent: **Feature type pattern.** This defines what counts as a feature — it's the pattern `orchard query --pattern` matches against.
 
-Agent: Which pattern should identify a feature? (Default is `charter/prd` — a feature is anything matching that pattern. Optional — leave blank to keep the default.)
+Agent: Which pattern should identify a feature? (Default is `feature-brief` — a feature is anything matching that pattern. Optional — leave blank to keep the default.)
 
 After completing this question, proceed to Step 5.
 

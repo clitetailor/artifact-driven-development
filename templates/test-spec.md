@@ -4,8 +4,7 @@ type: test-spec
 owner: qa-engineer
 status: draft
 version: 1.0
-charter: {charter-slug}
-prd: {charter-slug}/{prd-slug}
+feature-brief: {fb-slug}
 test-level: unit
 scenario: req-{slug}#scenario-{N}
 refs:
@@ -134,4 +133,4 @@ unit
 <!-- Implementation hints, gotchas, or special considerations -->
 
 ## References
-- [req-{slug}](../prds/req-{slug}.md)
+- [req-{slug}](../feature-briefs/req-{slug}.md)

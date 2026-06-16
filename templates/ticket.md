@@ -5,7 +5,6 @@ kind: feature | change | defect | investigation | spike | review
 owner: {agent-slug}
 status: open
 version: 1.0
-charter: {charter-slug}
 refs:
   - {artifact-id-1}
   - {artifact-id-2}
@@ -25,7 +24,7 @@ closed: ~
 | {artifact-id} | create / update / review | {what changes} |
 
 ## Rationale
-<!-- Why this work is needed. Link the user story, PRD requirement, or issue that motivates it. -->
+<!-- Why this work is needed. Link the user story, feature brief requirement, or issue that motivates it. -->
 
 ## Impact
 - **Breaking:** yes / no

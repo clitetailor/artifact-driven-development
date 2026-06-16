@@ -22,16 +22,16 @@ repos:                            # list of repo names and paths
   - name: analytics
     path: ../analytics
 
-feature_type: charter/prd         # what `orchard query --pattern` treats as a feature
+feature_type: feature-brief         # what `orchard query --pattern` treats as a feature
 
 # --- Artifact types (11 core + ticket) ---
 # No `phase` here: phase grouping is a workflow concept owned by
 # reference/artifact-dep-graph.md. Comments below are human dividers only.
 types:
   # Requirements
-  - name: prd
-    prefix: prd-
-    template: templates/prd.md
+  - name: feature-brief
+    prefix: fb-
+    template: templates/feature-brief.md
   - name: user-story
     prefix: story-
     template: templates/user-story.md

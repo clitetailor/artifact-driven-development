@@ -33,7 +33,7 @@ Without structure, coding agents improvise — filling gaps silently, absorbing 
 
 Artifacts are the unit of work in the vault. Each one is a Markdown file with frontmatter, an ID prefix, and explicit references to its upstream artifacts. The scaffold ships with 11 artifact types covering the full SDLC:
 
-- `prd-` — product requirements (absorbs charter, stakeholder-matrix, quality-requirement)
+- `fb-` — feature brief (problem statement, scope, metrics, requirements)
 - `story-` — a verifiable unit of user value
 - `uf-` — user flow with journey overview (absorbs user-journey-map)
 - `ds-` — design spec (merges wireframe + component-spec)
@@ -57,7 +57,7 @@ The full list of artifact types, ID prefixes, agents, skills, and statuses lives
 |---|---|
 | `AGENTS.md` | Core operating instructions for agents working in the vault |
 | `manifest.yaml` | Source of truth for artifact types, ID prefixes, agents, skills, and statuses |
-| `PROJECT.md` | Human-readable project overview (active tickets, PRDs, status) |
+| `PROJECT.md` | Human-readable project overview (active tickets, feature briefs, status) |
 | `README.md` | This file — entry point for humans and agents |
 
 **Folders**
@@ -72,7 +72,7 @@ The full list of artifact types, ID prefixes, agents, skills, and statuses lives
 | `agents/` | Agent role definitions and repo/skill mappings |
 | `conventions/` | Enforced project conventions |
 | `_sources/` | Source material the framework was synthesized from (off-framework vocabulary — do not load by default) |
-| `prds/`, `user-stories/`, `user-flows/`, `design-specs/`, `system-architectures/`, `api-specs/`, `data-designs/`, `tech-designs/`, `tasks/`, `test-specs/`, `tickets/` | Vault artifact folders, one per artifact type. Populated during onboarding. |
+| `feature-briefs/`, `user-stories/`, `user-flows/`, `design-specs/`, `system-architectures/`, `api-specs/`, `data-designs/`, `tech-designs/`, `tasks/`, `test-specs/`, `tickets/` | Vault artifact folders, one per artifact type. Populated during onboarding. |
 
 ---
 

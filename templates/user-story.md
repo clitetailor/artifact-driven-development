@@ -10,7 +10,7 @@ estimated-hours: {N}
 depends-on:
   - story-{slug}
 refs:
-  - prd-{charter}-{descriptor}
+  - fb-{descriptor}
   - ujm-{slug}
 ---
 
@@ -46,5 +46,5 @@ so that **{outcome or value}**.
 - **Timeline:** Sprint {N} | Phase {N}
 
 ## References
-- [prd-{charter}-{descriptor}](../prds/prd-{charter}-{descriptor}.md)
+- [fb-{descriptor}](../feature-briefs/fb-{descriptor}.md)
 - [ujm-{slug}](../user-journey-maps/ujm-{slug}.md)

@@ -6,12 +6,11 @@ Every vault artifact starts with YAML frontmatter:
 
 ```yaml
 ---
-id: {prefix}-{charter}-{descriptor}
+id: {prefix}-{descriptor}
 type: {artifact-type}
 owner: {agent-slug}
 status: draft
 version: 1.0
-charter: {charter-slug}
 refs:
   - {related-artifact-id}
 ---
@@ -23,14 +22,13 @@ refs:
 - `type` — must exist in `../manifest.yaml` under `types`
 - `owner` — see `artifact-ownership.md`
 - `status` — informational label; see `artifact-lifecycle.md` for common values
-- `charter` — charter slug; must correspond to an existing `prds/prd-{slug}.md` artifact on disk
 - `refs` — all related artifact IDs this one references (upstream, downstream, sideways). Plain IDs only — no markdown syntax. Used for grep-based queries and impact analysis. For human-navigable links, add a `## References` section at the bottom of the artifact body (see below).
 
 ## Optional Fields
 
 Task artifacts often carry: `ticket` (links to `ticket-{slug}`), `story` (links to `story-{slug}`), `milestone`, `estimated-hours`.
 Ticket artifacts carry: `kind` (feature | change | defect | investigation | spike | review), `created`, `closed`.
-PRD artifacts may carry: `prd` (the `{charter-slug}/{prd-slug}` path from the manifest) for sub-charter scoping.
+Feature Brief artifacts may carry: `feature-brief` (the `{fb-slug}` slug from the manifest) for sub-feature scoping.
 
 These are conventions, not enforced.
 
@@ -52,10 +50,10 @@ Rules:
 
 ## ID Naming Pattern
 
-`{prefix}-{charter}-{descriptor}` — lowercase, hyphen-separated only.
+`{prefix}-{descriptor}` — lowercase, hyphen-separated only.
 
 - No auto-incrementing integers
 - No timestamps
 - Prefix list is authoritative in `../manifest.yaml` under `types`
 
-Examples: `prd-user-authentication-login`, `api-user-authentication`, `dd-user-authentication`, `task-token-generation-be`, `ticket-add-rate-limiting`.
+Examples: `fb-user-authentication-login`, `api-user-authentication`, `dd-user-authentication`, `task-token-generation-be`, `ticket-add-rate-limiting`.

@@ -18,11 +18,11 @@
 
 ---
 
-## PRDs
+## Feature Briefs
 
-| PRD | Status | Summary |
-|-----|--------|---------|
-| <!-- prd-{slug} --> | <!-- draft/ready-for-review/accepted --> | <!-- brief summary --> |
+| Feature Brief | Status | Summary |
+|---------------|--------|---------|
+| <!-- fb-{slug} --> | <!-- draft/ready-for-review/accepted --> | <!-- brief summary --> |
 
 ---
 

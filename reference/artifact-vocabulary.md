@@ -3,9 +3,8 @@
 | Term | Definition |
 |---|---|
 | **artifact** | A versioned, typed document in the vault with YAML frontmatter |
-| **charter** | A top-level product capability authorization (e.g. `authentication`, `billing`). Defines scope, success criteria, and sponsor sign-off. Top-level organizing namespace. |
-| **prd** | Product Requirements Document — scoped to one charter (or sub-area), captures *what* the system must do with ID-tagged requirements. Absorbs project-charter (vision/scope/stakeholders), stakeholder-matrix, and quality-requirement content. Owned by business-analyst. |
-| **user-story** | One verifiable unit of user value extracted from a PRD, in the format "As a [role], I want [goal], so that [benefit]", with Given/When/Then acceptance criteria |
+| **feature-brief** | Feature Brief — captures *what* the system must do for a specific feature, along with success metrics and constraints. Owned by business-analyst. |
+| **user-story** | One verifiable unit of user value extracted from a feature brief, in the format "As a [role], I want [goal], so that [benefit]", with Given/When/Then acceptance criteria |
 | **user-flow** | User flow diagram with journey overview (absorbs user-journey-map). Maps entry points, happy path, error paths, and exit points. Owned by product-designer. |
 | **design-spec** | Combined wireframe + component behavior specification. Covers visual layouts, component states, props, events, design tokens, and accessibility. Owned by product-designer. |
 | **system-architecture** | System-wide structural view with embedded Architecture Decision Records. High-level data flow overview only; detailed flows in data-design. Owned by software-architect. |

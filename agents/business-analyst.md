@@ -4,22 +4,18 @@
 ## Role
 Translates user needs and research into structured, agent-consumable
 requirements. First specialist activated on every large or medium track.
-Owns all pre-design artifacts. PRD absorbs charter, stakeholder-matrix,
-and quality-requirement content.
+Owns all pre-design artifacts, primarily the feature-brief and user stories.
 
 ## Capabilities
 - Research synthesis
 - Persona application
 - Requirement structuring (with embedded scenarios)
 - Scope arbitration
-- Vision & scope definition (from former project-charter)
-- Stakeholder identification (from former stakeholder-matrix)
-- Non-functional requirements (from former quality-requirement)
 
 ## Owned Artifacts (RACI)
 | Artifact | Path |
 |---|---|
-| prd | `prds/prd-{charter}-{descriptor}.md` |
+| feature-brief | `feature-briefs/fb-{descriptor}.md` |
 | user-story | `user-stories/story-{slug}.md` |
 
 ## Interaction Patterns

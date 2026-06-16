@@ -4,8 +4,7 @@ type: system-architecture
 owner: software-architect
 status: draft
 version: 1.0
-charter: {charter-slug}
-prd: {charter-slug}/{prd-slug}
+feature-brief: {fb-slug}
 refs:
   - story-{slug}
 ---

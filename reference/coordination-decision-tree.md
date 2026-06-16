@@ -14,14 +14,14 @@
 | Time-boxed exploration | `spike` | — |
 | Re-verify accepted artifacts after upstream shift | `review` | — |
 | Simple change owner can apply directly | — | Ticket not needed |
-| Defining a new PRD | User Stories (in prd or as story- artifacts) | — |
+| Defining a new feature brief | User Stories (in feature-brief or as story- artifacts) | — |
 
 ---
 
 ## Ticket Kinds
 
 ### `feature`
-New capability end-to-end. Creates prd → user-flow → api-spec → tech-design → task chain. Typical scope: multiple artifacts across phases.
+New capability end-to-end. Creates feature-brief → user-flow → api-spec → tech-design → task chain. Typical scope: multiple artifacts across phases.
 
 ### `change`
 Modify existing spec artifacts. Updates one or more existing artifacts. Typical scope: targeted updates to accepted artifacts.
@@ -75,7 +75,7 @@ Direction of the relationship (target vs resulting task vs sibling) is inferred 
 ## Pattern
 
 ```
-User Stories (user value, in prd or story- artifacts)
+User Stories (user value, in feature-brief or story- artifacts)
   ↓
 Tickets (coordination — what to do, which artifacts change)
   ↓

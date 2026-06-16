@@ -21,7 +21,7 @@ or CI pipeline (that is Platform Engineering).
 
 ## PKM Access
 ```
-reads  : /prds/*
+reads  : /feature-briefs/*
          /api-specs/*
          /data-designs/*
          /test-specs/*  (self-reference for spec alignment)

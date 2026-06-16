@@ -5,8 +5,8 @@
 ```
 {vault-root}/
 ├── manifest.yaml           # Artifact types, prefixes, agent roster, skills, statuses (source of truth)
-├── PROJECT.md              # Human-readable project overview (active tickets, PRDs, status)
-├── prds/                   # Product Requirements Documents (prd-)
+├── PROJECT.md              # Human-readable project overview (active tickets, feature briefs, status)
+├── feature-briefs/         # Feature Briefs (fb-)
 ├── user-stories/           # Verifiable user-value units with Given/When/Then AC (story-)
 ├── user-flows/             # User flow diagrams with journey overview (uf-)
 ├── design-specs/           # Wireframes + component behavior specs (ds-)

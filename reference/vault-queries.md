@@ -1,19 +1,13 @@
 # Vault Queries
 
 **Never `ls` a folder to find artifacts.** Use grep against frontmatter fields.
-Charters and PRDs are discovered via live scan — use `rg` directly or `orchard query --pattern 'charter/prd'` once the CLI is available.
+Feature briefs are discovered via live scan — use `rg` directly or `orchard query --pattern 'feature-brief'` once the CLI is available.
 
 ```bash
-# All artifacts for a charter
-rg -l --glob '!.*' "charter: user-authentication" {vault-root}/
-
 # All artifacts of a given type
 rg -l --glob '!.*' "type: api-spec" {vault-root}/
 rg -l --glob '!.*' "type: data-design" {vault-root}/
 rg -l --glob '!.*' "type: ticket" {vault-root}/
-
-# All accepted artifacts for a charter
-rg -l --glob '!.*' "charter: user-authentication" {vault-root}/ | xargs rg -l "status: accepted"
 
 # All artifacts that reference a specific artifact
 rg -l --glob '!.*' "refs:.*api-user-authentication" {vault-root}/
@@ -22,7 +16,7 @@ rg -l --glob '!.*' "refs:.*api-user-authentication" {vault-root}/
 rg -l --glob '!.*' "status: needs-review" {vault-root}/
 
 # Find a specific artifact by id
-rg -l --glob '!.*' "^id: prd-user-authentication-login" {vault-root}/
+rg -l --glob '!.*' "^id: fb-user-authentication-login" {vault-root}/
 
 # Find all tasks for a specific user story
 rg -l --glob '!.*' "story: story-user-login" {vault-root}/tasks/
