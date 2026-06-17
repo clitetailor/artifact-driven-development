@@ -73,6 +73,11 @@ types:
     prefix: ts-
     template: templates/test-spec.md
 
+  # General
+  - name: note
+    prefix: note-
+    template: templates/note.md
+
 # --- Agents (identity roster; prose/behavior stays in design-doc) ---
 # Repo-mapping (writes-to/also-reads) dropped: repo ownership is vague and the coding
 # agent tool instructs agents directly. Artifact ownership (type→agent) stays in

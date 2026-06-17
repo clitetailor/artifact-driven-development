@@ -12,6 +12,7 @@ For the agent identity roster (slug, name, design-doc), see `../manifest.yaml` u
 | test-spec | qa-engineer |
 | task (fe) | frontend-engineer |
 | ticket | project-manager |
+| note | any |
 
 No agent writes an artifact it does not own. Downstream agents file tickets instead.
 

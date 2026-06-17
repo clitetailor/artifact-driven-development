@@ -72,5 +72,8 @@ graph LR
 | tech-design | system-architecture, feature-brief |
 | task | tech-design |
 | test-spec | api-spec, user-story |
+| note | — |
+
+*Ad-hoc artifacts like `note` can be created at any time, by any agent, without phase or prerequisite restrictions.*
 
 Cross-refs live in `refs` frontmatter. See `artifact-frontmatter.md`.
