@@ -6,7 +6,7 @@ status: draft
 version: 1.0
 feature: {root-id}
 test-level: unit
-scenario: req-{slug}#scenario-{N}
+scenario: {root-id}#scenario-{N}
 refs:
   - {root-id}
 ---

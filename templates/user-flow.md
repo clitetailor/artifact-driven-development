@@ -1,7 +1,7 @@
 ---
 id: uf-{slug}
 type: user-flow
-owner: ux-ui-designer
+owner: product-designer
 status: draft
 version: 1.0
 feature: {root-id}
