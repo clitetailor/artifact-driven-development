@@ -4,9 +4,9 @@ type: work-breakdown-structure
 owner: project-manager
 status: draft
 version: 1.0
-feature-brief: fb-{slug}
+feature: {root-id}
 refs:
-  - fb-{slug}
+  - {root-id}
   - story-{slug}
   - td-{slug}
 ---
@@ -17,7 +17,7 @@ refs:
 <!-- Tree: feature-brief → stories → tasks. Each node carries estimated-hours.
      Order children by priority then depends-on. Σ marks rolled-up sums. -->
 
-- fb-{slug} ({title}) — Σ {N}h
+- {root-id} ({title}) — Σ {N}h
   - story-{slug} — {title} — Σ {N}h [P0]
     - task-{slug}-be — {title} — {N}h
     - task-{slug}-fe — {title} — {N}h
@@ -61,6 +61,6 @@ story-{slug} → task-{slug}-be → task-{slug}-fe — {N}h elapsed
 - 
 
 ## References
-- [fb-{slug}](../feature-briefs/fb-{slug}.md)
+- [{root-id}](../{root-folder}/{root-id}.md)
 - [story-{slug}](../user-stories/story-{slug}.md)
 - [td-{slug}](../tech-designs/td-{slug}.md)

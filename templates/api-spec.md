@@ -4,7 +4,7 @@ type: api-spec
 owner: software-architect
 status: draft
 version: 1.0
-feature-brief: {fb-slug}
+feature: {root-id}
 refs:
   - sa-{slug}
   - dd-{slug}

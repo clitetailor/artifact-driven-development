@@ -4,9 +4,9 @@ type: system-architecture
 owner: software-architect
 status: draft
 version: 1.0
-feature-brief: {fb-slug}
+feature: {root-id}
 refs:
-  - fb-{slug}
+  - {root-id}
 ---
 
 # System Architecture: {title}
@@ -78,4 +78,4 @@ refs:
 - [ ] 
 
 ## References
-- [fb-{slug}](../feature-briefs/fb-{slug}.md)
+- [{root-id}](../{root-folder}/{root-id}.md)

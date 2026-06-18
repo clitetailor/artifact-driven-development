@@ -4,9 +4,9 @@ type: plan
 owner: project-manager
 status: draft
 version: 1.0
-feature-brief: fb-{slug}
+feature: {root-id}
 refs:
-  - fb-{slug}
+  - {root-id}
   - story-{slug}
   - td-{slug}
 ---
@@ -14,7 +14,7 @@ refs:
 # Plan: {title}
 
 ## Goal
-<!-- One paragraph: what "done" looks like for this plan. Ties back to fb-{slug} Success Metrics. -->
+<!-- One paragraph: what "done" looks like for this plan. Ties back to {root-id} Success Metrics. -->
 
 ## Order
 <!-- Flat ordered list — single sequence collapsing stories and their tasks.
@@ -51,6 +51,6 @@ story-1.be → story-2.fe — {N}h elapsed
 - 
 
 ## References
-- [fb-{slug}](../feature-briefs/fb-{slug}.md)
+- [{root-id}](../{root-folder}/{root-id}.md)
 - [story-{slug}](../user-stories/story-{slug}.md)
 - [td-{slug}](../tech-designs/td-{slug}.md)

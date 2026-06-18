@@ -4,7 +4,7 @@ type: design-spec
 owner: product-designer
 status: draft
 version: 1.0
-feature-brief: {fb-slug}
+feature: {root-id}
 refs:
   - uf-{slug}
 ---

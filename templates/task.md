@@ -4,7 +4,7 @@ type: task
 owner: {software-architect | frontend-engineer}
 status: open
 version: 1.0
-feature-brief: {fb-slug}
+feature: {root-id}
 tech-design: td-{slug}
 track: {backend | frontend}
 priority: {tier-number}

@@ -4,7 +4,7 @@ type: user-story
 owner: business-analyst
 status: open | in-progress | done
 version: 1.0
-feature-brief: fb-{slug}
+feature: {root-id}
 priority: {P0 | P1 | P2}
 estimated-hours: {N}
 depends-on:
@@ -52,5 +52,5 @@ so that **{outcome or value}**.
 - [ ] {sub-task 3}
 
 ## References
-- [fb-{slug}](../feature-briefs/fb-{slug}.md)
+- [{root-id}](../{root-folder}/{root-id}.md)
 - [ujm-{slug}](../user-journey-maps/ujm-{slug}.md)

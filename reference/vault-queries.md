@@ -1,13 +1,25 @@
 # Vault Queries
 
 **Never `ls` a folder to find artifacts.** Use grep against frontmatter fields.
-Feature briefs are discovered via live scan — use `rg` directly or `orchard query --pattern 'feature-brief'` once the CLI is available.
+Requirements-root artifacts (feature-brief, prd, pitch, one-pager, press-release) are discovered via live scan — use `rg` directly or `orchard query --pattern 'feature-brief'` once the CLI is available. A feature's root may be any type with `role: requirements-root` in `../manifest.yaml`; downstream artifacts link to it via the `feature:` frontmatter field.
 
 ```bash
 # All artifacts of a given type
 rg -l --glob '!.*' "type: api-spec" {vault-root}/
 rg -l --glob '!.*' "type: data-design" {vault-root}/
 rg -l --glob '!.*' "type: ticket" {vault-root}/
+
+# All requirements-root artifacts (any alternative type)
+rg -l --glob '!.*' -e "type: feature-brief" -e "type: prd" -e "type: pitch" -e "type: one-pager" -e "type: press-release" {vault-root}/
+
+# All plan-role artifacts (any alternative type)
+rg -l --glob '!.*' -e "type: plan" -e "type: work-breakdown-structure" -e "type: implementation-plan" {vault-root}/
+
+# Find the requirements-root for a feature (by its root id, e.g. fb-user-auth)
+rg -l --glob '!.*' "^id: fb-user-auth" {vault-root}/
+
+# All downstream artifacts tied to a feature (via the `feature:` field)
+rg -l --glob '!.*' "feature: fb-user-auth" {vault-root}/
 
 # All artifacts that reference a specific artifact
 rg -l --glob '!.*' "refs:.*api-user-authentication" {vault-root}/

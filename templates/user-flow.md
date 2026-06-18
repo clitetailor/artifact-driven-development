@@ -4,9 +4,9 @@ type: user-flow
 owner: ux-ui-designer
 status: draft
 version: 1.0
-feature-brief: {fb-slug}
+feature: {root-id}
 refs:
-  - req-{slug}
+  - {root-id}
   - persona-{slug}
 ---
 
@@ -68,5 +68,5 @@ flowchart TD
 - 
 
 ## References
-- [req-{slug}](../feature-briefs/req-{slug}.md)
+- [{root-id}](../{root-folder}/{root-id}.md)
 - [persona-{slug}](../user-journey-maps/ujm-{slug}.md)

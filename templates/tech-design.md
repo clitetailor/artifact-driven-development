@@ -4,12 +4,12 @@ type: tech-design
 owner: software-architect
 status: draft
 version: 1.0
-feature-brief: {fb-slug}
+feature: {root-id}
 refs:
   - sa-{slug}
   - api-{slug}
   - dd-{slug}
-  - fb-{slug}
+  - {root-id}
 ---
 
 # Technical Design: {title}
@@ -66,4 +66,4 @@ refs:
 - [sa-{slug}](../system-architectures/sa-{slug}.md)
 - [api-{slug}](../api-specs/api-{slug}.md)
 - [dd-{slug}](../data-designs/dd-{slug}.md)
-- [fb-{slug}](../feature-briefs/fb-{slug}.md)
+- [{root-id}](../{root-folder}/{root-id}.md)

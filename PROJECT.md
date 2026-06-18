@@ -18,11 +18,14 @@
 
 ---
 
-## Feature Briefs
+## Requirements Roots
 
-| Feature Brief | Status | Summary |
-|---------------|--------|---------|
-| <!-- fb-{slug} --> | <!-- draft/ready-for-review/accepted --> | <!-- brief summary --> |
+<!-- One row per feature's root artifact. The root may be any requirements-root
+     type (feature-brief, prd, pitch, one-pager, press-release) — see manifest.yaml. -->
+
+| Root | Type | Status | Summary |
+|------|------|--------|---------|
+| <!-- {root-id} --> | <!-- feature-brief/prd/pitch/one-pager/press-release --> | <!-- draft/ready-for-review/accepted --> | <!-- brief summary --> |
 
 ---
 

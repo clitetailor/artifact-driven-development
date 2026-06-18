@@ -5,10 +5,14 @@ owner: business-analyst
 status: draft
 version: 1.0
 refs:
-  - fb-{slug}
+  - {related-artifact-id}
 ---
 
 # PRD: {title}
+
+<!-- This is a **requirements-root** artifact (role: `requirements-root`). A feature
+     picks exactly one root type — feature-brief, prd, pitch, one-pager, or press-release.
+     Downstream artifacts link back to this one via the `feature:` frontmatter field. -->
 
 ## Background
 <!-- Why now? Market context, customer signals, strategic alignment, or prior art that motivates this product investment. -->
@@ -78,4 +82,4 @@ refs:
 - 
 
 ## References
-- [fb-{slug}](../feature-briefs/fb-{slug}.md)
+- [{related-artifact-id}](../{folder}/{related-artifact-id}.md)

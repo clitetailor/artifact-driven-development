@@ -4,11 +4,11 @@ type: test-spec
 owner: qa-engineer
 status: draft
 version: 1.0
-feature-brief: {fb-slug}
+feature: {root-id}
 test-level: unit
 scenario: req-{slug}#scenario-{N}
 refs:
-  - req-{slug}
+  - {root-id}
 ---
 
 # Test Spec: {title}
@@ -133,4 +133,4 @@ unit
 <!-- Implementation hints, gotchas, or special considerations -->
 
 ## References
-- [req-{slug}](../feature-briefs/req-{slug}.md)
+- [{root-id}](../{root-folder}/{root-id}.md)

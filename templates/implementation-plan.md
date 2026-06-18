@@ -4,9 +4,9 @@ type: implementation-plan
 owner: project-manager
 status: draft
 version: 1.0
-feature-brief: fb-{slug}
+feature: {root-id}
 refs:
-  - fb-{slug}
+  - {root-id}
   - story-{slug}
   - td-{slug}
 ---
@@ -14,7 +14,7 @@ refs:
 # Implementation Plan: {title}
 
 ## Build Goal
-<!-- One paragraph: what "done" looks like for this plan. Ties back to fb-{slug} Success Metrics. -->
+<!-- One paragraph: what "done" looks like for this plan. Ties back to {root-id} Success Metrics. -->
 
 ## Story Queue
 <!-- Ordered list. Order = priority (P0→P1→P2) then depends-on (story→story DAG).
@@ -71,6 +71,6 @@ story-1.be-2 → story-2.fe → story-3.be — {N}h elapsed
 - 
 
 ## References
-- [fb-{slug}](../feature-briefs/fb-{slug}.md)
+- [{root-id}](../{root-folder}/{root-id}.md)
 - [story-{slug}](../user-stories/story-{slug}.md)
 - [td-{slug}](../tech-designs/td-{slug}.md)

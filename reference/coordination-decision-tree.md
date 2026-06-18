@@ -52,7 +52,7 @@ type: task
 owner: {agent-slug}
 status: open | in-progress | done
 version: 1.0
-feature-brief: fb-{slug}
+feature: {root-id}
 tech-design: td-{slug}
 story: story-{slug}  # optional, if derived from user story
 priority: {tier-number}

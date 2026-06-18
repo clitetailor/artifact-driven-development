@@ -6,9 +6,10 @@ For the agent identity roster (slug, name, design-doc), see `../manifest.yaml` u
 
 | Artifact types | Owner |
 |---|---|
-| feature-brief, user-story | business-analyst |
+| feature-brief, prd, pitch, one-pager, press-release, user-story | business-analyst |
 | user-flow, design-spec | product-designer |
 | adr, system-architecture, api-spec, data-design, tech-design, task (be) | software-architect |
+| plan, work-breakdown-structure, implementation-plan | project-manager |
 | test-spec | qa-engineer |
 | task (fe) | frontend-engineer |
 | ticket | project-manager |

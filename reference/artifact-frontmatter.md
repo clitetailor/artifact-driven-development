@@ -28,7 +28,7 @@ refs:
 
 Task artifacts often carry: `ticket` (links to `ticket-{slug}`), `story` (links to `story-{slug}`), `milestone`, `estimated-hours`.
 Ticket artifacts carry: `kind` (feature | change | defect | investigation | spike | review), `created`, `closed`.
-Feature Brief artifacts may carry: `feature-brief` (the `{fb-slug}` slug from the manifest) for sub-feature scoping.
+Downstream artifacts (user-story, user-flow, system-architecture, tech-design, test-spec, and any `plan`-role artifact) carry: `feature` — the ID of the feature's requirements-root artifact (`fb-`, `prd-`, `pitch-`, `op-`, or `pr-` prefixed). This is the generic link to whichever root type the feature chose; see `artifact-dep-graph.md` → Roles & Alternatives.
 
 These are conventions, not enforced.
 
