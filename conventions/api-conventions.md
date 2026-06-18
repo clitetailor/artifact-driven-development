@@ -3,7 +3,7 @@
 Backend API conventions for the target project.
 
 > Adapt request/response details to the target backend stack and transport model.
-> For database schema and entity relationships: see the relevant `data-models/dm-*.md` artifact for the feature you are working on.
+> For database schema and entity relationships: see the relevant `data-designs/dd-*.md` artifact for the feature you are working on.
 > For backend code layout and architecture: see [backend-api-structure.md](./backend-api-structure.md)
 
 ---

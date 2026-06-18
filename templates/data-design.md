@@ -88,6 +88,10 @@ stateDiagram-v2
 ## Seed Data
 <!-- Required seed rows. Leave empty if none. -->
 
+## Open Questions
+<!-- Unresolved items that must be answered before implementation can start. -->
+- [ ] 
+
 ## References
 - [sa-{slug}](../system-architectures/sa-{slug}.md)
 - [api-{slug}](../api-specs/api-{slug}.md)

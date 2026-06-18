@@ -9,7 +9,7 @@ refs:
   - sa-{slug}
   - api-{slug}
   - dd-{slug}
-  - fb-{descriptor}
+  - fb-{slug}
 ---
 
 # Technical Design: {title}
@@ -66,4 +66,4 @@ refs:
 - [sa-{slug}](../system-architectures/sa-{slug}.md)
 - [api-{slug}](../api-specs/api-{slug}.md)
 - [dd-{slug}](../data-designs/dd-{slug}.md)
-- [fb-{descriptor}](../feature-briefs/fb-{descriptor}.md)
+- [fb-{slug}](../feature-briefs/fb-{slug}.md)

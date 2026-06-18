@@ -6,7 +6,7 @@ status: draft
 version: 1.0
 feature-brief: {fb-slug}
 refs:
-  - story-{slug}
+  - fb-{slug}
 ---
 
 # System Architecture: {title}
@@ -47,8 +47,7 @@ refs:
 
 ## Quality Attributes
 <!-- How the architecture satisfies key non-functional requirements.
-     Quality requirements (qr-) are derived downstream from this view —
-     state the architecturally-relevant targets here, don't restate full NFRs. -->
+     State the architecturally-relevant targets here, don't restate full NFRs. -->
 
 | Attribute | Target | How the architecture addresses it |
 |---|---|---|
@@ -79,4 +78,4 @@ refs:
 - [ ] 
 
 ## References
-- [story-{slug}](../user-stories/story-{slug}.md)
+- [fb-{slug}](../feature-briefs/fb-{slug}.md)

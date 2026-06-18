@@ -50,6 +50,7 @@ graph LR
         SA[system-architecture] --> ADR[adr]
         SA[system-architecture] --> API[api-spec]
         SA --> DD[data-design]
+        API ↔ DD
     end
     subgraph DEV[Development]
         TD[tech-design] --> TASK[task]
@@ -75,5 +76,7 @@ graph LR
 | note | — |
 
 *Ad-hoc artifacts like `note` can be created at any time, by any agent, without phase or prerequisite restrictions.*
+
+*`api-spec` and `data-design` co-evolve (`↔`): both depend on `system-architecture`, but they iterate together — API shapes reference data-design entities, and data-design internal shapes are constrained by API contracts.*
 
 Cross-refs live in `refs` frontmatter. See `artifact-frontmatter.md`.
