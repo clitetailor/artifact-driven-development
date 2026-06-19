@@ -26,7 +26,7 @@ feature_type: prd                   # default requirements-root type
 plan_type: plan                     # default plan type
 # Both fields above name the default type for the feature root and plan.
 # Alternative types are registered below and can be selected via switch-patches;
-# see PATCH-DRIVEN-DECISIONS-PLAN.md.
+# see handbook/customization.md.
 
 # --- Artifact types ---
 # No `phase` here: phase grouping is a workflow concept owned by

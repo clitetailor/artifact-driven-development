@@ -4,8 +4,10 @@
 
 ```
 {vault-root}/
-├── manifest.yaml           # Artifact types, prefixes, agent roster, skills, statuses (source of truth)
-├── PROJECT.md              # Human-readable project overview (active tickets, feature briefs, status)
+├── AGENTS.md              # Core operating instructions for agents working in the vault
+├── README.md              # Entry point for humans and agents
+├── manifest.yaml          # Artifact types, prefixes, agent roster, skills, statuses (source of truth)
+├── PROJECT.md             # Human-readable project overview (active tasks, PRDs, status)
 ├── feature-briefs/         # Feature Briefs (fb-) — requirements-root alternative
 ├── prds/                   # Product Requirements Documents (prd-) — default requirements-root
 ├── pitches/                # Pitches (pitch-) — requirements-root alternative
@@ -15,6 +17,7 @@
 ├── user-flows/             # User flow diagrams with journey overview (uf-)
 ├── design-specs/           # Wireframes + component behavior specs (ds-)
 │   └── wireframes/         #   Supporting HTML wireframe files linked from design-spec markdown
+├── adrs/                   # Architecture Decision Records (adr-)
 ├── system-architectures/   # System-wide structural views with ADRs (sa-)
 ├── api-specs/              # External API contracts with entity mapping (api-)
 ├── data-designs/           # Internal data shapes + detailed data flows (dd-)
@@ -24,10 +27,11 @@
 ├── work-breakdown-structures/ # Work Breakdown Structures (wbs-) — plan alternative
 ├── implementation-plans/   # Implementation Plans (ip-) — plan alternative
 ├── test-specs/             # Test specifications with embedded test plan (ts-)
+├── notes/                  # Ad-hoc scratchpad notes (note-) — any agent, any time
 ├── agents/                 # Agent design docs + repo/skill mappings
 ├── conventions/            # Enforced conventions (prescriptive)
 ├── reference/              # AI-friendly reference: vocabulary, lifecycle, ownership, SDLC phases, dep graph
-├── handbook/               # Human-readable workflow guides, setup prompt, playbooks, customization guide
+├── handbook/               # Human-readable workflow guides, setup prompt, customization guide
 ├── _sources/               # Source material the framework was synthesized from; off-framework vocabulary; do not auto-load
 └── templates/              # Artifact doc templates
 ```

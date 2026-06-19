@@ -2,7 +2,7 @@
 id: adr-{slug}
 type: adr
 owner: software-architect
-status: proposed
+status: draft
 version: 1.0
 refs:
   - sa-{slug}

@@ -7,7 +7,6 @@ PRD artifacts are discovered via live scan — use `rg` directly or `orchard que
 # All artifacts of a given type
 rg -l --glob '!.*' "type: api-spec" {vault-root}/
 rg -l --glob '!.*' "type: data-design" {vault-root}/
-rg -l --glob '!.*' "type: ticket" {vault-root}/
 
 # All PRD artifacts (default requirements-root type)
 rg -l --glob '!.*' "type: prd" {vault-root}/
@@ -33,12 +32,6 @@ rg -l --glob '!.*' "^id: prd-user-authentication-login" {vault-root}/
 # Find all tasks for a specific user story
 rg -l --glob '!.*' "story: story-user-login" {vault-root}/tasks/
 
-# Find all tasks for a specific ticket
-rg -l --glob '!.*' "ticket: ticket-add-rate-limiting" {vault-root}/tasks/
-
-# Find all tickets of a given kind
-rg -l --glob '!.*' "kind: defect" {vault-root}/tickets/
-
 # Find all test specs for a user story
 rg -l --glob '!.*' "refs:.*story-user-login" {vault-root}/test-specs/
 
@@ -50,9 +43,6 @@ rg -l --glob '!.*' "type: test-spec" {vault-root}/test-specs/ | xargs rg -l "sta
 
 # Accepted specs (tests confirmed passing)
 rg -l --glob '!.*' "type: test-spec" {vault-root}/test-specs/ | xargs rg -l "status: accepted"
-
-# Open tickets
-rg -l --glob '!.*' "type: ticket" {vault-root}/tickets/ | xargs rg -l "status: open"
 
 # Data designs referencing a specific api-spec
 rg -l --glob '!.*' "refs:.*api-user-authentication" {vault-root}/data-designs/

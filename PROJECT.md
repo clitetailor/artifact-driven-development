@@ -10,11 +10,11 @@
 
 ---
 
-## Active Tickets
+## Active Tasks
 
-| Ticket | Kind | Owner | Status | Summary |
+| Task | Kind | Owner | Status | Summary |
 |--------|------|-------|--------|---------|
-| <!-- ticket-{slug} --> | <!-- feature/change/defect/investigation/spike/review --> | <!-- agent-slug --> | <!-- open/in-progress --> | <!-- brief summary --> |
+| <!-- task-{slug}-{be|fe} --> | <!-- feature/change/defect/spike/review --> | <!-- agent-slug --> | <!-- open/in-progress/done --> | <!-- brief summary --> |
 
 ---
 
@@ -22,7 +22,7 @@
 
 <!-- One row per feature's PRD. The default requirements-root type is prd;
      alternatives (feature-brief, pitch, one-pager, press-release) can be
-     selected via switch-patches — see PATCH-DRIVEN-DECISIONS-PLAN.md. -->
+     selected via switch-patches — see handbook/customization.md. -->
 
 | PRD | Status | Summary |
 |-----|--------|---------|

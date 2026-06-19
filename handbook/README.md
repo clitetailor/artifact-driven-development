@@ -8,7 +8,7 @@
 | File | Purpose |
 |---|---|
 | [`setup.md`](./setup.md) | Entry point — reference in your AI chat to set up or use ADD |
-| [`playbooks/`](./playbooks/) | Step-by-step run instructions (CLI-backed skills; placeholder for now) |
+| [`customization.md`](./customization.md) | How to switch the default requirements-root and plan types via switch-patches |
 
 ## Where the Specs Live
 

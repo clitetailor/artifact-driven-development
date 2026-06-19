@@ -46,9 +46,9 @@ Bare `jj commit` always lands in `{vault-root}` (default CWD).
 - **Keep agent prompts concise.** No preamble, no restating context the agent doesn't need.
 - **Pass paths, not content.** Standards docs and vault artifacts are stable — give the path.
 - **Load reference docs on demand.** Read them only when the task requires resolving a status transition, ownership question, or unfamiliar term.
-- **Skip historical coordination artifacts; read live ones in scope.** Do not read closed/done `tickets/ticket-*` files for orientation by default. Read them when any of these apply:
-    - The task's `refs` explicitly point to the ticket.
-    - A ticket has `status: open` or `in-progress` and its `refs` include any artifact in your task's upstream chain.
-    - A ticket's `kind: review` targets an artifact in your scope (review tickets set `needs-review` on affected artifacts).
-    Skip done/withdrawn tickets — their intent has already been funneled into tasks.
+- **Skip historical task artifacts; read live ones in scope.** Do not read closed/done `tasks/task-*` files for orientation by default. Read them when any of these apply:
+    - The task's `refs` explicitly point to the task.
+    - A task has `status: open` or `in-progress` and its `refs` include any artifact in your task's upstream chain.
+    - A task's `kind: review` targets an artifact in your scope (review tasks set `needs-review` on affected artifacts).
+    Skip done/withdrawn tasks — their intent has already been funneled into newer tasks.
 - User instructions always override these rules.

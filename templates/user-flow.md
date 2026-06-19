@@ -7,7 +7,6 @@ version: 1.0
 feature: prd-{slug}
 refs:
   - prd-{slug}
-  - persona-{slug}
 ---
 
 # User Flow: {title}
@@ -69,4 +68,3 @@ flowchart TD
 
 ## References
 - [prd-{slug}](../prds/prd-{slug}.md)
-- [persona-{slug}](../user-journey-maps/ujm-{slug}.md)

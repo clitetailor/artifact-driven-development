@@ -10,7 +10,7 @@ estimated-hours: {N}
 depends-on:
   - story-{slug}
 refs:
-  - ujm-{slug}
+  - prd-{slug}
 ---
 
 # User Story: {title}
@@ -53,4 +53,3 @@ so that **{outcome or value}**.
 
 ## References
 - [prd-{slug}](../prds/prd-{slug}.md)
-- [ujm-{slug}](../user-journey-maps/ujm-{slug}.md)

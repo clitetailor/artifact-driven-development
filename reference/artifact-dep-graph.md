@@ -1,5 +1,5 @@
 # Artifact Dependency Graph
-> Phases, agents, artifact dependencies, creation order. Visualized: `../handbook/sdlc-swimlane-graph.html`.
+> Phases, agents, artifact dependencies, creation order.
 
 ## Phases
 
@@ -8,7 +8,7 @@
 | 1 — Requirements | What are we building and for whom? | project-manager, business-analyst | prd, user-story |
 | 2 — Design | How does the user experience it? | product-designer | user-flow, design-spec |
 | 3 — Architecture | How is it structured? | software-architect | adr, system-architecture, api-spec, data-design |
-| 4 — Development | How is it built? | backend-engineer, frontend-engineer | tech-design, task, plan |
+| 4 — Development | How is it built? | backend-engineer, frontend-engineer, project-manager | tech-design, task, plan |
 | 5 — Verification | How do we know it works? | qa-engineer | test-spec |
 
 ## Phase Flow
@@ -79,6 +79,8 @@ graph LR
 | note | — |
 
 *Ad-hoc artifacts like `note` can be created at any time, by any agent, without phase or prerequisite restrictions.*
+
+*Requirements-root alternatives (`feature-brief`, `pitch`, `one-pager`, `press-release`) and plan alternatives (`work-breakdown-structure`, `implementation-plan`) are switch-patch selectable — see `../handbook/customization.md`. An alternative shares the default type's dependencies shown above (the graph depicts the `prd` / `plan` defaults).*
 
 *`api-spec` and `data-design` co-evolve (`↔`): both depend on `system-architecture`, but they iterate together — API shapes reference data-design entities, and data-design internal shapes are constrained by API contracts.*
 

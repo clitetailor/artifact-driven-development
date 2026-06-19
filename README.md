@@ -31,19 +31,40 @@ Without structure, coding agents improvise — filling gaps silently, absorbing 
 
 ## Artifacts
 
-Artifacts are the unit of work in the vault. Each one is a Markdown file with frontmatter, an ID prefix, and explicit references to its upstream artifacts. The scaffold ships with 11 artifact types covering the full SDLC:
+Artifacts are the unit of work in the vault. Each one is a Markdown file with frontmatter, an ID prefix, and explicit references to its upstream artifacts. The scaffold ships with 19 artifact types covering the full SDLC:
 
-- `fb-` — feature brief (problem statement, scope, metrics, requirements)
+**Requirements**
+- `fb-` — feature brief (lighter requirements-root alternative)
+- `prd-` — product requirements document (default requirements-root)
+- `pitch-` — pitch (requirements-root alternative for early-stage buy-in)
+- `op-` — one-pager (requirements-root alternative for small features)
+- `pr-` — press release (requirements-root alternative, working-backwards framing)
 - `story-` — a verifiable unit of user value
+
+**Design**
 - `uf-` — user flow with journey overview (absorbs user-journey-map)
 - `ds-` — design spec (merges wireframe + component-spec)
+
+**Architecture**
+- `adr-` — architecture decision record
 - `sa-` — system architecture with embedded ADRs (absorbs architecture-decision)
-- `api-` — API spec, external contract only (from api-contract; add Entity Mapping)
-- `dd-` — data design, internal shapes + detailed data flows (new)
-- `td-` — technical design, feature-scoped (reframed: Architectural Context, not new architecture)
-- `task-` — a fine-grained unit of implementation work, tied to a ticket
+- `api-` — API spec, external contract only
+- `dd-` — data design, internal shapes + detailed data flows
+
+**Development**
+- `td-` — technical design, feature-scoped
+- `task-` — a fine-grained unit of implementation work
+
+**Planning**
+- `plan-` — flat ordered list sequencing stories/tasks (default plan type)
+- `wbs-` — work breakdown structure (deliverable hierarchy + effort rollup)
+- `ip-` — implementation plan (story queue + task lanes)
+
+**Verification**
 - `ts-` — test spec with embedded test plan (absorbs test-plan)
-- `ticket-` — coordination artifact (replaces change-request, advisory, milestone, bug-report)
+
+**General**
+- `note-` — ad-hoc scratchpad (any agent, any time)
 
 The full list of artifact types, ID prefixes, agents, skills, and statuses lives in `manifest.yaml`. The artifact dependency graph — which artifact must exist before which — lives in `reference/artifact-dep-graph.md`.
 
@@ -57,7 +78,7 @@ The full list of artifact types, ID prefixes, agents, skills, and statuses lives
 |---|---|
 | `AGENTS.md` | Core operating instructions for agents working in the vault |
 | `manifest.yaml` | Source of truth for artifact types, ID prefixes, agents, skills, and statuses |
-| `PROJECT.md` | Human-readable project overview (active tickets, feature briefs, status) |
+| `PROJECT.md` | Human-readable project overview (active tasks, PRDs, status) |
 | `README.md` | This file — entry point for humans and agents |
 
 **Folders**
@@ -65,14 +86,14 @@ The full list of artifact types, ID prefixes, agents, skills, and statuses lives
 | Folder | Purpose |
 |---|---|
 | `reference/` | AI-friendly reference docs: vocabulary, lifecycle, ownership, dep graph, frontmatter, vault queries, folder structure, coordination decision tree |
-| `handbook/` | Entry point (`setup.md`) and playbooks placeholder |
+| `handbook/` | Entry point (`setup.md`) and customization guide |
 | `handbook/setup.md` | Prompt script — paste into AI chat to set up or use ADD in a project |
-| `handbook/playbooks/` | Step-by-step run instructions (CLI-backed skills; placeholder for now) |
+| `handbook/customization.md` | How to switch the default requirements-root and plan types via switch-patches |
 | `templates/` | Artifact doc templates, one per artifact type |
 | `agents/` | Agent role definitions and repo/skill mappings |
 | `conventions/` | Enforced project conventions |
 | `_sources/` | Source material the framework was synthesized from (off-framework vocabulary — do not load by default) |
-| `feature-briefs/`, `user-stories/`, `user-flows/`, `design-specs/`, `system-architectures/`, `api-specs/`, `data-designs/`, `tech-designs/`, `tasks/`, `test-specs/`, `tickets/` | Vault artifact folders, one per artifact type. Populated during onboarding. |
+| `feature-briefs/`, `prds/`, `pitches/`, `one-pagers/`, `press-releases/`, `user-stories/`, `user-flows/`, `design-specs/`, `adrs/`, `system-architectures/`, `api-specs/`, `data-designs/`, `tech-designs/`, `tasks/`, `plans/`, `work-breakdown-structures/`, `implementation-plans/`, `test-specs/`, `notes/` | Vault artifact folders, one per artifact type. Populated during onboarding. |
 
 ---
 
@@ -110,9 +131,9 @@ Assume you are starting a new project called `issue-tracker` with a React fronte
    └── issue-tracker-api/
    ```
 
-4. **Run the setup prompt.** Open a coding agent in `issue-tracker-docs/` and reference `handbook/setup.md`. The agent will read the workspace, ask targeted questions about your product and repo layout, then run `handbook/playbooks/setup-new-repo.md` — replacing placeholders, initializing the registry, and reviewing convention docs.
+4. **Run the setup prompt.** Open a coding agent in `issue-tracker-docs/` and reference `handbook/setup.md`. The agent will read the workspace, ask targeted questions about your project and repo layout, then configure `manifest.yaml` — replacing placeholders, initializing the registry, and reviewing convention docs.
 
-5. **Plan your first feature.** Tell the agent what you want to build. It will reference `handbook/setup.md` again, select `handbook/playbooks/plan-feature.md`, and walk through requirements, design artifacts, and tasks.
+5. **Plan your first feature.** Tell the agent what you want to build. It will reference `handbook/setup.md` again and walk through requirements, design artifacts, and tasks. To switch the default requirements-root or plan type, apply a switch-patch from `patches/` (see `handbook/customization.md`).
 
 6. **Iterate.** From here, work flows through the artifact dependency graph: features beget requirements, requirements beget design artifacts, design artifacts beget tasks. The `handbook/` workflow guides describe the day-to-day pattern.
 

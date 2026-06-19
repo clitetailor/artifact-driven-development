@@ -26,8 +26,7 @@ refs:
 
 ## Optional Fields
 
-Task artifacts often carry: `ticket` (links to `ticket-{slug}`), `story` (links to `story-{slug}`), `milestone`, `estimated-hours`.
-Ticket artifacts carry: `kind` (feature | change | defect | investigation | spike | review), `created`, `closed`.
+Task artifacts often carry: `story` (links to `story-{slug}`), `milestone`, `estimated-hours`.
 Downstream artifacts (user-story, user-flow, system-architecture, tech-design, test-spec, and plan) carry: `feature` — the ID of the feature's PRD (`prd-` prefixed). This links the artifact to its requirements root; see `artifact-dep-graph.md`.
 
 These are conventions, not enforced.
@@ -56,4 +55,4 @@ Rules:
 - No timestamps
 - Prefix list is authoritative in `../manifest.yaml` under `types`
 
-Examples: `fb-user-authentication-login`, `api-user-authentication`, `dd-user-authentication`, `task-token-generation-be`, `ticket-add-rate-limiting`.
+Examples: `fb-user-authentication-login`, `api-user-authentication`, `dd-user-authentication`, `task-token-generation-be`.

@@ -50,7 +50,7 @@ Agent-sized implementation unit. Types:
 id: task-{slug}
 type: task
 owner: {agent-slug}
-status: open | in-progress | done
+status: open | in-progress | done | withdrawn
 version: 1.0
 feature: prd-{slug}
 tech-design: td-{slug}
