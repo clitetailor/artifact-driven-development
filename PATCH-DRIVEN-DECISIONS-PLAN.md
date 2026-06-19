@@ -92,7 +92,13 @@ Patches/render touch only **scaffolding** (templates + reference docs). The user
 
 ## Open items
 
-- [ ] Execute Step 1 (seedbed edit)
-- [ ] Prototype one switch-patch (`switch-to-feature-brief.patch`) and run `git apply --check` to confirm hunk shapes
-- [ ] Decide patch storage location (`patches/` at root vs. elsewhere)
-- [ ] Document the switch-patch workflow in `handbook/setup.md` or a new `handbook/customization.md`
+- [x] Execute Step 1 (seedbed edit) — committed as `Replace role abstraction with concrete-prd-default scaffolding`
+- [x] Generate all 6 switch-patches and verify `git apply --check`:
+  - `switch-to-feature-brief.patch` — 21 files, +86/-86
+  - `switch-to-pitch.patch` — 20 files, +83/-83
+  - `switch-to-one-pager.patch` — 20 files, +83/-83
+  - `switch-to-press-release.patch` — 20 files, +83/-83
+  - `switch-to-work-breakdown-structure.patch` — 5 files, +15/-14
+  - `switch-to-implementation-plan.patch` — 5 files, +15/-14
+- [x] Decide patch storage location — `patches/` at root
+- [x] Document the switch-patch workflow in `handbook/customization.md`

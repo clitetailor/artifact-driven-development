@@ -1,0 +1,506 @@
+diff --git a/PROJECT.md b/PROJECT.md
+index 0265329..c852cad 100644
+--- a/PROJECT.md
++++ b/PROJECT.md
+@@ -18,15 +18,15 @@
+ 
+ ---
+ 
+-## PRDs
++## Press Releases
+ 
+-<!-- One row per feature's PRD. The default requirements-root type is prd;
++<!-- One row per feature's Press Release. The default requirements-root type is press-release;
+      alternatives (feature-brief, pitch, one-pager, press-release) can be
+      selected via switch-patches — see PATCH-DRIVEN-DECISIONS-PLAN.md. -->
+ 
+-| PRD | Status | Summary |
++| Press Release | Status | Summary |
+ |-----|--------|---------|
+-| <!-- prd-{slug} --> | <!-- draft/ready-for-review/accepted --> | <!-- brief summary --> |
++| <!-- pr-{slug} --> | <!-- draft/ready-for-review/accepted --> | <!-- brief summary --> |
+ 
+ ---
+ 
+diff --git a/handbook/setup.md b/handbook/setup.md
+index 28c15a4..07a9cde 100644
+--- a/handbook/setup.md
++++ b/handbook/setup.md
+@@ -59,7 +59,7 @@ After completing this question, proceed to Step 4.
+ 
+ Agent: **Feature type pattern.** This defines what counts as a feature — it's the pattern `orchard query --pattern` matches against.
+ 
+-Agent: Which pattern should identify a feature? (Default is `prd` — a feature is anything matching that pattern. Optional — leave blank to keep the default.)
++Agent: Which pattern should identify a feature? (Default is `press-release` — a feature is anything matching that pattern. Optional — leave blank to keep the default.)
+ 
+ After completing this question, proceed to Step 5.
+ 
+diff --git a/manifest.yaml b/manifest.yaml
+index 05aa0cc..46a9cbf 100644
+--- a/manifest.yaml
++++ b/manifest.yaml
+@@ -22,7 +22,7 @@ repos:                            # list of repo names and paths
+   - name: analytics
+     path: ../analytics
+ 
+-feature_type: prd                   # default requirements-root type
++feature_type: press-release                   # default requirements-root type
+ plan_type: plan                     # default plan type
+ # Both fields above name the default type for the feature root and plan.
+ # Alternative types are registered below and can be selected via switch-patches;
+diff --git a/reference/artifact-dep-graph.md b/reference/artifact-dep-graph.md
+index 986fb84..43e3a13 100644
+--- a/reference/artifact-dep-graph.md
++++ b/reference/artifact-dep-graph.md
+@@ -5,7 +5,7 @@
+ 
+ | Phase | Question | Agents | Artifacts |
+ |---|---|---|---|
+-| 1 — Requirements | What are we building and for whom? | project-manager, business-analyst | prd, user-story |
++| 1 — Requirements | What are we building and for whom? | project-manager, business-analyst | press-release, user-story |
+ | 2 — Design | How does the user experience it? | product-designer | user-flow, design-spec |
+ | 3 — Architecture | How is it structured? | software-architect | adr, system-architecture, api-spec, data-design |
+ | 4 — Development | How is it built? | backend-engineer, frontend-engineer | tech-design, task, plan |
+@@ -41,7 +41,7 @@ Solid = produces; dashed = feedback/refines.
+ ```mermaid
+ graph LR
+     subgraph REQ[Requirements]
+-        ROOT["prd"] --> STORY[user-story]
++        ROOT["press-release"] --> STORY[user-story]
+     end
+     subgraph DES[Design]
+         UF[user-flow] --> DS[design-spec]
+@@ -64,15 +64,15 @@ graph LR
+ 
+ | To create… | First create… |
+ |---|---|
+-| prd | — |
+-| user-story | prd |
+-| user-flow | prd |
++| press-release | — |
++| user-story | press-release |
++| user-flow | press-release |
+ | design-spec | user-flow |
+-| system-architecture | prd |
++| system-architecture | press-release |
+ | adr | system-architecture |
+ | api-spec | system-architecture |
+ | data-design | system-architecture |
+-| tech-design | system-architecture, prd |
++| tech-design | system-architecture, press-release |
+ | task | tech-design |
+ | plan | tech-design, user-story |
+ | test-spec | api-spec, user-story |
+diff --git a/reference/artifact-vocabulary.md b/reference/artifact-vocabulary.md
+index f838221..09d97e9 100644
+--- a/reference/artifact-vocabulary.md
++++ b/reference/artifact-vocabulary.md
+@@ -3,11 +3,11 @@
+ | Term | Definition |
+ |---|---|
+ | **artifact** | A versioned, typed document in the vault with YAML frontmatter |
+-| **prd** | Product Requirements Document — the default requirements-root artifact. Captures *what* the system must do for a feature, with background, audience, objectives, NFRs, timeline. Owned by business-analyst. |
++| **prd** | Product Requirements Document — a requirements-root alternative to press-release. Captures *what* the system must do for a feature, with background, audience, objectives, NFRs, timeline. Owned by business-analyst. |
+ | **feature-brief** | Feature Brief — a lighter requirements-root alternative to prd. Captures *what* the system must do for a specific feature, along with success metrics and constraints. Owned by business-analyst. |
+ | **pitch** | Pitch — a requirements-root alternative for early-stage or investment decisions. Vision/problem/solution/differentiation/ask framing for securing buy-in. Owned by business-analyst. |
+ | **one-pager** | One-Pager — a requirements-root alternative for small or well-understood features. Condensed summary: problem, solution, audience, metrics, scope. Owned by business-analyst. |
+-| **press-release** | Press Release — a requirements-root alternative using "working backwards" framing written as if the product has launched; surfaces customer-outcome gaps before implementation. Owned by business-analyst. |
++| **press-release** | Press Release — The default requirements-root artifact. Uses "working backwards" framing written as if the product has launched; surfaces customer-outcome gaps before implementation. Owned by business-analyst. |
+ | **user-story** | One verifiable unit of user value extracted from a PRD, in the format "As a [role], I want [goal], so that [benefit]", with Given/When/Then acceptance criteria |
+ | **user-flow** | User flow diagram with journey overview (absorbs user-journey-map). Maps entry points, happy path, error paths, and exit points. Owned by product-designer. |
+ | **design-spec** | Combined wireframe + component behavior specification. Covers visual layouts, component states, props, events, design tokens, and accessibility. Owned by product-designer. |
+diff --git a/reference/coordination-decision-tree.md b/reference/coordination-decision-tree.md
+index d3f391f..88ba477 100644
+--- a/reference/coordination-decision-tree.md
++++ b/reference/coordination-decision-tree.md
+@@ -11,7 +11,7 @@
+ | Technical chore or infrastructure work | `task` | — |
+ | Modify existing spec artifacts | `task` (change type) | — |
+ | Fix inconsistency or error in specs | `task` (defect type) | — |
+-| Research before committing to changes | Add investigation notes to `prd` | — |
++| Research before committing to changes | Add investigation notes to `press-release` | — |
+ | Time-boxed exploration | `task` with spike label | — |
+ | Simple change owner can apply directly | — | Direct edit, no new artifact needed |
+ | Re-verify accepted artifacts after upstream shift | Create review `task` | — |
+@@ -21,7 +21,7 @@
+ ## Work Types
+ 
+ ### `user-story`
+-New user-facing capability. Derived from PRD. Format: "As a [role], I want [goal], so that [benefit]". Includes Given/When/Then acceptance criteria and an execution checklist for sub-tasks.
++New user-facing capability. Derived from Press Release. Format: "As a [role], I want [goal], so that [benefit]". Includes Given/When/Then acceptance criteria and an execution checklist for sub-tasks.
+ 
+ ### `task`
+ Agent-sized implementation unit. Types:
+@@ -37,7 +37,7 @@ Agent-sized implementation unit. Types:
+ 
+ - **User Story** = product value (what the user gets, acceptance criteria, sub-task checklist)
+ - **Task** = technical implementation (how to build it, acceptance criteria, implementation notes)
+-- Both link to `prd` as the Epic-level grouping
++- Both link to `press-release` as the Epic-level grouping
+ - `task` frontmatter includes `story: story-{slug}` when derived from a user story
+ - Granular execution steps (sub-tasks) live as checklists inside the parent artifact
+ 
+@@ -52,7 +52,7 @@ type: task
+ owner: {agent-slug}
+ status: open | in-progress | done
+ version: 1.0
+-feature: prd-{slug}
++feature: pr-{slug}
+ tech-design: td-{slug}
+ story: story-{slug}  # optional, if derived from user story
+ priority: {tier-number}
+@@ -69,7 +69,7 @@ refs:
+ ## Execution Pattern
+ 
+ ```
+-PRD (Epic level — what and why)
++Press Release (Epic level — what and why)
+   ↓
+ Tech Design (how — architectural context)
+   ↓
+diff --git a/reference/folder-structure.md b/reference/folder-structure.md
+index f59997e..650676f 100644
+--- a/reference/folder-structure.md
++++ b/reference/folder-structure.md
+@@ -7,10 +7,10 @@
+ ├── manifest.yaml           # Artifact types, prefixes, agent roster, skills, statuses (source of truth)
+ ├── PROJECT.md              # Human-readable project overview (active tickets, feature briefs, status)
+ ├── feature-briefs/         # Feature Briefs (fb-) — requirements-root alternative
+-├── prds/                   # Product Requirements Documents (prd-) — default requirements-root
++├── prds/                   # Product Requirements Documents (prd-) — requirements-root alternative
+ ├── pitches/                # Pitches (pitch-) — requirements-root alternative
+ ├── one-pagers/             # One-Pagers (op-) — requirements-root alternative
+-├── press-releases/         # Press Releases (pr-) — requirements-root alternative
++├── press-releases/             # Press Releases (pr-) — default requirements-root
+ ├── user-stories/           # Verifiable user-value units with Given/When/Then AC (story-)
+ ├── user-flows/             # User flow diagrams with journey overview (uf-)
+ ├── design-specs/           # Wireframes + component behavior specs (ds-)
+diff --git a/reference/vault-queries.md b/reference/vault-queries.md
+index 19397c1..9b7ef70 100644
+--- a/reference/vault-queries.md
++++ b/reference/vault-queries.md
+@@ -1,7 +1,7 @@
+ # Vault Queries
+ 
+ **Never `ls` a folder to find artifacts.** Use grep against frontmatter fields.
+-PRD artifacts are discovered via live scan — use `rg` directly or `orchard query --pattern 'prd'` once the CLI is available. Downstream artifacts link to the feature's PRD via the `feature:` frontmatter field.
++Press Release artifacts are discovered via live scan — use `rg` directly or `orchard query --pattern 'prd'` once the CLI is available. Downstream artifacts link to the feature's PRD via the `feature:` frontmatter field.
+ 
+ ```bash
+ # All artifacts of a given type
+@@ -9,17 +9,17 @@ rg -l --glob '!.*' "type: api-spec" {vault-root}/
+ rg -l --glob '!.*' "type: data-design" {vault-root}/
+ rg -l --glob '!.*' "type: ticket" {vault-root}/
+ 
+-# All PRD artifacts (default requirements-root type)
+-rg -l --glob '!.*' "type: prd" {vault-root}/
++# All Press Release artifacts (default requirements-root type)
++rg -l --glob '!.*' "type: press-release" {vault-root}/
+ 
+ # All plan artifacts (default plan type)
+ rg -l --glob '!.*' "type: plan" {vault-root}/
+ 
+-# Find the PRD for a feature (by its root id, e.g. prd-user-auth)
+-rg -l --glob '!.*' "^id: prd-user-auth" {vault-root}/
++# Find the Press Release for a feature (by its root id, e.g. pr-user-auth)
++rg -l --glob '!.*' "^id: pr-user-auth" {vault-root}/
+ 
+ # All downstream artifacts tied to a feature (via the `feature:` field)
+-rg -l --glob '!.*' "feature: prd-user-auth" {vault-root}/
++rg -l --glob '!.*' "feature: pr-user-auth" {vault-root}/
+ 
+ # All artifacts that reference a specific artifact
+ rg -l --glob '!.*' "refs:.*api-user-authentication" {vault-root}/
+@@ -28,7 +28,7 @@ rg -l --glob '!.*' "refs:.*api-user-authentication" {vault-root}/
+ rg -l --glob '!.*' "status: needs-review" {vault-root}/
+ 
+ # Find a specific artifact by id
+-rg -l --glob '!.*' "^id: prd-user-authentication-login" {vault-root}/
++rg -l --glob '!.*' "^id: pr-user-authentication-login" {vault-root}/
+ 
+ # Find all tasks for a specific user story
+ rg -l --glob '!.*' "story: story-user-login" {vault-root}/tasks/
+diff --git a/templates/api-spec.md b/templates/api-spec.md
+index 24d23e2..585046a 100644
+--- a/templates/api-spec.md
++++ b/templates/api-spec.md
+@@ -4,7 +4,7 @@ type: api-spec
+ owner: software-architect
+ status: draft
+ version: 1.0
+-feature: prd-{slug}
++feature: pr-{slug}
+ refs:
+   - sa-{slug}
+   - dd-{slug}
+diff --git a/templates/data-design.md b/templates/data-design.md
+index 92dc4f2..81dbf64 100644
+--- a/templates/data-design.md
++++ b/templates/data-design.md
+@@ -4,7 +4,7 @@ type: data-design
+ owner: software-architect
+ status: draft
+ version: 1.0
+-feature: prd-{slug}
++feature: pr-{slug}
+ refs:
+   - sa-{slug}
+   - api-{slug}
+diff --git a/templates/design-spec.md b/templates/design-spec.md
+index 7adcb30..1e8db43 100644
+--- a/templates/design-spec.md
++++ b/templates/design-spec.md
+@@ -4,7 +4,7 @@ type: design-spec
+ owner: product-designer
+ status: draft
+ version: 1.0
+-feature: prd-{slug}
++feature: pr-{slug}
+ refs:
+   - uf-{slug}
+ ---
+diff --git a/templates/implementation-plan.md b/templates/implementation-plan.md
+index f001e03..3efb173 100644
+--- a/templates/implementation-plan.md
++++ b/templates/implementation-plan.md
+@@ -4,9 +4,9 @@ type: implementation-plan
+ owner: project-manager
+ status: draft
+ version: 1.0
+-feature: prd-{slug}
++feature: pr-{slug}
+ refs:
+-  - prd-{slug}
++  - pr-{slug}
+   - story-{slug}
+   - td-{slug}
+ ---
+@@ -14,11 +14,11 @@ refs:
+ # Implementation Plan: {title}
+ 
+ ## Build Goal
+-<!-- One paragraph: what "done" looks like for this plan. Ties back to prd-{slug} Success Metrics. -->
++<!-- One paragraph: what "done" looks like for this plan. Ties back to pr-{slug} Success Metrics. -->
+ 
+ ## Story Queue
+ <!-- Ordered list. Order = priority (P0→P1→P2) then depends-on (story→story DAG).
+-     This is the normative rollout sequence — the prd-{slug}'s User Stories list is the human rollup, this is the executable one. -->
++     This is the normative rollout sequence — the pr-{slug}'s User Stories list is the human rollup, this is the executable one. -->
+ 
+ | # | Story | Priority | Depends-on | Est. Hours | Why this position |
+ |---|---|---|---|---|---|
+@@ -71,6 +71,6 @@ story-1.be-2 → story-2.fe → story-3.be — {N}h elapsed
+ - 
+ 
+ ## References
+-- [prd-{slug}](../prds/prd-{slug}.md)
++- [pr-{slug}](../press-releases/pr-{slug}.md)
+ - [story-{slug}](../user-stories/story-{slug}.md)
+ - [td-{slug}](../tech-designs/td-{slug}.md)
+diff --git a/templates/plan.md b/templates/plan.md
+index 6403d0d..9c31946 100644
+--- a/templates/plan.md
++++ b/templates/plan.md
+@@ -4,9 +4,9 @@ type: plan
+ owner: project-manager
+ status: draft
+ version: 1.0
+-feature: prd-{slug}
++feature: pr-{slug}
+ refs:
+-  - prd-{slug}
++  - pr-{slug}
+   - story-{slug}
+   - td-{slug}
+ ---
+@@ -14,7 +14,7 @@ refs:
+ # Plan: {title}
+ 
+ ## Goal
+-<!-- One paragraph: what "done" looks like for this plan. Ties back to prd-{slug} Success Metrics. -->
++<!-- One paragraph: what "done" looks like for this plan. Ties back to pr-{slug} Success Metrics. -->
+ 
+ ## Order
+ <!-- Flat ordered list — single sequence collapsing stories and their tasks.
+@@ -51,6 +51,6 @@ story-1.be → story-2.fe — {N}h elapsed
+ - 
+ 
+ ## References
+-- [prd-{slug}](../prds/prd-{slug}.md)
++- [pr-{slug}](../press-releases/pr-{slug}.md)
+ - [story-{slug}](../user-stories/story-{slug}.md)
+ - [td-{slug}](../tech-designs/td-{slug}.md)
+diff --git a/templates/system-architecture.md b/templates/system-architecture.md
+index cd8ad77..08e4b51 100644
+--- a/templates/system-architecture.md
++++ b/templates/system-architecture.md
+@@ -4,9 +4,9 @@ type: system-architecture
+ owner: software-architect
+ status: draft
+ version: 1.0
+-feature: prd-{slug}
++feature: pr-{slug}
+ refs:
+-  - prd-{slug}
++  - pr-{slug}
+ ---
+ 
+ # System Architecture: {title}
+@@ -78,4 +78,4 @@ refs:
+ - [ ] 
+ 
+ ## References
+-- [prd-{slug}](../prds/prd-{slug}.md)
++- [pr-{slug}](../press-releases/pr-{slug}.md)
+diff --git a/templates/task.md b/templates/task.md
+index 56f86fc..6a3edaf 100644
+--- a/templates/task.md
++++ b/templates/task.md
+@@ -4,7 +4,7 @@ type: task
+ owner: {software-architect | frontend-engineer}
+ status: open
+ version: 1.0
+-feature: prd-{slug}
++feature: pr-{slug}
+ tech-design: td-{slug}
+ track: {backend | frontend}
+ priority: {tier-number}
+diff --git a/templates/tech-design.md b/templates/tech-design.md
+index 70b947c..ea47965 100644
+--- a/templates/tech-design.md
++++ b/templates/tech-design.md
+@@ -4,12 +4,12 @@ type: tech-design
+ owner: software-architect
+ status: draft
+ version: 1.0
+-feature: prd-{slug}
++feature: pr-{slug}
+ refs:
+   - sa-{slug}
+   - api-{slug}
+   - dd-{slug}
+-  - prd-{slug}
++  - pr-{slug}
+ ---
+ 
+ # Technical Design: {title}
+@@ -39,7 +39,7 @@ refs:
+ |   |   |   | sa-{slug} |
+ 
+ ## Observability & Instrumentation
+-<!-- How are we tracking the Success Metrics defined in the PRD? What logs/events are we emitting? -->
++<!-- How are we tracking the Success Metrics defined in the Press Release? What logs/events are we emitting? -->
+ - **Events:** `event_name` (Properties: `prop1`, `prop2`)
+ - **Monitors/Alerts:** {What should page us if this feature breaks?}
+ 
+@@ -66,4 +66,4 @@ refs:
+ - [sa-{slug}](../system-architectures/sa-{slug}.md)
+ - [api-{slug}](../api-specs/api-{slug}.md)
+ - [dd-{slug}](../data-designs/dd-{slug}.md)
+-- [prd-{slug}](../prds/prd-{slug}.md)
++- [pr-{slug}](../press-releases/pr-{slug}.md)
+diff --git a/templates/test-spec.md b/templates/test-spec.md
+index fa59f76..c3921ba 100644
+--- a/templates/test-spec.md
++++ b/templates/test-spec.md
+@@ -4,11 +4,11 @@ type: test-spec
+ owner: qa-engineer
+ status: draft
+ version: 1.0
+-feature: prd-{slug}
++feature: pr-{slug}
+ test-level: unit
+-scenario: prd-{slug}#scenario-{N}
++scenario: pr-{slug}#scenario-{N}
+ refs:
+-  - prd-{slug}
++  - pr-{slug}
+ ---
+ 
+ # Test Spec: {title}
+@@ -133,4 +133,4 @@ unit
+ <!-- Implementation hints, gotchas, or special considerations -->
+ 
+ ## References
+-- [prd-{slug}](../prds/prd-{slug}.md)
++- [pr-{slug}](../press-releases/pr-{slug}.md)
+diff --git a/templates/user-flow.md b/templates/user-flow.md
+index 1e8dee8..8dbc956 100644
+--- a/templates/user-flow.md
++++ b/templates/user-flow.md
+@@ -4,9 +4,9 @@ type: user-flow
+ owner: product-designer
+ status: draft
+ version: 1.0
+-feature: prd-{slug}
++feature: pr-{slug}
+ refs:
+-  - prd-{slug}
++  - pr-{slug}
+   - persona-{slug}
+ ---
+ 
+@@ -68,5 +68,5 @@ flowchart TD
+ - 
+ 
+ ## References
+-- [prd-{slug}](../prds/prd-{slug}.md)
++- [pr-{slug}](../press-releases/pr-{slug}.md)
+ - [persona-{slug}](../user-journey-maps/ujm-{slug}.md)
+diff --git a/templates/user-story.md b/templates/user-story.md
+index 6f75db4..8e04e99 100644
+--- a/templates/user-story.md
++++ b/templates/user-story.md
+@@ -4,7 +4,7 @@ type: user-story
+ owner: business-analyst
+ status: open | in-progress | done
+ version: 1.0
+-feature: prd-{slug}
++feature: pr-{slug}
+ priority: {P0 | P1 | P2}
+ estimated-hours: {N}
+ depends-on:
+@@ -52,5 +52,5 @@ so that **{outcome or value}**.
+ - [ ] {sub-task 3}
+ 
+ ## References
+-- [prd-{slug}](../prds/prd-{slug}.md)
++- [pr-{slug}](../press-releases/pr-{slug}.md)
+ - [ujm-{slug}](../user-journey-maps/ujm-{slug}.md)
+diff --git a/templates/work-breakdown-structure.md b/templates/work-breakdown-structure.md
+index 9717512..4767641 100644
+--- a/templates/work-breakdown-structure.md
++++ b/templates/work-breakdown-structure.md
+@@ -4,9 +4,9 @@ type: work-breakdown-structure
+ owner: project-manager
+ status: draft
+ version: 1.0
+-feature: prd-{slug}
++feature: pr-{slug}
+ refs:
+-  - prd-{slug}
++  - pr-{slug}
+   - story-{slug}
+   - td-{slug}
+ ---
+@@ -14,10 +14,10 @@ refs:
+ # Work Breakdown Structure: {title}
+ 
+ ## Deliverable Hierarchy
+-<!-- Tree: prd-{slug} → stories → tasks. Each node carries estimated-hours.
++<!-- Tree: pr-{slug} → stories → tasks. Each node carries estimated-hours.
+      Order children by priority then depends-on. Σ marks rolled-up sums. -->
+ 
+-- prd-{slug} ({title}) — Σ {N}h
++- pr-{slug} ({title}) — Σ {N}h
+   - story-{slug} — {title} — Σ {N}h [P0]
+     - task-{slug}-be — {title} — {N}h
+     - task-{slug}-fe — {title} — {N}h
+@@ -61,6 +61,6 @@ story-{slug} → task-{slug}-be → task-{slug}-fe — {N}h elapsed
+ - 
+ 
+ ## References
+-- [prd-{slug}](../prds/prd-{slug}.md)
++- [pr-{slug}](../press-releases/pr-{slug}.md)
+ - [story-{slug}](../user-stories/story-{slug}.md)
+ - [td-{slug}](../tech-designs/td-{slug}.md)
