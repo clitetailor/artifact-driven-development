@@ -1,7 +1,7 @@
 # Vault Queries
 
 **Never `ls` a folder to find artifacts.** Use grep against frontmatter fields.
-Requirements-root artifacts (feature-brief, prd, pitch, one-pager, press-release) are discovered via live scan — use `rg` directly or `orchard query --pattern 'feature-brief'` once the CLI is available. A feature's root may be any type with `role: requirements-root` in `../manifest.yaml`; downstream artifacts link to it via the `feature:` frontmatter field.
+PRD artifacts are discovered via live scan — use `rg` directly or `orchard query --pattern 'prd'` once the CLI is available. Downstream artifacts link to the feature's PRD via the `feature:` frontmatter field.
 
 ```bash
 # All artifacts of a given type
@@ -9,17 +9,17 @@ rg -l --glob '!.*' "type: api-spec" {vault-root}/
 rg -l --glob '!.*' "type: data-design" {vault-root}/
 rg -l --glob '!.*' "type: ticket" {vault-root}/
 
-# All requirements-root artifacts (any alternative type)
-rg -l --glob '!.*' -e "type: feature-brief" -e "type: prd" -e "type: pitch" -e "type: one-pager" -e "type: press-release" {vault-root}/
+# All PRD artifacts (default requirements-root type)
+rg -l --glob '!.*' "type: prd" {vault-root}/
 
-# All plan-role artifacts (any alternative type)
-rg -l --glob '!.*' -e "type: plan" -e "type: work-breakdown-structure" -e "type: implementation-plan" {vault-root}/
+# All plan artifacts (default plan type)
+rg -l --glob '!.*' "type: plan" {vault-root}/
 
-# Find the requirements-root for a feature (by its root id, e.g. fb-user-auth)
-rg -l --glob '!.*' "^id: fb-user-auth" {vault-root}/
+# Find the PRD for a feature (by its root id, e.g. prd-user-auth)
+rg -l --glob '!.*' "^id: prd-user-auth" {vault-root}/
 
 # All downstream artifacts tied to a feature (via the `feature:` field)
-rg -l --glob '!.*' "feature: fb-user-auth" {vault-root}/
+rg -l --glob '!.*' "feature: prd-user-auth" {vault-root}/
 
 # All artifacts that reference a specific artifact
 rg -l --glob '!.*' "refs:.*api-user-authentication" {vault-root}/
@@ -28,7 +28,7 @@ rg -l --glob '!.*' "refs:.*api-user-authentication" {vault-root}/
 rg -l --glob '!.*' "status: needs-review" {vault-root}/
 
 # Find a specific artifact by id
-rg -l --glob '!.*' "^id: fb-user-authentication-login" {vault-root}/
+rg -l --glob '!.*' "^id: prd-user-authentication-login" {vault-root}/
 
 # Find all tasks for a specific user story
 rg -l --glob '!.*' "story: story-user-login" {vault-root}/tasks/

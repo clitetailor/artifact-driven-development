@@ -11,7 +11,7 @@
 | Technical chore or infrastructure work | `task` | — |
 | Modify existing spec artifacts | `task` (change type) | — |
 | Fix inconsistency or error in specs | `task` (defect type) | — |
-| Research before committing to changes | Add investigation notes to `feature-brief` | — |
+| Research before committing to changes | Add investigation notes to `prd` | — |
 | Time-boxed exploration | `task` with spike label | — |
 | Simple change owner can apply directly | — | Direct edit, no new artifact needed |
 | Re-verify accepted artifacts after upstream shift | Create review `task` | — |
@@ -21,7 +21,7 @@
 ## Work Types
 
 ### `user-story`
-New user-facing capability. Derived from feature-brief. Format: "As a [role], I want [goal], so that [benefit]". Includes Given/When/Then acceptance criteria and an execution checklist for sub-tasks.
+New user-facing capability. Derived from PRD. Format: "As a [role], I want [goal], so that [benefit]". Includes Given/When/Then acceptance criteria and an execution checklist for sub-tasks.
 
 ### `task`
 Agent-sized implementation unit. Types:
@@ -37,7 +37,7 @@ Agent-sized implementation unit. Types:
 
 - **User Story** = product value (what the user gets, acceptance criteria, sub-task checklist)
 - **Task** = technical implementation (how to build it, acceptance criteria, implementation notes)
-- Both link to `feature-brief` as the Epic-level grouping
+- Both link to `prd` as the Epic-level grouping
 - `task` frontmatter includes `story: story-{slug}` when derived from a user story
 - Granular execution steps (sub-tasks) live as checklists inside the parent artifact
 
@@ -52,7 +52,7 @@ type: task
 owner: {agent-slug}
 status: open | in-progress | done
 version: 1.0
-feature: {root-id}
+feature: prd-{slug}
 tech-design: td-{slug}
 story: story-{slug}  # optional, if derived from user story
 priority: {tier-number}
@@ -69,7 +69,7 @@ refs:
 ## Execution Pattern
 
 ```
-Feature Brief (Epic level — what and why)
+PRD (Epic level — what and why)
   ↓
 Tech Design (how — architectural context)
   ↓

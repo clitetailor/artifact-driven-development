@@ -10,10 +10,6 @@ refs:
 
 # Pitch: {title}
 
-<!-- This is a **requirements-root** artifact (role: `requirements-root`). A feature
-     picks exactly one root type — feature-brief, prd, pitch, one-pager, or press-release.
-     Downstream artifacts link back to this one via the `feature:` frontmatter field. -->
-
 ## Vision
 <!-- The one-sentence future state this product creates. Memorable and concrete. -->
 

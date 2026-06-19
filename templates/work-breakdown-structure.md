@@ -4,9 +4,9 @@ type: work-breakdown-structure
 owner: project-manager
 status: draft
 version: 1.0
-feature: {root-id}
+feature: prd-{slug}
 refs:
-  - {root-id}
+  - prd-{slug}
   - story-{slug}
   - td-{slug}
 ---
@@ -14,10 +14,10 @@ refs:
 # Work Breakdown Structure: {title}
 
 ## Deliverable Hierarchy
-<!-- Tree: feature-brief → stories → tasks. Each node carries estimated-hours.
+<!-- Tree: prd-{slug} → stories → tasks. Each node carries estimated-hours.
      Order children by priority then depends-on. Σ marks rolled-up sums. -->
 
-- {root-id} ({title}) — Σ {N}h
+- prd-{slug} ({title}) — Σ {N}h
   - story-{slug} — {title} — Σ {N}h [P0]
     - task-{slug}-be — {title} — {N}h
     - task-{slug}-fe — {title} — {N}h
@@ -61,6 +61,6 @@ story-{slug} → task-{slug}-be → task-{slug}-fe — {N}h elapsed
 - 
 
 ## References
-- [{root-id}](../{root-folder}/{root-id}.md)
+- [prd-{slug}](../prds/prd-{slug}.md)
 - [story-{slug}](../user-stories/story-{slug}.md)
 - [td-{slug}](../tech-designs/td-{slug}.md)

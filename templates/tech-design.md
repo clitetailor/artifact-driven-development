@@ -4,12 +4,12 @@ type: tech-design
 owner: software-architect
 status: draft
 version: 1.0
-feature: {root-id}
+feature: prd-{slug}
 refs:
   - sa-{slug}
   - api-{slug}
   - dd-{slug}
-  - {root-id}
+  - prd-{slug}
 ---
 
 # Technical Design: {title}
@@ -39,7 +39,7 @@ refs:
 |   |   |   | sa-{slug} |
 
 ## Observability & Instrumentation
-<!-- How are we tracking the Success Metrics defined in the Feature Brief? What logs/events are we emitting? -->
+<!-- How are we tracking the Success Metrics defined in the PRD? What logs/events are we emitting? -->
 - **Events:** `event_name` (Properties: `prop1`, `prop2`)
 - **Monitors/Alerts:** {What should page us if this feature breaks?}
 
@@ -66,4 +66,4 @@ refs:
 - [sa-{slug}](../system-architectures/sa-{slug}.md)
 - [api-{slug}](../api-specs/api-{slug}.md)
 - [dd-{slug}](../data-designs/dd-{slug}.md)
-- [{root-id}](../{root-folder}/{root-id}.md)
+- [prd-{slug}](../prds/prd-{slug}.md)

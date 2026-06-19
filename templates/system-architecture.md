@@ -4,9 +4,9 @@ type: system-architecture
 owner: software-architect
 status: draft
 version: 1.0
-feature: {root-id}
+feature: prd-{slug}
 refs:
-  - {root-id}
+  - prd-{slug}
 ---
 
 # System Architecture: {title}
@@ -78,4 +78,4 @@ refs:
 - [ ] 
 
 ## References
-- [{root-id}](../{root-folder}/{root-id}.md)
+- [prd-{slug}](../prds/prd-{slug}.md)

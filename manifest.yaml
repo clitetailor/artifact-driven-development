@@ -22,101 +22,83 @@ repos:                            # list of repo names and paths
   - name: analytics
     path: ../analytics
 
-feature_type: feature-brief         # default requirements-root type (role: requirements-root)
-plan_type: plan                     # default plan type (role: plan)
-# Both fields above name the *default* type for their role. A feature may pick
-# any type sharing that role as its root/plan — see reference/artifact-dep-graph.md.
+feature_type: prd                   # default requirements-root type
+plan_type: plan                     # default plan type
+# Both fields above name the default type for the feature root and plan.
+# Alternative types are registered below and can be selected via switch-patches;
+# see PATCH-DRIVEN-DECISIONS-PLAN.md.
 
 # --- Artifact types ---
-# `role` groups interchangeable types. The dep graph, frontmatter `feature:`
-# field, and vault queries reference roles wherever alternatives exist.
 # No `phase` here: phase grouping is a workflow concept owned by
 # reference/artifact-dep-graph.md. Comments below are human dividers only.
 types:
-  # Requirements (role: requirements-root — pick one per feature)
+  # Requirements
   - name: feature-brief
     prefix: fb-
     template: templates/feature-brief.md
-    role: requirements-root
   - name: prd
     prefix: prd-
     template: templates/prd.md
-    role: requirements-root
   - name: pitch
     prefix: pitch-
     template: templates/pitch.md
-    role: requirements-root
   - name: one-pager
     prefix: op-
     template: templates/one-pager.md
-    role: requirements-root
   - name: press-release
     prefix: pr-
     template: templates/press-release.md
-    role: requirements-root
   - name: user-story
     prefix: story-
     template: templates/user-story.md
-    role: requirement
 
   # Design
   - name: user-flow
     prefix: uf-
     template: templates/user-flow.md
-    role: design
   - name: design-spec
     prefix: ds-
     template: templates/design-spec.md
-    role: design
 
   # Architecture
   - name: adr
     prefix: adr-
     template: templates/adr.md
-    role: architecture
   - name: system-architecture
     prefix: sa-
     template: templates/system-architecture.md
-    role: architecture
   - name: api-spec
     prefix: api-
     template: templates/api-spec.md
-    role: architecture
   - name: data-design
     prefix: dd-
     template: templates/data-design.md
-    role: architecture
 
   # Development
   - name: tech-design
     prefix: td-
     template: templates/tech-design.md
-    role: development
   - name: task
     prefix: task-
     template: templates/task.md
-    role: development
     # conditional ownership (be → software-architect, fe → frontend-engineer)
     # lives in reference/artifact-ownership.md, not here.
-  # Planning (role: plan — pick one per feature)
+
+  # Planning
   - name: plan
     prefix: plan-
     template: templates/plan.md
-    role: plan
   - name: work-breakdown-structure
     prefix: wbs-
     template: templates/work-breakdown-structure.md
-    role: plan
   - name: implementation-plan
     prefix: ip-
     template: templates/implementation-plan.md
-    role: plan
 
   # Verification
   - name: test-spec
     prefix: ts-
     template: templates/test-spec.md
-    role: verification
 
   # General
   - name: note

@@ -18,14 +18,15 @@
 
 ---
 
-## Requirements Roots
+## PRDs
 
-<!-- One row per feature's root artifact. The root may be any requirements-root
-     type (feature-brief, prd, pitch, one-pager, press-release) — see manifest.yaml. -->
+<!-- One row per feature's PRD. The default requirements-root type is prd;
+     alternatives (feature-brief, pitch, one-pager, press-release) can be
+     selected via switch-patches — see PATCH-DRIVEN-DECISIONS-PLAN.md. -->
 
-| Root | Type | Status | Summary |
-|------|------|--------|---------|
-| <!-- {root-id} --> | <!-- feature-brief/prd/pitch/one-pager/press-release --> | <!-- draft/ready-for-review/accepted --> | <!-- brief summary --> |
+| PRD | Status | Summary |
+|-----|--------|---------|
+| <!-- prd-{slug} --> | <!-- draft/ready-for-review/accepted --> | <!-- brief summary --> |
 
 ---
 

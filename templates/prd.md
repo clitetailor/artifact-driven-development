@@ -10,10 +10,6 @@ refs:
 
 # PRD: {title}
 
-<!-- This is a **requirements-root** artifact (role: `requirements-root`). A feature
-     picks exactly one root type — feature-brief, prd, pitch, one-pager, or press-release.
-     Downstream artifacts link back to this one via the `feature:` frontmatter field. -->
-
 ## Background
 <!-- Why now? Market context, customer signals, strategic alignment, or prior art that motivates this product investment. -->
 

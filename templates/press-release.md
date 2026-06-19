@@ -11,8 +11,6 @@ refs:
 # Press Release: {title}
 
 > Written "working backwards" — as if the product has already launched. This frames the customer outcome first and surfaces gaps in the value proposition before implementation begins.
->
-> This is a **requirements-root** artifact (role: `requirements-root`). A feature picks exactly one root type — feature-brief, prd, pitch, one-pager, or press-release. Downstream artifacts link back to this one via the `feature:` frontmatter field.
 
 **{City, State} — {Date}** — {One-sentence announcement of the product and the customer benefit.}
 

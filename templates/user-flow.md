@@ -4,9 +4,9 @@ type: user-flow
 owner: product-designer
 status: draft
 version: 1.0
-feature: {root-id}
+feature: prd-{slug}
 refs:
-  - {root-id}
+  - prd-{slug}
   - persona-{slug}
 ---
 
@@ -68,5 +68,5 @@ flowchart TD
 - 
 
 ## References
-- [{root-id}](../{root-folder}/{root-id}.md)
+- [prd-{slug}](../prds/prd-{slug}.md)
 - [persona-{slug}](../user-journey-maps/ujm-{slug}.md)

@@ -4,7 +4,7 @@ type: user-story
 owner: business-analyst
 status: open | in-progress | done
 version: 1.0
-feature: {root-id}
+feature: prd-{slug}
 priority: {P0 | P1 | P2}
 estimated-hours: {N}
 depends-on:
@@ -52,5 +52,5 @@ so that **{outcome or value}**.
 - [ ] {sub-task 3}
 
 ## References
-- [{root-id}](../{root-folder}/{root-id}.md)
+- [prd-{slug}](../prds/prd-{slug}.md)
 - [ujm-{slug}](../user-journey-maps/ujm-{slug}.md)

@@ -4,7 +4,7 @@ type: task
 owner: {software-architect | frontend-engineer}
 status: open
 version: 1.0
-feature: {root-id}
+feature: prd-{slug}
 tech-design: td-{slug}
 track: {backend | frontend}
 priority: {tier-number}

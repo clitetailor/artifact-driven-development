@@ -10,10 +10,6 @@ refs:
 
 # One-Pager: {title}
 
-<!-- This is a **requirements-root** artifact (role: `requirements-root`). A feature
-     picks exactly one root type — feature-brief, prd, pitch, one-pager, or press-release.
-     Downstream artifacts link back to this one via the `feature:` frontmatter field. -->
-
 ## Summary
 <!-- One or two sentences capturing the essence: what, for whom, and why it matters. -->
 
