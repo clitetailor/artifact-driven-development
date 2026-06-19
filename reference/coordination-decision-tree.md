@@ -68,16 +68,19 @@ refs:
 
 ## Execution Pattern
 
-```
-PRD (Epic level — what and why)
-  ↓
-Tech Design (how — architectural context)
-  ↓
-User Stories (user value) ─────┐
-  ↓                              │
-Tasks (implementation) ←─────────┘
-  ↓
-Execution Checklist (sub-tasks inside task/story)
+```mermaid
+flowchart TD
+  PRD["PRD (Epic level — what and why)"]
+  Tech["Tech Design (how — architectural context)"]
+  Stories["User Stories (user value)"]
+  Tasks["Tasks (implementation)"]
+  Checklist["Execution Checklist (sub-tasks inside task/story)"]
+
+  PRD --> Tech
+  Tech --> Stories
+  Tech --> Tasks
+  Stories --> Tasks
+  Tasks --> Checklist
 ```
 
 Work is filed as tasks or user-stories at any time. Sub-tasks are tracked via Markdown checklists, not separate artifacts.

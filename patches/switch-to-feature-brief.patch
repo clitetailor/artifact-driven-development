@@ -160,15 +160,23 @@ index d3f391f..2ec0435 100644
  tech-design: td-{slug}
  story: story-{slug}  # optional, if derived from user story
  priority: {tier-number}
-@@ -69,7 +69,7 @@ refs:
- ## Execution Pattern
+@@ -71,14 +71,14 @@
+ ```mermaid
+ flowchart TD
+-  PRD["PRD (Epic level — what and why)"]
++  FB["Feature Brief (Epic level — what and why)"]
+   Tech["Tech Design (how — architectural context)"]
+   Stories["User Stories (user value)"]
+   Tasks["Tasks (implementation)"]
+   Checklist["Execution Checklist (sub-tasks inside task/story)"]
  
+-  PRD --> Tech
++  FB --> Tech
+   Tech --> Stories
+   Tech --> Tasks
+   Stories --> Tasks
+   Tasks --> Checklist
  ```
--PRD (Epic level — what and why)
-+Feature Brief (Epic level — what and why)
-   ↓
- Tech Design (how — architectural context)
-   ↓
 diff --git a/reference/folder-structure.md b/reference/folder-structure.md
 index f59997e..f5836c2 100644
 --- a/reference/folder-structure.md
