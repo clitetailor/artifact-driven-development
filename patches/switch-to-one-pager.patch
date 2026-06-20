@@ -1,5 +1,4 @@
-diff --git a/PROJECT.md b/PROJECT.md
-index 0265329..0edca02 100644
+diff --git a/PROJECT.md b/PROJECT.md 
 --- a/PROJECT.md
 +++ b/PROJECT.md
 @@ -18,15 +18,15 @@
@@ -10,9 +9,10 @@ index 0265329..0edca02 100644
 +## One-Pagers
  
 -<!-- One row per feature's PRD. The default requirements-root type is prd;
+-     alternatives (feature-brief, pitch, one-pager, press-release) can be
 +<!-- One row per feature's One-Pager. The default requirements-root type is one-pager;
-      alternatives (feature-brief, pitch, one-pager, press-release) can be
-      selected via switch-patches — see PATCH-DRIVEN-DECISIONS-PLAN.md. -->
++     alternatives (prd, feature-brief, pitch, press-release) can be
+      selected via switch-patches — see handbook/customization.md. -->
  
 -| PRD | Status | Summary |
 +| One-Pager | Status | Summary |
@@ -22,11 +22,10 @@ index 0265329..0edca02 100644
  
  ---
  
-diff --git a/handbook/playbooks/setup.md b/handbook/playbooks/setup.md
-index 28c15a4..e098cc9 100644
+diff --git a/handbook/playbooks/setup.md b/handbook/playbooks/setup.md 
 --- a/handbook/playbooks/setup.md
 +++ b/handbook/playbooks/setup.md
-@@ -59,7 +59,7 @@ After completing this question, proceed to Step 4.
+@@ -59,7 +59,7 @@
  
  Agent: **Feature type pattern.** This defines what counts as a feature — it's the pattern `orchard query --pattern` matches against.
  
@@ -35,11 +34,10 @@ index 28c15a4..e098cc9 100644
  
  After completing this question, proceed to Step 5.
  
-diff --git a/manifest.yaml b/manifest.yaml
-index 05aa0cc..bfceafa 100644
+diff --git a/manifest.yaml b/manifest.yaml 
 --- a/manifest.yaml
 +++ b/manifest.yaml
-@@ -22,7 +22,7 @@ repos:                            # list of repo names and paths
+@@ -22,7 +22,7 @@
    - name: analytics
      path: ../analytics
  
@@ -48,8 +46,7 @@ index 05aa0cc..bfceafa 100644
  plan_type: plan                     # default plan type
  # Both fields above name the default type for the feature root and plan.
  # Alternative types are registered below and can be selected via switch-patches;
-diff --git a/reference/artifact-dep-graph.md b/reference/artifact-dep-graph.md
-index 986fb84..fcb160c 100644
+diff --git a/reference/artifact-dep-graph.md b/reference/artifact-dep-graph.md 
 --- a/reference/artifact-dep-graph.md
 +++ b/reference/artifact-dep-graph.md
 @@ -5,7 +5,7 @@
@@ -60,8 +57,8 @@ index 986fb84..fcb160c 100644
 +| 1 — Requirements | What are we building and for whom? | project-manager, business-analyst | one-pager, user-story |
  | 2 — Design | How does the user experience it? | product-designer | user-flow, design-spec |
  | 3 — Architecture | How is it structured? | software-architect | adr, system-architecture, api-spec, data-design |
- | 4 — Development | How is it built? | backend-engineer, frontend-engineer | tech-design, task, plan |
-@@ -41,7 +41,7 @@ Solid = produces; dashed = feedback/refines.
+ | 4 — Development | How is it built? | backend-engineer, frontend-engineer, project-manager | tech-design, task, plan |
+@@ -41,7 +41,7 @@
  ```mermaid
  graph LR
      subgraph REQ[Requirements]
@@ -70,7 +67,7 @@ index 986fb84..fcb160c 100644
      end
      subgraph DES[Design]
          UF[user-flow] --> DS[design-spec]
-@@ -64,15 +64,15 @@ graph LR
+@@ -64,15 +64,15 @@
  
  | To create… | First create… |
  |---|---|
@@ -91,8 +88,7 @@ index 986fb84..fcb160c 100644
  | task | tech-design |
  | plan | tech-design, user-story |
  | test-spec | api-spec, user-story |
-diff --git a/reference/artifact-vocabulary.md b/reference/artifact-vocabulary.md
-index f838221..866d307 100644
+diff --git a/reference/artifact-vocabulary.md b/reference/artifact-vocabulary.md 
 --- a/reference/artifact-vocabulary.md
 +++ b/reference/artifact-vocabulary.md
 @@ -3,10 +3,10 @@
@@ -108,8 +104,7 @@ index f838221..866d307 100644
  | **press-release** | Press Release — a requirements-root alternative using "working backwards" framing written as if the product has launched; surfaces customer-outcome gaps before implementation. Owned by business-analyst. |
  | **user-story** | One verifiable unit of user value extracted from a PRD, in the format "As a [role], I want [goal], so that [benefit]", with Given/When/Then acceptance criteria |
  | **user-flow** | User flow diagram with journey overview (absorbs user-journey-map). Maps entry points, happy path, error paths, and exit points. Owned by product-designer. |
-diff --git a/reference/coordination-decision-tree.md b/reference/coordination-decision-tree.md
-index d3f391f..ad15887 100644
+diff --git a/reference/coordination-decision-tree.md b/reference/coordination-decision-tree.md 
 --- a/reference/coordination-decision-tree.md
 +++ b/reference/coordination-decision-tree.md
 @@ -11,7 +11,7 @@
@@ -130,7 +125,7 @@ index d3f391f..ad15887 100644
  
  ### `task`
  Agent-sized implementation unit. Types:
-@@ -37,7 +37,7 @@ Agent-sized implementation unit. Types:
+@@ -37,7 +37,7 @@
  
  - **User Story** = product value (what the user gets, acceptance criteria, sub-task checklist)
  - **Task** = technical implementation (how to build it, acceptance criteria, implementation notes)
@@ -139,16 +134,17 @@ index d3f391f..ad15887 100644
  - `task` frontmatter includes `story: story-{slug}` when derived from a user story
  - Granular execution steps (sub-tasks) live as checklists inside the parent artifact
  
-@@ -52,7 +52,7 @@ type: task
+@@ -52,7 +52,7 @@
  owner: {agent-slug}
- status: open | in-progress | done
+ status: open | in-progress | done | withdrawn
  version: 1.0
 -feature: prd-{slug}
 +feature: op-{slug}
  tech-design: td-{slug}
  story: story-{slug}  # optional, if derived from user story
  priority: {tier-number}
-@@ -71,14 +71,14 @@
+@@ -70,13 +70,13 @@
+ 
  ```mermaid
  flowchart TD
 -  PRD["PRD (Epic level — what and why)"]
@@ -163,15 +159,12 @@ index d3f391f..ad15887 100644
    Tech --> Stories
    Tech --> Tasks
    Stories --> Tasks
-   Tasks --> Checklist
- ```
-diff --git a/reference/folder-structure.md b/reference/folder-structure.md
-index f59997e..918ef77 100644
+diff --git a/reference/folder-structure.md b/reference/folder-structure.md 
 --- a/reference/folder-structure.md
 +++ b/reference/folder-structure.md
-@@ -7,9 +7,9 @@
- ├── manifest.yaml           # Artifact types, prefixes, agent roster, skills, statuses (source of truth)
- ├── PROJECT.md              # Human-readable project overview (active tickets, feature briefs, status)
+@@ -9,9 +9,9 @@
+ ├── manifest.yaml          # Artifact types, prefixes, agent roster, skills, statuses (source of truth)
+ ├── PROJECT.md             # Human-readable project overview (active tasks, PRDs, status)
  ├── feature-briefs/         # Feature Briefs (fb-) — requirements-root alternative
 -├── prds/                   # Product Requirements Documents (prd-) — default requirements-root
 +├── prds/                   # Product Requirements Documents (prd-) — requirements-root alternative
@@ -181,11 +174,10 @@ index f59997e..918ef77 100644
  ├── press-releases/         # Press Releases (pr-) — requirements-root alternative
  ├── user-stories/           # Verifiable user-value units with Given/When/Then AC (story-)
  ├── user-flows/             # User flow diagrams with journey overview (uf-)
-diff --git a/reference/vault-queries.md b/reference/vault-queries.md
-index 19397c1..d8375b7 100644
+diff --git a/reference/vault-queries.md b/reference/vault-queries.md 
 --- a/reference/vault-queries.md
 +++ b/reference/vault-queries.md
-@@ -1,7 +1,7 @@
+@@ -1,24 +1,24 @@
  # Vault Queries
  
  **Never `ls` a folder to find artifacts.** Use grep against frontmatter fields.
@@ -194,9 +186,8 @@ index 19397c1..d8375b7 100644
  
  ```bash
  # All artifacts of a given type
-@@ -9,17 +9,17 @@ rg -l --glob '!.*' "type: api-spec" {vault-root}/
+ rg -l --glob '!.*' "type: api-spec" {vault-root}/
  rg -l --glob '!.*' "type: data-design" {vault-root}/
- rg -l --glob '!.*' "type: ticket" {vault-root}/
  
 -# All PRD artifacts (default requirements-root type)
 -rg -l --glob '!.*' "type: prd" {vault-root}/
@@ -217,7 +208,7 @@ index 19397c1..d8375b7 100644
  
  # All artifacts that reference a specific artifact
  rg -l --glob '!.*' "refs:.*api-user-authentication" {vault-root}/
-@@ -28,7 +28,7 @@ rg -l --glob '!.*' "refs:.*api-user-authentication" {vault-root}/
+@@ -27,7 +27,7 @@
  rg -l --glob '!.*' "status: needs-review" {vault-root}/
  
  # Find a specific artifact by id
@@ -226,11 +217,10 @@ index 19397c1..d8375b7 100644
  
  # Find all tasks for a specific user story
  rg -l --glob '!.*' "story: story-user-login" {vault-root}/tasks/
-diff --git a/templates/api-spec.md b/templates/api-spec.md
-index 24d23e2..da0df77 100644
+diff --git a/templates/api-spec.md b/templates/api-spec.md 
 --- a/templates/api-spec.md
 +++ b/templates/api-spec.md
-@@ -4,7 +4,7 @@ type: api-spec
+@@ -4,7 +4,7 @@
  owner: software-architect
  status: draft
  version: 1.0
@@ -239,11 +229,10 @@ index 24d23e2..da0df77 100644
  refs:
    - sa-{slug}
    - dd-{slug}
-diff --git a/templates/data-design.md b/templates/data-design.md
-index 92dc4f2..8162f65 100644
+diff --git a/templates/data-design.md b/templates/data-design.md 
 --- a/templates/data-design.md
 +++ b/templates/data-design.md
-@@ -4,7 +4,7 @@ type: data-design
+@@ -4,7 +4,7 @@
  owner: software-architect
  status: draft
  version: 1.0
@@ -252,11 +241,10 @@ index 92dc4f2..8162f65 100644
  refs:
    - sa-{slug}
    - api-{slug}
-diff --git a/templates/design-spec.md b/templates/design-spec.md
-index 7adcb30..e3e8d36 100644
+diff --git a/templates/design-spec.md b/templates/design-spec.md 
 --- a/templates/design-spec.md
 +++ b/templates/design-spec.md
-@@ -4,7 +4,7 @@ type: design-spec
+@@ -4,7 +4,7 @@
  owner: product-designer
  status: draft
  version: 1.0
@@ -265,11 +253,10 @@ index 7adcb30..e3e8d36 100644
  refs:
    - uf-{slug}
  ---
-diff --git a/templates/implementation-plan.md b/templates/implementation-plan.md
-index f001e03..998e17e 100644
+diff --git a/templates/implementation-plan.md b/templates/implementation-plan.md 
 --- a/templates/implementation-plan.md
 +++ b/templates/implementation-plan.md
-@@ -4,9 +4,9 @@ type: implementation-plan
+@@ -4,9 +4,9 @@
  owner: project-manager
  status: draft
  version: 1.0
@@ -281,7 +268,7 @@ index f001e03..998e17e 100644
    - story-{slug}
    - td-{slug}
  ---
-@@ -14,11 +14,11 @@ refs:
+@@ -14,11 +14,11 @@
  # Implementation Plan: {title}
  
  ## Build Goal
@@ -295,7 +282,7 @@ index f001e03..998e17e 100644
  
  | # | Story | Priority | Depends-on | Est. Hours | Why this position |
  |---|---|---|---|---|---|
-@@ -71,6 +71,6 @@ story-1.be-2 → story-2.fe → story-3.be — {N}h elapsed
+@@ -71,6 +71,6 @@
  - 
  
  ## References
@@ -303,11 +290,10 @@ index f001e03..998e17e 100644
 +- [op-{slug}](../one-pagers/op-{slug}.md)
  - [story-{slug}](../user-stories/story-{slug}.md)
  - [td-{slug}](../tech-designs/td-{slug}.md)
-diff --git a/templates/plan.md b/templates/plan.md
-index 6403d0d..3fbb2ec 100644
+diff --git a/templates/plan.md b/templates/plan.md 
 --- a/templates/plan.md
 +++ b/templates/plan.md
-@@ -4,9 +4,9 @@ type: plan
+@@ -4,9 +4,9 @@
  owner: project-manager
  status: draft
  version: 1.0
@@ -319,7 +305,7 @@ index 6403d0d..3fbb2ec 100644
    - story-{slug}
    - td-{slug}
  ---
-@@ -14,7 +14,7 @@ refs:
+@@ -14,7 +14,7 @@
  # Plan: {title}
  
  ## Goal
@@ -328,7 +314,7 @@ index 6403d0d..3fbb2ec 100644
  
  ## Order
  <!-- Flat ordered list — single sequence collapsing stories and their tasks.
-@@ -51,6 +51,6 @@ story-1.be → story-2.fe — {N}h elapsed
+@@ -51,6 +51,6 @@
  - 
  
  ## References
@@ -336,11 +322,10 @@ index 6403d0d..3fbb2ec 100644
 +- [op-{slug}](../one-pagers/op-{slug}.md)
  - [story-{slug}](../user-stories/story-{slug}.md)
  - [td-{slug}](../tech-designs/td-{slug}.md)
-diff --git a/templates/system-architecture.md b/templates/system-architecture.md
-index cd8ad77..23d3855 100644
+diff --git a/templates/system-architecture.md b/templates/system-architecture.md 
 --- a/templates/system-architecture.md
 +++ b/templates/system-architecture.md
-@@ -4,9 +4,9 @@ type: system-architecture
+@@ -4,9 +4,9 @@
  owner: software-architect
  status: draft
  version: 1.0
@@ -352,17 +337,16 @@ index cd8ad77..23d3855 100644
  ---
  
  # System Architecture: {title}
-@@ -78,4 +78,4 @@ refs:
+@@ -78,4 +78,4 @@
  - [ ] 
  
  ## References
 -- [prd-{slug}](../prds/prd-{slug}.md)
 +- [op-{slug}](../one-pagers/op-{slug}.md)
-diff --git a/templates/task.md b/templates/task.md
-index 56f86fc..b3a21ac 100644
+diff --git a/templates/task.md b/templates/task.md 
 --- a/templates/task.md
 +++ b/templates/task.md
-@@ -4,7 +4,7 @@ type: task
+@@ -4,7 +4,7 @@
  owner: {software-architect | frontend-engineer}
  status: open
  version: 1.0
@@ -371,11 +355,10 @@ index 56f86fc..b3a21ac 100644
  tech-design: td-{slug}
  track: {backend | frontend}
  priority: {tier-number}
-diff --git a/templates/tech-design.md b/templates/tech-design.md
-index 70b947c..a73664a 100644
+diff --git a/templates/tech-design.md b/templates/tech-design.md 
 --- a/templates/tech-design.md
 +++ b/templates/tech-design.md
-@@ -4,12 +4,12 @@ type: tech-design
+@@ -4,12 +4,12 @@
  owner: software-architect
  status: draft
  version: 1.0
@@ -390,7 +373,7 @@ index 70b947c..a73664a 100644
  ---
  
  # Technical Design: {title}
-@@ -39,7 +39,7 @@ refs:
+@@ -39,7 +39,7 @@
  |   |   |   | sa-{slug} |
  
  ## Observability & Instrumentation
@@ -399,17 +382,16 @@ index 70b947c..a73664a 100644
  - **Events:** `event_name` (Properties: `prop1`, `prop2`)
  - **Monitors/Alerts:** {What should page us if this feature breaks?}
  
-@@ -66,4 +66,4 @@ refs:
+@@ -66,4 +66,4 @@
  - [sa-{slug}](../system-architectures/sa-{slug}.md)
  - [api-{slug}](../api-specs/api-{slug}.md)
  - [dd-{slug}](../data-designs/dd-{slug}.md)
 -- [prd-{slug}](../prds/prd-{slug}.md)
 +- [op-{slug}](../one-pagers/op-{slug}.md)
-diff --git a/templates/test-spec.md b/templates/test-spec.md
-index fa59f76..0e32f5f 100644
+diff --git a/templates/test-spec.md b/templates/test-spec.md 
 --- a/templates/test-spec.md
 +++ b/templates/test-spec.md
-@@ -4,11 +4,11 @@ type: test-spec
+@@ -4,11 +4,11 @@
  owner: qa-engineer
  status: draft
  version: 1.0
@@ -424,17 +406,16 @@ index fa59f76..0e32f5f 100644
  ---
  
  # Test Spec: {title}
-@@ -133,4 +133,4 @@ unit
+@@ -133,4 +133,4 @@
  <!-- Implementation hints, gotchas, or special considerations -->
  
  ## References
 -- [prd-{slug}](../prds/prd-{slug}.md)
 +- [op-{slug}](../one-pagers/op-{slug}.md)
-diff --git a/templates/user-flow.md b/templates/user-flow.md
-index 1e8dee8..e7a672b 100644
+diff --git a/templates/user-flow.md b/templates/user-flow.md 
 --- a/templates/user-flow.md
 +++ b/templates/user-flow.md
-@@ -4,9 +4,9 @@ type: user-flow
+@@ -4,9 +4,9 @@
  owner: product-designer
  status: draft
  version: 1.0
@@ -443,21 +424,19 @@ index 1e8dee8..e7a672b 100644
  refs:
 -  - prd-{slug}
 +  - op-{slug}
-   - persona-{slug}
  ---
  
-@@ -68,5 +68,5 @@ flowchart TD
+ # User Flow: {title}
+@@ -67,4 +67,4 @@
  - 
  
  ## References
 -- [prd-{slug}](../prds/prd-{slug}.md)
 +- [op-{slug}](../one-pagers/op-{slug}.md)
- - [persona-{slug}](../user-journey-maps/ujm-{slug}.md)
-diff --git a/templates/user-story.md b/templates/user-story.md
-index 6f75db4..c35e1a9 100644
+diff --git a/templates/user-story.md b/templates/user-story.md 
 --- a/templates/user-story.md
 +++ b/templates/user-story.md
-@@ -4,7 +4,7 @@ type: user-story
+@@ -4,13 +4,13 @@
  owner: business-analyst
  status: open | in-progress | done
  version: 1.0
@@ -466,18 +445,23 @@ index 6f75db4..c35e1a9 100644
  priority: {P0 | P1 | P2}
  estimated-hours: {N}
  depends-on:
-@@ -52,5 +52,5 @@ so that **{outcome or value}**.
+   - story-{slug}
+ refs:
+-  - prd-{slug}
++  - op-{slug}
+ ---
+ 
+ # User Story: {title}
+@@ -52,4 +52,4 @@
  - [ ] {sub-task 3}
  
  ## References
 -- [prd-{slug}](../prds/prd-{slug}.md)
 +- [op-{slug}](../one-pagers/op-{slug}.md)
- - [ujm-{slug}](../user-journey-maps/ujm-{slug}.md)
-diff --git a/templates/work-breakdown-structure.md b/templates/work-breakdown-structure.md
-index 9717512..1ce7312 100644
+diff --git a/templates/work-breakdown-structure.md b/templates/work-breakdown-structure.md 
 --- a/templates/work-breakdown-structure.md
 +++ b/templates/work-breakdown-structure.md
-@@ -4,9 +4,9 @@ type: work-breakdown-structure
+@@ -4,9 +4,9 @@
  owner: project-manager
  status: draft
  version: 1.0
@@ -489,7 +473,7 @@ index 9717512..1ce7312 100644
    - story-{slug}
    - td-{slug}
  ---
-@@ -14,10 +14,10 @@ refs:
+@@ -14,10 +14,10 @@
  # Work Breakdown Structure: {title}
  
  ## Deliverable Hierarchy
@@ -502,7 +486,7 @@ index 9717512..1ce7312 100644
    - story-{slug} — {title} — Σ {N}h [P0]
      - task-{slug}-be — {title} — {N}h
      - task-{slug}-fe — {title} — {N}h
-@@ -61,6 +61,6 @@ story-{slug} → task-{slug}-be → task-{slug}-fe — {N}h elapsed
+@@ -61,6 +61,6 @@
  - 
  
  ## References

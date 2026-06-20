@@ -43,14 +43,28 @@ If user selects **Yes**: Proceed to Step 3.
 
 ## Step 3 — Check and Apply
 
-First, verify the patch will apply cleanly:
+Apply the patch with `patch` (primary method — tolerant of context drift, no git index dependency):
 
 ```bash
-git apply --check patches/switch-to-{choice}.patch
+patch -p1 --fuzz=3 < patches/switch-to-{choice}.patch
 ```
 
-- If `--check` passes: apply with `git apply --3way patches/switch-to-{choice}.patch`
-- If `--check` fails: apply with `--3way` directly — it falls back to a 3-way merge using embedded blob IDs and handles context drift from upstream upgrades. If `--3way` also fails on a specific file, report the conflict to the user and ask whether to resolve manually or abort.
+- `--fuzz=3` allows up to 3 lines of context drift, which handles minor upstream changes without regeneration.
+- Hunks that fail entirely are written to `<file>.rej`. If `.rej` files are produced, resolve them manually (apply the intended substitution by editing the target file), then delete the `.rej` files.
+- `patch` also creates `<file>.orig` backup files for any file applied with fuzz. Delete all `.orig` files after applying: `find . -name '*.orig' -delete` (or `Get-ChildItem -Recurse -Filter *.orig | Remove-Item -Force` on PowerShell).
+
+**Fallback** — if `patch` is unavailable or produces many `.rej` files and you want blob-ID accuracy for the failed hunks:
+
+```bash
+git update-index --refresh                                    # sync index (jj colocated repos)
+git apply --3way --reject patches/switch-to-{choice}.patch    # --reject prevents atomic rollback
+```
+
+- `git update-index --refresh` is required in jj colocated repos — the git index lags behind the working copy, and `--3way` refuses to touch files whose index entry doesn't match.
+- `--reject` is critical: without it, `git apply --3way` rolls back *all* changes if any single file fails, discarding successfully-applied files. With `--reject`, applied hunks persist and failed hunks go to `.rej` files.
+- Resolve `.rej` files manually, then delete them.
+
+After applying (either method), verify no `.rej` or `.orig` files remain in the working tree.
 
 For **artifact-type switches only** (requirements-root or plan), also update `manifest.yaml`:
 
@@ -69,7 +83,7 @@ Agent: I have applied the switch-patch. Here is a summary of what changed:
 
 [List the files modified, grouped by layer: templates, reference docs, manifest.yaml, AGENTS.md]
 
-To revert this decision later: `git apply -R patches/switch-to-{choice}.patch` restores the default. To switch to a different alternative, revert first, then apply the new patch.
+To revert this decision later: `patch -p1 -R --fuzz=3 < patches/switch-to-{choice}.patch` restores the default (use `git apply -R` only if the patch applies cleanly with no drift). To switch to a different alternative, revert first, then apply the new patch.
 
 Is there anything else you want to customize? (Yes / Cancel)
 

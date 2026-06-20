@@ -1,8 +1,7 @@
-diff --git a/manifest.yaml b/manifest.yaml
-index 05aa0cc..dc57340 100644
+diff --git a/manifest.yaml b/manifest.yaml 
 --- a/manifest.yaml
 +++ b/manifest.yaml
-@@ -23,7 +23,7 @@ repos:                            # list of repo names and paths
+@@ -23,7 +23,7 @@
      path: ../analytics
  
  feature_type: prd                   # default requirements-root type
@@ -10,21 +9,20 @@ index 05aa0cc..dc57340 100644
 +plan_type: implementation-plan      # default plan type
  # Both fields above name the default type for the feature root and plan.
  # Alternative types are registered below and can be selected via switch-patches;
- # see PATCH-DRIVEN-DECISIONS-PLAN.md.
-diff --git a/reference/artifact-dep-graph.md b/reference/artifact-dep-graph.md
-index 986fb84..6865ffd 100644
+ # see handbook/customization.md.
+diff --git a/reference/artifact-dep-graph.md b/reference/artifact-dep-graph.md 
 --- a/reference/artifact-dep-graph.md
 +++ b/reference/artifact-dep-graph.md
 @@ -8,7 +8,7 @@
  | 1 — Requirements | What are we building and for whom? | project-manager, business-analyst | prd, user-story |
  | 2 — Design | How does the user experience it? | product-designer | user-flow, design-spec |
  | 3 — Architecture | How is it structured? | software-architect | adr, system-architecture, api-spec, data-design |
--| 4 — Development | How is it built? | backend-engineer, frontend-engineer | tech-design, task, plan |
-+| 4 — Development | How is it built? | backend-engineer, frontend-engineer | tech-design, task, implementation-plan |
+-| 4 — Development | How is it built? | backend-engineer, frontend-engineer, project-manager | tech-design, task, plan |
++| 4 — Development | How is it built? | backend-engineer, frontend-engineer, project-manager | tech-design, task, implementation-plan |
  | 5 — Verification | How do we know it works? | qa-engineer | test-spec |
  
  ## Phase Flow
-@@ -54,7 +54,7 @@ graph LR
+@@ -54,7 +54,7 @@
      end
      subgraph DEV[Development]
          TD[tech-design] --> TASK[task]
@@ -33,7 +31,7 @@ index 986fb84..6865ffd 100644
          STORY --> PLAN
      end
      subgraph VER[Verification]
-@@ -74,7 +74,7 @@ graph LR
+@@ -74,7 +74,7 @@
  | data-design | system-architecture |
  | tech-design | system-architecture, prd |
  | task | tech-design |
@@ -42,25 +40,25 @@ index 986fb84..6865ffd 100644
  | test-spec | api-spec, user-story |
  | note | — |
  
-diff --git a/reference/artifact-vocabulary.md b/reference/artifact-vocabulary.md
-index f838221..2275998 100644
+diff --git a/reference/artifact-vocabulary.md b/reference/artifact-vocabulary.md 
 --- a/reference/artifact-vocabulary.md
 +++ b/reference/artifact-vocabulary.md
-@@ -16,7 +16,8 @@
+@@ -17,9 +17,9 @@
  | **data-design** | Internal data shapes + detailed data flows. Entity definitions, relationships, state machines, pipeline stages, transformations, migrations. Owned by software-architect. |
  | **tech-design** | Feature-scoped technical design. Architectural Context (refs only) + implementation decisions constrained by system-architecture ADRs. Bridges system-architecture and task. Owned by software-architect. |
  | **task** | Agent-sized implementation unit, derived from api-spec or design-spec. Links to a specific user-story and the feature's PRD. Execution steps tracked via internal checklist. |
 -| **plan** | The default planning artifact — a flat ordered list sequencing stories/tasks with estimates. Alternatives: `work-breakdown-structure` (deliverable hierarchy + effort rollup), `implementation-plan` (story queue + task lanes). Owned by project-manager. |
 +| **plan** | A planning alternative — a flat ordered list sequencing stories/tasks with estimates. Owned by project-manager. |
 +| **implementation-plan** | The default planning artifact — story queue + task lanes. Sequences stories by priority/depends-on and lays out backend/frontend parallelism per story. Owned by project-manager. |
+ | **work-breakdown-structure** | Plan alternative — deliverable hierarchy with effort rollup. Owned by project-manager. |
+-| **implementation-plan** | Plan alternative — story queue with task lanes. Owned by project-manager. |
  | **test-spec** | Test specification with embedded test plan. Covers scope, strategy, environment, test cases, edge cases, error cases. Absorbs test-plan. Owned by qa-engineer. |
+ | **note** | Ad-hoc scratchpad for context, meeting notes, or brainstorms. Any agent may create one at any time, with no phase or prerequisite restrictions. |
  | **refs** | Frontmatter field listing all related artifact IDs — upstream, downstream, sideways. Plain IDs only; used for grep-based queries. Human-navigable markdown links live in the artifact body under `## References`. |
- | **needs-review** | Status applied to an artifact when an upstream it references has changed; a prompt (not a block) to re-confirm consistency |
-diff --git a/reference/folder-structure.md b/reference/folder-structure.md
-index f59997e..107f656 100644
+diff --git a/reference/folder-structure.md b/reference/folder-structure.md 
 --- a/reference/folder-structure.md
 +++ b/reference/folder-structure.md
-@@ -20,9 +20,9 @@
+@@ -23,9 +23,9 @@
  ├── data-designs/           # Internal data shapes + detailed data flows (dd-)
  ├── tech-designs/           # Technical design documents per feature (td-)
  ├── tasks/                  # Decomposed implementation units (task-)
@@ -70,13 +68,12 @@ index f59997e..107f656 100644
 -├── implementation-plans/   # Implementation Plans (ip-) — plan alternative
 +├── implementation-plans/   # Implementation Plans (ip-) — default plan type
  ├── test-specs/             # Test specifications with embedded test plan (ts-)
+ ├── notes/                  # Ad-hoc scratchpad notes (note-) — any agent, any time
  ├── agents/                 # Agent design docs + repo/skill mappings
- ├── conventions/            # Enforced conventions (prescriptive)
-diff --git a/reference/vault-queries.md b/reference/vault-queries.md
-index 19397c1..9cb8e9a 100644
+diff --git a/reference/vault-queries.md b/reference/vault-queries.md 
 --- a/reference/vault-queries.md
 +++ b/reference/vault-queries.md
-@@ -12,8 +12,8 @@ rg -l --glob '!.*' "type: ticket" {vault-root}/
+@@ -11,8 +11,8 @@
  # All PRD artifacts (default requirements-root type)
  rg -l --glob '!.*' "type: prd" {vault-root}/
  
