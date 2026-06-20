@@ -18,17 +18,17 @@ Load reference docs only when the task requires them. Never load `handbook/` doc
 
 ## Committing
 
-Use `jj commit` (not `git commit`). Format:
+Use `git commit`. Format:
 
 ```
-jj commit -m "Short imperative summary
+git commit -m "Short imperative summary
 
 - Bullet detail 1
 - Bullet detail 2"
 ```
 
-For a sibling repo specifically: `jj -R ../{repo-name} commit -m "..."`.
-Bare `jj commit` always lands in `{vault-root}` (default CWD).
+For a sibling repo specifically: `git -C ../{repo-name} commit -m "..."`.
+Bare `git commit` always lands in `{vault-root}` (default CWD).
 
 ---
 

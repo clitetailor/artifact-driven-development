@@ -13,6 +13,20 @@ All components are designed to be flexible. The number of artifact types can be 
 
 ---
 
+## Prerequisites
+
+| Tool | Required | Purpose |
+|---|---|---|
+| [**git**](https://git-scm.com/) | Yes | Version control — committing vault changes, reverting switch-patches |
+| [**yq**](https://github.com/mikefarah/yq) | Yes | YAML processor — updates `manifest.yaml` fields (`feature_type`, `plan_type`) during artifact-type switches |
+| [**patch**](https://www.gnu.org/software/diffutils/) (GNU patch) | Yes | Applies switch-patches with context-drift tolerance (`patch -p1 --fuzz=3`) |
+| [**rg**](https://github.com/BurntSushi/ripgrep) (ripgrep) | Yes | Artifact discovery — all vault queries use `rg` against frontmatter fields (see `reference/vault-queries.md`) |
+| [**diff**](https://www.gnu.org/software/diffutils/) (GNU diffutils) | No | Patch regeneration — only needed when regenerating switch-patches after upstream drift; bundled with `patch` on most systems |
+
+> **Note:** `patch` and `diff` are both part of GNU diffutils. On Windows, they are available via [Git Bash](https://git-scm.com/downloads) or [MSYS2](https://www.msys2.org/).
+
+---
+
 ## Why It Works for AI-Assisted Development
 
 Without structure, coding agents improvise — filling gaps silently, absorbing inconsistent patterns, and losing context across sessions. ADD addresses this through five properties that make agent behavior more reliable and consistent.

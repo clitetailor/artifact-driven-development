@@ -43,7 +43,7 @@ If user selects **Yes**: Proceed to Step 3.
 
 ## Step 3 — Check and Apply
 
-Apply the patch with `patch` (primary method — tolerant of context drift, no git index dependency):
+Apply the patch with `patch` (tolerant of context drift):
 
 ```bash
 patch -p1 --fuzz=3 < patches/switch-to-{choice}.patch
@@ -53,18 +53,7 @@ patch -p1 --fuzz=3 < patches/switch-to-{choice}.patch
 - Hunks that fail entirely are written to `<file>.rej`. If `.rej` files are produced, resolve them manually (apply the intended substitution by editing the target file), then delete the `.rej` files.
 - `patch` also creates `<file>.orig` backup files for any file applied with fuzz. Delete all `.orig` files after applying: `find . -name '*.orig' -delete` (or `Get-ChildItem -Recurse -Filter *.orig | Remove-Item -Force` on PowerShell).
 
-**Fallback** — if `patch` is unavailable or produces many `.rej` files and you want blob-ID accuracy for the failed hunks:
-
-```bash
-git update-index --refresh                                    # sync index (jj colocated repos)
-git apply --3way --reject patches/switch-to-{choice}.patch    # --reject prevents atomic rollback
-```
-
-- `git update-index --refresh` is required in jj colocated repos — the git index lags behind the working copy, and `--3way` refuses to touch files whose index entry doesn't match.
-- `--reject` is critical: without it, `git apply --3way` rolls back *all* changes if any single file fails, discarding successfully-applied files. With `--reject`, applied hunks persist and failed hunks go to `.rej` files.
-- Resolve `.rej` files manually, then delete them.
-
-After applying (either method), verify no `.rej` or `.orig` files remain in the working tree.
+After applying, verify no `.rej` or `.orig` files remain in the working tree.
 
 For **artifact-type switches only** (requirements-root or plan), also update `manifest.yaml`:
 

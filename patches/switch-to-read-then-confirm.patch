@@ -1,8 +1,7 @@
-diff --git a/AGENTS.md b/AGENTS.md
-index cac759d..fa05fc9 100644
+diff --git a/AGENTS.md b/AGENTS.md 
 --- a/AGENTS.md
 +++ b/AGENTS.md
-@@ -35,7 +35,7 @@ Bare `jj commit` always lands in `{vault-root}` (default CWD).
+@@ -34,7 +34,7 @@
  
  ## Communication
  
@@ -11,7 +10,7 @@ index cac759d..fa05fc9 100644
  - **Propose alternatives when the user's approach is suboptimal.** If you find a more appropriate solution than what was requested, or the requested approach is weaker than it sounds, do not silently substitute or silently comply. Ask for clarification and propose the alternative(s), including the decision and rationale, so the user can choose. Silent compliance hides trade-offs; silent substitution bypasses the user.
  - User instructions always override these rules.
  
-@@ -58,7 +58,7 @@ Bare `jj commit` always lands in `{vault-root}` (default CWD).
+@@ -57,7 +57,7 @@
  - **Be concise but informative.** Short replies, no preamble, no restating context the user already has — but never omit information the user needs to verify alignment.
  - **Surface key reasoning.** State the decision and the one-line rationale that drove it. Do not make the user reconstruct your thinking from the diff.
  - **Surface rejected alternatives.** When you considered and rejected a meaningfully different approach, name it and the rejection reason in one line. This is what lets the user catch a misaligned direction early instead of after implementation.

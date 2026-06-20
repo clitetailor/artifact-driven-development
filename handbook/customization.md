@@ -17,11 +17,11 @@ Each alternative is realized by a **switch-patch** in `../patches/`. A switch-pa
 
 ## Applying a Switch-Patch
 
-Switch-patches are unified diffs. Apply them with `git apply --3way`, which falls back to a 3-way merge when context lines don't match exactly (e.g. after an upstream upgrade introduced nearby changes):
+Switch-patches are unified diffs. Apply them with `patch --fuzz=3`, which tolerates up to 3 lines of context drift (e.g. after an upstream upgrade introduced nearby changes):
 
 ```bash
 # From the vault root:
-git apply --3way patches/switch-to-feature-brief.patch
+patch -p1 --fuzz=3 < patches/switch-to-feature-brief.patch
 
 # Update manifest.yaml's feature_type (or plan_type) via yq:
 yq -i '.feature_type = "feature-brief"' manifest.yaml
@@ -30,10 +30,10 @@ yq -i '.feature_type = "feature-brief"' manifest.yaml
 To check whether a patch will apply cleanly without writing changes:
 
 ```bash
-git apply --check patches/switch-to-feature-brief.patch
+patch --dry-run -p1 --fuzz=3 < patches/switch-to-feature-brief.patch
 ```
 
-If `--check` fails but `--3way` succeeds, the patch had context drift but the actual changed lines were intact — `--3way` resolved it via the embedded blob IDs.
+If the dry-run reports failed hunks, the patch has context drift beyond what `--fuzz=3` can bridge. Apply anyway — failed hunks are written to `.rej` files for manual resolution. Delete `.rej` and `.orig` files after resolving.
 
 ## What a Switch-Patch Touches
 
@@ -50,8 +50,8 @@ Plan switch-patches are smaller — they touch only the plan template's own iden
 Requirements-root and plan switch-patches are **orthogonal** — they touch disjoint lines. Apply both in either order:
 
 ```bash
-git apply --3way patches/switch-to-feature-brief.patch
-git apply --3way patches/switch-to-wbs.patch
+patch -p1 --fuzz=3 < patches/switch-to-feature-brief.patch
+patch -p1 --fuzz=3 < patches/switch-to-wbs.patch
 yq -i '.feature_type = "feature-brief"' manifest.yaml
 yq -i '.plan_type = "work-breakdown-structure"' manifest.yaml
 ```
@@ -63,9 +63,9 @@ When the seedbed advances and you pull upstream:
 | User | Action | Tax |
 |---|---|---|
 | **Default (prd/plan)** | Pull upstream; artifacts untouched | Zero |
-| **Alternative** | Re-apply your switch-patch with `--3way` onto the new base | Small, per-decision |
+| **Alternative** | Re-apply your switch-patch with `--fuzz=3` onto the new base | Small, per-decision |
 
-`--3way` handles context drift automatically via 3-way merge. If the exact changed line itself was reworded upstream, the merge will produce a conflict you resolve by hand — but this is rare and limited to the specific lines the patch changes.
+`--fuzz=3` handles context drift automatically by relaxing context-line matching. If the exact changed line itself was reworded upstream, the hunk will fail and produce a `.rej` file you resolve by hand — but this is rare and limited to the specific lines the patch changes.
 
 L1 (token concretization) is the most upgrade-resilient — frontmatter lines are stable. L2 (prose) targets the most volatile files and may occasionally need manual conflict resolution.
 
@@ -73,8 +73,8 @@ L1 (token concretization) is the most upgrade-resilient — frontmatter lines ar
 
 Switching from one alternative to another (e.g. `feature-brief` → `pitch`):
 
-1. Revert to the default base: `git checkout -- .` (restores prd-default)
-2. Apply the new patch: `git apply --3way patches/switch-to-pitch.patch`
+1. Revert to the default base: `git restore .` (restores prd-default)
+2. Apply the new patch: `patch -p1 --fuzz=3 < patches/switch-to-pitch.patch`
 3. Update manifest: `yq -i '.feature_type = "pitch"' manifest.yaml`
 
 Already-created artifacts are unaffected — only templates and reference docs change. Migrate existing artifacts on demand by renaming files and updating their `id:`/`type:`/`feature:` fields.
@@ -102,7 +102,7 @@ These patches switch the active ask-threshold policy enforced in `AGENTS.md`. Un
 Apply the same way as artifact-type patches:
 
 ```bash
-git apply --3way patches/switch-to-approach-changing-only.patch
+patch -p1 --fuzz=3 < patches/switch-to-approach-changing-only.patch
 ```
 
-No `yq` step — `manifest.yaml` is not involved. To revert, `git apply -R patches/<patch>` restores the default "always ask first" threshold.
+No `yq` step — `manifest.yaml` is not involved. To revert, `patch -p1 -R --fuzz=3 < patches/<patch>` restores the default "always ask first" threshold.
