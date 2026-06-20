@@ -93,7 +93,6 @@ The full list of artifact types, ID prefixes, agents, skills, and statuses lives
 | `templates/` | Artifact doc templates, one per artifact type |
 | `agents/` | Agent role definitions and repo/skill mappings |
 | `conventions/` | Enforced project conventions |
-| `_sources/` | Source material the framework was synthesized from (off-framework vocabulary — do not load by default) |
 | `feature-briefs/`, `prds/`, `pitches/`, `one-pagers/`, `press-releases/`, `user-stories/`, `user-flows/`, `design-specs/`, `adrs/`, `system-architectures/`, `api-specs/`, `data-designs/`, `tech-designs/`, `tasks/`, `plans/`, `work-breakdown-structures/`, `implementation-plans/`, `test-specs/`, `notes/` | Vault artifact folders, one per artifact type. Populated during onboarding. |
 
 ---
@@ -142,7 +141,7 @@ Assume you are starting a new project called `issue-tracker` with a React fronte
 
 ## Upgrading the Framework
 
-The vault's `manifest.yaml` stores the `framework_version` field (the upstream seedbed version last synced). When upstream releases a new version, framework-owned files (`handbook/`, `reference/`, `agents/`, `_sources/`, `README.md`) are synced and `AGENTS.md` is 3-way merged. User-owned content (`manifest.yaml`, `templates/`, `conventions/`, all vault folders) is never touched. The seedbed source and ref are stored in `manifest.yaml` under `seedbed`; the `orchard upgrade` CLI command (Phase 3) will automate this with a git-style 3-way merge.
+The vault's `manifest.yaml` stores the `framework_version` field (the upstream seedbed version last synced). When upstream releases a new version, framework-owned files (`handbook/`, `reference/`, `agents/`, `README.md`) are synced and `AGENTS.md` is 3-way merged. User-owned content (`manifest.yaml`, `templates/`, `conventions/`, all vault folders) is never touched. The seedbed source and ref are stored in `manifest.yaml` under `seedbed`; the `orchard upgrade` CLI command (Phase 3) will automate this with a git-style 3-way merge.
 
 ---
 

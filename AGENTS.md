@@ -9,11 +9,10 @@
 - **Artifact types, prefixes, agent roster, skills, statuses, repo names** → `manifest.yaml` (source of truth)
 - **Reference docs** (vocabulary, lifecycle, ownership, dep graph, frontmatter, queries, folder structure, coordination tree) → `reference/README.md`
 - **Project setup** → `handbook/playbooks/setup.md`
-- **Source material** (real-world process docs the framework was synthesized from) → `_sources/`. Do not load unless explicitly asked — uses off-framework vocabulary on purpose.
 
 `{vault-root}` (used throughout reference docs) = the current repo/folder you're working in (default CWD), where `manifest.yaml` lives. Sibling code repos are listed under `repos:` in `manifest.yaml`.
 
-Load reference docs only when the task requires them. Never load `handbook/` or `_sources/` docs unless explicitly directed.
+Load reference docs only when the task requires them. Never load `handbook/` docs unless explicitly directed.
 
 ---
 
