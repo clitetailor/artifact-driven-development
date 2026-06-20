@@ -50,7 +50,7 @@ graph LR
         SA[system-architecture] --> ADR[adr]
         SA[system-architecture] --> API[api-spec]
         SA --> DD[data-design]
-        API ↔ DD
+        API <--> DD
     end
     subgraph DEV[Development]
         TD[tech-design] --> TASK[task]
