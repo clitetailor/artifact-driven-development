@@ -23,8 +23,7 @@ repos:                            # list of repo names and paths
     path: ../analytics
 
 feature_type: prd                   # default requirements-root type
-plan_type: plan                     # default plan type
-# Both fields above name the default type for the feature root and plan.
+# The field above names the default type for the feature root.
 # Alternative types are registered below and can be selected via switch-patches;
 # see handbook/customization.md.
 
@@ -82,12 +81,6 @@ types:
   - name: plan
     prefix: plan-
     template: templates/plan.md
-  - name: work-breakdown-structure
-    prefix: wbs-
-    template: templates/work-breakdown-structure.md
-  - name: implementation-plan
-    prefix: ip-
-    template: templates/implementation-plan.md
 
   # Verification
   - name: test-spec

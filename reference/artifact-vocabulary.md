@@ -15,9 +15,7 @@
 | **data-design** | Internal data shapes + detailed data flows. Entity definitions, relationships, state machines, pipeline stages, transformations, migrations. Owned by software-architect. |
 | **tech-design** | Feature-scoped technical design. Architectural Context (refs only) + implementation decisions constrained by system-architecture ADRs. Bridges system-architecture and task. Owned by software-architect. |
 | **task** | Agent-sized implementation unit, derived from api-spec or design-spec. Links to a specific user-story and the feature's PRD. Execution steps tracked via internal checklist. |
-| **plan** | The default planning artifact — a flat ordered list sequencing stories/tasks with estimates. Alternatives: `work-breakdown-structure` (deliverable hierarchy + effort rollup), `implementation-plan` (story queue + task lanes). Owned by project-manager. |
-| **work-breakdown-structure** | Plan alternative — deliverable hierarchy with effort rollup. Owned by project-manager. |
-| **implementation-plan** | Plan alternative — story queue with task lanes. Owned by project-manager. |
+| **plan** | The planning artifact — a deliverable hierarchy (prd → stories → tasks) with effort estimates and rolled-up sums. The hierarchy's child ordering IS the execution order. Optional sections (Effort Rollup, Sequencing Rationale, Task Lanes, Unparented Tasks) are uncommented based on team size and task complexity. Owned by project-manager. |
 | **test-spec** | Test specification with embedded test plan. Covers scope, strategy, environment, test cases, edge cases, error cases. Absorbs test-plan. Owned by qa-engineer. |
 | **note** | Ad-hoc scratchpad for context, meeting notes, or brainstorms. Any agent may create one at any time, with no phase or prerequisite restrictions. |
 | **refs** | Frontmatter field listing all related artifact IDs — upstream, downstream, sideways. Plain IDs only; used for grep-based queries. Human-navigable markdown links live in the artifact body under `## References`. |

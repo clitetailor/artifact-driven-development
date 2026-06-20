@@ -21,9 +21,7 @@
 ├── data-designs/           # Internal data shapes + detailed data flows (dd-)
 ├── tech-designs/           # Technical design documents per feature (td-)
 ├── tasks/                  # Decomposed implementation units (task-)
-├── plans/                  # Plans (plan-) — default plan type
-├── work-breakdown-structures/ # Work Breakdown Structures (wbs-) — plan alternative
-├── implementation-plans/   # Implementation Plans (ip-) — plan alternative
+├── plans/                  # Plans (plan-) — deliverable hierarchy with optional sequencing sections
 ├── test-specs/             # Test specifications with embedded test plan (ts-)
 ├── notes/                  # Ad-hoc scratchpad notes (note-) — any agent, any time
 ├── agents/                 # Agent design docs + repo/skill mappings

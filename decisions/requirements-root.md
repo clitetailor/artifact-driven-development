@@ -600,9 +600,8 @@ it.
 
 ## Notes
 
-- This decision is **orthogonal** to the plan-type decision (`plan` vs
-  `work-breakdown-structure` vs `implementation-plan`). They touch disjoint lines; apply
-  in any order.
+- This decision is **orthogonal** to the ask-threshold decision. They touch disjoint
+  lines; apply in any order.
 - Already-created artifacts (in `prds/`, `feature-briefs/`, etc.) are **not touched** —
   only templates and reference docs change. Migrate existing artifacts on demand by
   renaming files and updating their `id:`/`type:`/`feature:` fields.

@@ -1,6 +1,6 @@
 # Customizing Artifact Decisions
 
-> How to switch the default artifact types for requirements-root and plan alternatives,
+> How to switch the default artifact types for requirements-root
 > and the ask-threshold policy.
 
 ---
@@ -12,7 +12,6 @@ The vault ships with concrete defaults:
 | Decision | Default | Alternatives |
 |---|---|---|
 | Requirements-root type | `prd` | `feature-brief`, `press-release` |
-| Plan type | `plan` | `work-breakdown-structure`, `implementation-plan` |
 | Ask-threshold policy | always-ask-first | `approach-changing-only`, `read-then-confirm` |
 
 Each alternative is realized by a **decision file** in `../decisions/`. A decision file
@@ -46,18 +45,14 @@ diff tools required. `manifest.yaml` is edited directly like any other file.
 |---|---|---|
 | **L1 — token concretize** | 12 downstream templates | `feature: prd-{slug}` → `feature: {alt}-{slug}`; `../prds/` → `../{alt-folder}/`; refs |
 | **L2 — prose dereify** | dep-graph, vocabulary, frontmatter, folder-structure, vault-queries, coordination-decision-tree, PROJECT.md, playbooks/setup.md | Type names, default/alternative labels, example IDs, scan queries |
-| **manifest.yaml** | 1 line | `feature_type:` (or `plan_type:`) — edited directly |
-
-Plan decisions are smaller — they touch only the plan template's own identity and
-plan-specific reference doc lines, not the `feature:` field (that belongs to the
-requirements-root decision).
+| **manifest.yaml** | 1 line | `feature_type:` — edited directly |
 
 Ask-threshold decisions touch only `AGENTS.md` (the `## Communication` and
 `## Output Style` bullets) — no templates, reference docs, or `manifest.yaml` changes.
 
 ## Combining Decisions
 
-Requirements-root, plan, and ask-threshold decisions are **orthogonal** — they touch
+Requirements-root and ask-threshold decisions are **orthogonal** — they touch
 disjoint files. Apply them in any order.
 
 ## Upgrade Flow
@@ -66,7 +61,7 @@ When the seedbed advances and you pull upstream:
 
 | User | Action | Tax |
 |---|---|---|
-| **Default (prd/plan)** | Pull upstream; artifacts untouched | Zero |
+| **Default (prd)** | Pull upstream; artifacts untouched | Zero |
 | **Alternative** | Re-apply your decision file onto the new base, then run its §Verify block | Small, per-decision |
 
 The decision file's find commands and token map are drift-tolerant — they locate targets

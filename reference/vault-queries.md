@@ -11,7 +11,7 @@ rg -l --glob '!.*' "type: data-design" {vault-root}/
 # All PRD artifacts (default requirements-root type)
 rg -l --glob '!.*' "type: prd" {vault-root}/
 
-# All plan artifacts (default plan type)
+# All plan artifacts
 rg -l --glob '!.*' "type: plan" {vault-root}/
 
 # Find the PRD for a feature (by its root id, e.g. prd-user-auth)

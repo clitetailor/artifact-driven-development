@@ -7,7 +7,7 @@
 
 | File | Purpose |
 |---|---|
-| [`customization.md`](./customization.md) | How to switch the default requirements-root and plan types via decision files |
+| [`customization.md`](./customization.md) | How to switch the default requirements-root type and ask-threshold policy via decision files |
 
 ## Playbooks
 
