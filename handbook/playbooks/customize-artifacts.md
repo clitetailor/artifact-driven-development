@@ -23,11 +23,11 @@ Skip any question the user has already answered in their opening message.
 
 Agent: Which decision do you want to switch?
 
-1. **Requirements-root type** — alternatives: `feature-brief`, `pitch`, `one-pager`, `press-release` (default: `prd`)
+1. **Requirements-root type** — alternatives: `feature-brief`, `press-release` (default: `prd`)
 2. **Plan type** — alternatives: `work-breakdown-structure`, `implementation-plan` (default: `plan`)
 3. **Ask-threshold policy** — alternatives: `approach-changing-only`, `read-then-confirm` (default: always ask first)
 
-If the user names a target directly (e.g. "switch to pitch"), skip to Step 2 with that choice.
+If the user names a target directly (e.g. "switch to press-release"), skip to Step 2 with that choice.
 
 ---
 

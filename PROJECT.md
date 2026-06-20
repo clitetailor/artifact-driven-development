@@ -21,7 +21,7 @@
 ## PRDs
 
 <!-- One row per feature's PRD. The default requirements-root type is prd;
-     alternatives (feature-brief, pitch, one-pager, press-release) can be
+     alternatives (feature-brief, press-release) can be
      selected via switch-patches — see handbook/customization.md. -->
 
 | PRD | Status | Summary |

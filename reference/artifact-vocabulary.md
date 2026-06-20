@@ -5,8 +5,6 @@
 | **artifact** | A versioned, typed document in the vault with YAML frontmatter |
 | **prd** | Product Requirements Document — the default requirements-root artifact. Captures *what* the system must do for a feature, with background, audience, objectives, NFRs, timeline. Owned by business-analyst. |
 | **feature-brief** | Feature Brief — a lighter requirements-root alternative to prd. Captures *what* the system must do for a specific feature, along with success metrics and constraints. Owned by business-analyst. |
-| **pitch** | Pitch — a requirements-root alternative for early-stage or investment decisions. Vision/problem/solution/differentiation/ask framing for securing buy-in. Owned by business-analyst. |
-| **one-pager** | One-Pager — a requirements-root alternative for small or well-understood features. Condensed summary: problem, solution, audience, metrics, scope. Owned by business-analyst. |
 | **press-release** | Press Release — a requirements-root alternative using "working backwards" framing written as if the product has launched; surfaces customer-outcome gaps before implementation. Owned by business-analyst. |
 | **user-story** | One verifiable unit of user value extracted from a PRD, in the format "As a [role], I want [goal], so that [benefit]", with Given/When/Then acceptance criteria |
 | **user-flow** | User flow diagram with journey overview (absorbs user-journey-map). Maps entry points, happy path, error paths, and exit points. Owned by product-designer. |

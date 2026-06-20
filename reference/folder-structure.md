@@ -10,8 +10,6 @@
 ├── PROJECT.md             # Human-readable project overview (active tasks, PRDs, status)
 ├── feature-briefs/         # Feature Briefs (fb-) — requirements-root alternative
 ├── prds/                   # Product Requirements Documents (prd-) — default requirements-root
-├── pitches/                # Pitches (pitch-) — requirements-root alternative
-├── one-pagers/             # One-Pagers (op-) — requirements-root alternative
 ├── press-releases/         # Press Releases (pr-) — requirements-root alternative
 ├── user-stories/           # Verifiable user-value units with Given/When/Then AC (story-)
 ├── user-flows/             # User flow diagrams with journey overview (uf-)

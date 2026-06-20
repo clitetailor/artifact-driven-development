@@ -39,12 +39,6 @@ types:
   - name: prd
     prefix: prd-
     template: templates/prd.md
-  - name: pitch
-    prefix: pitch-
-    template: templates/pitch.md
-  - name: one-pager
-    prefix: op-
-    template: templates/one-pager.md
   - name: press-release
     prefix: pr-
     template: templates/press-release.md

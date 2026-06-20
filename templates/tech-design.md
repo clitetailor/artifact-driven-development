@@ -62,6 +62,13 @@ refs:
 <!-- Unresolved items that must be answered before tasks can start. -->
 - [ ] 
 
+## Definition of Done
+<!-- The software-architect agent checks these before flipping status to ready-for-review. -->
+- [ ] Architectural Context references accepted ADRs only
+- [ ] Key Decisions are feature-scoped (system-wide decisions belong in ADRs)
+- [ ] Implementation Plan steps map 1:1 to task artifacts
+- [ ] Affected user-stories flagged as needs-review if acceptance criteria or inter-story dependencies must change
+
 ## References
 - [sa-{slug}](../system-architectures/sa-{slug}.md)
 - [api-{slug}](../api-specs/api-{slug}.md)

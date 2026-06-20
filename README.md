@@ -45,13 +45,11 @@ Without structure, coding agents improvise — filling gaps silently, absorbing 
 
 ## Artifacts
 
-Artifacts are the unit of work in the vault. Each one is a Markdown file with frontmatter, an ID prefix, and explicit references to its upstream artifacts. The scaffold ships with 19 artifact types covering the full SDLC:
+Artifacts are the unit of work in the vault. Each one is a Markdown file with frontmatter, an ID prefix, and explicit references to its upstream artifacts. The scaffold ships with 17 artifact types covering the full SDLC:
 
 **Requirements**
 - `fb-` — feature brief (lighter requirements-root alternative)
 - `prd-` — product requirements document (default requirements-root)
-- `pitch-` — pitch (requirements-root alternative for early-stage buy-in)
-- `op-` — one-pager (requirements-root alternative for small features)
 - `pr-` — press release (requirements-root alternative, working-backwards framing)
 - `story-` — a verifiable unit of user value
 
@@ -107,7 +105,7 @@ The full list of artifact types, ID prefixes, agents, skills, and statuses lives
 | `templates/` | Artifact doc templates, one per artifact type |
 | `agents/` | Agent role definitions and repo/skill mappings |
 | `conventions/` | Enforced project conventions |
-| `feature-briefs/`, `prds/`, `pitches/`, `one-pagers/`, `press-releases/`, `user-stories/`, `user-flows/`, `design-specs/`, `adrs/`, `system-architectures/`, `api-specs/`, `data-designs/`, `tech-designs/`, `tasks/`, `plans/`, `work-breakdown-structures/`, `implementation-plans/`, `test-specs/`, `notes/` | Vault artifact folders, one per artifact type. Populated during onboarding. |
+| `feature-briefs/`, `prds/`, `press-releases/`, `user-stories/`, `user-flows/`, `design-specs/`, `adrs/`, `system-architectures/`, `api-specs/`, `data-designs/`, `tech-designs/`, `tasks/`, `plans/`, `work-breakdown-structures/`, `implementation-plans/`, `test-specs/`, `notes/` | Vault artifact folders, one per artifact type. Populated during onboarding. |
 
 ---
 

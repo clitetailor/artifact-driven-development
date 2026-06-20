@@ -10,7 +10,7 @@ The vault ships with concrete defaults:
 
 | Decision | Default | Alternatives |
 |---|---|---|
-| Requirements-root type | `prd` | `feature-brief`, `pitch`, `one-pager`, `press-release` |
+| Requirements-root type | `prd` | `feature-brief`, `press-release` |
 | Plan type | `plan` | `work-breakdown-structure`, `implementation-plan` |
 
 Each alternative is realized by a **switch-patch** in `../patches/`. A switch-patch rewrites the scaffolding (templates + reference docs + `manifest.yaml` defaults) from the default type to the alternative. It does **not** touch already-created artifacts — those are migrated on demand.
@@ -71,11 +71,11 @@ L1 (token concretization) is the most upgrade-resilient — frontmatter lines ar
 
 ## Changing a Decision Later
 
-Switching from one alternative to another (e.g. `feature-brief` → `pitch`):
+Switching from one alternative to another (e.g. `feature-brief` → `press-release`):
 
 1. Revert to the default base: `git restore .` (restores prd-default)
-2. Apply the new patch: `patch -p1 --fuzz=3 < patches/switch-to-pitch.patch`
-3. Update manifest: `yq -i '.feature_type = "pitch"' manifest.yaml`
+2. Apply the new patch: `patch -p1 --fuzz=3 < patches/switch-to-press-release.patch`
+3. Update manifest: `yq -i '.feature_type = "press-release"' manifest.yaml`
 
 Already-created artifacts are unaffected — only templates and reference docs change. Migrate existing artifacts on demand by renaming files and updating their `id:`/`type:`/`feature:` fields.
 
@@ -84,8 +84,6 @@ Already-created artifacts are unaffected — only templates and reference docs c
 | Patch | Switches to |
 |---|---|
 | `switch-to-feature-brief.patch` | `feature-brief` (fb-) |
-| `switch-to-pitch.patch` | `pitch` (pitch-) |
-| `switch-to-one-pager.patch` | `one-pager` (op-) |
 | `switch-to-press-release.patch` | `press-release` (pr-) |
 | `switch-to-work-breakdown-structure.patch` | `work-breakdown-structure` (wbs-) |
 | `switch-to-implementation-plan.patch` | `implementation-plan` (ip-) |

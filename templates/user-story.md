@@ -6,7 +6,7 @@ status: open | in-progress | done
 version: 1.0
 feature: prd-{slug}
 priority: {P0 | P1 | P2}
-estimated-hours: {N}
+estimated-hours: {N}  # provisional — set by BA without technical context; refined later by plan
 depends-on:
   - story-{slug}
 refs:
@@ -43,13 +43,6 @@ so that **{outcome or value}**.
 - **Effort:** {N} tasks (~{N} hours)
 - **Dependencies:** None | story-{slug}
 - **Timeline:** Sprint {N} | Phase {N}
-
-## Execution Checklist (Sub-Tasks)
-<!-- Agents: Check off these items as work is completed. -->
-
-- [ ] {sub-task 1}
-- [ ] {sub-task 2}
-- [ ] {sub-task 3}
 
 ## References
 - [prd-{slug}](../prds/prd-{slug}.md)

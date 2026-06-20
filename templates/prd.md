@@ -4,6 +4,7 @@ type: prd
 owner: business-analyst
 status: draft
 version: 1.0
+children: []
 refs:
   - {related-artifact-id}
 ---
@@ -26,9 +27,9 @@ refs:
 ## Target Audience
 <!-- Who this is for. Personas, segments, or specific customer cohorts. -->
 
-| Persona | Context | Primary Need |
-|---------|---------|--------------|
-|        |         |              |
+| Persona | Segment / Context |
+|---------|-------------------|
+|        |                   |
 
 ## Success Metrics
 <!-- How we know the product is successful post-launch. Distinguish primary from guardrail metrics. -->
@@ -68,14 +69,35 @@ refs:
 - **Dependencies:** 
 - **Risks & Mitigations:** 
 
-## Timeline & Milestones
+## User Stories
+<!-- Stories extracted from this root. Maps functional requirements to spawned stories
+     for coverage verification — every requirement should have at least one story. -->
 
-| Milestone | Target | Status |
-|-----------|--------|--------|
-|           |        |        |
+| Requirement | Story | Summary |
+|-------------|-------|---------|
+| FR-1 | story-{slug} | {one-line summary} |
+| FR-2 | story-{slug}, story-{slug} | {one-line summary} |
 
 ## Open Questions
-- 
+
+| # | Question | Status | Resolution | Blocks downstream? |
+|---|----------|--------|------------|---------------------|
+| 1 |          | open \| resolved |        | yes \| no           |
+
+## Pipeline Next Steps
+<!-- What the downstream pipeline expects to build from this root. -->
+- [ ] Extract user-stories from Functional Requirements
+- [ ] product-designer → user-flow (from this root)
+- [ ] software-architect → system-architecture (from this root)
+
+## Definition of Done
+<!-- The business-analyst agent checks these before flipping status to ready-for-review. -->
+- [ ] Problem Statement frames pain from customer perspective
+- [ ] ≥1 Objective with measurable Success Signal + Target
+- [ ] Scope (In/Out) explicitly bounded
+- [ ] ≥1 Functional Requirement numbered
+- [ ] Open Questions reviewed; blockers flagged
+- [ ] User Stories section populated (or explicitly "none yet — deferred")
 
 ## References
 - [{related-artifact-id}](../{folder}/{related-artifact-id}.md)
