@@ -40,7 +40,7 @@ If `--check` fails but `--3way` succeeds, the patch had context drift but the ac
 | Layer | Files | What changes |
 |---|---|---|
 | **L1 — token concretize** | 12 downstream templates | `feature: prd-{slug}` → `feature: {alt}-{slug}`; `../prds/` → `../{alt-folder}/`; refs |
-| **L2 — prose dereify** | dep-graph, vocabulary, frontmatter, folder-structure, vault-queries, coordination-decision-tree, PROJECT.md, setup.md | Type names, default/alternative labels, example IDs, scan queries |
+| **L2 — prose dereify** | dep-graph, vocabulary, frontmatter, folder-structure, vault-queries, coordination-decision-tree, PROJECT.md, playbooks/setup.md | Type names, default/alternative labels, example IDs, scan queries |
 | **manifest.yaml** | 1 line | `feature_type:` (or `plan_type:`) — handled via `yq`, not the patch |
 
 Plan switch-patches are smaller — they touch only the plan template's own identity and plan-specific reference doc lines, not the `feature:` field (that belongs to the requirements-root decision).
@@ -89,3 +89,20 @@ Already-created artifacts are unaffected — only templates and reference docs c
 | `switch-to-press-release.patch` | `press-release` (pr-) |
 | `switch-to-work-breakdown-structure.patch` | `work-breakdown-structure` (wbs-) |
 | `switch-to-implementation-plan.patch` | `implementation-plan` (ip-) |
+
+## Ask-Threshold Switch-Patches
+
+These patches switch the active ask-threshold policy enforced in `AGENTS.md`. Unlike the artifact-type patches above, they touch only `AGENTS.md` (the `## Communication` and `## Output Style` bullets) — no templates, reference docs, or `manifest.yaml` changes.
+
+| Patch | Switches to |
+|---|---|
+| `switch-to-approach-changing-only.patch` | Ask only when the answer would change the approach/scope; infer trivial details and state the assumption |
+| `switch-to-read-then-confirm.patch` | Read the directly-relevant artifact, then state understood intent in one line and ask confirmation before output |
+
+Apply the same way as artifact-type patches:
+
+```bash
+git apply --3way patches/switch-to-approach-changing-only.patch
+```
+
+No `yq` step — `manifest.yaml` is not involved. To revert, `git apply -R patches/<patch>` restores the default "always ask first" threshold.

@@ -22,10 +22,10 @@ index 0265329..c852cad 100644
  
  ---
  
-diff --git a/handbook/setup.md b/handbook/setup.md
+diff --git a/handbook/playbooks/setup.md b/handbook/playbooks/setup.md
 index 28c15a4..07a9cde 100644
---- a/handbook/setup.md
-+++ b/handbook/setup.md
+--- a/handbook/playbooks/setup.md
++++ b/handbook/playbooks/setup.md
 @@ -59,7 +59,7 @@ After completing this question, proceed to Step 4.
  
  Agent: **Feature type pattern.** This defines what counts as a feature — it's the pattern `orchard query --pattern` matches against.

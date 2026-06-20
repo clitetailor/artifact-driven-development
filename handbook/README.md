@@ -7,8 +7,16 @@
 
 | File | Purpose |
 |---|---|
-| [`setup.md`](./setup.md) | Entry point — reference in your AI chat to set up or use ADD |
 | [`customization.md`](./customization.md) | How to switch the default requirements-root and plan types via switch-patches |
+
+## Playbooks
+
+Agent-driven procedures — reference these in your AI chat to walk through a task step by step.
+
+| File | Purpose |
+|---|---|
+| [`playbooks/setup.md`](./playbooks/setup.md) | Configure `manifest.yaml` for your project (project metadata, repo names, feature type pattern) |
+| [`playbooks/customize-artifacts.md`](./playbooks/customize-artifacts.md) | Apply a switch-patch to change the default artifact type or ask-threshold policy |
 
 ## Where the Specs Live
 

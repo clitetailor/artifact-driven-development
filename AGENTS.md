@@ -8,7 +8,7 @@
 
 - **Artifact types, prefixes, agent roster, skills, statuses, repo names** → `manifest.yaml` (source of truth)
 - **Reference docs** (vocabulary, lifecycle, ownership, dep graph, frontmatter, queries, folder structure, coordination tree) → `reference/README.md`
-- **Project setup** → `handbook/setup.md`
+- **Project setup** → `handbook/playbooks/setup.md`
 - **Source material** (real-world process docs the framework was synthesized from) → `_sources/`. Do not load unless explicitly asked — uses off-framework vocabulary on purpose.
 
 `{vault-root}` (used throughout reference docs) = the current repo/folder you're working in (default CWD), where `manifest.yaml` lives. Sibling code repos are listed under `repos:` in `manifest.yaml`.
@@ -35,7 +35,7 @@ Bare `jj commit` always lands in `{vault-root}` (default CWD).
 
 ## Communication
 
-- **Ask before acting on ambiguity.** When user intent is even slightly unclear, ask a clarifying question before reading artifacts or producing output. This takes precedence over "Think before acting" below — do not self-clarify by reading when a single question would resolve the ambiguity. The active threshold lives in `ask-threshold.md`; update that file to switch approaches.
+- **Ask before acting on ambiguity.** When user intent is even slightly unclear, ask a clarifying question before reading artifacts or producing output. This takes precedence over "Think before acting" below — do not self-clarify by reading when a single question would resolve the ambiguity. Switch this threshold via patches in `patches/` (see `handbook/playbooks/customize-artifacts.md`).
 - **Propose alternatives when the user's approach is suboptimal.** If you find a more appropriate solution than what was requested, or the requested approach is weaker than it sounds, do not silently substitute or silently comply. Ask for clarification and propose the alternative(s), including the decision and rationale, so the user can choose. Silent compliance hides trade-offs; silent substitution bypasses the user.
 - User instructions always override these rules.
 
@@ -58,7 +58,7 @@ Bare `jj commit` always lands in `{vault-root}` (default CWD).
 - **Be concise but informative.** Short replies, no preamble, no restating context the user already has — but never omit information the user needs to verify alignment.
 - **Surface key reasoning.** State the decision and the one-line rationale that drove it. Do not make the user reconstruct your thinking from the diff.
 - **Surface rejected alternatives.** When you considered and rejected a meaningfully different approach, name it and the rejection reason in one line. This is what lets the user catch a misaligned direction early instead of after implementation.
-- **State assumptions made when inferring intent.** If you inferred instead of asking (per the active threshold in `ask-threshold.md`), call out the assumption explicitly so the user can correct it in one round.
+- **State assumptions made when inferring intent.** If you inferred instead of asking, call out the assumption explicitly so the user can correct it in one round.
 
 ## Editing & Prompt Discipline
 

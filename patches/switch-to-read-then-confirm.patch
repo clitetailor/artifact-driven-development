@@ -6,7 +6,7 @@ index cac759d..fa05fc9 100644
  
  ## Communication
  
--- **Ask before acting on ambiguity.** When user intent is even slightly unclear, ask a clarifying question before reading artifacts or producing output. This takes precedence over "Think before acting" below — do not self-clarify by reading when a single question would resolve the ambiguity. The active threshold lives in `ask-threshold.md`; update that file to switch approaches.
+-- **Ask before acting on ambiguity.** When user intent is even slightly unclear, ask a clarifying question before reading artifacts or producing output. This takes precedence over "Think before acting" below — do not self-clarify by reading when a single question would resolve the ambiguity. Switch this threshold via patches in `patches/` (see `handbook/playbooks/customize-artifacts.md`).
 +- **Read then confirm.** When user intent is unclear, read the directly-relevant artifact, then state the understood intent in one line and ask for confirmation before producing output. This takes precedence over "Think before acting" below — confirmation is required before producing output.
  - **Propose alternatives when the user's approach is suboptimal.** If you find a more appropriate solution than what was requested, or the requested approach is weaker than it sounds, do not silently substitute or silently comply. Ask for clarification and propose the alternative(s), including the decision and rationale, so the user can choose. Silent compliance hides trade-offs; silent substitution bypasses the user.
  - User instructions always override these rules.
@@ -15,7 +15,7 @@ index cac759d..fa05fc9 100644
  - **Be concise but informative.** Short replies, no preamble, no restating context the user already has — but never omit information the user needs to verify alignment.
  - **Surface key reasoning.** State the decision and the one-line rationale that drove it. Do not make the user reconstruct your thinking from the diff.
  - **Surface rejected alternatives.** When you considered and rejected a meaningfully different approach, name it and the rejection reason in one line. This is what lets the user catch a misaligned direction early instead of after implementation.
--- **State assumptions made when inferring intent.** If you inferred instead of asking (per the active threshold in `ask-threshold.md`), call out the assumption explicitly so the user can correct it in one round.
+-- **State assumptions made when inferring intent.** If you inferred instead of asking, call out the assumption explicitly so the user can correct it in one round.
 +- **State assumptions made when inferring intent.** If you inferred intent during the read-then-confirm step, call out the assumption explicitly in the confirmation line so the user can correct it in one round.
  
  ## Editing & Prompt Discipline

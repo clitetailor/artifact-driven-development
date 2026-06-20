@@ -86,9 +86,10 @@ The full list of artifact types, ID prefixes, agents, skills, and statuses lives
 | Folder | Purpose |
 |---|---|
 | `reference/` | AI-friendly reference docs: vocabulary, lifecycle, ownership, dep graph, frontmatter, vault queries, folder structure, coordination decision tree |
-| `handbook/` | Entry point (`setup.md`) and customization guide |
-| `handbook/setup.md` | Prompt script — paste into AI chat to set up or use ADD in a project |
+| `handbook/` | Entry point, customization guide, and playbooks |
+| `handbook/README.md` | Handbook index — links to playbooks and conceptual reference docs |
 | `handbook/customization.md` | How to switch the default requirements-root and plan types via switch-patches |
+| `handbook/playbooks/` | Agent-driven procedures — reference in your AI chat to walk through setup or customization |
 | `templates/` | Artifact doc templates, one per artifact type |
 | `agents/` | Agent role definitions and repo/skill mappings |
 | `conventions/` | Enforced project conventions |
@@ -131,9 +132,9 @@ Assume you are starting a new project called `issue-tracker` with a React fronte
    └── issue-tracker-api/
    ```
 
-4. **Run the setup prompt.** Open a coding agent in `issue-tracker-docs/` and reference `handbook/setup.md`. The agent will read the workspace, ask targeted questions about your project and repo layout, then configure `manifest.yaml` — replacing placeholders, initializing the registry, and reviewing convention docs.
+4. **Run the setup prompt.** Open a coding agent in `issue-tracker-docs/` and reference `handbook/playbooks/setup.md`. The agent will read the workspace, ask targeted questions about your project and repo layout, then configure `manifest.yaml` — replacing placeholders, initializing the registry, and reviewing convention docs.
 
-5. **Plan your first feature.** Tell the agent what you want to build. It will reference `handbook/setup.md` again and walk through requirements, design artifacts, and tasks. To switch the default requirements-root or plan type, apply a switch-patch from `patches/` (see `handbook/customization.md`).
+5. **Plan your first feature.** Tell the agent what you want to build. It will reference `handbook/playbooks/setup.md` again and walk through requirements, design artifacts, and tasks. To switch the default requirements-root or plan type, apply a switch-patch from `patches/` (see `handbook/customization.md` or `handbook/playbooks/customize-artifacts.md`).
 
 6. **Iterate.** From here, work flows through the artifact dependency graph: features beget requirements, requirements beget design artifacts, design artifacts beget tasks. The `handbook/` workflow guides describe the day-to-day pattern.
 
