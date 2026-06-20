@@ -9,11 +9,4 @@ refs: []
 
 # {Title}
 
-## Context
-<!-- Brief context or reason for this note (e.g., meeting, brainstorm, scratchpad). -->
-
-## Notes
-<!-- Content goes here -->
-
-## References
-<!-- none -->
+<!-- Free-form content. Structure the body however fits the purpose of this note. -->
