@@ -4,18 +4,27 @@ Concrete structural changes for the three retained requirements roots (`prd`, `f
 
 ## Cross-cutting: add to all three roots
 
-### 1. Add `## User Stories` to prd and press-release
+### 1. Add `## User Stories` traceability table to prd and press-release
 
-feature-brief has it; prd and press-release don't — yet all three are requirements roots that spawn user-stories. This is a real gap: the default root (prd) has no child-index section, and press-release is a pipeline dead end without it.
+feature-brief has a `## User Stories` list; prd and press-release don't — yet all three are requirements roots that spawn user-stories. This is a real gap: the default root (prd) has no child-index section, and press-release is a pipeline dead end without it.
+
+A bare list isn't enough — it can't answer "which requirements have no story yet?" A traceability table maps each functional requirement to its spawned story, enabling coverage verification.
 
 **Add to prd and press-release:**
 ```markdown
 ## User Stories
-<!-- Links to story artifacts extracted from this root. -->
-- story-{slug} — {one-line summary}
+<!-- Stories extracted from this root. Maps functional requirements to spawned stories
+     for coverage verification — every requirement should have at least one story. -->
+
+| Requirement | Story | Summary |
+|-------------|-------|---------|
+| FR-1 | story-{slug} | {one-line summary} |
+| FR-2 | story-{slug}, story-{slug} | {one-line summary} |
 ```
 
-This gives the business-analyst agent an explicit place to record what it has spawned, and downstream agents a single section to check "what children exist?" without parsing `refs`.
+For feature-brief, replace its existing simple list with the same table form, using `Key Req` instead of `FR-#` in the `Requirement` column (matches its `Key Requirements` section). For press-release, the `Requirement` column references the `Key Requirements` entries added in point 8.
+
+This gives the business-analyst agent an explicit place to record what it has spawned, lets an agent grep "which requirements have no story?" for coverage checks, and gives downstream agents a single section to verify child coverage without parsing `refs`.
 
 ### 2. Restructure `## Open Questions` into a tracked table
 
@@ -76,18 +85,13 @@ Current: `> "{quote}" — {Name, Title, Company}` — the Name/Title/Company is 
 
 Use the persona from Target Audience (e.g., "— SMB ops manager") instead of inventing a name and company. Keeps the forcing-function (concrete customer voice) without the fiction.
 
-### 7. Remove `Status` column from prd `Timeline & Milestones`
+### 7. Drop `Timeline & Milestones` from prd entirely
 
-The Status column duplicates the artifact-lifecycle system (`status: draft | accepted | needs-review`). Milestone status is tracking state that belongs in the plan artifact, not the requirements root. Agents checking "is this milestone done?" should look at the plan, not the prd.
+In an agent workflow there is no real timeline — agents execute artifact-to-artifact, not on a calendar. Sequencing is dependency-based (dep graph), priority lives in user-story `priority` frontmatter, and execution order lives in the plan. A "Timeline & Milestones" section in the requirements root either duplicates these or invents fake calendar dates agents can't use.
 
-**Simplify to:**
-```markdown
-## Timeline & Milestones
+External deadlines (compliance, partner commitments) are rare and have no natural home in a pure agent workflow; if they exist, they surface as constraints during planning, not as a timeline section in the requirements root.
 
-| Milestone | Target |
-|-----------|--------|
-|           |        |
-```
+**Remove the entire `## Timeline & Milestones` section from prd.** No replacement.
 
 ## Per-template: press-release needs pipeline integration
 
@@ -163,13 +167,13 @@ Current: `Persona | Context | Primary Need` — "Primary Need" overlaps with Pro
 
 | Change | Affects | Type |
 |---|---|---|
-| Add `## User Stories` | prd, press-release | Add |
+| Add `## User Stories` traceability table | prd, press-release; restructure feature-brief's existing list | Add / Restructure |
 | Restructure Open Questions → tracked table | all three | Restructure |
 | Add `children:` frontmatter | all three | Add |
 | Add `## Pipeline Next Steps` | all three | Add |
 | Remove `What's Being Said Internally` | press-release | Remove |
 | Simplify customer-quote attribution | press-release | Restructure |
-| Remove `Status` from Timeline table | prd | Remove |
+| Drop `Timeline & Milestones` section | prd | Remove |
 | Add Scope + Success Metrics + Key Requirements | press-release | Add |
 | Add `## Definition of Done` | prd (full), feature-brief + press-release (short) | Add |
 | Simplify Target Audience table | prd | Restructure |
