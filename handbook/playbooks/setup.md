@@ -13,8 +13,8 @@ The user has referenced this file. Follow the steps below in order.
 - Ask one question at a time using your question/prompt tool
 - Wait for the user's answer before proceeding to the next question
 - Do not ask multiple questions at once, except the Step 2 metadata form (see Step 2)
-- The field questions (Steps 2–4) are free-text and optional — the user skips a field by leaving it blank
-- The confirmation gates (Steps 1 and 5) are the only Yes/Cancel choices; render them as a picker if your tool supports it
+- The field questions (Steps 2–3) are free-text and optional — the user skips a field by leaving it blank
+- The confirmation gates (Steps 1 and 4) are the only Yes/Cancel choices; render them as a picker if your tool supports it
 - Use descriptive, detailed question text as shown in the examples below
 
 Skip any question the user has already answered in their opening message.
@@ -25,7 +25,7 @@ All answers will be saved to `manifest.yaml`.
 
 ## Step 1 — Onboarding Overview
 
-Agent: I will guide you through configuring `manifest.yaml` for your project (project metadata, repository names, and feature type pattern). Artifact types, agents, skills, and statuses will keep their defaults. Continue? (Yes / Cancel)
+Agent: I will guide you through configuring `manifest.yaml` for your project (project metadata and repository names). Artifact types, agents, skills, and statuses will keep their defaults. Continue? (Yes / Cancel)
 
 If user selects **Cancel**: Exit the guide. No further questions.
 
@@ -55,17 +55,7 @@ After completing this question, proceed to Step 4.
 
 ---
 
-## Step 4 — Feature Type Pattern
-
-Agent: **Feature type pattern.** This defines what counts as a feature — it's the pattern `orchard query --pattern` matches against.
-
-Agent: Which pattern should identify a feature? (Default is `prd` — a feature is anything matching that pattern. Optional — leave blank to keep the default.)
-
-After completing this question, proceed to Step 5.
-
----
-
-## Step 5 — Preview and Apply Changes
+## Step 4 — Preview and Apply Changes
 
 Agent: I have collected all the configuration information. Here is a preview of the changes that will be made to `manifest.yaml`:
 
@@ -79,12 +69,12 @@ If user selects **Yes**: Apply the changes to `manifest.yaml` using the Edit too
 
 After applying changes:
 
-Agent: Configuration complete. `manifest.yaml` has been updated with your project settings. You can now use the vault with your configured values. If you need to make changes later, you can either edit `manifest.yaml` directly or re-run this guide.
+Agent: Configuration complete. `manifest.yaml` has been updated with your project settings. You can now use the vault with your configured values. If you want to switch the default requirements-root type, plan type, or ask-threshold policy, you can reference `handbook/playbooks/customize-artifacts.md` in chat now (before committing) or later. Would you like me to commit these changes now?
 
 ---
 
 ## Notes
 
-- The `types`, `agents`, `skills`, and `statuses` sections in `manifest.yaml` are kept at their default values. If you need to customize these (e.g., add a new artifact type or agent), edit `manifest.yaml` directly.
+- The `types`, `agents`, `skills`, and `statuses` sections in `manifest.yaml` are kept at their default values. To **switch the default** requirements-root type, plan type, or ask-threshold policy, run `handbook/playbooks/customize-artifacts.md` (applies a tested patch across templates, reference docs, and manifest.yaml). To **add** a new artifact type or agent, edit `manifest.yaml` directly.
 - The `seedbed` section (source and ref) is assumed to be already configured and is not covered by this guide.
 - Repository names are used as placeholders in `reference/` and `agents/` files. If you change them later, you may need to re-apply placeholders manually or wait for the `orchard upgrade` CLI command (Phase 3).
