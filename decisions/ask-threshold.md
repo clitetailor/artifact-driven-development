@@ -38,8 +38,7 @@ its lead-in matches the chosen alternative, skip to Verify.
 
 If `AGENTS.md`'s `## Communication` first bullet already starts with "**Ask before acting
 on ambiguity.**", the vault is already in this state — skip to Verify. Otherwise, apply
-the bullets below. The only difference from the shipped text is the reference to `patches/`
-is updated to `decisions/` (per the patches-to-decisions migration).
+the bullets below.
 
 ### Bullet 1 — `## Communication` (first bullet)
 
@@ -134,6 +133,3 @@ alternative's text.
   `manifest.yaml` changes.
 - The three alternatives are **peers**, not inverses. Switching from one to another is
   always "apply a different alternative's section" — there is no "revert" operation.
-- The `always-ask-first` section reflects the shipped default text, with one update: the
-  reference to `patches/` is changed to `decisions/` (per the patches-to-decisions
-  migration).

@@ -34,7 +34,7 @@ Bare `git commit` always lands in `{vault-root}` (default CWD).
 
 ## Communication
 
-- **Ask before acting on ambiguity.** When user intent is even slightly unclear, ask a clarifying question before reading artifacts or producing output. This takes precedence over "Think before acting" below — do not self-clarify by reading when a single question would resolve the ambiguity. Switch this threshold via patches in `patches/` (see `handbook/playbooks/customize-artifacts.md`).
+- **Ask before acting on ambiguity.** When user intent is even slightly unclear, ask a clarifying question before reading artifacts or producing output. This takes precedence over "Think before acting" below — do not self-clarify by reading when a single question would resolve the ambiguity. Switch this threshold via decisions in `decisions/` (see `handbook/playbooks/customize-artifacts.md`).
 - **Propose alternatives when the user's approach is suboptimal.** If you find a more appropriate solution than what was requested, or the requested approach is weaker than it sounds, do not silently substitute or silently comply. Ask for clarification and propose the alternative(s), including the decision and rationale, so the user can choose. Silent compliance hides trade-offs; silent substitution bypasses the user.
 - User instructions always override these rules.
 

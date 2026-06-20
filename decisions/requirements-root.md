@@ -477,10 +477,6 @@ Dependency table:
 Downstream artifacts (user-story, user-flow, system-architecture, tech-design, test-spec, and plan) carry: `feature` — the ID of the feature's Press Release (`pr-` prefixed). This links the artifact to its requirements root; see `artifact-dep-graph.md`.
 ```
 
-> **Note:** the existing `switch-to-press-release.patch` does NOT touch this file — it is a
-> bug in the patch. The decision file includes it because it should be updated for all
-> alternatives (the `feature-brief` patch does update it).
-
 #### `reference/coordination-decision-tree.md` (5 spots)
 
 Research row:
@@ -543,11 +539,6 @@ rg -l --glob '!.*' "feature: pr-user-auth" {vault-root}/
 # Find a specific artifact by id
 rg -l --glob '!.*' "^id: pr-user-authentication-login" {vault-root}/
 ```
-
-> **Note:** the existing `switch-to-press-release.patch` does NOT update the
-> `orchard query --pattern` argument (it leaves it as `'prd'` instead of changing it to
-> `'press-release'`) — it is a bug in the patch. The decision file includes the correct
-> value.
 
 #### `handbook/playbooks/setup.md` (1 line)
 
@@ -617,6 +608,3 @@ it.
   renaming files and updating their `id:`/`type:`/`feature:` fields.
 - The alternatives are **peers**, not inverses. Switching from one to another is always
   "apply a different column" — there is no "revert" operation.
-- The existing `switch-to-press-release.patch` has two bugs that this decision file
-  corrects: (1) it does not update `reference/artifact-frontmatter.md`, and (2) it does
-  not update the `orchard query --pattern` argument in `reference/vault-queries.md`.

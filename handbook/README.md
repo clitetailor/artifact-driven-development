@@ -7,7 +7,7 @@
 
 | File | Purpose |
 |---|---|
-| [`customization.md`](./customization.md) | How to switch the default requirements-root and plan types via switch-patches |
+| [`customization.md`](./customization.md) | How to switch the default requirements-root and plan types via decision files |
 
 ## Playbooks
 
@@ -16,7 +16,7 @@ Agent-driven procedures — reference these in your AI chat to walk through a ta
 | File | Purpose |
 |---|---|
 | [`playbooks/setup.md`](./playbooks/setup.md) | Configure `manifest.yaml` for your project (project metadata, repo names, feature type pattern) |
-| [`playbooks/customize-artifacts.md`](./playbooks/customize-artifacts.md) | Apply a switch-patch to change the default artifact type or ask-threshold policy |
+| [`playbooks/customize-artifacts.md`](./playbooks/customize-artifacts.md) | Apply a decision file to change the default artifact type or ask-threshold policy |
 
 ## Where the Specs Live
 
@@ -31,4 +31,5 @@ Agent-driven procedures — reference these in your AI chat to walk through a ta
 | Grep recipes for navigation | `../reference/vault-queries.md` |
 | Vocabulary | `../reference/artifact-vocabulary.md` |
 | Coordination decision tree | `../reference/coordination-decision-tree.md` |
+| Available decision axes (customization) | `../decisions/README.md` |
 | Artifact body templates (one per type) | `../templates/` |

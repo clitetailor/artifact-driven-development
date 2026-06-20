@@ -1,6 +1,7 @@
 # Customizing Artifact Decisions
 
-> How to switch the default artifact types for requirements-root and plan alternatives.
+> How to switch the default artifact types for requirements-root and plan alternatives,
+> and the ask-threshold policy.
 
 ---
 
@@ -12,49 +13,52 @@ The vault ships with concrete defaults:
 |---|---|---|
 | Requirements-root type | `prd` | `feature-brief`, `press-release` |
 | Plan type | `plan` | `work-breakdown-structure`, `implementation-plan` |
+| Ask-threshold policy | always-ask-first | `approach-changing-only`, `read-then-confirm` |
 
-Each alternative is realized by a **switch-patch** in `../patches/`. A switch-patch rewrites the scaffolding (templates + reference docs + `manifest.yaml` defaults) from the default type to the alternative. It does **not** touch already-created artifacts — those are migrated on demand.
+Each alternative is realized by a **decision file** in `../decisions/`. A decision file
+lists all alternatives for one axis side-by-side. The agent reads the chosen alternative's
+section and applies the edits to templates, reference docs, and `manifest.yaml` using its
+native file-edit tools. It does **not** touch already-created artifacts — those are
+migrated on demand.
 
-## Applying a Switch-Patch
+For the catalog of available decision files, see `../decisions/README.md`. For the format
+conventions that govern decision files, see `../decisions/FORMAT.md`.
 
-Switch-patches are unified diffs. Apply them with `patch --fuzz=3`, which tolerates up to 3 lines of context drift (e.g. after an upstream upgrade introduced nearby changes):
+## Applying a Decision
 
-```bash
-# From the vault root:
-patch -p1 --fuzz=3 < patches/switch-to-feature-brief.patch
+Each decision file contains:
+- An **alternatives table** — compact overview of all options
+- **Per-alternative sections** — full final state of every changed line
+- An **Apply** section — step-by-step instructions
+- A **Verify** section — grep assertions to confirm the apply succeeded
 
-# Update manifest.yaml's feature_type (or plan_type) via yq:
-yq -i '.feature_type = "feature-brief"' manifest.yaml
-```
+To apply a decision, reference `handbook/playbooks/customize-artifacts.md` in your AI chat.
+The agent will walk you through selecting an alternative and applying it. Or apply
+manually: open the decision file, find the chosen alternative's section, and apply the
+edits to each target file.
 
-To check whether a patch will apply cleanly without writing changes:
+The agent uses its native file-edit tools (Edit, Read) — no `patch`, `yq`, or external
+diff tools required. `manifest.yaml` is edited directly like any other file.
 
-```bash
-patch --dry-run -p1 --fuzz=3 < patches/switch-to-feature-brief.patch
-```
-
-If the dry-run reports failed hunks, the patch has context drift beyond what `--fuzz=3` can bridge. Apply anyway — failed hunks are written to `.rej` files for manual resolution. Delete `.rej` and `.orig` files after resolving.
-
-## What a Switch-Patch Touches
+## What a Decision Touches
 
 | Layer | Files | What changes |
 |---|---|---|
 | **L1 — token concretize** | 12 downstream templates | `feature: prd-{slug}` → `feature: {alt}-{slug}`; `../prds/` → `../{alt-folder}/`; refs |
 | **L2 — prose dereify** | dep-graph, vocabulary, frontmatter, folder-structure, vault-queries, coordination-decision-tree, PROJECT.md, playbooks/setup.md | Type names, default/alternative labels, example IDs, scan queries |
-| **manifest.yaml** | 1 line | `feature_type:` (or `plan_type:`) — handled via `yq`, not the patch |
+| **manifest.yaml** | 1 line | `feature_type:` (or `plan_type:`) — edited directly |
 
-Plan switch-patches are smaller — they touch only the plan template's own identity and plan-specific reference doc lines, not the `feature:` field (that belongs to the requirements-root decision).
+Plan decisions are smaller — they touch only the plan template's own identity and
+plan-specific reference doc lines, not the `feature:` field (that belongs to the
+requirements-root decision).
+
+Ask-threshold decisions touch only `AGENTS.md` (the `## Communication` and
+`## Output Style` bullets) — no templates, reference docs, or `manifest.yaml` changes.
 
 ## Combining Decisions
 
-Requirements-root and plan switch-patches are **orthogonal** — they touch disjoint lines. Apply both in either order:
-
-```bash
-patch -p1 --fuzz=3 < patches/switch-to-feature-brief.patch
-patch -p1 --fuzz=3 < patches/switch-to-wbs.patch
-yq -i '.feature_type = "feature-brief"' manifest.yaml
-yq -i '.plan_type = "work-breakdown-structure"' manifest.yaml
-```
+Requirements-root, plan, and ask-threshold decisions are **orthogonal** — they touch
+disjoint files. Apply them in any order.
 
 ## Upgrade Flow
 
@@ -63,44 +67,30 @@ When the seedbed advances and you pull upstream:
 | User | Action | Tax |
 |---|---|---|
 | **Default (prd/plan)** | Pull upstream; artifacts untouched | Zero |
-| **Alternative** | Re-apply your switch-patch with `--fuzz=3` onto the new base | Small, per-decision |
+| **Alternative** | Re-apply your decision file onto the new base, then run its §Verify block | Small, per-decision |
 
-`--fuzz=3` handles context drift automatically by relaxing context-line matching. If the exact changed line itself was reworded upstream, the hunk will fail and produce a `.rej` file you resolve by hand — but this is rare and limited to the specific lines the patch changes.
+The decision file's find commands and token map are drift-tolerant — they locate targets
+by pattern, not by exact line numbers. If upstream reworded a line the decision targets,
+the agent matches by prose meaning (for L2) or by prefix pattern (for L1). The §Verify
+block catches any misses after applying.
 
-L1 (token concretization) is the most upgrade-resilient — frontmatter lines are stable. L2 (prose) targets the most volatile files and may occasionally need manual conflict resolution.
+L1 (token concretization) is the most upgrade-resilient — frontmatter lines are stable.
+L2 (prose) targets the most volatile files and may occasionally need the agent to
+interpret the instruction against the new wording.
 
 ## Changing a Decision Later
 
 Switching from one alternative to another (e.g. `feature-brief` → `press-release`):
 
-1. Revert to the default base: `git restore .` (restores prd-default)
-2. Apply the new patch: `patch -p1 --fuzz=3 < patches/switch-to-press-release.patch`
-3. Update manifest: `yq -i '.feature_type = "press-release"' manifest.yaml`
+1. Open the decision file (`decisions/requirements-root.md`)
+2. Find the new alternative's section
+3. Apply its edits to each target file
+4. Run the §Verify block
 
-Already-created artifacts are unaffected — only templates and reference docs change. Migrate existing artifacts on demand by renaming files and updating their `id:`/`type:`/`feature:` fields.
+Already-created artifacts are unaffected — only templates and reference docs change.
+Migrate existing artifacts on demand by renaming files and updating their
+`id:`/`type:`/`feature:` fields.
 
-## Available Switch-Patches
-
-| Patch | Switches to |
-|---|---|
-| `switch-to-feature-brief.patch` | `feature-brief` (fb-) |
-| `switch-to-press-release.patch` | `press-release` (pr-) |
-| `switch-to-work-breakdown-structure.patch` | `work-breakdown-structure` (wbs-) |
-| `switch-to-implementation-plan.patch` | `implementation-plan` (ip-) |
-
-## Ask-Threshold Switch-Patches
-
-These patches switch the active ask-threshold policy enforced in `AGENTS.md`. Unlike the artifact-type patches above, they touch only `AGENTS.md` (the `## Communication` and `## Output Style` bullets) — no templates, reference docs, or `manifest.yaml` changes.
-
-| Patch | Switches to |
-|---|---|
-| `switch-to-approach-changing-only.patch` | Ask only when the answer would change the approach/scope; infer trivial details and state the assumption |
-| `switch-to-read-then-confirm.patch` | Read the directly-relevant artifact, then state understood intent in one line and ask confirmation before output |
-
-Apply the same way as artifact-type patches:
-
-```bash
-patch -p1 --fuzz=3 < patches/switch-to-approach-changing-only.patch
-```
-
-No `yq` step — `manifest.yaml` is not involved. To revert, `patch -p1 -R --fuzz=3 < patches/<patch>` restores the default "always ask first" threshold.
+Alternatives are **peers**, not inverses — switching is always "apply a different
+alternative's section." There is no "revert" operation; to go back to a previous
+alternative, apply that alternative's section.

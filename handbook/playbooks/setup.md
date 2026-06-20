@@ -75,6 +75,6 @@ Agent: Configuration complete. `manifest.yaml` has been updated with your projec
 
 ## Notes
 
-- The `types`, `agents`, `skills`, and `statuses` sections in `manifest.yaml` are kept at their default values. To **switch the default** requirements-root type, plan type, or ask-threshold policy, run `handbook/playbooks/customize-artifacts.md` (applies a tested patch across templates, reference docs, and manifest.yaml). To **add** a new artifact type or agent, edit `manifest.yaml` directly.
+- The `types`, `agents`, `skills`, and `statuses` sections in `manifest.yaml` are kept at their default values. To **switch the default** requirements-root type, plan type, or ask-threshold policy, run `handbook/playbooks/customize-artifacts.md` (applies a decision file across templates, reference docs, and manifest.yaml). To **add** a new artifact type or agent, edit `manifest.yaml` directly.
 - The `seedbed` section (source and ref) is assumed to be already configured and is not covered by this guide.
 - Repository names are used as placeholders in `reference/` and `agents/` files. If you change them later, you may need to re-apply placeholders manually or wait for the `orchard upgrade` CLI command (Phase 3).
