@@ -22,11 +22,11 @@ ownership, and lifecycle are unchanged. Only labels, prefixes, and which type is
 
 ## Alternatives
 
-| Alternative | Prefix | Folder | Display name |
-|---|---|---|---|
-| `prd` | `prd-` | `prds/` | PRD |
-| `feature-brief` | `fb-` | `feature-briefs/` | Feature Brief |
-| `press-release` | `pr-` | `press-releases/` | Press Release |
+| Alternative | Role | Prefix | Folder | Display name |
+|---|---|---|---|---|
+| `prd` | Default | `prd-` | `prds/` | PRD |
+| `feature-brief` | Alternative | `fb-` | `feature-briefs/` | Feature Brief |
+| `press-release` | Alternative | `pr-` | `press-releases/` | Press Release |
 
 All three alternatives have full edit instructions below.
 
@@ -126,7 +126,7 @@ the same placeholder swap — no special handling needed.
 
 ---
 
-## L2 — Reference docs & handbook (9 files)
+## L2 — Reference docs & handbook (8 files)
 
 This layer re-labels which requirements-root type is "the default" vs. "an alternative."
 The pattern is uniform: wherever the current default is presented as the default and the
@@ -141,10 +141,21 @@ alternatives keep their "alternative" framing unchanged.
   the `user-story` row, "the feature's PRD" in the `task` row of `artifact-vocabulary.md`;
   "active tasks, PRDs, status" in `folder-structure.md`) are NOT changed — only the
   rows/entries that present a type as the default are swapped.
+- `handbook/playbooks/setup.md` is NOT changed — the setup flow delegates customization to
+  `handbook/playbooks/customize-artifacts.md` and does not name a specific requirements-root
+  type, so there is no default-specific prose to swap.
+- The alternatives note in `reference/artifact-dep-graph.md` ("Requirements-root alternatives
+  are customization selectable… the graph depicts the configured default type") is
+  customization-agnostic — it does not name a specific default or list specific alternatives,
+  so it does not change across alternatives.
+- The `feature-brief` row in `reference/artifact-vocabulary.md` ("a lighter requirements-root
+  alternative") is customization-agnostic — it does not name which type is the default, so it
+  does not change across alternatives. Only the row that becomes "the default" and the row that
+  becomes "an alternative to <new default>" are swapped.
 
-Nine files are touched, in three flavors:
-- **Default-swap prose** (`artifact-vocabulary.md`, `PROJECT.md`, `folder-structure.md`,
-  `handbook/playbooks/setup.md`) — reword which type is called "default."
+Eight files are touched, in three flavors:
+- **Default-swap prose** (`artifact-vocabulary.md`, `PROJECT.md`, `folder-structure.md`) —
+  reword which type is called "default."
 - **Graph/table relabeling** (`artifact-dep-graph.md`, `coordination-decision-tree.md`) —
   replace the type name in dependency tables and mermaid nodes.
 - **Query/example updates** (`vault-queries.md`, `artifact-frontmatter.md`,
@@ -171,11 +182,10 @@ to `prd`.
 feature_type: prd                   # default requirements-root type
 ```
 
-#### `reference/artifact-vocabulary.md` (prd + feature-brief rows: roles swapped)
+#### `reference/artifact-vocabulary.md` (prd row)
 
 ```
 | **prd** | Product Requirements Document — the default requirements-root artifact. Captures *what* the system must do for a feature, with background, audience, objectives, NFRs, timeline. Owned by business-analyst. |
-| **feature-brief** | Feature Brief — a lighter requirements-root alternative to prd. Captures *what* the system must do for a specific feature, along with success metrics and constraints. Owned by business-analyst. |
 ```
 
 #### `PROJECT.md` (heading + comment + table)
@@ -220,7 +230,7 @@ Dependency table:
 #### `reference/artifact-frontmatter.md` (1 sentence)
 
 ```
-Downstream artifacts (user-story, user-flow, system-architecture, tech-design, test-spec, and plan) carry: `feature` — the ID of the feature's PRD (`prd-` prefixed). This links the artifact to its requirements root; see `artifact-dep-graph.md`.
+Downstream artifacts (user-story, user-flow, system-architecture, tech-design, test-spec, and plan) carry: `feature` — the ID of the feature's PRD. This links the artifact to its requirements root; see `artifact-dep-graph.md`. The ID format follows the ID Naming Pattern above (dated if the type is listed in `manifest.yaml`'s `dated_types:`).
 ```
 
 #### `reference/coordination-decision-tree.md` (5 spots)
@@ -273,23 +283,20 @@ rg -l --glob '!.*' "type: prd" {vault-root}/
 
 ```
 # Find the PRD for a feature (by its root id, e.g. prd-user-auth)
-rg -l --glob '!.*' "^id: prd-user-auth" {vault-root}/
+# Uses optional date-prefix regex — works whether prd is dated or not
+rg -l --glob '!.*' "id: (\d{4}-\d{2}-\d{2}-)?prd-user-auth" {vault-root}/
 ```
 
 ```
 # All downstream artifacts tied to a feature (via the `feature:` field)
-rg -l --glob '!.*' "feature: prd-user-auth" {vault-root}/
+# Uses optional date-prefix regex on the feature ID
+rg -l --glob '!.*' "feature: (\d{4}-\d{2}-\d{2}-)?prd-user-auth" {vault-root}/
 ```
 
 ```
 # Find a specific artifact by id
-rg -l --glob '!.*' "^id: prd-user-authentication-login" {vault-root}/
-```
-
-#### `handbook/playbooks/setup.md` (1 line)
-
-```
-Agent: Which pattern should identify a feature? (Default is `prd` — a feature is anything matching that pattern. Optional — leave blank to keep the default.)
+# Uses optional date-prefix regex — works whether the type is dated or not
+rg -l --glob '!.*' "id: (\d{4}-\d{2}-\d{2}-)?prd-user-authentication-login" {vault-root}/
 ```
 
 ---
@@ -351,7 +358,7 @@ Dependency table:
 #### `reference/artifact-frontmatter.md` (1 sentence)
 
 ```
-Downstream artifacts (user-story, user-flow, system-architecture, tech-design, test-spec, and plan) carry: `feature` — the ID of the feature's Feature Brief (`fb-` prefixed). This links the artifact to its requirements root; see `artifact-dep-graph.md`.
+Downstream artifacts (user-story, user-flow, system-architecture, tech-design, test-spec, and plan) carry: `feature` — the ID of the feature's Feature Brief. This links the artifact to its requirements root; see `artifact-dep-graph.md`. The ID format follows the ID Naming Pattern above (dated if the type is listed in `manifest.yaml`'s `dated_types:`).
 ```
 
 #### `reference/coordination-decision-tree.md` (5 spots)
@@ -404,23 +411,20 @@ rg -l --glob '!.*' "type: feature-brief" {vault-root}/
 
 ```
 # Find the Feature Brief for a feature (by its root id, e.g. fb-user-auth)
-rg -l --glob '!.*' "^id: fb-user-auth" {vault-root}/
+# Uses optional date-prefix regex — works whether feature-brief is dated or not
+rg -l --glob '!.*' "id: (\d{4}-\d{2}-\d{2}-)?fb-user-auth" {vault-root}/
 ```
 
 ```
 # All downstream artifacts tied to a feature (via the `feature:` field)
-rg -l --glob '!.*' "feature: fb-user-auth" {vault-root}/
+# Uses optional date-prefix regex on the feature ID
+rg -l --glob '!.*' "feature: (\d{4}-\d{2}-\d{2}-)?fb-user-auth" {vault-root}/
 ```
 
 ```
 # Find a specific artifact by id
-rg -l --glob '!.*' "^id: fb-user-authentication-login" {vault-root}/
-```
-
-#### `handbook/playbooks/setup.md` (1 line)
-
-```
-Agent: Which pattern should identify a feature? (Default is `feature-brief` — a feature is anything matching that pattern. Optional — leave blank to keep the default.)
+# Uses optional date-prefix regex — works whether the type is dated or not
+rg -l --glob '!.*' "id: (\d{4}-\d{2}-\d{2}-)?fb-user-authentication-login" {vault-root}/
 ```
 
 ---
@@ -482,7 +486,7 @@ Dependency table:
 #### `reference/artifact-frontmatter.md` (1 sentence)
 
 ```
-Downstream artifacts (user-story, user-flow, system-architecture, tech-design, test-spec, and plan) carry: `feature` — the ID of the feature's Press Release (`pr-` prefixed). This links the artifact to its requirements root; see `artifact-dep-graph.md`.
+Downstream artifacts (user-story, user-flow, system-architecture, tech-design, test-spec, and plan) carry: `feature` — the ID of the feature's Press Release. This links the artifact to its requirements root; see `artifact-dep-graph.md`. The ID format follows the ID Naming Pattern above (dated if the type is listed in `manifest.yaml`'s `dated_types:`).
 ```
 
 #### `reference/coordination-decision-tree.md` (5 spots)
@@ -535,23 +539,20 @@ rg -l --glob '!.*' "type: press-release" {vault-root}/
 
 ```
 # Find the Press Release for a feature (by its root id, e.g. pr-user-auth)
-rg -l --glob '!.*' "^id: pr-user-auth" {vault-root}/
+# Uses optional date-prefix regex — works whether press-release is dated or not
+rg -l --glob '!.*' "id: (\d{4}-\d{2}-\d{2}-)?pr-user-auth" {vault-root}/
 ```
 
 ```
 # All downstream artifacts tied to a feature (via the `feature:` field)
-rg -l --glob '!.*' "feature: pr-user-auth" {vault-root}/
+# Uses optional date-prefix regex on the feature ID
+rg -l --glob '!.*' "feature: (\d{4}-\d{2}-\d{2}-)?pr-user-auth" {vault-root}/
 ```
 
 ```
 # Find a specific artifact by id
-rg -l --glob '!.*' "^id: pr-user-authentication-login" {vault-root}/
-```
-
-#### `handbook/playbooks/setup.md` (1 line)
-
-```
-Agent: Which pattern should identify a feature? (Default is `press-release` — a feature is anything matching that pattern. Optional — leave blank to keep the default.)
+# Uses optional date-prefix regex — works whether the type is dated or not
+rg -l --glob '!.*' "id: (\d{4}-\d{2}-\d{2}-)?pr-user-authentication-login" {vault-root}/
 ```
 
 ---
@@ -577,17 +578,21 @@ Work file-by-file. Read a file, apply all its edits in one pass, move to the nex
 After applying, run these assertions. All must pass.
 
 ```bash
-# Should be gone — no template still references the old default's prefix
-rg -l "feature: {cur_prefix}-\{slug\}" templates/            # expect: 0 files
-rg -l "\.\./{cur_folder}/{cur_prefix}-\{slug\}\.md" templates/  # expect: 0 files
+# Should be gone — no template still references the old default's placeholder stem
+rg -l "\{cur_stem-id\}" templates/                            # expect: 0 files
+rg -l "\{cur_stem-link\}" templates/                          # expect: 0 files
 
 # Should be gone — no reference doc still calls the old type the default
 rg -n "default requirements-root type is {cur_type}" reference/ PROJECT.md manifest.yaml  # expect: 0
 
+# Should be present — the chosen alternative's placeholder stem is now in templates
+# (count not hardcoded — the find command is the source of truth, see FORMAT.md Principle 5)
+rg -l "\{new_stem-id\}" templates/                            # expect: files returned
+rg -l "\{new_stem-link\}" templates/                          # expect: files returned
+
 # Should be present — the chosen alternative is now the default
 rg -n "feature_type: {new_type}" manifest.yaml               # expect: 1
 rg -n "type: {new_type}" reference/vault-queries.md          # expect: ≥1
-rg -l "feature: {new_prefix}-\{slug\}" templates/            # expect: 12 files
 
 # Sanity — other alternatives untouched
 rg -n "feature-brief|press-release" reference/artifact-vocabulary.md  # expect: rows still present

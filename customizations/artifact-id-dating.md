@@ -24,11 +24,11 @@ or re-accepted. This keeps IDs stable so `refs`/`feature`/`story` links don't br
 
 ## Alternatives
 
-| Alternative | Dated types | Undated types |
-|---|---|---|
-| `none` | — | all 15 |
-| `snapshot-style` | 10 snapshot types | 5 living types |
-| `all` | all 15 | — |
+| Alternative | Role | Dated types | Undated types |
+|---|---|---|---|
+| `none` | Default | — | all 15 |
+| `snapshot-style` | Alternative | 10 snapshot types | 5 living types |
+| `all` | Alternative | all 15 | — |
 
 ### Dated type sets per alternative
 
@@ -112,19 +112,45 @@ Parentheses are inert in both YAML frontmatter and markdown tables.
 
 ---
 
+## Per-alternative manifest values
+
+Each alternative is realized by a single `manifest.yaml` edit — replacing the `dated_types:`
+list. The values below are the full final state of that line for each alternative.
+
+### `none`
+
+```
+dated_types: []
+```
+
+### `snapshot-style`
+
+```
+dated_types: [feature-brief, prd, press-release, user-story, user-flow, adr, tech-design, task, plan, note]
+```
+
+This list is the shipped default for the `snapshot-style` alternative (the 10 snapshot types
+from the dated type sets table above). It is **adjustable** — after applying, you may add or
+remove type names to tune which types carry the date prefix. The `all` and `none` alternatives
+are fixed; `snapshot-style` is the only alternative whose list is meant to be tuned to your
+project's needs.
+
+### `all`
+
+```
+dated_types: [feature-brief, prd, press-release, user-story, user-flow, adr, tech-design, task, plan, note, system-architecture, api-spec, data-design, design-spec, test-spec]
+```
+
+---
+
 ## Apply
 
 1. **Read `manifest.yaml`** — check the current `dated_types:` list. If it already
    matches the chosen alternative's set, skip to Verify.
 
 2. **`manifest.yaml`:** Replace the `dated_types:` list with the chosen alternative's
-   set of type names (from the dated type sets table above). This is the only edit
-   needed — templates are already parameterized and resolve the date prefix from the
-   manifest at fill time.
-
-   - `none` → `dated_types: []`
-   - `snapshot-style` → `dated_types: [feature-brief, prd, press-release, user-story, user-flow, adr, tech-design, task, plan, note]`
-   - `all` → `dated_types: [feature-brief, prd, press-release, user-story, user-flow, adr, tech-design, task, plan, note, system-architecture, api-spec, data-design, design-spec, test-spec]`
+   value from its per-alternative section above. This is the only edit needed — templates
+   are already parameterized and resolve the date prefix from the manifest at fill time.
 
 3. **Run Verify** (below) to catch misses.
 

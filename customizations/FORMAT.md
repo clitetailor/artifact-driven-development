@@ -13,12 +13,15 @@ Every customization file follows this structure:
 2. **What changes** — one-paragraph summary of the scope (which files, which fields).
 3. **Alternatives table** — compact overview: one row per alternative with prefix, folder,
    role (default/alternative), and key identifiers. This is the catalog, not the content.
-   No status column — see Principle 9 below.
+   No status column — see Principle 7 below.
 4. **Per-alternative sections** — full final state of every changed line for each
    alternative. This is what the agent applies.
 5. **Apply** — step-by-step instructions: how to locate targets, which tool to use, what
    order to work in.
-6. **Verify** — grep assertions with expected counts. Run after applying to catch misses.
+6. **Verify** — grep assertions with expected counts, run after applying to catch misses.
+   Three assertion types: "should be gone" (residual old tokens → 0 hits), "should be
+   present" (new tokens → expected count), and edge-case (generic mentions that should
+   NOT have changed → still present).
 7. **Notes** — orthogonality with other customizations, migration caveats, known issues.
 
 ---
@@ -71,22 +74,7 @@ The "does not change" line bounds the agent's edit scope and catches edge cases 
 blanket sed would over-edit (e.g. generic "PRD" mentions in other artifact definitions
 that use the term as an industry word, not as the default type name).
 
-### 7. §Verify replaces `.rej` checking
-
-Every customization file ends with a Verify section containing grep assertions with expected
-counts. This replaces the old `patch --dry-run` + `.rej` file checking. Assertions
-include:
-- "Should be gone" checks (residual old tokens → 0 hits)
-- "Should be present" checks (new tokens → expected count)
-- Edge-case checks (generic mentions that should NOT have changed → still present)
-
-### 8. No `patch` or `yq`
-
-customization files use the agent's native file-edit tools (Edit, Read). No `patch -p1`, no
-`--fuzz`, no `.rej`/`.orig` cleanup, no separate `yq` step for `manifest.yaml`. One
-mechanism for all files.
-
-### 9. Status is structural, not a field
+### 7. Status is structural, not a field
 
 An alternative's readiness is shown by its presence in the file, not by a status column:
 
