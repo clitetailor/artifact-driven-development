@@ -4,10 +4,10 @@ type: api-spec
 owner: software-architect
 status: draft
 version: 1.0
-feature: prd-{slug}
+feature: {prd-id}
 refs:
-  - sa-{slug}
-  - dd-{slug}
+  - {sa-id}
+  - {dd-id}
 ---
 
 # API Spec: {title}
@@ -84,7 +84,7 @@ Body:
 
 | Endpoint | Request → Entity | Response ← Entity |
 |----------|-----------------|-------------------|
-| POST /{resource} | {RequestDTO} → dd-{slug}.{Entity} | {Entity} → {ResponseDTO} |
+| POST /{resource} | {RequestDTO} → {dd-id}.{Entity} | {Entity} → {ResponseDTO} |
 
 ## Error Codes
 <!-- Application-specific error codes beyond HTTP status codes. -->
@@ -100,5 +100,5 @@ Body:
 <!-- Limits per endpoint or per client. -->
 
 ## References
-- [sa-{slug}](../system-architectures/sa-{slug}.md)
-- [dd-{slug}](../data-designs/dd-{slug}.md)
+- {sa-link}
+- {dd-link}

@@ -269,21 +269,29 @@ vault-queries section becomes a one-time edit, stable across alternative switche
 | Yes | No (2C) | Yes (3A) | Yes (4A) | v1 draft with unified frontmatter/queries + `{slug}` standardization; templates still edited per alternative |
 | Yes | Yes (2B) ✓ | Yes (3A) ✓ | Yes (4A) ✓ | Parameterized templates + unified frontmatter/queries; switching alternatives = manifest-only edit; folder renames = manifest-only edit |
 
-Q2 is resolved → 2B. The chosen path requires a one-time parameterization refactor
-(100 occurrences across 15 templates) plus a `folder:` field addition to
-`manifest.yaml` to support `{<type>-link}` placeholders. The packaging question
-(bundle into `artifact-id-dating.md` vs split into separate
-`template-prefix-parameterization.md`) remains open and orthogonal.
+Q2 is resolved → 2B. The chosen path required a one-time parameterization refactor
+(116 occurrences across 15 templates) plus a `folder:` field addition to
+`manifest.yaml` to support `{<type>-link}` placeholders. **Packaging: bundled into
+`artifact-id-dating.md`** (decided 2026-06-21) — the parameterization is what makes
+dating manifest-only, so the dating decision's "what does switching cost" answer depends
+on it; paying the one-time template refactor once covers both prefix-dating and future
+folder/prefix changes uniformly.
+
+**Status: applied.** Q1/Q3/Q4 were already applied; Q2 (2B) and Q3 (3A) have now been
+applied as well. `decisions/artifact-id-dating.md` has been rewritten to bundle the
+parameterization, drop the per-alternative L1/L2 structure, and use a unified
+frontmatter pattern. The vault is in the `none` dating alternative (no `dated: true`
+flags set); switching alternatives is now a manifest-only edit.
 
 ---
 
 ## Next steps
 
-1. Resolve Q1-Q4 (mark each [x] with chosen option).
-2. If Q2 = 2A or 2B: decide whether to bundle the parameterization refactor into
+1. ~~Resolve Q1-Q4 (mark each [x] with chosen option).~~ Done.
+2. ~~If Q2 = 2A or 2B: decide whether to bundle the parameterization refactor into
    `artifact-id-dating.md` or split it into a separate
    `template-prefix-parameterization.md` decision (orthogonal packaging choice). Then
-   revise `decisions/artifact-id-dating.md` accordingly.
+   revise `decisions/artifact-id-dating.md` accordingly.~~ Done — bundled.
 3. If Q2 = 2C: revise `decisions/artifact-id-dating.md` in place to adopt Q1/Q3/Q4
-   choices, keeping the 15-template token map.
-4. Apply the resulting decision(s) to the vault.
+   choices, keeping the 15-template token map. — N/A (Q2 = 2B).
+4. ~~Apply the resulting decision(s) to the vault.~~ Done.

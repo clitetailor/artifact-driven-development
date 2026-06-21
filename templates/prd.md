@@ -75,8 +75,8 @@ refs:
 
 | Requirement | Story | Summary |
 |-------------|-------|---------|
-| FR-1 | story-{slug} | {one-line summary} |
-| FR-2 | story-{slug}, story-{slug} | {one-line summary} |
+| FR-1 | {story-id} | {one-line summary} |
+| FR-2 | {story-id}, {story-id} | {one-line summary} |
 
 ## Open Questions
 

@@ -4,21 +4,21 @@ type: task
 owner: {software-architect | frontend-engineer}
 status: open
 version: 1.0
-feature: prd-{slug}
-tech-design: td-{slug}
+feature: {prd-id}
+tech-design: {td-id}
 track: {backend | frontend}
 priority: {tier-number}
-story: story-{slug}
+story: {story-id}
 milestone: sprint-{N}
 estimated-hours: {N}
 depends-on:
-  - task-{slug}-{be|fe}
+  - {task-id}
 refs:
-  - api-{slug}
-  - dd-{slug}
-  - sa-{slug}
-  - story-{slug}
-  - ts-{slug}
+  - {api-id}
+  - {dd-id}
+  - {sa-id}
+  - {story-id}
+  - {ts-id}
 ---
 
 # Task: {title}
@@ -49,9 +49,9 @@ refs:
 ## Relevant Specs
 <!-- Direct links to the specific sections of contracts / specs this task implements. -->
 
-- api-{slug} → `{endpoint or section}`
-- dd-{slug} → `{entity or section}`
-- story-{slug} → {story-title}
+- {api-id} → `{endpoint or section}`
+- {dd-id} → `{entity or section}`
+- {story-id} → {story-title}
 
 ---
 
@@ -69,8 +69,8 @@ refs:
 <!-- What a future engineer should know before changing this. -->
 
 ## References
-- [api-{slug}](../api-specs/api-{slug}.md)
-- [dd-{slug}](../data-designs/dd-{slug}.md)
-- [sa-{slug}](../system-architectures/sa-{slug}.md)
-- [story-{slug}](../user-stories/story-{slug}.md)
-- [ts-{slug}](../test-specs/ts-{slug}.md)
+- {api-link}
+- {dd-link}
+- {sa-link}
+- {story-link}
+- {ts-link}

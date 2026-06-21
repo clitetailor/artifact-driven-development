@@ -4,13 +4,13 @@ type: user-story
 owner: business-analyst
 status: open | in-progress | done
 version: 1.0
-feature: prd-{slug}
+feature: {prd-id}
 priority: {P0 | P1 | P2}
 estimated-hours: {N}  # provisional — set by BA without technical context; refined later by plan
 depends-on:
-  - story-{slug}
+  - {story-id}
 refs:
-  - prd-{slug}
+  - {prd-id}
 ---
 
 # User Story: {title}
@@ -41,8 +41,8 @@ so that **{outcome or value}**.
 
 - **Priority:** P0 (launch blocker) | P1 (important) | P2 (nice to have)
 - **Effort:** {N} tasks (~{N} hours)
-- **Dependencies:** None | story-{slug}
+- **Dependencies:** None | {story-id}
 - **Timeline:** Sprint {N} | Phase {N}
 
 ## References
-- [prd-{slug}](../prds/prd-{slug}.md)
+- {prd-link}

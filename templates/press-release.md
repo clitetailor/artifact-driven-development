@@ -57,8 +57,8 @@ refs:
 
 | Key Req | Story | Summary |
 |---------|-------|---------|
-| KR-1 | story-{slug} | {one-line summary} |
-| KR-2 | story-{slug}, story-{slug} | {one-line summary} |
+| KR-1 | {story-id} | {one-line summary} |
+| KR-2 | {story-id}, {story-id} | {one-line summary} |
 
 ## Open Questions
 

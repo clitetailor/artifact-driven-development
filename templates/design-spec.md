@@ -4,9 +4,9 @@ type: design-spec
 owner: product-designer
 status: draft
 version: 1.0
-feature: prd-{slug}
+feature: {prd-id}
 refs:
-  - uf-{slug}
+  - {uf-id}
 ---
 
 # Design Spec: {title}
@@ -101,4 +101,4 @@ refs:
 | desktop    |          |
 
 ## References
-- [uf-{slug}](../user-flows/uf-{slug}.md)
+- {uf-link}

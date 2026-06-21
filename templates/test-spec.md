@@ -4,11 +4,11 @@ type: test-spec
 owner: qa-engineer
 status: draft
 version: 1.0
-feature: prd-{slug}
+feature: {prd-id}
 test-level: unit
-scenario: prd-{slug}#scenario-{N}
+scenario: {prd-id}#scenario-{N}
 refs:
-  - prd-{slug}
+  - {prd-id}
 ---
 
 # Test Spec: {title}
@@ -133,4 +133,4 @@ unit
 <!-- Implementation hints, gotchas, or special considerations -->
 
 ## References
-- [prd-{slug}](../prds/prd-{slug}.md)
+- {prd-link}

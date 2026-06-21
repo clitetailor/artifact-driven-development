@@ -27,7 +27,7 @@ refs:
 ## Optional Fields
 
 Task artifacts often carry: `story` (links to `story-{slug}`), `milestone`, `estimated-hours`.
-Downstream artifacts (user-story, user-flow, system-architecture, tech-design, test-spec, and plan) carry: `feature` — the ID of the feature's PRD (`prd-` prefixed). This links the artifact to its requirements root; see `artifact-dep-graph.md`.
+Downstream artifacts (user-story, user-flow, system-architecture, tech-design, test-spec, and plan) carry: `feature` — the ID of the feature's PRD. This links the artifact to its requirements root; see `artifact-dep-graph.md`. The ID format follows the ID Naming Pattern above (dated if the requirements-root type has `dated: true`).
 
 These are conventions, not enforced.
 
@@ -49,10 +49,13 @@ Rules:
 
 ## ID Naming Pattern
 
-`{prefix}-{slug}` — lowercase, hyphen-separated only.
+`{prefix}-{slug}` — where `{prefix}` comes from `../manifest.yaml` under `types`.
+For types with `dated: true`, the ID is `{YYYY-MM-DD}-{prefix}-{slug}`.
+Date is creation date only — never updated on revision.
 
 - No auto-incrementing integers
-- No timestamps
-- Prefix list is authoritative in `../manifest.yaml` under `types`
+- Date prefix is **creation date only** — never updated on revision or re-acceptance
+  (keeps IDs stable so `refs`/`feature`/`story` links don't break)
+- Prefix list and `dated` flag are authoritative in `../manifest.yaml` under `types`
 
-Examples: `fb-user-authentication-login`, `api-user-authentication`, `dd-user-authentication`, `task-token-generation-be`.
+Examples: `fb-user-authentication-login`, `api-user-authentication`, `dd-user-authentication`, `2026-06-21-task-token-generation-be`.

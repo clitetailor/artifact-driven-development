@@ -4,10 +4,10 @@ type: data-design
 owner: software-architect
 status: draft
 version: 1.0
-feature: prd-{slug}
+feature: {prd-id}
 refs:
-  - sa-{slug}
-  - api-{slug}
+  - {sa-id}
+  - {api-id}
 ---
 
 # Data Design: {title}
@@ -93,5 +93,5 @@ stateDiagram-v2
 - [ ] 
 
 ## References
-- [sa-{slug}](../system-architectures/sa-{slug}.md)
-- [api-{slug}](../api-specs/api-{slug}.md)
+- {sa-link}
+- {api-link}

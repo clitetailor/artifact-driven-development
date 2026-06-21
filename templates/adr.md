@@ -5,7 +5,7 @@ owner: software-architect
 status: draft
 version: 1.0
 refs:
-  - sa-{slug}
+  - {sa-id}
 supersedes: []
 superseded-by: ""
 ---
@@ -34,4 +34,4 @@ superseded-by: ""
 |   |   |
 
 ## References
-- [sa-{slug}](../system-architectures/sa-{slug}.md)
+- {sa-link}

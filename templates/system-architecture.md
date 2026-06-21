@@ -4,9 +4,9 @@ type: system-architecture
 owner: software-architect
 status: draft
 version: 1.0
-feature: prd-{slug}
+feature: {prd-id}
 refs:
-  - prd-{slug}
+  - {prd-id}
 ---
 
 # System Architecture: {title}
@@ -39,7 +39,7 @@ refs:
 
 | Integration | Direction | Protocol | Owned contract |
 |---|---|---|---|
-|   |   |   | api-{slug} |
+|   |   |   | {api-id} |
 
 ## Cross-Cutting Concerns
 <!-- Auth, logging, observability, error handling, caching — how they apply
@@ -62,7 +62,7 @@ refs:
 
 | ADR | Decision Summary | Status |
 |---|---|---|
-| [adr-{slug}](../adrs/adr-{slug}.md) |  | accepted |
+| {adr-link} |  | accepted |
 
 ## Constraints & Assumptions
 <!-- Hard constraints (budget, compliance, existing systems) and assumptions
@@ -70,12 +70,12 @@ refs:
 
 ## Related Artifacts
 <!-- Downstream artifacts that elaborate or refine this architecture. -->
-- ADRs: [adr-{slug}](../adrs/adr-{slug}.md)
-- Data design: [dd-{slug}](../data-designs/dd-{slug}.md)
-- API spec: [api-{slug}](../api-specs/api-{slug}.md)
+- ADRs: {adr-link}
+- Data design: {dd-link}
+- API spec: {api-link}
 
 ## Open Questions
 - [ ] 
 
 ## References
-- [prd-{slug}](../prds/prd-{slug}.md)
+- {prd-link}

@@ -4,12 +4,12 @@ type: tech-design
 owner: software-architect
 status: draft
 version: 1.0
-feature: prd-{slug}
+feature: {prd-id}
 refs:
-  - sa-{slug}
-  - api-{slug}
-  - dd-{slug}
-  - prd-{slug}
+  - {sa-id}
+  - {api-id}
+  - {dd-id}
+  - {prd-id}
 ---
 
 # Technical Design: {title}
@@ -28,7 +28,7 @@ refs:
 
 | ADR | Impact on This Feature |
 |---|---|
-| [adr-{slug}](../adrs/adr-{slug}.md): {ADR title} | {how it constrains this feature} |
+| {adr-link}: {ADR title} | {how it constrains this feature} |
 
 ## Key Decisions
 <!-- Implementation-level decisions (not architecture-level — those live in system-architecture).
@@ -36,7 +36,7 @@ refs:
 
 | Decision | Choice | Reason | Constrained by |
 |---|---|---|---|
-|   |   |   | sa-{slug} |
+|   |   |   | {sa-id} |
 
 ## Observability & Instrumentation
 <!-- How are we tracking the Success Metrics defined in the PRD? What logs/events are we emitting? -->
@@ -70,7 +70,7 @@ refs:
 - [ ] Affected user-stories flagged as needs-review if acceptance criteria or inter-story dependencies must change
 
 ## References
-- [sa-{slug}](../system-architectures/sa-{slug}.md)
-- [api-{slug}](../api-specs/api-{slug}.md)
-- [dd-{slug}](../data-designs/dd-{slug}.md)
-- [prd-{slug}](../prds/prd-{slug}.md)
+- {sa-link}
+- {api-link}
+- {dd-link}
+- {prd-link}

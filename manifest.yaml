@@ -34,45 +34,57 @@ types:
   # Requirements
   - name: feature-brief
     prefix: fb-
+    folder: feature-briefs/
     template: templates/feature-brief.md
   - name: prd
     prefix: prd-
+    folder: prds/
     template: templates/prd.md
   - name: press-release
     prefix: pr-
+    folder: press-releases/
     template: templates/press-release.md
   - name: user-story
     prefix: story-
+    folder: user-stories/
     template: templates/user-story.md
 
   # Design
   - name: user-flow
     prefix: uf-
+    folder: user-flows/
     template: templates/user-flow.md
   - name: design-spec
     prefix: ds-
+    folder: design-specs/
     template: templates/design-spec.md
 
   # Architecture
   - name: adr
     prefix: adr-
+    folder: adrs/
     template: templates/adr.md
   - name: system-architecture
     prefix: sa-
+    folder: system-architectures/
     template: templates/system-architecture.md
   - name: api-spec
     prefix: api-
+    folder: api-specs/
     template: templates/api-spec.md
   - name: data-design
     prefix: dd-
+    folder: data-designs/
     template: templates/data-design.md
 
   # Development
   - name: tech-design
     prefix: td-
+    folder: tech-designs/
     template: templates/tech-design.md
   - name: task
     prefix: task-
+    folder: tasks/
     template: templates/task.md
     # conditional ownership (be → software-architect, fe → frontend-engineer)
     # lives in reference/artifact-ownership.md, not here.
@@ -80,16 +92,19 @@ types:
   # Planning
   - name: plan
     prefix: plan-
+    folder: plans/
     template: templates/plan.md
 
   # Verification
   - name: test-spec
     prefix: ts-
+    folder: test-specs/
     template: templates/test-spec.md
 
   # General
   - name: note
     prefix: note-
+    folder: notes/
     template: templates/note.md
 
 # --- Agents (identity roster; prose/behavior stays in design-doc) ---
