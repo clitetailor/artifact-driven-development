@@ -12,9 +12,9 @@ files its alternatives touch. The class dictates the apply flow.
 
 | Class | What it touches | Example axes |
 |---|---|---|
-| **Template-touching** | L1 templates (placeholder swaps) + L2 reference docs & handbook (prose relabeling) + `manifest.yaml` (one field) | requirements-root |
+| **Template-touching** | L1 templates (placeholder swaps) + L2 reference docs & handbook (prose relabeling) + `manifest.yaml` (one field) | *(no current axes — kept for future axes that need prose swaps)* |
 | **AGENTS-only** | `AGENTS.md` bullets only | ask-threshold |
-| **Manifest-only** | One `manifest.yaml` field only — templates are already parameterized | artifact-id-dating |
+| **Manifest-only** | One `manifest.yaml` field only — templates and reference docs are already parameterized/option-agnostic | requirements-root, artifact-id-dating |
 
 Each alternative is realized by a **customization file** in `../customizations/`. A
 customization file lists all alternatives for one axis side-by-side. The agent reads the
@@ -44,20 +44,22 @@ diff tools required. `manifest.yaml` is edited directly like any other file.
 ## What a Decision Touches
 
 The files touched depend on the axis's mechanism class (see the table above). For the
-**template-touching** class, the layers are:
+**template-touching** class *(no current axes — kept for future axes that need prose
+swaps)*, the layers are:
 
 | Layer | Files | What changes |
 |---|---|---|
-| **L1 — placeholder swap** | 10 downstream templates | `{cur-id}` → `{new-id}`; `{cur-link}` → `{new-link}` (parameterized placeholders; see `customizations/artifact-id-dating.md` → "Template placeholder reference") |
-| **L2 — prose dereify** | dep-graph, vocabulary, frontmatter, folder-structure, vault-queries, coordination-decision-tree, PROJECT.md, playbooks/setup.md | Type names, default/alternative labels, example IDs, scan queries |
-| **manifest.yaml** | 1 line | `feature_type:` — edited directly |
+| **L1 — placeholder swap** | downstream templates | `{cur-id}` → `{new-id}`; `{cur-link}` → `{new-link}` (parameterized placeholders; see `customizations/artifact-id-dating.md` → "Template placeholder reference") |
+| **L2 — prose relabel** | reference docs & handbook | Type names, default/alternative labels, example IDs, scan queries |
+| **manifest.yaml** | 1 line | the relevant field — edited directly |
 
 The **AGENTS-only** class touches two bullets in `AGENTS.md` (`## Communication` and
 `## Output Style`) — no templates, reference docs, or `manifest.yaml` changes.
 
-The **manifest-only** class touches a single `manifest.yaml` field (e.g. `dated_types:`)
-— no templates, reference docs, or `AGENTS.md` changes. Templates are already
-parameterized and resolve the change from the manifest at fill time.
+The **manifest-only** class touches a single `manifest.yaml` field (e.g. `feature_type:`,
+`dated_types:`) — no templates, reference docs, or `AGENTS.md` changes. Templates use
+parameterized placeholders (e.g. `{feature-id}`, `{prefix}-{slug}`) and reference docs are
+option-agnostic — both resolve the active value from the manifest at fill/read time.
 
 ## Combining Decisions
 

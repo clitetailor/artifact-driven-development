@@ -4,9 +4,9 @@ type: system-architecture
 owner: software-architect
 status: draft
 version: 1.0
-feature: {prd-id}
+feature: {feature-id}
 refs:
-  - {prd-id}
+  - {feature-id}
 ---
 
 # System Architecture: {title}
@@ -78,4 +78,4 @@ refs:
 - [ ] 
 
 ## References
-- {prd-link}
+- {feature-link}

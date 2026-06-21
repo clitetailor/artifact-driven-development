@@ -80,7 +80,7 @@ graph LR
 
 *Ad-hoc artifacts like `note` can be created at any time, by any agent, without phase or prerequisite restrictions.*
 
-*Requirements-root alternatives are customization selectable — see `../handbook/customization.md` and `../customizations/README.md`. An alternative shares the default type's dependencies shown above (the graph depicts the configured default type).*
+*Requirements-root alternatives are customization selectable — see `../handbook/customization.md` and `../customizations/README.md`. An alternative shares the default type's dependencies shown above. The graph depicts `prd` (the framework's shipped default); the active type for this vault is in `../manifest.yaml`'s `feature_type:` field — substitute it throughout when reading.*
 
 *`api-spec` and `data-design` co-evolve (`↔`): both depend on `system-architecture`, but they iterate together — API shapes reference data-design entities, and data-design internal shapes are constrained by API contracts.*
 

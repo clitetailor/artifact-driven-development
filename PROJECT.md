@@ -18,15 +18,15 @@
 
 ---
 
-## PRDs
+## Requirements Roots
 
-<!-- One row per feature's PRD. The default requirements-root type is prd;
-     alternatives (feature-brief, press-release) can be
-     selected via customizations — see handbook/customization.md. -->
+<!-- One row per feature's requirements root. The active type is set in
+     manifest.yaml's feature_type: field (framework default: prd).
+     To switch types, see handbook/customization.md. -->
 
-| PRD | Status | Summary |
-|-----|--------|---------|
-| <!-- prd-{slug} --> | <!-- draft/ready-for-review/accepted --> | <!-- brief summary --> |
+| Root | Status | Summary |
+|------|--------|---------|
+| <!-- {feature-id} --> | <!-- draft/ready-for-review/accepted --> | <!-- brief summary --> |
 
 ---
 

@@ -4,7 +4,7 @@ type: design-spec
 owner: product-designer
 status: draft
 version: 1.0
-feature: {prd-id}
+feature: {feature-id}
 refs:
   - {uf-id}
 ---

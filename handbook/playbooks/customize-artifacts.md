@@ -55,8 +55,8 @@ Open the customization file (`customizations/{axis}.md`) and follow its **Apply*
 The flow depends on the axis's mechanism class (read the "What changes" section to
 determine it):
 
-**Template-touching class:**
-1. **Read the current state** — read `manifest.yaml`'s `feature_type:` field to identify
+**Template-touching class** *(no current axes — kept for future axes that need prose swaps):*
+1. **Read the current state** — read the relevant `manifest.yaml` field to identify
    the current default. If the chosen alternative is already the current state, skip to
    Step 4.
 2. **L1 (templates):** Run the customization file's find commands to discover target
@@ -65,7 +65,7 @@ determine it):
 3. **L2 (reference docs & handbook):** Apply the chosen alternative's per-alternative
    section. Match by prose meaning, not exact line numbers — surrounding text may have
    drifted.
-4. **`manifest.yaml`:** Edit the `feature_type:` line directly.
+4. **`manifest.yaml`:** Edit the relevant field directly.
 5. **Run the customization file's §Verify block.**
 
 **AGENTS-only class:**
@@ -78,8 +78,11 @@ determine it):
 
 **Manifest-only class:**
 1. **Read the current state** — read the relevant `manifest.yaml` field (e.g.
-   `dated_types:`). If it matches the chosen alternative's set, skip to Step 4.
+   `feature_type:` for requirements-root, `dated_types:` for artifact-id-dating). If it
+   matches the chosen alternative's value, skip to Step 4.
 2. Replace the manifest field with the chosen alternative's value (a single edit).
+   Templates and reference docs are already parameterized/option-agnostic — no other edits
+   needed.
 3. **Run the customization file's §Verify block.**
 
 For any class, if a §Verify check fails, re-apply the missed edit to that file.

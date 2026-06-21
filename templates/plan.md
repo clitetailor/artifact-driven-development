@@ -4,9 +4,9 @@ type: plan
 owner: project-manager
 status: draft
 version: 1.0
-feature: {prd-id}
+feature: {feature-id}
 refs:
-  - {prd-id}
+  - {feature-id}
   - {story-id}
   - {td-id}
 ---
@@ -14,15 +14,15 @@ refs:
 # Plan: {title}
 
 ## Goal
-<!-- One paragraph: what "done" looks like for this plan. Ties back to {prd-id} Success Metrics. -->
+<!-- One paragraph: what "done" looks like for this plan. Ties back to {feature-id} Success Metrics. -->
 
 ## Deliverable Hierarchy
-<!-- Tree: {prd-id} → stories → tasks. Each node carries estimated-hours.
+<!-- Tree: {feature-id} → stories → tasks. Each node carries estimated-hours.
      Children are ordered by priority then depends-on — this IS the execution
      order; read top-to-bottom. Σ marks rolled-up sums.
      This is the structural + temporal source of truth. -->
 
-- {prd-id} ({title}) — Σ {N}h
+- {feature-id} ({title}) — Σ {N}h
   - {story-id (P0 story)} — {title} — Σ {N}h [P0]
     - {task-id (be-task)} — {title} — {N}h
     - {task-id (fe-task)} — {title} — {N}h
@@ -105,6 +105,6 @@ fe: {task-id (fe-task)} (parallel with be)
 -
 
 ## References
-- {prd-link}
+- {feature-link}
 - {story-link}
 - {td-link}

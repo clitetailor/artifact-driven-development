@@ -4,9 +4,9 @@ type: user-flow
 owner: product-designer
 status: draft
 version: 1.0
-feature: {prd-id}
+feature: {feature-id}
 refs:
-  - {prd-id}
+  - {feature-id}
 ---
 
 # User Flow: {title}
@@ -67,4 +67,4 @@ flowchart TD
 - 
 
 ## References
-- {prd-link}
+- {feature-link}

@@ -15,7 +15,8 @@ Every customization file follows this structure:
    role (default/alternative), and key identifiers. This is the catalog, not the content.
    No status column — see Principle 7 below.
 4. **Per-alternative sections** — full final state of every changed line for each
-   alternative. This is what the agent applies.
+   alternative (or just the manifest field value, for manifest-only axes). This is what
+   the agent applies.
 5. **Apply** — step-by-step instructions: how to locate targets, which tool to use, what
    order to work in.
 6. **Verify** — grep assertions with expected counts, run after applying to catch misses.
@@ -23,6 +24,23 @@ Every customization file follows this structure:
    present" (new tokens → expected count), and edge-case (generic mentions that should
    NOT have changed → still present).
 7. **Notes** — orthogonality with other customizations, migration caveats, known issues.
+
+### Layers (optional, mechanism-class dependent)
+
+A customization axis touches one or more **layers** depending on its mechanism class (see
+`../handbook/customization.md` → "Mechanism Classes"):
+
+- **L1 — templates:** placeholder swaps across downstream templates. Present only for
+  Template-touching class axes.
+- **L2 — reference docs & handbook:** prose relabeling across reference docs. Present only
+  for Template-touching class axes.
+- **manifest.yaml:** a single field edit. Present for Template-touching and Manifest-only
+  class axes.
+- **AGENTS.md:** bullet replacements. Present only for AGENTS-only class axes.
+
+When a layer is absent, the customization file omits its section entirely — there is no
+"this axis does not use L1" placeholder. Principles 5 and 6 below govern L1 and L2 *when
+they are present*.
 
 ---
 
@@ -53,26 +71,28 @@ lead-in). If the chosen alternative is already the current state, skip to Verify
 - **Surgical edits** (token swaps within unchanged text) → **token table** with
   find/replace pairs + find commands. Diff-like, but parameterized.
 
-A single customization file may use both: token table for L1 (mechanical swaps), full final
-state for L2 (prose relabeling).
+A single customization file may use both: token table for surgical edits (e.g. L1
+placeholder swaps), full final state for complete rewrites (e.g. L2 prose relabeling).
 
-### 5. L1 (templates): find commands, not hardcoded file lists
+### 5. L1 (templates, when present): find commands, not hardcoded file lists
 
-Use `rg -l` (or `grep -rl` fallback) to discover target files at apply time. Don't
-hardcode a file list — it goes stale when templates are added or removed. The find
-pattern is also the safety gate: e.g. `rg -l "{prd-id}"` returns exactly the
-downstream templates and excludes the root template (which uses `{related-artifact-id}`,
-not `{prd-id}`).
+Applies only to axes with an L1 layer (Template-touching class). Use `rg -l` (or
+`grep -rl` fallback) to discover target files at apply time. Don't hardcode a file list —
+it goes stale when templates are added or removed. The find pattern is also the safety
+gate: e.g. `rg -l "{<type>-id}"` returns exactly the downstream templates that reference a
+given type and excludes that type's own root template (which uses `{related-artifact-id}`,
+not `{<type>-id}`).
 
 The agent chooses the tool (sed, Edit, or a mix) — the file specifies *what* to replace,
 not *how*.
 
-### 6. L2 (reference docs): summary with "does not change" line
+### 6. L2 (reference docs, when present): summary with "does not change" line
 
-The L2 section starts with a summary describing what changes and **what does not change**.
-The "does not change" line bounds the agent's edit scope and catches edge cases where a
-blanket sed would over-edit (e.g. generic "PRD" mentions in other artifact definitions
-that use the term as an industry word, not as the default type name).
+Applies only to axes with an L2 layer (Template-touching class). The L2 section starts
+with a summary describing what changes and **what does not change**. The "does not change"
+line bounds the agent's edit scope and catches edge cases where a blanket sed would
+over-edit (e.g. generic "PRD" mentions in other artifact definitions that use the term as
+an industry word, not as the default type name).
 
 ### 7. Status is structural, not a field
 
@@ -115,6 +135,7 @@ aid, not something to hunt for exact lines.
 ## Adding a new alternative to an existing axis
 
 1. Add a row to the axis file's Alternatives table.
-2. Add a per-alternative section with full final state for every changed file.
-3. Update the "does not change" line in the L2 summary if the new alternative introduces
-   new edge cases.
+2. Add a per-alternative section with full final state for every changed file (or just the
+   manifest field value, for manifest-only axes).
+3. If the axis has an L2 layer, update the "does not change" line in the L2 summary if the
+   new alternative introduces new edge cases.

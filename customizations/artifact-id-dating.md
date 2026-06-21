@@ -62,17 +62,25 @@ throughout the project lifecycle (`system-architecture`, `api-spec`, `data-desig
 ## Template placeholder reference
 
 Templates use parameterized placeholders so that prefix and folder changes (including
-dating) are manifest-only edits. Three placeholder forms:
+dating) are manifest-only edits. Four placeholder forms:
 
 | Placeholder | Used for | Example expansion |
 |---|---|---|
 | `{prefix}-{slug}` | Own `id:` field | `prd-user-auth` or `2026-06-21-prd-user-auth` (date prefix added per manifest `dated` flag) |
 | `{<type>-id}` | Cross-reference to another artifact's full concrete ID — frontmatter fields, `refs:`/`depends-on:` lists, prose, table cells, hierarchy trees | `2026-06-21-prd-user-auth` |
 | `{<type>-link}` | Full markdown link to another artifact — `## References` section, inline links | `[2026-06-21-prd-user-auth](../prds/2026-06-21-prd-user-auth.md)` |
+| `{feature-id}` / `{feature-link}` | Cross-reference or link to the **requirements root** — resolves dynamically from `manifest.yaml`'s `feature_type:` field (see `requirements-root.md`). Used in all downstream templates that point at the feature root. | `2026-06-21-fb-user-auth` / `[2026-06-21-fb-user-auth](../feature-briefs/2026-06-21-fb-user-auth.md)` (when `feature_type: feature-brief`) |
 
-`<type>` is the type's prefix stem (e.g. `prd`, `sa`, `task`, `story`, `fb`). The agent
+`<type>` is the type's prefix stem (e.g. `sa`, `task`, `story`, `fb`). The agent
 filling the template copies the referenced artifact's full concrete ID (including date
 prefix if dated) — it already knows the referenced artifact's ID.
+
+`{feature-id}` / `{feature-link}` are the option-agnostic form for requirements-root
+references: instead of hardcoding `{prd-id}` (which would need swapping when the
+requirements-root type changes), they resolve to whatever type `feature_type:` names. The
+agent reads `feature_type:` from `manifest.yaml`, looks up the type's prefix and folder,
+and fills the concrete ID/link accordingly. This makes the requirements-root customization
+a manifest-only edit — no template or reference-doc swaps needed.
 
 ### Parenthetical aliases for separation disambiguation
 
@@ -100,14 +108,14 @@ Parentheses are inert in both YAML frontmatter and markdown tables.
 
 | Context | Placeholder | Example expansion |
 |---|---|---|
-| Frontmatter field | `{prd-id}` | `feature: 2026-06-21-prd-user-auth` |
-| `refs:` list | `{prd-id}` | `- 2026-06-21-prd-user-auth` |
+| Frontmatter field | `{feature-id}` | `feature: 2026-06-21-prd-user-auth` |
+| `refs:` list | `{feature-id}` | `- 2026-06-21-prd-user-auth` |
 | `depends-on:` list | `{task-id}` | `- 2026-06-21-task-token-generation-be` |
-| `scenario:` with fragment | `{prd-id}#scenario-{N}` | `scenario: 2026-06-21-prd-user-auth#scenario-1` |
+| `scenario:` with fragment | `{feature-id}#scenario-{N}` | `scenario: 2026-06-21-prd-user-auth#scenario-1` |
 | Entity reference with fragment | `{dd-id}.{Entity}` | `dd-user-auth.User` |
-| Markdown link (References section) | `{prd-link}` | `[2026-06-21-prd-user-auth](../prds/2026-06-21-prd-user-auth.md)` |
+| Markdown link (References section) | `{feature-link}` | `[2026-06-21-prd-user-auth](../prds/2026-06-21-prd-user-auth.md)` |
 | Inline markdown link (body) | `{adr-link}` | `[2026-06-21-adr-auth-strategy](../adrs/2026-06-21-adr-auth-strategy.md)` |
-| Prose / table cell | `{prd-id}` | `2026-06-21-prd-user-auth` |
+| Prose / table cell | `{feature-id}` | `2026-06-21-prd-user-auth` |
 | Hierarchy tree (plan.md) | `{task-id}` | `2026-06-21-task-token-generation-be` |
 
 ---

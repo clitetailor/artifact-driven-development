@@ -22,10 +22,11 @@ repos:                            # list of repo names and paths
   - name: analytics
     path: ../analytics
 
-feature_type: prd                   # default requirements-root type
-# The field above names the default type for the feature root.
-# Alternative types are registered below and can be selected via customization files;
-# see handbook/customization.md.
+feature_type: prd                   # active requirements-root type (single source of truth)
+# The field above names the active requirements-root type for this vault.
+# All templates and reference docs resolve from this field — no markdown swaps needed.
+# Framework shipped default: prd. Alternative types are registered below and can be
+# selected via customizations/requirements-root.md; see handbook/customization.md.
 
 dated_types: []                     # types whose IDs carry a {YYYY-MM-DD}- creation-date prefix
 # Empty list = `none` alternative. Populate with type names (e.g. [prd, feature-brief])

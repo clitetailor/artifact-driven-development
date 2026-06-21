@@ -4,12 +4,12 @@ type: tech-design
 owner: software-architect
 status: draft
 version: 1.0
-feature: {prd-id}
+feature: {feature-id}
 refs:
   - {sa-id}
   - {api-id}
   - {dd-id}
-  - {prd-id}
+  - {feature-id}
 ---
 
 # Technical Design: {title}
@@ -73,4 +73,4 @@ refs:
 - {sa-link}
 - {api-link}
 - {dd-link}
-- {prd-link}
+- {feature-link}

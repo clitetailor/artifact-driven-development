@@ -4,7 +4,7 @@ type: api-spec
 owner: software-architect
 status: draft
 version: 1.0
-feature: {prd-id}
+feature: {feature-id}
 refs:
   - {sa-id}
   - {dd-id}

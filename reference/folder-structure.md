@@ -7,10 +7,10 @@
 ├── AGENTS.md              # Core operating instructions for agents working in the vault
 ├── README.md              # Entry point for humans and agents
 ├── manifest.yaml          # Artifact types, prefixes, agent roster, skills, statuses (source of truth)
-├── PROJECT.md             # Human-readable project overview (active tasks, PRDs, status)
-├── feature-briefs/         # Feature Briefs (fb-) — requirements-root alternative
-├── prds/                   # Product Requirements Documents (prd-) — default requirements-root
-├── press-releases/         # Press Releases (pr-) — requirements-root alternative
+├── PROJECT.md             # Human-readable project overview (active tasks, requirements roots, status)
+├── feature-briefs/         # Feature Briefs (fb-) — requirements-root type
+├── prds/                   # Product Requirements Documents (prd-) — requirements-root type
+├── press-releases/         # Press Releases (pr-) — requirements-root type
 ├── user-stories/           # Verifiable user-value units with Given/When/Then AC (story-)
 ├── user-flows/             # User flow diagrams with journey overview (uf-)
 ├── design-specs/           # Wireframes + component behavior specs (ds-)

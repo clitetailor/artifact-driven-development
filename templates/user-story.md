@@ -4,13 +4,13 @@ type: user-story
 owner: business-analyst
 status: open | in-progress | done
 version: 1.0
-feature: {prd-id}
+feature: {feature-id}
 priority: {P0 | P1 | P2}
 estimated-hours: {N}  # provisional — set by BA without technical context; refined later by plan
 depends-on:
   - {story-id}
 refs:
-  - {prd-id}
+  - {feature-id}
 ---
 
 # User Story: {title}
@@ -45,4 +45,4 @@ so that **{outcome or value}**.
 - **Timeline:** Sprint {N} | Phase {N}
 
 ## References
-- {prd-link}
+- {feature-link}

@@ -69,12 +69,12 @@ If user selects **Yes**: Apply the changes to `manifest.yaml` using the Edit too
 
 After applying changes:
 
-Agent: Configuration complete. `manifest.yaml` has been updated with your project settings. You can now use the vault with your configured values. If you want to switch the default requirements-root type or ask-threshold policy, you can reference `handbook/playbooks/customize-artifacts.md` in chat now (before committing) or later. Would you like me to commit these changes now?
+Agent: Configuration complete. `manifest.yaml` has been updated with your project settings. You can now use the vault with your configured values. If you want to switch the requirements-root type or ask-threshold policy, you can reference `handbook/playbooks/customize-artifacts.md` in chat now (before committing) or later. Would you like me to commit these changes now?
 
 ---
 
 ## Notes
 
-- The `types`, `agents`, `skills`, and `statuses` sections in `manifest.yaml` are kept at their default values. To **switch the default** requirements-root type or ask-threshold policy, run `handbook/playbooks/customize-artifacts.md` (applies a customization file across templates, reference docs, and manifest.yaml). To **add** a new artifact type or agent, edit `manifest.yaml` directly.
+- The `types`, `agents`, `skills`, and `statuses` sections in `manifest.yaml` are kept at their default values. To **switch** the requirements-root type or ask-threshold policy, run `handbook/playbooks/customize-artifacts.md` (applies a customization file — for requirements-root this is a single `manifest.yaml` field edit; for ask-threshold it updates `AGENTS.md`). To **add** a new artifact type or agent, edit `manifest.yaml` directly.
 - The `seedbed` section (source and ref) is assumed to be already configured and is not covered by this guide.
 - Repository names are used as placeholders in `reference/` and `agents/` files. If you change them later, you may need to re-apply placeholders manually or wait for the `orchard upgrade` CLI command (Phase 3).

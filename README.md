@@ -43,9 +43,9 @@ Without structure, coding agents improvise — filling gaps silently, absorbing 
 Artifacts are the unit of work in the vault. Each one is a Markdown file with frontmatter, an ID prefix, and explicit references to its upstream artifacts. The scaffold ships with 17 artifact types covering the full SDLC:
 
 **Requirements**
-- `fb-` — feature brief (lighter requirements-root alternative)
-- `prd-` — product requirements document (default requirements-root)
-- `pr-` — press release (requirements-root alternative, working-backwards framing)
+- `fb-` — feature brief (lighter requirements-root type)
+- `prd-` — product requirements document (requirements-root type, framework default)
+- `pr-` — press release (requirements-root type, working-backwards framing)
 - `story-` — a verifiable unit of user value
 
 **Design**
@@ -63,7 +63,7 @@ Artifacts are the unit of work in the vault. Each one is a Markdown file with fr
 - `task-` — a fine-grained unit of implementation work
 
 **Planning**
-- `plan-` — deliverable hierarchy (prd → stories → tasks) with effort estimates and rolled-up sums; optional sections for effort rollup, sequencing rationale, task lanes, and unparented tasks scale with team size and task complexity
+- `plan-` — deliverable hierarchy (requirements-root → stories → tasks) with effort estimates and rolled-up sums; optional sections for effort rollup, sequencing rationale, task lanes, and unparented tasks scale with team size and task complexity
 
 **Verification**
 - `ts-` — test spec with embedded test plan (absorbs test-plan)
@@ -83,7 +83,7 @@ The full list of artifact types, ID prefixes, agents, skills, and statuses lives
 |---|---|
 | `AGENTS.md` | Core operating instructions for agents working in the vault |
 | `manifest.yaml` | Source of truth for artifact types, ID prefixes, agents, skills, and statuses |
-| `PROJECT.md` | Human-readable project overview (active tasks, PRDs, status) |
+| `PROJECT.md` | Human-readable project overview (active tasks, requirements roots, status) |
 | `README.md` | This file — entry point for humans and agents |
 
 **Folders**
@@ -93,7 +93,7 @@ The full list of artifact types, ID prefixes, agents, skills, and statuses lives
 | `reference/` | AI-friendly reference docs: vocabulary, lifecycle, ownership, dep graph, frontmatter, vault queries, folder structure, coordination decision tree |
 | `handbook/` | Entry point, customization guide, and playbooks |
 | `handbook/README.md` | Handbook index — links to playbooks and conceptual reference docs |
-| `handbook/customization.md` | How to switch the default requirements-root type and ask-threshold policy via customization files |
+| `handbook/customization.md` | How to switch the requirements-root type and ask-threshold policy via customization files |
 | `handbook/playbooks/` | Agent-driven procedures — reference in your AI chat to walk through setup or customization |
 | `customizations/` | Customization files — one per axis, all alternatives side-by-side (see `customizations/README.md`) |
 | `templates/` | Artifact doc templates, one per artifact type |
@@ -139,7 +139,7 @@ Assume you are starting a new project called `issue-tracker` with a React fronte
 
 4. **Run the setup prompt.** Open a coding agent in `issue-tracker-docs/` and reference `handbook/playbooks/setup.md`. The agent will read the workspace, ask targeted questions about your project and repo layout, then configure `manifest.yaml` — replacing placeholders, initializing the registry, and reviewing convention docs.
 
-5. **Plan your first feature.** Tell the agent what you want to build. It will reference `handbook/playbooks/setup.md` again and walk through requirements, design artifacts, and tasks. To switch the default requirements-root type, apply a customization file from `customizations/` (see `handbook/customization.md` or `handbook/playbooks/customize-artifacts.md`).
+5. **Plan your first feature.** Tell the agent what you want to build. It will reference `handbook/playbooks/setup.md` again and walk through requirements, design artifacts, and tasks. To switch the requirements-root type, apply a customization file from `customizations/` (see `handbook/customization.md` or `handbook/playbooks/customize-artifacts.md`).
 
 6. **Iterate.** From here, work flows through the artifact dependency graph: features beget requirements, requirements beget design artifacts, design artifacts beget tasks. The `handbook/` workflow guides describe the day-to-day pattern.
 

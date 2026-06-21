@@ -27,7 +27,7 @@ refs:
 ## Optional Fields
 
 Task artifacts often carry: `story` (links to `story-{slug}`), `milestone`, `estimated-hours`.
-Downstream artifacts (user-story, user-flow, system-architecture, tech-design, test-spec, and plan) carry: `feature` — the ID of the feature's PRD. This links the artifact to its requirements root; see `artifact-dep-graph.md`. The ID format follows the ID Naming Pattern above (dated if the type is listed in `manifest.yaml`'s `dated_types:`).
+Downstream artifacts (user-story, user-flow, system-architecture, tech-design, test-spec, and plan) carry: `feature` — the ID of the feature's requirements root. This links the artifact to its requirements root; see `artifact-dep-graph.md`. The active requirements-root type is set in `manifest.yaml`'s `feature_type:` field. The ID format follows the ID Naming Pattern above (dated if the type is listed in `manifest.yaml`'s `dated_types:`).
 
 These are conventions, not enforced.
 
