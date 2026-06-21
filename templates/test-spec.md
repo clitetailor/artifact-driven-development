@@ -1,5 +1,5 @@
 ---
-id: ts-{feature}-{descriptor}
+id: ts-{slug}
 type: test-spec
 owner: qa-engineer
 status: draft

@@ -1,5 +1,5 @@
 ---
-id: fb-{descriptor}
+id: fb-{slug}
 type: feature-brief
 owner: business-analyst
 status: draft

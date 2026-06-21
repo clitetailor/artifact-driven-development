@@ -3,6 +3,8 @@
 **Never `ls` a folder to find artifacts.** Use grep against frontmatter fields.
 PRD artifacts are discovered via live scan — use `rg` directly or `orchard query --pattern 'prd'` once the CLI is available. Downstream artifacts link to the feature's PRD via the `feature:` frontmatter field.
 
+**Date-prefixed IDs:** Types with `dated: true` in `manifest.yaml` carry a `YYYY-MM-DD-` creation-date prefix. Queries that anchor on IDs use the pattern `id: (\d{4}-\d{2}-\d{2}-)?prefix-` to optionally match the date prefix — this works whether the type is dated or not, so queries don't change when dating alternatives are switched. `type:` and `status:` queries are unaffected — they search frontmatter field values, not IDs.
+
 ```bash
 # All artifacts of a given type
 rg -l --glob '!.*' "type: api-spec" {vault-root}/
@@ -15,10 +17,12 @@ rg -l --glob '!.*' "type: prd" {vault-root}/
 rg -l --glob '!.*' "type: plan" {vault-root}/
 
 # Find the PRD for a feature (by its root id, e.g. prd-user-auth)
-rg -l --glob '!.*' "^id: prd-user-auth" {vault-root}/
+# Uses optional date-prefix regex — works whether prd is dated or not
+rg -l --glob '!.*' "id: (\d{4}-\d{2}-\d{2}-)?prd-user-auth" {vault-root}/
 
 # All downstream artifacts tied to a feature (via the `feature:` field)
-rg -l --glob '!.*' "feature: prd-user-auth" {vault-root}/
+# Uses optional date-prefix regex on the feature ID
+rg -l --glob '!.*' "feature: (\d{4}-\d{2}-\d{2}-)?prd-user-auth" {vault-root}/
 
 # All artifacts that reference a specific artifact
 rg -l --glob '!.*' "refs:.*api-user-authentication" {vault-root}/
@@ -27,10 +31,12 @@ rg -l --glob '!.*' "refs:.*api-user-authentication" {vault-root}/
 rg -l --glob '!.*' "status: needs-review" {vault-root}/
 
 # Find a specific artifact by id
-rg -l --glob '!.*' "^id: prd-user-authentication-login" {vault-root}/
+# Uses optional date-prefix regex — works whether the type is dated or not
+rg -l --glob '!.*' "id: (\d{4}-\d{2}-\d{2}-)?prd-user-authentication-login" {vault-root}/
 
 # Find all tasks for a specific user story
-rg -l --glob '!.*' "story: story-user-login" {vault-root}/tasks/
+# Uses optional date-prefix regex on the story ID
+rg -l --glob '!.*' "story: (\d{4}-\d{2}-\d{2}-)?story-user-login" {vault-root}/tasks/
 
 # Find all test specs for a user story
 rg -l --glob '!.*' "refs:.*story-user-login" {vault-root}/test-specs/

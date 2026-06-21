@@ -15,7 +15,7 @@ Owns all pre-design artifacts, primarily the feature-brief and user stories.
 ## Owned Artifacts (RACI)
 | Artifact | Path |
 |---|---|
-| feature-brief | `feature-briefs/fb-{descriptor}.md` |
+| feature-brief | `feature-briefs/fb-{slug}.md` |
 | user-story | `user-stories/story-{slug}.md` |
 
 ## Interaction Patterns

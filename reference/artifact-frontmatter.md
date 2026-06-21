@@ -6,7 +6,7 @@ Every vault artifact starts with YAML frontmatter:
 
 ```yaml
 ---
-id: {prefix}-{descriptor}
+id: {prefix}-{slug}
 type: {artifact-type}
 owner: {agent-slug}
 status: draft
@@ -49,7 +49,7 @@ Rules:
 
 ## ID Naming Pattern
 
-`{prefix}-{descriptor}` — lowercase, hyphen-separated only.
+`{prefix}-{slug}` — lowercase, hyphen-separated only.
 
 - No auto-incrementing integers
 - No timestamps

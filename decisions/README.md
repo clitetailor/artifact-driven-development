@@ -14,6 +14,7 @@ For the format conventions that govern decision files, see [`FORMAT.md`](./FORMA
 |---|---|---|---|
 | [`requirements-root.md`](./requirements-root.md) | Requirements-root type | `prd`, `feature-brief`, `press-release` | ✅ Drafted |
 | [`ask-threshold.md`](./ask-threshold.md) | Ask-threshold policy | `always-ask-first`, `approach-changing-only`, `read-then-confirm` | ✅ Drafted |
+| [`artifact-id-dating.md`](./artifact-id-dating.md) | Artifact ID dating policy | `none`, `snapshot-style`, `all` | ✅ Drafted |
 
 ## Notes
 
