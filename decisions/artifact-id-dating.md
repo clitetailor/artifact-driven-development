@@ -93,6 +93,28 @@ After parameterization, templates use three placeholder forms:
 filling the template copies the referenced artifact's full concrete ID (including date
 prefix if dated) — it already knows the referenced artifact's ID.
 
+#### Parenthetical aliases for separation disambiguation
+
+When the same placeholder type appears multiple times in close proximity and the reader
+could reasonably wonder whether the occurrences refer to the same or different artifacts,
+a **parenthetical alias** annotates each occurrence with its role:
+
+```
+{<type>-id (role)}     {<type>-link (role)}
+```
+
+The text in parentheses is a human-readable label describing which specific artifact this
+occurrence refers to — it is not filled in by the agent (the agent replaces the entire
+`{...}` expression with the concrete ID/link). Use parenthetical aliases only at
+separation-concern sites (e.g. `{task-id (be-task)} → {task-id (fe-task)}` in a critical
+path, or `{story-id (story-1)}, {story-id (story-2)}` in a multi-story table cell). Sites
+where a placeholder type appears once in a context need no alias — the context itself is
+unambiguous.
+
+Parentheses (not pipe) are used because the pipe character collides with markdown's table
+column separator — `{story-id | story-1}` inside a table cell breaks the column count.
+Parentheses are inert in both YAML frontmatter and markdown tables.
+
 #### Placeholder contexts
 
 | Context | Placeholder | Example expansion |
@@ -175,6 +197,18 @@ For each template:
  ## References
 -- [prd-{slug}](../prds/prd-{slug}.md)
 +- {prd-link}
+```
+
+Parenthetical alias example — `templates/plan.md` Task Lanes (separation concern: two different
+tasks on the same line, plus a third referenced across lines):
+
+```diff
+-### story-{slug} — {title}
+-be: task-{slug}-be-1 → task-{slug}-be-2
+-fe: task-{slug}-fe (blocked by be-2)
++### {story-id (P0 story)} — {title}
++be: {task-id (be-task-1)} → {task-id (be-task-2)}
++fe: {task-id (fe-task)} (blocked by be-2)
 ```
 
 ### After parameterization

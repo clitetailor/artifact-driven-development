@@ -23,11 +23,11 @@ refs:
      This is the structural + temporal source of truth. -->
 
 - {prd-id} ({title}) — Σ {N}h
-  - {story-id} — {title} — Σ {N}h [P0]
-    - {task-id} — {title} — {N}h
-    - {task-id} — {title} — {N}h
-  - {story-id} — {title} — Σ {N}h [P1]
-    - {task-id} — {title} — {N}h
+  - {story-id (P0 story)} — {title} — Σ {N}h [P0]
+    - {task-id (be-task)} — {title} — {N}h
+    - {task-id (fe-task)} — {title} — {N}h
+  - {story-id (P1 story)} — {title} — Σ {N}h [P1]
+    - {task-id (be-task)} — {title} — {N}h
 
 <!-- OPTIONAL: Effort Rollup — uncomment when:
      - stakeholder reporting needs a sizing summary, OR
@@ -51,9 +51,9 @@ refs:
 ## Sequencing Rationale
 | # | Story | Priority | Depends-on | Est. Hours | Why this position |
 |---|---|---|---|---|---|
-| 1 | {story-id} | P0 | — | {N}h | Unblocks story-2's fe-task |
-| 2 | {story-id} | P0 | {story-id} | {N}h | Needs API from story-1 |
-| 3 | {story-id} | P1 | — | {N}h | Independent, can slip |
+| 1 | {story-id (story-1)} | P0 | — | {N}h | Unblocks story-2's fe-task |
+| 2 | {story-id (story-2)} | P0 | {story-id (story-1)} | {N}h | Needs API from story-1 |
+| 3 | {story-id (story-3)} | P1 | — | {N}h | Independent, can slip |
 -->
 
 <!-- OPTIONAL: Task Lanes — uncomment when:
@@ -63,13 +63,13 @@ refs:
 
 ## Task Lanes
 
-### {story-id} — {title}
-be: {task-id} → {task-id}
-fe: {task-id} (blocked by be-2)
+### {story-id (P0 story)} — {title}
+be: {task-id (be-task-1)} → {task-id (be-task-2)}
+fe: {task-id (fe-task)} (blocked by be-2)
 
-### {story-id} — {title}
-be: {task-id}
-fe: {task-id} (parallel with be)
+### {story-id (P1 story)} — {title}
+be: {task-id (be-task)}
+fe: {task-id (fe-task)} (parallel with be)
 -->
 
 <!-- OPTIONAL: Unparented Tasks — uncomment when:
@@ -85,7 +85,7 @@ fe: {task-id} (parallel with be)
 ## Critical Path
 <!-- Longest dependency chain through the tree, with summed hours = total elapsed estimate. -->
 
-{story-id} → {task-id} → {task-id} — {N}h elapsed
+{story-id (root story)} → {task-id (be-task)} → {task-id (fe-task)} — {N}h elapsed
 
 ## Estimates vs Actuals
 <!-- Filled incrementally as the coding agent completes tasks.
@@ -94,8 +94,8 @@ fe: {task-id} (parallel with be)
 
 | Task | Estimated | Actual | Delta | Agent Notes |
 |---|---|---|---|---|
-| {task-id} | {N}h | {N}h | {±N}h | |
-| {task-id} | {N}h | — | — | in-progress |
+| {task-id (be-task)} | {N}h | {N}h | {±N}h | |
+| {task-id (fe-task)} | {N}h | — | — | in-progress |
 
 ## Risks & Open Questions
 <!-- Decomposition risks: under-specified stories, missing tasks, scope creep nodes.

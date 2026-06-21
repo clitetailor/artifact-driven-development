@@ -52,7 +52,7 @@ refs:
 | Key Req | Story | Summary |
 |---------|-------|---------|
 | KR-1 | {story-id} | {one-line summary} |
-| KR-2 | {story-id}, {story-id} | {one-line summary} |
+| KR-2 | {story-id (first story)}, {story-id (second story)} | {one-line summary} |
 
 ## Open Questions
 
