@@ -1,7 +1,7 @@
 # Customization: artifact-id-dating
 
 > Switches whether artifact IDs carry a creation-date prefix, and which types are dated.
-> Switching alternatives = manifest-only edit (set `dated: true` flags).
+> Switching alternatives = manifest-only edit (replace the `dated_types:` list).
 >
 > For the apply flow, see `../handbook/playbooks/customize-artifacts.md`.
 
@@ -24,11 +24,11 @@ or re-accepted. This keeps IDs stable so `refs`/`feature`/`story` links don't br
 
 ## Alternatives
 
-| Alternative | Dated types | Undated types | Status |
-|---|---|---|---|
-| `none` | — | all 15 | ✅ Implemented (default) |
-| `snapshot-style` | 10 snapshot types | 5 living types | ✅ Drafted |
-| `all` | all 15 | — | ✅ Drafted |
+| Alternative | Dated types | Undated types |
+|---|---|---|
+| `none` | — | all 15 |
+| `snapshot-style` | 10 snapshot types | 5 living types |
+| `all` | all 15 | — |
 
 ### Dated type sets per alternative
 
@@ -114,13 +114,17 @@ Parentheses are inert in both YAML frontmatter and markdown tables.
 
 ## Apply
 
-1. **Read `manifest.yaml`** — check which types already have `dated: true`. If the
-   chosen alternative is already the current state, skip to Verify.
+1. **Read `manifest.yaml`** — check the current `dated_types:` list. If it already
+   matches the chosen alternative's set, skip to Verify.
 
-2. **`manifest.yaml`:** Add or remove `dated: true` flags on each type to match the
-   chosen alternative's column in the dated type sets table above. This is the only
-   edit needed — templates are already parameterized and resolve the date prefix from
-   the manifest at fill time.
+2. **`manifest.yaml`:** Replace the `dated_types:` list with the chosen alternative's
+   set of type names (from the dated type sets table above). This is the only edit
+   needed — templates are already parameterized and resolve the date prefix from the
+   manifest at fill time.
+
+   - `none` → `dated_types: []`
+   - `snapshot-style` → `dated_types: [feature-brief, prd, press-release, user-story, user-flow, adr, tech-design, task, plan, note]`
+   - `all` → `dated_types: [feature-brief, prd, press-release, user-story, user-flow, adr, tech-design, task, plan, note, system-architecture, api-spec, data-design, design-spec, test-spec]`
 
 3. **Run Verify** (below) to catch misses.
 
@@ -129,28 +133,30 @@ Parentheses are inert in both YAML frontmatter and markdown tables.
 ## Verify
 
 ```bash
-# `none`: no type has dated: true
-rg -c "dated: true" manifest.yaml
-# Expected: 0
+# `none`: empty list
+rg "^dated_types: \[\]" manifest.yaml
+# Expected: 1 match
 
-# `snapshot-style`: exactly 10 types have dated: true
-rg -c "dated: true" manifest.yaml
-# Expected: 10
-# Living types lack the flag
-rg -A2 "name: system-architecture" manifest.yaml | rg "dated: true"
+# `snapshot-style`: list contains exactly the 10 snapshot types, no living types
+rg "^dated_types: \[" manifest.yaml
+# Expected: 1 match — visually confirm the list matches:
+#   [feature-brief, prd, press-release, user-story, user-flow, adr, tech-design, task, plan, note]
+# Living types absent:
+rg "^dated_types: \[.*system-architecture" manifest.yaml
 # Expected: 0 hits
-rg -A2 "name: api-spec" manifest.yaml | rg "dated: true"
+rg "^dated_types: \[.*api-spec" manifest.yaml
 # Expected: 0 hits
-rg -A2 "name: data-design" manifest.yaml | rg "dated: true"
+rg "^dated_types: \[.*data-design" manifest.yaml
 # Expected: 0 hits
-rg -A2 "name: design-spec" manifest.yaml | rg "dated: true"
+rg "^dated_types: \[.*design-spec" manifest.yaml
 # Expected: 0 hits
-rg -A2 "name: test-spec" manifest.yaml | rg "dated: true"
+rg "^dated_types: \[.*test-spec" manifest.yaml
 # Expected: 0 hits
 
-# `all`: exactly 15 types have dated: true
-rg -c "dated: true" manifest.yaml
-# Expected: 15
+# `all`: list contains all 15 types
+rg "^dated_types: \[" manifest.yaml
+# Expected: 1 match — visually confirm the list matches:
+#   [feature-brief, prd, press-release, user-story, user-flow, adr, tech-design, task, plan, note, system-architecture, api-spec, data-design, design-spec, test-spec]
 ```
 
 ---
@@ -158,8 +164,9 @@ rg -c "dated: true" manifest.yaml
 ## Notes
 
 - **Orthogonality with `requirements-root.md`:** This customization is orthogonal to the
-  requirements-root customization. Both are manifest-driven — the two touch disjoint aspects
-  of the ID (date prefix vs. type prefix) and can be applied in any order.
+  requirements-root customization. Both are manifest-driven — the two touch disjoint
+  manifest fields (`dated_types:` list vs. `feature_type:` field) and disjoint aspects of
+  the ID (date prefix vs. type prefix). Apply in any order.
 
 - **Orthogonality with `ask-threshold.md`:** No interaction — different files entirely.
 

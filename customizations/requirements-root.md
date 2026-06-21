@@ -22,55 +22,63 @@ ownership, and lifecycle are unchanged. Only labels, prefixes, and which type is
 
 ## Alternatives
 
-| Alternative | Prefix | Folder | Display name | Status |
-|---|---|---|---|---|
-| `prd` | `prd-` | `prds/` | PRD | ✅ Implemented (default) |
-| `feature-brief` | `fb-` | `feature-briefs/` | Feature Brief | ✅ Implemented |
-| `press-release` | `pr-` | `press-releases/` | Press Release | ✅ Implemented |
+| Alternative | Prefix | Folder | Display name |
+|---|---|---|---|
+| `prd` | `prd-` | `prds/` | PRD |
+| `feature-brief` | `fb-` | `feature-briefs/` | Feature Brief |
+| `press-release` | `pr-` | `press-releases/` | Press Release |
 
 All three alternatives have full edit instructions below.
 
 ---
 
-## L1 — Templates (12 downstream files)
+## L1 — Templates (10 downstream files)
 
 Every downstream template carries a `feature:` frontmatter field pointing at the
-requirements root. Swap the current default's prefix and folder path with the chosen
-alternative's.
+requirements root, expressed via a parameterized placeholder. Swap the current default's
+placeholder stem with the chosen alternative's.
+
+Templates use parameterized placeholders (see `customizations/artifact-id-dating.md` →
+"Template placeholder reference") so that prefix and folder changes — including dating —
+are manifest-driven. The placeholder stem is the type's prefix stem from the alternatives
+table (e.g. `prd`, `fb`, `pr`).
 
 ### Token map
 
 Read `manifest.yaml`'s `feature_type:` field to identify the **current** default. Use that
-alternative's prefix/folder as the "find" tokens and the chosen alternative's
-prefix/folder as the "replace" tokens.
+alternative's prefix stem as the "find" placeholder stem and the chosen alternative's
+prefix stem as the "replace" placeholder stem.
 
 | Find (current default) | Replace (chosen alternative) |
 |---|---|
-| `feature: {cur_prefix}-{slug}` | `feature: {new_prefix}-{slug}` |
-| `  - {cur_prefix}-{slug}` (inside `refs:` block) | `  - {new_prefix}-{slug}` |
-| `[{cur_prefix}-{slug}](../{cur_folder}/{cur_prefix}-{slug}.md)` | `[{new_prefix}-{slug}](../{new_folder}/{new_prefix}-{slug}.md)` |
-| `{cur_prefix}-{slug}` (in prose comments) | `{new_prefix}-{slug}` |
-| `scenario: {cur_prefix}-{slug}#scenario-{N}` | `scenario: {new_prefix}-{slug}#scenario-{N}` |
+| `{cur_stem}-id}` | `{new_stem}-id}` |
+| `{cur_stem}-link}` | `{new_stem}-link}` |
 
-Where `{cur_prefix}` / `{cur_folder}` come from the current default's row in the
-alternatives table, and `{new_prefix}` / `{new_folder}` come from the chosen alternative's
-row.
+Where `{cur_stem}` comes from the current default's row in the alternatives table (e.g.
+`prd`), and `{new_stem}` comes from the chosen alternative's row (e.g. `fb`).
+
+The `{<stem>-id}` placeholder covers every frontmatter field, `refs:`/`depends-on:` list
+entry, scenario fragment, entity reference, prose mention, and hierarchy-tree node that
+points at the requirements root. The `{<stem>-link}` placeholder covers every markdown
+link (References section, inline body links). No other token shapes appear — the
+placeholder design collapses what used to be five separate token rows into two.
 
 ### Find commands
 
 ```bash
-# Find every template that has a feature: field (all 12 downstream templates)
-# Use the current default's prefix to search
-rg -l "feature: {cur_prefix}-\{slug\}" templates/
-# (fallback: grep -rl "feature: {cur_prefix}-{slug}" templates/)
+# Find every template that references the current default's requirements root
+# Returns exactly the 10 downstream templates and excludes the root template itself
+# (the root template uses {related-artifact-id}, not {<stem>-id})
+rg -l "\{cur_stem-id\}" templates/
+# (fallback: grep -rl "{cur_stem-id}" templates/)
 
-# Find every template with a link path to the current default's folder
-rg -l "\.\./{cur_folder}/" templates/
-# (fallback: grep -rl "../{cur_folder}/" templates/)
+# Find every template with a markdown link to the current default's root
+rg -l "\{cur_stem-link\}" templates/
+# (fallback: grep -rl "{cur_stem-link}" templates/)
 ```
 
-The first command returns exactly the 12 downstream templates and **excludes the root
-template itself** (e.g. `templates/prd.md` has `id: prd-{slug}`, not `feature: prd-{slug}`)
+The first command returns exactly the 10 downstream templates and **excludes the root
+template itself** (e.g. `templates/prd.md` uses `{related-artifact-id}`, not `{prd-id}`)
 — this is the safety gate that prevents over-editing the root template.
 
 ### Illustrative example
@@ -88,33 +96,33 @@ Example: switching from `prd` to `feature-brief`, in `templates/plan.md`:
  owner: project-manager
  status: draft
  version: 1.0
--feature: prd-{slug}
-+feature: fb-{slug}
+-feature: {prd-id}
++feature: {fb-id}
  refs:
--  - prd-{slug}
-+  - fb-{slug}
-   - story-{slug}
-   - td-{slug}
+-  - {prd-id}
++  - {fb-id}
+   - {story-id}
+   - {td-id}
  ---
 
  # Plan: {title}
 
  ## Goal
--<!-- One paragraph: what "done" looks like for this plan. Ties back to prd-{slug} Success Metrics. -->
-+<!-- One paragraph: what "done" looks like for this plan. Ties back to fb-{slug} Success Metrics. -->
+-<!-- One paragraph: what "done" looks like for this plan. Ties back to {prd-id} Success Metrics. -->
++<!-- One paragraph: what "done" looks like for this plan. Ties back to {fb-id} Success Metrics. -->
 ```
 
 ```diff
  ## References
--- [prd-{slug}](../prds/prd-{slug}.md)
-+- [fb-{slug}](../feature-briefs/fb-{slug}.md)
- - [story-{slug}](../user-stories/story-{slug}.md)
- - [td-{slug}](../tech-designs/td-{slug}.md)
+-- {prd-link}
++- {fb-link}
+ - {story-link}
+ - {td-link}
 ```
 
 Apply the same shape to every file returned by the find commands. Use whatever tool you
 choose (sed, Edit, or a mix). The `refs:` block entry and prose comments are covered by
-the same prefix swap — no special handling needed.
+the same placeholder swap — no special handling needed.
 
 ---
 

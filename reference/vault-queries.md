@@ -3,7 +3,7 @@
 **Never `ls` a folder to find artifacts.** Use grep against frontmatter fields.
 PRD artifacts are discovered via live scan — use `rg` directly or `orchard query --pattern 'prd'` once the CLI is available. Downstream artifacts link to the feature's PRD via the `feature:` frontmatter field.
 
-**Date-prefixed IDs:** Types with `dated: true` in `manifest.yaml` carry a `YYYY-MM-DD-` creation-date prefix. Queries that anchor on IDs use the pattern `id: (\d{4}-\d{2}-\d{2}-)?prefix-` to optionally match the date prefix — this works whether the type is dated or not, so queries don't change when dating alternatives are switched. `type:` and `status:` queries are unaffected — they search frontmatter field values, not IDs.
+**Date-prefixed IDs:** Types listed in `manifest.yaml`'s `dated_types:` carry a `YYYY-MM-DD-` creation-date prefix. Queries that anchor on IDs use the pattern `id: (\d{4}-\d{2}-\d{2}-)?prefix-` to optionally match the date prefix — this works whether the type is dated or not, so queries don't change when dating alternatives are switched. `type:` and `status:` queries are unaffected — they search frontmatter field values, not IDs.
 
 ```bash
 # All artifacts of a given type

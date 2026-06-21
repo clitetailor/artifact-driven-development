@@ -7,7 +7,7 @@
 
 | File | Purpose |
 |---|---|
-| [`customization.md`](./customization.md) | How to switch the default requirements-root type and ask-threshold policy via customization files |
+| [`customization.md`](./customization.md) | How customization files work — mechanism classes, applying, combining, upgrade flow |
 
 ## Playbooks
 
