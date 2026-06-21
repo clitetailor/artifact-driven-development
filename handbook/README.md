@@ -7,7 +7,7 @@
 
 | File | Purpose |
 |---|---|
-| [`customization.md`](./customization.md) | How customization files work — mechanism classes, applying, combining, upgrade flow |
+| [`customization.md`](./customization.md) | How customization files work — layers, applying, combining, upgrade flow |
 
 ## Playbooks
 

@@ -15,8 +15,8 @@ Every customization file follows this structure:
    role (default/alternative), and key identifiers. This is the catalog, not the content.
    No status column — see Principle 7 below.
 4. **Per-alternative sections** — full final state of every changed line for each
-   alternative (or just the manifest field value, for manifest-only axes). This is what
-   the agent applies.
+   alternative (or just the manifest field value, for axes that touch only
+   `manifest.yaml`). This is what the agent applies.
 5. **Apply** — step-by-step instructions: how to locate targets, which tool to use, what
    order to work in.
 6. **Verify** — grep assertions with expected counts, run after applying to catch misses.
@@ -25,18 +25,18 @@ Every customization file follows this structure:
    NOT have changed → still present).
 7. **Notes** — orthogonality with other customizations, migration caveats, known issues.
 
-### Layers (optional, mechanism-class dependent)
+### Layers
 
-A customization axis touches one or more **layers** depending on its mechanism class (see
-`../handbook/customization.md` → "Mechanism Classes"):
+A customization axis touches one or more **layers** — kinds of edits it makes to the
+vault. Each axis declares which layers it uses in its **What changes** section. The four
+layers are:
 
 - **L1 — templates:** placeholder swaps across downstream templates. Present only for
-  Template-touching class axes.
+  axes that touch templates.
 - **L2 — reference docs & handbook:** prose relabeling across reference docs. Present only
-  for Template-touching class axes.
-- **manifest.yaml:** a single field edit. Present for Template-touching and Manifest-only
-  class axes.
-- **AGENTS.md:** bullet replacements. Present only for AGENTS-only class axes.
+  for axes that touch reference docs.
+- **manifest.yaml:** one or more field edits. Present for axes that touch `manifest.yaml`.
+- **AGENTS.md:** bullet replacements. Present only for axes that touch `AGENTS.md`.
 
 When a layer is absent, the customization file omits its section entirely — there is no
 "this axis does not use L1" placeholder. Principles 5 and 6 below govern L1 and L2 *when
@@ -76,7 +76,7 @@ placeholder swaps), full final state for complete rewrites (e.g. L2 prose relabe
 
 ### 5. L1 (templates, when present): find commands, not hardcoded file lists
 
-Applies only to axes with an L1 layer (Template-touching class). Use `rg -l` (or
+Applies only to axes with an L1 layer. Use `rg -l` (or
 `grep -rl` fallback) to discover target files at apply time. Don't hardcode a file list —
 it goes stale when templates are added or removed. The find pattern is also the safety
 gate: e.g. `rg -l "{<type>-id}"` returns exactly the downstream templates that reference a
@@ -88,7 +88,7 @@ not *how*.
 
 ### 6. L2 (reference docs, when present): summary with "does not change" line
 
-Applies only to axes with an L2 layer (Template-touching class). The L2 section starts
+Applies only to axes with an L2 layer. The L2 section starts
 with a summary describing what changes and **what does not change**. The "does not change"
 line bounds the agent's edit scope and catches edge cases where a blanket sed would
 over-edit (e.g. generic "PRD" mentions in other artifact definitions that use the term as
@@ -126,16 +126,15 @@ aid, not something to hunt for exact lines.
 
 ## Adding a new customization axis
 
-1. Create `customizations/<axis>.md` following the structure above.
+1. Create `customizations/<axis>.md` following the structure above. The file is
+   self-contained — its **What changes** section declares which layers it uses, and its
+   **Apply** section carries the apply procedure. No framework-doc updates are needed.
 2. Add a row to `customizations/README.md`'s "Available customizations" table.
-3. Update `handbook/customization.md` and `handbook/playbooks/customize-artifacts.md` to
-   reflect the new axis's mechanism class (add it to the mechanism-class table if it
-   introduces a new class, or note it as an example of an existing class).
 
 ## Adding a new alternative to an existing axis
 
 1. Add a row to the axis file's Alternatives table.
 2. Add a per-alternative section with full final state for every changed file (or just the
-   manifest field value, for manifest-only axes).
+   manifest field value, for axes that touch only `manifest.yaml`).
 3. If the axis has an L2 layer, update the "does not change" line in the L2 summary if the
    new alternative introduces new edge cases.

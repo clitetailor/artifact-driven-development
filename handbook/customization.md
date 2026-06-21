@@ -1,72 +1,53 @@
 # Customizing Artifact Decisions
 
-> How customization files work — mechanism classes, applying, combining, upgrade flow.
+> How customization files work — layers, applying, combining, upgrade flow.
 > For the catalog of available axes, see `../customizations/README.md`.
 
 ---
 
-## Mechanism Classes
+## What a Decision Touches
 
-Every customization axis falls into one of three mechanism classes, determined by which
-files its alternatives touch. The class dictates the apply flow.
+A customization axis touches one or more **layers** — kinds of edits it makes to the
+vault. The layer catalog lives in `../customizations/FORMAT.md` → "Layers"; each axis
+declares which layers it uses in its **What changes** section.
 
-| Class | What it touches | Example axes |
-|---|---|---|
-| **Template-touching** | L1 templates (placeholder swaps) + L2 reference docs & handbook (prose relabeling) + `manifest.yaml` (one field) | *(no current axes — kept for future axes that need prose swaps)* |
-| **AGENTS-only** | `AGENTS.md` bullets only | ask-threshold |
-| **Manifest-only** | One `manifest.yaml` field only — templates and reference docs are already parameterized/option-agnostic | requirements-root, artifact-id-dating |
+In brief, the four layers are:
 
-Each alternative is realized by a **customization file** in `../customizations/`. A
-customization file lists all alternatives for one axis side-by-side. The agent reads the
-chosen alternative's section and applies the edits using its native file-edit tools. It
-does **not** touch already-created artifacts — those are migrated on demand.
+- **L1 — templates:** placeholder swaps across downstream templates.
+- **L2 — reference docs & handbook:** prose relabeling across reference docs.
+- **manifest.yaml:** one or more field edits.
+- **AGENTS.md:** bullet replacements.
 
-For the catalog of available customization files, see `../customizations/README.md`. For
-the format conventions that govern customization files, see `../customizations/FORMAT.md`.
+Templates use parameterized placeholders (e.g. `{feature-id}`, `{prefix}-{slug}`) and
+reference docs are option-agnostic where possible — both resolve the active value from
+the manifest at fill/read time. Axes that touch only `manifest.yaml` (e.g.
+requirements-root, artifact-id-dating) need no template or reference-doc edits; axes
+that touch only `AGENTS.md` (e.g. ask-threshold) need no manifest edits.
 
 ## Applying a Decision
 
 Each customization file contains:
 - An **alternatives table** — compact overview of all options
-- **Per-alternative sections** — full final state of every changed line (template-touching
-  and AGENTS-only classes) or the manifest field value (manifest-only class)
-- An **Apply** section — step-by-step instructions
+- **Per-alternative sections** — full final state of every changed line, or just the
+  manifest field value for axes that touch only `manifest.yaml`
+- An **Apply** section — self-contained step-by-step instructions (the source of truth
+  for the apply procedure)
 - A **Verify** section — grep assertions to confirm the apply succeeded
 
 To apply a decision, reference `handbook/playbooks/customize-artifacts.md` in your AI chat.
 The agent will walk you through selecting an alternative and applying it. Or apply
-manually: open the customization file, find the chosen alternative's section, and apply the
-edits to each target file.
+manually: open the customization file, find the chosen alternative's section, and follow
+the Apply section's steps.
 
 The agent uses its native file-edit tools (Edit, Read) — no `patch`, `yq`, or external
 diff tools required. `manifest.yaml` is edited directly like any other file.
-
-## What a Decision Touches
-
-The files touched depend on the axis's mechanism class (see the table above). For the
-**template-touching** class *(no current axes — kept for future axes that need prose
-swaps)*, the layers are:
-
-| Layer | Files | What changes |
-|---|---|---|
-| **L1 — placeholder swap** | downstream templates | `{cur-id}` → `{new-id}`; `{cur-link}` → `{new-link}` (parameterized placeholders; see `customizations/artifact-id-dating.md` → "Template placeholder reference") |
-| **L2 — prose relabel** | reference docs & handbook | Type names, default/alternative labels, example IDs, scan queries |
-| **manifest.yaml** | 1 line | the relevant field — edited directly |
-
-The **AGENTS-only** class touches two bullets in `AGENTS.md` (`## Communication` and
-`## Output Style`) — no templates, reference docs, or `manifest.yaml` changes.
-
-The **manifest-only** class touches a single `manifest.yaml` field (e.g. `feature_type:`,
-`dated_types:`) — no templates, reference docs, or `AGENTS.md` changes. Templates use
-parameterized placeholders (e.g. `{feature-id}`, `{prefix}-{slug}`) and reference docs are
-option-agnostic — both resolve the active value from the manifest at fill/read time.
 
 ## Combining Decisions
 
 Customization axes are **orthogonal** when they touch disjoint files. All current axes
 are pairwise orthogonal — they touch disjoint files and can be applied in any order. To
-confirm orthogonality for a new axis, compare its mechanism class's file set against the
-existing axes' file sets.
+confirm orthogonality for a new axis, compare its declared file set against existing
+axes' file sets.
 
 ## Upgrade Flow
 
@@ -82,11 +63,11 @@ by pattern, not by exact line numbers. If upstream reworded a line the decision 
 the agent matches by prose meaning (for L2) or by placeholder pattern (for L1). The §Verify
 block catches any misses after applying.
 
-L1 (placeholder swap) is the most upgrade-resilient — frontmatter lines are stable.
-L2 (prose) targets the most volatile files and may occasionally need the agent to
-interpret the instruction against the new wording.
-Manifest-only and AGENTS-only classes are the most resilient of all — one field or two
-bullets, no pattern matching needed.
+Axes with L1 (placeholder swaps) are upgrade-resilient — frontmatter lines are stable.
+Axes with L2 (prose) target the most volatile files and may occasionally need the agent to
+interpret the instruction against the new wording. Axes touching only `manifest.yaml` or
+`AGENTS.md` bullets are the most resilient of all — one field or two bullets, no pattern
+matching needed.
 
 ## Changing a Decision Later
 
@@ -95,12 +76,12 @@ requirements-root, or `none` → `snapshot-style` for artifact-id-dating):
 
 1. Open the customization file for the axis (e.g. `customizations/requirements-root.md`)
 2. Find the new alternative's section
-3. Apply its edits to each target file (per the axis's mechanism class)
+3. Apply its edits to each target file (per the axis's Apply section)
 4. Run the §Verify block
 
-Already-created artifacts are unaffected — only templates, reference docs, or manifest
-fields change (depending on the class). Migrate existing artifacts on demand by renaming
-files and updating their `id:`/`type:`/`feature:` fields.
+Already-created artifacts are unaffected — only the files the axis touches change (per its
+Apply section). Migrate existing artifacts on demand by renaming files and updating their
+`id:`/`type:`/`feature:` fields.
 
 Alternatives are **peers**, not inverses — switching is always "apply a different
 alternative's section." There is no "revert" operation; to go back to a previous
