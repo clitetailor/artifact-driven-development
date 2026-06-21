@@ -1,4 +1,4 @@
-# Decision: requirements-root type
+# Customization: requirements-root type
 
 > Switches the default requirements-root type in `manifest.yaml`, templates, and reference
 > docs. Pick one alternative below; the agent applies that column.
@@ -177,7 +177,7 @@ feature_type: prd                   # default requirements-root type
 
 <!-- One row per feature's PRD. The default requirements-root type is prd;
      alternatives (feature-brief, press-release) can be
-     selected via decisions — see handbook/customization.md. -->
+     selected via customizations — see handbook/customization.md. -->
 
 | PRD | Status | Summary |
 |-----|--------|---------|
@@ -308,7 +308,7 @@ feature_type: feature-brief         # default requirements-root type
 
 <!-- One row per feature's Feature Brief. The default requirements-root type is feature-brief;
      alternatives (prd, press-release) can be
-     selected via decisions — see handbook/customization.md. -->
+     selected via customizations — see handbook/customization.md. -->
 
 | Feature Brief | Status | Summary |
 |-----|--------|---------|
@@ -439,7 +439,7 @@ feature_type: press-release         # default requirements-root type
 
 <!-- One row per feature's Press Release. The default requirements-root type is press-release;
      alternatives (prd, feature-brief) can be
-     selected via decisions — see handbook/customization.md. -->
+     selected via customizations — see handbook/customization.md. -->
 
 | Press Release | Status | Summary |
 |-----|--------|---------|

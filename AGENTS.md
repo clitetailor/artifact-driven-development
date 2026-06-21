@@ -34,12 +34,13 @@ Bare `git commit` always lands in `{vault-root}` (default CWD).
 
 ## Communication
 
-- **Ask before acting on ambiguity.** When user intent is even slightly unclear, ask a clarifying question before reading artifacts or producing output. This takes precedence over "Think before acting" below — do not self-clarify by reading when a single question would resolve the ambiguity. Switch this threshold via decisions in `decisions/` (see `handbook/playbooks/customize-artifacts.md`).
+- **Ask before acting on ambiguity.** When user intent is even slightly unclear, ask a clarifying question before reading artifacts or producing output. This takes precedence over "Think before acting" below — do not self-clarify by reading when a single question would resolve the ambiguity. Switch this threshold via customizations in `customizations/` (see `handbook/playbooks/customize-artifacts.md`).
 - **Propose alternatives when the user's approach is suboptimal.** If you find a more appropriate solution than what was requested, or the requested approach is weaker than it sounds, do not silently substitute or silently comply. Ask for clarification and propose the alternative(s), including the decision and rationale, so the user can choose. Silent compliance hides trade-offs; silent substitution bypasses the user.
 - User instructions always override these rules.
 
 ## Reading Discipline
 
+- **`customizations/` files are user customization switches, not framework ADRs.** Do not add framework design rationale, rejected-alternative analysis, or ADR-style content to them. They record user-facing choices (which alternatives exist, how to apply each) and user-concern notes (migration caveats, orthogonality) only. Framework design decisions belong in framework design docs, not here.
 - **Think before acting.** Read all relevant artifact and conventions docs before writing any agent prompt — but only after the Communication check above has cleared intent.
 - **Only read what the task requires.** Read the target artifact and its direct upstream references (from the `refs` field). Do not read artifacts owned by other agents unless explicitly referenced by the task. To navigate to a referenced artifact, use the `## References` section links at the bottom of the artifact body, or resolve the ID to a path via the grep recipes in `reference/vault-queries.md`.
 - **Do not re-read files already read in this session** unless the file may have changed.

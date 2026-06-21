@@ -1,4 +1,4 @@
-# Decision: ask-threshold policy
+# Customization: ask-threshold policy
 
 > Switches the active ask-threshold policy enforced in `AGENTS.md`.
 > Pick one alternative below; the agent applies that alternative's full bullet text.
@@ -43,7 +43,7 @@ the bullets below.
 ### Bullet 1 — `## Communication` (first bullet)
 
 ```
-- **Ask before acting on ambiguity.** When user intent is even slightly unclear, ask a clarifying question before reading artifacts or producing output. This takes precedence over "Think before acting" below — do not self-clarify by reading when a single question would resolve the ambiguity. Switch this threshold via decisions in `decisions/` (see `handbook/playbooks/customize-artifacts.md`).
+- **Ask before acting on ambiguity.** When user intent is even slightly unclear, ask a clarifying question before reading artifacts or producing output. This takes precedence over "Think before acting" below — do not self-clarify by reading when a single question would resolve the ambiguity. Switch this threshold via customizations in `customizations/` (see `handbook/playbooks/customize-artifacts.md`).
 ```
 
 ### Bullet 2 — `## Output Style` (last bullet)

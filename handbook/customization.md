@@ -14,18 +14,18 @@ The vault ships with concrete defaults:
 | Requirements-root type | `prd` | `feature-brief`, `press-release` |
 | Ask-threshold policy | always-ask-first | `approach-changing-only`, `read-then-confirm` |
 
-Each alternative is realized by a **decision file** in `../decisions/`. A decision file
+Each alternative is realized by a **customization file** in `../customizations/`. A customization file
 lists all alternatives for one axis side-by-side. The agent reads the chosen alternative's
 section and applies the edits to templates, reference docs, and `manifest.yaml` using its
 native file-edit tools. It does **not** touch already-created artifacts — those are
 migrated on demand.
 
-For the catalog of available decision files, see `../decisions/README.md`. For the format
-conventions that govern decision files, see `../decisions/FORMAT.md`.
+For the catalog of available customization files, see `../customizations/README.md`. For the format
+conventions that govern customization files, see `../customizations/FORMAT.md`.
 
 ## Applying a Decision
 
-Each decision file contains:
+Each customization file contains:
 - An **alternatives table** — compact overview of all options
 - **Per-alternative sections** — full final state of every changed line
 - An **Apply** section — step-by-step instructions
@@ -33,7 +33,7 @@ Each decision file contains:
 
 To apply a decision, reference `handbook/playbooks/customize-artifacts.md` in your AI chat.
 The agent will walk you through selecting an alternative and applying it. Or apply
-manually: open the decision file, find the chosen alternative's section, and apply the
+manually: open the customization file, find the chosen alternative's section, and apply the
 edits to each target file.
 
 The agent uses its native file-edit tools (Edit, Read) — no `patch`, `yq`, or external
@@ -62,9 +62,9 @@ When the seedbed advances and you pull upstream:
 | User | Action | Tax |
 |---|---|---|
 | **Default (prd)** | Pull upstream; artifacts untouched | Zero |
-| **Alternative** | Re-apply your decision file onto the new base, then run its §Verify block | Small, per-decision |
+| **Alternative** | Re-apply your customization file onto the new base, then run its §Verify block | Small, per-decision |
 
-The decision file's find commands and token map are drift-tolerant — they locate targets
+The customization file's find commands and token map are drift-tolerant — they locate targets
 by pattern, not by exact line numbers. If upstream reworded a line the decision targets,
 the agent matches by prose meaning (for L2) or by prefix pattern (for L1). The §Verify
 block catches any misses after applying.
@@ -77,7 +77,7 @@ interpret the instruction against the new wording.
 
 Switching from one alternative to another (e.g. `feature-brief` → `press-release`):
 
-1. Open the decision file (`decisions/requirements-root.md`)
+1. Open the customization file (`customizations/requirements-root.md`)
 2. Find the new alternative's section
 3. Apply its edits to each target file
 4. Run the §Verify block

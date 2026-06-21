@@ -22,7 +22,7 @@
 
 <!-- One row per feature's PRD. The default requirements-root type is prd;
      alternatives (feature-brief, press-release) can be
-     selected via decisions — see handbook/customization.md. -->
+     selected via customizations — see handbook/customization.md. -->
 
 | PRD | Status | Summary |
 |-----|--------|---------|

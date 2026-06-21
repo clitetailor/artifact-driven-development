@@ -80,7 +80,7 @@ graph LR
 
 *Ad-hoc artifacts like `note` can be created at any time, by any agent, without phase or prerequisite restrictions.*
 
-*Requirements-root alternatives (`feature-brief`, `press-release`) are decision selectable — see `../handbook/customization.md` and `../decisions/README.md`. An alternative shares the default type's dependencies shown above (the graph depicts the `prd` default).*
+*Requirements-root alternatives (`feature-brief`, `press-release`) are customization selectable — see `../handbook/customization.md` and `../customizations/README.md`. An alternative shares the default type's dependencies shown above (the graph depicts the `prd` default).*
 
 *`api-spec` and `data-design` co-evolve (`↔`): both depend on `system-architecture`, but they iterate together — API shapes reference data-design entities, and data-design internal shapes are constrained by API contracts.*
 

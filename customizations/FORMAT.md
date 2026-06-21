@@ -1,15 +1,15 @@
-# Decision File Format
+# customization file Format
 
-Conventions for files in `decisions/`. Each decision axis (e.g. requirements-root type,
+Conventions for files in `customizations/`. Each customization axis (e.g. requirements-root type,
 ask-threshold policy) has one file listing all alternatives side-by-side.
 
 ---
 
 ## File structure
 
-Every decision file follows this structure:
+Every customization file follows this structure:
 
-1. **Header** — what the decision switches, how to apply, how to switch later.
+1. **Header** — what the customization switches, how to apply, how to switch later.
 2. **What changes** — one-paragraph summary of the scope (which files, which fields).
 3. **Alternatives table** — compact overview: one row per alternative with prefix, folder,
    role (default/alternative), and key identifiers. This is the catalog, not the content.
@@ -18,7 +18,7 @@ Every decision file follows this structure:
 5. **Apply** — step-by-step instructions: how to locate targets, which tool to use, what
    order to work in.
 6. **Verify** — grep assertions with expected counts. Run after applying to catch misses.
-7. **Notes** — orthogonality with other decisions, migration caveats, known issues.
+7. **Notes** — orthogonality with other customizations, migration caveats, known issues.
 
 ---
 
@@ -26,8 +26,8 @@ Every decision file follows this structure:
 
 ### 1. Per-axis, not per-alternative
 
-One file per decision axis, not one file per alternative. All alternatives for an axis
-live in the same file so the user sees the full decision space at once.
+One file per customization axis, not one file per alternative. All alternatives for an axis
+live in the same file so the user sees the full customization space at once.
 
 ### 2. Alternatives are peers, not inverses
 
@@ -49,7 +49,7 @@ lead-in). If the chosen alternative is already the current state, skip to Verify
 - **Surgical edits** (token swaps within unchanged text) → **token table** with
   find/replace pairs + find commands. Diff-like, but parameterized.
 
-A single decision file may use both: token table for L1 (mechanical swaps), full final
+A single customization file may use both: token table for L1 (mechanical swaps), full final
 state for L2 (prose relabeling).
 
 ### 5. L1 (templates): find commands, not hardcoded file lists
@@ -71,7 +71,7 @@ that use the term as an industry word, not as the default type name).
 
 ### 7. §Verify replaces `.rej` checking
 
-Every decision file ends with a Verify section containing grep assertions with expected
+Every customization file ends with a Verify section containing grep assertions with expected
 counts. This replaces the old `patch --dry-run` + `.rej` file checking. Assertions
 include:
 - "Should be gone" checks (residual old tokens → 0 hits)
@@ -80,7 +80,7 @@ include:
 
 ### 8. No `patch` or `yq`
 
-Decision files use the agent's native file-edit tools (Edit, Read). No `patch -p1`, no
+customization files use the agent's native file-edit tools (Edit, Read). No `patch -p1`, no
 `--fuzz`, no `.rej`/`.orig` cleanup, no separate `yq` step for `manifest.yaml`. One
 mechanism for all files.
 
@@ -88,18 +88,18 @@ mechanism for all files.
 
 ## Illustrative diffs
 
-When a decision file includes an illustrative ` ```diff ` block (e.g. to show the shape
+When a customization file includes an illustrative ` ```diff ` block (e.g. to show the shape
 of an L1 token swap), the warning "illustrative, not load-bearing" lives next to that
 diff. The token table and find commands are the source of truth — the diff is a visual
 aid, not something to hunt for exact lines.
 
 ---
 
-## Adding a new decision axis
+## Adding a new customization axis
 
-1. Create `decisions/<axis>.md` following the structure above.
-2. Add a row to `decisions/README.md`'s "Available decisions" table.
-3. If the decision axis replaces an existing `patches/` mechanism, update all files that
+1. Create `customizations/<axis>.md` following the structure above.
+2. Add a row to `customizations/README.md`'s "Available customizations" table.
+3. If the customization axis replaces an existing `patches/` mechanism, update all files that
    reference the old mechanism (see `handbook/customization.md` and
    `handbook/playbooks/customize-artifacts.md`).
 
