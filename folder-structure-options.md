@@ -1,7 +1,7 @@
 # Folder Structure Options
 
 Exploration of grouping axes for the 15 artifact-type folders currently flat at vault root.
-Framework folders (`agents/`, `conventions/`, `customizations/`, `reference/`, `handbook/`, `templates/`)
+Framework folders (`agents/`, `conventions/`, `reference/`, `handbook/`, `templates/`)
 are out of scope here — only artifact-folder grouping is compared.
 
 ## Current structure (baseline)
@@ -14,11 +14,11 @@ All 15 artifact-type folders sit flat at vault root alongside 6 framework folder
 ├── prds/                   user-stories/         system-architectures/ data-designs/
 ├── user-flows/             design-specs/         tech-designs/        tasks/
 ├── plans/                  test-specs/           notes/
-├── agents/  conventions/  customizations/  reference/  handbook/  templates/
+├── agents/  conventions/  reference/  handbook/  templates/
 └── manifest.yaml  AGENTS.md  README.md  PROJECT.md
 ```
 
-21 root entries total. The question: can artifact folders be grouped to reduce root clutter
+20 root entries total. The question: can artifact folders be grouped to reduce root clutter
 and add navigational meaning?
 
 ---
@@ -51,7 +51,7 @@ and `manifest.yaml`'s comment dividers.
 │   └── test-specs/
 ├── general/
 │   └── notes/
-├── agents/  conventions/  customizations/  reference/  handbook/  templates/
+├── agents/  conventions/  reference/  handbook/  templates/
 └── manifest.yaml  AGENTS.md  README.md  PROJECT.md
 ```
 
@@ -107,7 +107,7 @@ Groups artifact folders by whether they're product-facing, technical-facing, or 
 │   └── test-specs/
 ├── general/
 │   └── notes/
-├── agents/  conventions/  customizations/  reference/  handbook/  templates/
+├── agents/  conventions/  reference/  handbook/  templates/
 └── manifest.yaml  AGENTS.md  README.md  PROJECT.md
 ```
 
@@ -162,7 +162,7 @@ bucket — no type subfolders. Most faithful to BMAD and ClaudeKit's actual stru
 │   └── ...
 ├── notes/                       # ad-hoc — flat files
 │   └── note-meeting-2026-06-21.md
-├── agents/  conventions/  customizations/  reference/  handbook/  templates/
+├── agents/  conventions/  reference/  handbook/  templates/
 └── manifest.yaml  AGENTS.md  README.md  PROJECT.md
 ```
 
@@ -219,7 +219,7 @@ BMAD/ClaudeKit's lifespan split with the seedbed's type-folder navigation.
 │   ├── plans/
 │   └── test-specs/
 ├── notes/                       # ad-hoc
-├── agents/  conventions/  customizations/  reference/  handbook/  templates/
+├── agents/  conventions/  reference/  handbook/  templates/
 └── manifest.yaml  AGENTS.md  README.md  PROJECT.md
 ```
 
@@ -322,7 +322,7 @@ closer to the seedbed's tasks). Defensible either way.
 | `reference/artifact-vocabulary.md` | No change — definitions are by type |
 | `templates/` | No change — templates reference types, not folders |
 | `AGENTS.md` | No change — references `reference/` docs, not artifact folders |
-| `customizations/` | Potential new customization axis: `folder-structure.md` with alternatives |
+| `handbook/customizations/` | Potential new customization axis: `folder-structure.md` with alternatives |
 
 **L2 has the smallest impact** because type-based grep queries (`type: api-spec`) already search
 the whole vault and are unaffected; ownership, dep-graph, vocabulary, templates, and AGENTS.md are

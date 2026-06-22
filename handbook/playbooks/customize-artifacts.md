@@ -39,7 +39,7 @@ dating"), skip to Step 2 with that choice.
 
 ## Step 2 — Confirm the Decision
 
-Agent: I will apply the `{choice}` alternative from `customizations/{axis}.md`. This is the
+Agent: I will apply the `{choice}` alternative from `handbook/customizations/{axis}.md`. This is the
 `{axis}` axis — it will touch `{files listed in the axis's What changes section}`.
 Already-created artifacts are not touched — they are migrated on demand. Continue?
 (Yes / Cancel)
@@ -52,7 +52,7 @@ If user selects **Yes**: Proceed to Step 3.
 
 ## Step 3 — Apply the customization file
 
-Open the customization file (`customizations/{axis}.md`) and follow its **Apply** section.
+Open the customization file (`handbook/customizations/{axis}.md`) and follow its **Apply** section.
 The Apply section is self-contained — it lists the steps in order, naming each target
 file in prose (e.g. `**manifest.yaml**:`, `**AGENTS.md**:`, `**Filesystem**:`). The first
 step reads the current state; if the chosen alternative is already active, the Apply

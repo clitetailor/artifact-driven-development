@@ -3,9 +3,9 @@
 Customization switches for the vault. Each file lists all alternatives for one
 customization axis side-by-side — pick an alternative, and the agent applies it.
 
-For the step-by-step apply flow, see `../handbook/playbooks/customize-artifacts.md`.
+For the step-by-step apply flow, see `../playbooks/customize-artifacts.md`.
 For the mechanism (how applying works, upgrade flow, combining customizations), see
-`../handbook/customization.md`.
+`../customization.md`.
 For the format conventions that govern customization files, see [`FORMAT.md`](./FORMAT.md).
 
 ## Available customizations

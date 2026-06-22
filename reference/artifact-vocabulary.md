@@ -23,4 +23,4 @@
 
 ---
 
-*The three requirements-root types (`prd`, `feature-brief`, `press-release`) are peers. The active type for this vault is set in `../manifest.yaml`'s `feature_type:` field — see `../customizations/requirements-root.md` to switch it.*
+*The three requirements-root types (`prd`, `feature-brief`, `press-release`) are peers. The active type for this vault is set in `../manifest.yaml`'s `feature_type:` field — see `../handbook/customizations/requirements-root.md` to switch it.*

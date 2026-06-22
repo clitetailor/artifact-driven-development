@@ -1,8 +1,8 @@
 # Folder-Structure Customization — Validity Summary
 
 Companion to `folder-structure-options.md`. Assesses whether the request "create a new
-customization under `customizations/` for folder-structure alternatives" is valid as stated,
-against the framework in `customizations/FORMAT.md`, `handbook/customization.md`, and
+customization under `handbook/customizations/` for folder-structure alternatives" is valid as stated,
+against the framework in `handbook/customizations/FORMAT.md`, `handbook/customization.md`, and
 `handbook/playbooks/customize-artifacts.md`.
 
 ---
@@ -33,8 +33,8 @@ The current flat baseline is labeled "Current structure (baseline)" but has no s
 
 ## Resolved
 
-- ~~New mechanism class required~~ — **Resolved.** The mechanism-class abstraction has been dropped from `handbook/customization.md`, `handbook/playbooks/customize-artifacts.md`, and `customizations/FORMAT.md`. Axes now declare their layers directly; the playbook's Step 3 is a generic shell that follows each axis's self-contained Apply section. Adding folder-structure no longer requires a new class or framework-doc updates — only the customization file itself + a README row.
+- ~~New mechanism class required~~ — **Resolved.** The mechanism-class abstraction has been dropped from `handbook/customization.md`, `handbook/playbooks/customize-artifacts.md`, and `handbook/customizations/FORMAT.md`. Axes now declare their layers directly; the playbook's Step 3 is a generic shell that follows each axis's self-contained Apply section. Adding folder-structure no longer requires a new class or framework-doc updates — only the customization file itself + a README row.
 
 ## Recommendation
 
-Resolve issues 1-2 first (they're structural — the `folder_structure:` manifest field and the folder-move Apply steps), then draft `customizations/folder-structure.md`. Issue 3 is a documentation matter inside the customization file itself.
+Resolve issues 1-2 first (they're structural — the `folder_structure:` manifest field and the folder-move Apply steps), then draft `handbook/customizations/folder-structure.md`. Issue 3 is a documentation matter inside the customization file itself.

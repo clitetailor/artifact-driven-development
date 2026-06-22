@@ -4,7 +4,7 @@
 > below; the agent applies that value. Switching to a different alternative later = apply
 > a different alternative's value.
 >
-> For the apply flow, see `../handbook/playbooks/customize-artifacts.md`.
+> For the apply flow, see `../playbooks/customize-artifacts.md`.
 
 ---
 

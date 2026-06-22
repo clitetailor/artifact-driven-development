@@ -3,7 +3,7 @@
 > Switches whether artifact IDs carry a creation-date prefix, and which types are dated.
 > Switching alternatives = manifest-only edit (replace the `dated_types:` list).
 >
-> For the apply flow, see `../handbook/playbooks/customize-artifacts.md`.
+> For the apply flow, see `../playbooks/customize-artifacts.md`.
 
 ---
 

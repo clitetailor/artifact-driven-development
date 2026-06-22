@@ -1,6 +1,6 @@
 # customization file Format
 
-Conventions for files in `customizations/`. Each customization axis (e.g. requirements-root type,
+Conventions for files in `handbook/customizations/`. Each customization axis (e.g. requirements-root type,
 ask-threshold policy) has one file listing all alternatives side-by-side.
 
 ---
@@ -126,10 +126,10 @@ aid, not something to hunt for exact lines.
 
 ## Adding a new customization axis
 
-1. Create `customizations/<axis>.md` following the structure above. The file is
+1. Create `handbook/customizations/<axis>.md` following the structure above. The file is
    self-contained — its **What changes** section declares which layers it uses, and its
    **Apply** section carries the apply procedure. No framework-doc updates are needed.
-2. Add a row to `customizations/README.md`'s "Available customizations" table.
+2. Add a row to `handbook/customizations/README.md`'s "Available customizations" table.
 
 ## Adding a new alternative to an existing axis
 

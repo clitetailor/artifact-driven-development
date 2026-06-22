@@ -26,12 +26,12 @@ feature_type: prd                   # active requirements-root type (single sour
 # The field above names the active requirements-root type for this vault.
 # All templates and reference docs resolve from this field — no markdown swaps needed.
 # Framework shipped default: prd. Alternative types are registered below and can be
-# selected via customizations/requirements-root.md; see handbook/customization.md.
+# selected via handbook/customizations/requirements-root.md; see handbook/customization.md.
 
 dated_types: []                     # types whose IDs carry a {YYYY-MM-DD}- creation-date prefix
 # Empty list = `none` alternative. Populate with type names (e.g. [prd, feature-brief])
 # to apply the `snapshot-style` or `all` alternative from
-# customizations/artifact-id-dating.md.
+# handbook/customizations/artifact-id-dating.md.
 
 # --- Artifact types ---
 # No `phase` here: phase grouping is a workflow concept owned by

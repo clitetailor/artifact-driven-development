@@ -31,5 +31,5 @@ Agent-driven procedures — reference these in your AI chat to walk through a ta
 | Grep recipes for navigation | `../reference/vault-queries.md` |
 | Vocabulary | `../reference/artifact-vocabulary.md` |
 | Coordination decision tree | `../reference/coordination-decision-tree.md` |
-| Available customization axes (customization) | `../customizations/README.md` |
+| Available customization axes (customization) | `customizations/README.md` |
 | Artifact body templates (one per type) | `../templates/` |

@@ -26,7 +26,6 @@
 ├── notes/                  # Ad-hoc scratchpad notes (note-) — any agent, any time
 ├── agents/                 # Agent design docs + repo/skill mappings
 ├── conventions/            # Enforced conventions (prescriptive)
-├── customizations/         # User customization files — one per axis, all alternatives side-by-side
 ├── reference/              # AI-friendly reference: vocabulary, lifecycle, ownership, SDLC phases, dep graph
 ├── handbook/               # Human-readable workflow guides, setup prompt, customization guide
 └── templates/              # Artifact doc templates

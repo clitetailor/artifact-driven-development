@@ -1,14 +1,14 @@
 # Customizing Artifact Decisions
 
 > How customization files work — layers, applying, combining, upgrade flow.
-> For the catalog of available axes, see `../customizations/README.md`.
+> For the catalog of available axes, see `customizations/README.md`.
 
 ---
 
 ## What a Decision Touches
 
 A customization axis touches one or more **layers** — kinds of edits it makes to the
-vault. The layer catalog lives in `../customizations/FORMAT.md` → "Layers"; each axis
+vault. The layer catalog lives in `customizations/FORMAT.md` → "Layers"; each axis
 declares which layers it uses in its **What changes** section.
 
 In brief, the four layers are:
@@ -74,7 +74,7 @@ matching needed.
 Switching from one alternative to another (e.g. `feature-brief` → `press-release` for
 requirements-root, or `none` → `snapshot-style` for artifact-id-dating):
 
-1. Open the customization file for the axis (e.g. `customizations/requirements-root.md`)
+1. Open the customization file for the axis (e.g. `handbook/customizations/requirements-root.md`)
 2. Find the new alternative's section
 3. Apply its edits to each target file (per the axis's Apply section)
 4. Run the §Verify block
