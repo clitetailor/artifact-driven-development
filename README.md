@@ -105,44 +105,30 @@ The full list of artifact types, ID prefixes, agents, skills, and statuses lives
 
 ## Getting Started
 
-The setup supports multi-repo projects where the vault lives separately from the code repos as a sibling folder.
+The setup supports multi-repo configurations where your artifact vault lives as a sibling to your active code repositories.
 
 ### Walkthrough — fictional issue-tracker project
 
-Assume you are starting a new project called `issue-tracker` with a React frontend (`issue-tracker-web`) and a Node API (`issue-tracker-api`). Steps to bring up the vault:
+Assume you are starting a new project called `issue-tracker` with a React frontend (`issue-tracker-web`) and a Node API (`issue-tracker-api`). Steps to initialize and align your vault:
 
-1. **Create the workspace.**
-   ```
-   mkdir issue-tracker && cd issue-tracker
-   ```
-   This folder will hold the vault and all sibling code repos.
-
-2. **Copy this vault into the workspace as the docs repo.**
-   ```
-   cp -r /path/to/artifact-driven-development ./issue-tracker-docs
-   cd issue-tracker-docs
-   ```
-
-3. **Initialize the sibling code repos** as sibling folders:
-   ```
-   cd ..
-   git init issue-tracker-web
-   git init issue-tracker-api
+1. **Clone this seedbed to initialize your project's vault.** Assuming the parent project directory `issue-tracker/` already exists with the sibling code repositories initialized:
+   ```bash
+   git clone https://github.com/clitetailor/artifact-driven-development issue-tracker/issue-tracker-vault
+   cd issue-tracker/issue-tracker-vault
    ```
    The workspace now looks like:
    ```
    issue-tracker/
-   ├── issue-tracker-docs/   ← this vault
-   ├── issue-tracker-web/
-   └── issue-tracker-api/
+   ├── issue-tracker-vault/     ← your project's artifact vault ({vault-root})
+   ├── issue-tracker-web/       ← sibling code repository
+   └── issue-tracker-api/       ← sibling code repository
    ```
 
-4. **Run the setup prompt.** Open a coding agent in `issue-tracker-docs/` and reference `handbook/playbooks/setup.md`. The agent will read the workspace, ask targeted questions about your project and repo layout, then configure `manifest.yaml` — replacing placeholders, initializing the registry, and reviewing convention docs.
+2. **Run the setup playbook.** Open a coding agent in `{vault-root}` (the `issue-tracker-vault/` folder) and execute the setup playbook found in `handbook/playbooks/setup.md`. The agent will configure your project metadata, upstream seedbed reference, and sibling repository paths within `manifest.yaml`.
 
-5. **Plan your first feature.** Tell the agent what you want to build. It will reference `handbook/playbooks/setup.md` again and walk through requirements, design artifacts, and tasks. To switch the requirements-root type, apply a customization file from `handbook/customizations/` (see `handbook/customization.md` or `handbook/playbooks/customize-artifacts.md`).
+3. **Customize your vault.** Run the customization playbook to select your preferred options for each customization axis (such as the active requirements-root type, ask-threshold policy, or artifact-id-dating format). Reference the procedures in `handbook/playbooks/customize-artifacts.md` (see `handbook/customization.md` for the conceptual background on how alternatives are structured side-by-side).
 
-6. **Iterate.** From here, work flows through the artifact dependency graph: features beget requirements, requirements beget design artifacts, design artifacts beget tasks. The `handbook/` workflow guides describe the day-to-day pattern.
-
+4. **Develop with the vault.** Leverage your newly configured vault to draft versioned artifacts (requirements, designs, plans, and tasks) and orchestrate development across your sibling code repositories.
 ---
 
 ## Upgrading the Framework
