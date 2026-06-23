@@ -7,24 +7,21 @@ against the framework in `handbook/customizations/FORMAT.md`, `handbook/customiz
 
 ---
 
-## Validity: Partially valid — needs 3 issues resolved before drafting
+## Validity: Partially valid — needs 2 issues resolved before drafting
 
 **What's already valid:**
 - **Axis is well-defined:** switches how the 15 artifact-type folders are grouped at vault root.
-- **Alternatives are peers:** 5 options (current flat baseline + A/P2/L1/L2) occupy the same slot; no "revert" semantics. ✓
+- **Alternatives are peers:** 4 options (current flat baseline + A/P2/L2) occupy the same slot; no "revert" semantics. ✓
 - **Orthogonality holds:** touches `manifest.yaml` `folder:` fields + `reference/folder-structure.md` + `reference/vault-queries.md` — disjoint from `feature_type:` (requirements-root), `dated_types:` (artifact-id-dating), and `AGENTS.md` bullets (ask-threshold). ✓
-- **Impact scope is already analyzed:** the options doc's "Impact assessment" table (lines 313-329) enumerates exactly which files move. ✓
+- **Impact scope is already analyzed:** the options doc's "Impact assessment" table (lines 260-276) enumerates exactly which files move. ✓
 
 ## Issues that must be resolved
 
 ### 1. Physical folder moves — new operation type
 All 3 existing axes are pure text edits. Switching folder-structure alternatives requires **physically moving directories on disk** (e.g. `mv prds/ specs/prds/` for L2). The `customize-artifacts.md` playbook's generic shell says "follow the Apply section" — the folder-structure Apply section must carry the move steps, plus a migration note for already-created artifacts (folder moves are bulk by nature, unlike the on-demand migration the existing axes assume).
 
-### 2. L1 is not a clean peer
-The options doc itself flags that L1 "Breaks folder-scoped queries in `reference/vault-queries.md`" — L1 requires query rewrites that go beyond the path-prefix edits the other alternatives need. This asymmetry must be called out in the customization file's Notes section, or L1 needs its own per-alternative query-rewrite section that the others don't need.
-
 ## Minor: naming
-The current flat baseline is labeled "Current structure (baseline)" but has no short peer name like A/P2/L1/L2. It needs one (e.g. `flat`) to be a proper alternative in the Alternatives table.
+The current flat baseline is labeled "Current structure (baseline)" but has no short peer name like A/P2/L2. It needs one (e.g. `flat`) to be a proper alternative in the Alternatives table.
 
 ---
 
@@ -44,4 +41,4 @@ The current flat baseline is labeled "Current structure (baseline)" but has no s
 
 ## Recommendation
 
-Resolve issue #1 (physical folder moves — the Apply section's move steps + bulk-migration note), then draft `handbook/customizations/folder-structure.md`. Issue #2 (L1's query-rewrite asymmetry) is a documentation matter inside the customization file itself.
+Resolve issue #1 (physical folder moves — the Apply section's move steps + bulk-migration note), then draft `handbook/customizations/folder-structure.md`.

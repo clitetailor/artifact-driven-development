@@ -141,64 +141,11 @@ No real-world framework does product/technical/delivery as three peer buckets.
 
 ---
 
-## Option L1 — pure flat two-bucket (BMAD/ClaudeKit faithful)
-
-Groups artifacts by lifespan: stable reference vs transient working. Flat files within each
-bucket — no type subfolders. Most faithful to BMAD and ClaudeKit's actual structures.
-
-```
-{vault-root}/
-├── specs/                       # stable reference — flat files
-│   ├── prd-user-auth.md
-│   ├── adr-001-use-jwt.md
-│   ├── sa-platform.md
-│   ├── api-user-authentication.md
-│   ├── story-user-login.md
-│   └── ...
-├── delivery/                    # transient working — flat files
-│   ├── task-implement-login.md
-│   ├── plan-user-auth.md
-│   ├── ts-user-authentication.md
-│   └── ...
-├── notes/                       # ad-hoc — flat files
-│   └── note-meeting-2026-06-21.md
-├── agents/  conventions/  reference/  handbook/  templates/
-└── manifest.yaml  AGENTS.md  README.md  PROJECT.md
-```
-
-### Real-world precedent
-
-- **BMAD**: `_bmad-output/planning-artifacts/` (flat: prd.md, architecture.md, epics.md) vs
-  `_bmad-output/implementation-artifacts/` (flat: sprint-status.yaml, {story-key}.md)
-- **ClaudeKit**: `docs/` (flat: system-architecture.md, code-standards.md) vs
-  `plans/` (flat: {feature}-YYYYMMDD.md)
-
-Both use flat peer files within each bucket — no type subfolders.
-
-### Strengths
-
-- **Most faithful to BMAD/ClaudeKit** — flat peer files within each lifespan bucket
-- **Cleanest root** — 3 artifact buckets, 9 root entries total
-- Prefixes (`prd-`, `adr-`, `task-`) carry type signal; `type:` grep queries already search
-  the whole vault, so type discovery still works without type folders
-
-### Weaknesses
-
-- **Loses type-level folder navigation** — `ls specs/` shows 30+ mixed-type files; no way to
-  browse "all ADRs" by folder
-- **Seedbed has multiple artifacts per type** (unlike BMAD's single PRD/architecture), so flat
-  files get unwieldy fast
-- **Breaks folder-scoped queries** in `reference/vault-queries.md` — queries like
-  `{vault-root}/tasks/` and `{vault-root}/test-specs/` would need to become whole-vault `type:`
-  queries
-- User-story placement still a judgment call (specs/ or delivery/)
-
----
-
 ## Option L2 — two-bucket with type subfolders (hybrid)
 
-Same lifespan axis as L1, but preserves type-level subfolders within each bucket. Combines
-BMAD/ClaudeKit's lifespan split with the seedbed's type-folder navigation.
+Groups artifacts by lifespan (stable reference vs transient working), but preserves type-level
+subfolders within each bucket. Combines BMAD/ClaudeKit's lifespan split with the seedbed's
+type-folder navigation.
 
 ```
 {vault-root}/
@@ -258,7 +205,7 @@ closer to the seedbed's tasks). Defensible either way.
   (transient scratchpad); L2 extends this instinct to the whole structure
 - **Preserves type-level navigation** — `ls specs/adrs/` still works; type-based browsing intact
 - **Fewest ambiguous placements** — one judgment call (user-story), which is genuinely borderline
-- **3 artifact buckets, 9 root entries** — cleanest root alongside L1
+- **3 artifact buckets, 9 root entries** — cleanest root
 - **Smallest query impact** — only 3 folder-scoped queries in `vault-queries.md` need path prefixes;
   type-based grep queries (`type: api-spec`) are unaffected
 
@@ -275,22 +222,22 @@ closer to the seedbed's tasks). Defensible either way.
 
 ## Comparison table
 
-| Dimension | A (phase) | P2 (product/technical/delivery) | L1 (flat lifespan) | L2 (hybrid lifespan) |
-|---|---|---|---|---|
-| **AI-framework precedent** | Weak (doc frameworks) | Weakest (none do 3-bucket) | Strong (BMAD, ClaudeKit) | **Strong (BMAD, ClaudeKit)** |
-| **Top-level artifact buckets** | 6 | 4 | 3 | **3** |
-| **Root entries (with framework)** | 12 | 10 | 9 | **9** |
-| **Ambiguous placements** | **0** | 4 (all awkward) | 1 (borderline) | 1 (borderline) |
-| **Matches dep-graph 1:1** | **Yes** | No | No | No |
-| **Matches agent context-loading** | No | No | **Yes** | **Yes** |
-| **Builds on existing seedbed instinct** | No | No | Yes (notes/) | **Yes (notes/)** |
-| **Preserves type-folder navigation** | Yes | Yes | **No** | Yes |
-| **Manifest divider precedent** | **Yes** | No | No | No |
-| **Human-intuitive axis** | Medium | High (but undermined) | Medium | Medium |
-| **Folder-scoped query impact** | High (all paths change) | High (all paths change) | High (queries break) | **Low (3 queries, prefix only)** |
-| **Real-world frameworks** | attractor, BANA spine | BANA (2-bucket only) | BMAD, ClaudeKit | BMAD, ClaudeKit (+ seedbed hybrid) |
+| Dimension | A (phase) | P2 (product/technical/delivery) | L2 (hybrid lifespan) |
+|---|---|---|---|
+| **AI-framework precedent** | Weak (doc frameworks) | Weakest (none do 3-bucket) | **Strong (BMAD, ClaudeKit)** |
+| **Top-level artifact buckets** | 6 | 4 | **3** |
+| **Root entries (with framework)** | 12 | 10 | **9** |
+| **Ambiguous placements** | **0** | 4 (all awkward) | 1 (borderline) |
+| **Matches dep-graph 1:1** | **Yes** | No | No |
+| **Matches agent context-loading** | No | No | **Yes** |
+| **Builds on existing seedbed instinct** | No | No | **Yes (notes/)** |
+| **Preserves type-folder navigation** | Yes | Yes | Yes |
+| **Manifest divider precedent** | **Yes** | No | No |
+| **Human-intuitive axis** | Medium | High (but undermined) | Medium |
+| **Folder-scoped query impact** | High (all paths change) | High (all paths change) | **Low (3 queries, prefix only)** |
+| **Real-world frameworks** | attractor, BANA spine | BANA (2-bucket only) | BMAD, ClaudeKit (+ seedbed hybrid) |
 
-## Lifespan categorization (for L1/L2)
+## Lifespan categorization (for L2)
 
 | Type | Prefix | Bucket | Rationale |
 |---|---|---|---|
@@ -316,7 +263,7 @@ closer to the seedbed's tasks). Defensible either way.
 |---|---|
 | `manifest.yaml` | `folder:` fields update for all 15 types (e.g. `folder: specs/prds/` for L2) |
 | `reference/folder-structure.md` | Full rewrite of the tree diagram |
-| `reference/vault-queries.md` | Folder-scoped queries get path prefixes (3 queries for L2; more for A/P2; queries break for L1) |
+| `reference/vault-queries.md` | Folder-scoped queries get path prefixes (3 queries for L2; more for A/P2) |
 | `reference/artifact-ownership.md` | No change — ownership is by type, not folder |
 | `reference/artifact-dep-graph.md` | No change — dependencies are by type, not folder |
 | `reference/artifact-vocabulary.md` | No change — definitions are by type |
@@ -336,8 +283,8 @@ Real-world frameworks examined for folder-structure mindset:
 
 | Framework | Grouping axis | Relevance |
 |---|---|---|
-| **BMAD-METHOD** | Lifespan (planning-artifacts vs implementation-artifacts) | Direct precedent for L1/L2 |
-| **ClaudeKit Engineer** | Lifespan (docs vs plans) | Direct precedent for L1/L2 |
+| **BMAD-METHOD** | Lifespan (planning-artifacts vs implementation-artifacts) | Direct precedent for L2 |
+| **ClaudeKit Engineer** | Lifespan (docs vs plans) | Direct precedent for L2 |
 | **Spec-Kit (GitHub)** | Feature (all types for one feature co-located) | Different axis — feature-centric |
 | **PRPs-agentic-eng** | Lifecycle status of one artifact type | Different axis — single-type |
 | **attractor-guided-engineering** | SDLC phase | Precedent for A |
