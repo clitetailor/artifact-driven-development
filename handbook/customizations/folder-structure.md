@@ -5,7 +5,7 @@
 > `manifest.yaml` + reference docs. Switching to a different alternative later = apply a
 > different alternative's section.
 >
-> For the apply flow, see `../playbooks/customize-artifacts.md`.
+> For the apply flow, see `../playbooks/customize-vault.md`.
 
 ---
 

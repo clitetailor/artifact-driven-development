@@ -34,7 +34,7 @@ Each customization file contains:
   for the apply procedure)
 - A **Verify** section — grep assertions to confirm the apply succeeded
 
-To apply a decision, reference `handbook/playbooks/customize-artifacts.md` in your AI chat.
+To apply a decision, reference `handbook/playbooks/customize-vault.md` in your AI chat.
 The agent will walk you through selecting an alternative and applying it. Or apply
 manually: open the customization file, find the chosen alternative's section, and follow
 the Apply section's steps.

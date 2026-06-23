@@ -126,7 +126,7 @@ Assume you are starting a new project called `issue-tracker` with a React fronte
 
 2. **Run the setup playbook.** Open a coding agent in `{vault-root}` (the `issue-tracker-vault/` folder) and execute the setup playbook found in `handbook/playbooks/setup.md`. The agent will configure your project metadata, upstream seedbed reference, and sibling repository paths within `manifest.yaml`.
 
-3. **Customize your vault.** Run the customization playbook to select your preferred options for each customization axis (such as the active requirements-root type, ask-threshold policy, or artifact-id-dating format). Reference the procedures in `handbook/playbooks/customize-artifacts.md` (see `handbook/customization.md` for the conceptual background on how alternatives are structured side-by-side).
+3. **Customize your vault.** Run the customization playbook to select your preferred options for each customization axis (such as the active requirements-root type, ask-threshold policy, or artifact-id-dating format). Reference the procedures in `handbook/playbooks/customize-vault.md` (see `handbook/customization.md` for the conceptual background on how alternatives are structured side-by-side).
 
 4. **Develop with the vault.** Leverage your newly configured vault to draft versioned artifacts (requirements, designs, plans, and tasks) and orchestrate development across your sibling code repositories.
 ---

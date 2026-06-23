@@ -1,4 +1,4 @@
-# Customize Artifact Decisions
+# Customize Vault Decisions
 
 > Reference this file in your AI chat to switch a customization axis (requirements-root
 > type, ask-threshold policy, artifact-id-dating, or any other available axis). The agent
