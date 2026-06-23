@@ -11,6 +11,8 @@ Every customization file follows this structure:
 
 1. **Header** — what the customization switches, how to apply, how to switch later.
 2. **What changes** — one-paragraph summary of the scope (which files, which fields).
+   Axes that move existing files declare a `**Migration model:**` line here; Step 2 surfaces
+   it instead of the default on-demand line.
 3. **Alternatives table** — compact overview: one row per alternative with prefix, folder,
    role (default/alternative), and key identifiers. This is the catalog, not the content.
    No status column — see Principle 7 below.

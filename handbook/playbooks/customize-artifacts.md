@@ -41,8 +41,13 @@ dating"), skip to Step 2 with that choice.
 
 Agent: I will apply the `{choice}` alternative from `handbook/customizations/{axis}.md`. This is the
 `{axis}` axis — it will touch `{files listed in the axis's What changes section}`.
-Already-created artifacts are not touched — they are migrated on demand. Continue?
+{migration line}. Continue?
 (Yes / Cancel)
+
+The migration line is the axis's **Migration model** declaration from its What-changes
+section, if present; otherwise the default: "Already-created artifacts are not touched —
+they are migrated on demand". If the axis's What-changes section declares a Migration model,
+surface that instead of the default on-demand line.
 
 If user selects **Cancel**: Exit. No changes made.
 
