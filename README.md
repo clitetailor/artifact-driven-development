@@ -11,14 +11,17 @@ The architecture is made up of four components:
 
 All components are designed to be flexible. The number of artifact types can be added or removed to fit the developer's development workflow. The SDLC can be adjusted. Skill mappings can be reconfigured. This project provides the base scaffold so anyone can start building their own PKM development workflow and evolve it over time.
 
----
+## Table of Contents
 
-## Prerequisites
-
-| Tool | Required | Purpose |
-|---|---|---|
-| [**git**](https://git-scm.com/) | Yes | Version control — committing vault changes |
-| [**rg**](https://github.com/BurntSushi/ripgrep) (ripgrep) | Yes | Artifact discovery — all vault queries use `rg` against frontmatter fields (see `reference/vault-queries.md`) |
+- [Why It Works for AI-Assisted Development](#why-it-works-for-ai-assisted-development)
+- [Artifacts](#artifacts)
+- [Repo Layout](#repo-layout)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+  - [Walkthrough — fictional issue-tracker project](#walkthrough--fictional-issue-tracker-project)
+- [Upgrading the Framework](#upgrading-the-framework)
+- [Background](#background)
+- [License](#license)
 
 ---
 
@@ -77,29 +80,25 @@ The full list of artifact types, ID prefixes, agents, skills, and statuses lives
 
 ## Repo Layout
 
-**Root files**
+See [`reference/folder-structure.md`](reference/folder-structure.md) for the full vault folder tree and root files.
 
-| File | Purpose |
-|---|---|
-| `AGENTS.md` | Core operating instructions for agents working in the vault |
-| `manifest.yaml` | Source of truth for artifact types, ID prefixes, agents, skills, and statuses |
-| `PROJECT.md` | Human-readable project overview (active tasks, requirements roots, status) |
-| `README.md` | This file — entry point for humans and agents |
-
-**Folders**
+**`handbook/` subfolders**
 
 | Folder | Purpose |
 |---|---|
-| `reference/` | AI-friendly reference docs: vocabulary, lifecycle, ownership, dep graph, frontmatter, vault queries, folder structure, coordination decision tree |
-| `handbook/` | Entry point, customization guide, and playbooks |
 | `handbook/README.md` | Handbook index — links to playbooks and conceptual reference docs |
 | `handbook/customization.md` | How to switch the requirements-root type and ask-threshold policy via customization files |
 | `handbook/playbooks/` | Agent-driven procedures — reference in your AI chat to walk through setup or customization |
 | `handbook/customizations/` | Customization files — one per axis, all alternatives side-by-side (see `handbook/customizations/README.md`) |
-| `templates/` | Artifact doc templates, one per artifact type |
-| `agents/` | Agent role definitions and repo/skill mappings |
-| `conventions/` | Enforced project conventions |
-| `feature-briefs/`, `prds/`, `press-releases/`, `user-stories/`, `user-flows/`, `design-specs/`, `adrs/`, `system-architectures/`, `api-specs/`, `data-designs/`, `tech-designs/`, `tasks/`, `plans/`, `test-specs/`, `notes/` | Vault artifact folders, one per artifact type. Populated during onboarding. |
+
+---
+
+## Prerequisites
+
+| Tool | Required | Purpose |
+|---|---|---|
+| [**git**](https://git-scm.com/) | Yes | Version control — committing vault changes |
+| [**rg**](https://github.com/BurntSushi/ripgrep) (ripgrep) | Yes | Artifact discovery — all vault queries use `rg` against frontmatter fields (see `reference/vault-queries.md`) |
 
 ---
 
