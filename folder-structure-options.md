@@ -4,7 +4,7 @@ Exploration of grouping axes for the 15 artifact-type folders currently flat at 
 Framework folders (`agents/`, `conventions/`, `reference/`, `handbook/`, `templates/`)
 are out of scope here — only artifact-folder grouping is compared.
 
-## Current structure (baseline)
+## Option flat — no grouping (baseline)
 
 All 15 artifact-type folders sit flat at vault root alongside 6 framework folders:
 
@@ -23,7 +23,7 @@ and add navigational meaning?
 
 ---
 
-## Option A — SDLC phase grouping
+## Option phase — SDLC phase grouping
 
 Groups artifact folders by SDLC phase, matching `reference/artifact-dep-graph.md`'s 5 phases
 and `manifest.yaml`'s comment dividers.
@@ -67,7 +67,7 @@ Both are documentation frameworks, not AI-agent SDLC frameworks.
 - **Zero ambiguous placements** — every type maps to exactly one phase, no judgment calls
 - **1:1 match with the dep-graph** — phase flow diagram becomes the folder structure
 - **Manifest divider precedent** — `manifest.yaml` already has `# Requirements`, `# Design`,
-  `# Architecture`, `# Development`, `# Verification`, `# General` comment dividers matching A exactly
+  `# Architecture`, `# Development`, `# Verification`, `# General` comment dividers matching `phase` exactly
 - Intuitive SDLC mental model
 
 ### Weaknesses
@@ -82,7 +82,7 @@ Both are documentation frameworks, not AI-agent SDLC frameworks.
 
 ---
 
-## Option P2 — product / technical / delivery grouping
+## Option product-technical-delivery — product / technical / delivery grouping
 
 Groups artifact folders by whether they're product-facing, technical-facing, or delivery/execution.
 
@@ -114,7 +114,7 @@ Groups artifact folders by whether they're product-facing, technical-facing, or 
 ### Real-world precedent
 
 - **BANA Module Docs**: product/business docs (`modules/`) vs engineering docs (`developer/`) —
-  but as a **two-bucket** split, with test-cases on the product side (contradicts P2's delivery bucket)
+  but as a **two-bucket** split, with test-cases on the product side (contradicts product-technical-delivery's delivery bucket)
 - **skill-harness**: `docs/artifacts/source/{product, business, data, research, ux}/` — domain
   grouping, a finer-grained cousin of product/technical, not a binary split
 
@@ -124,12 +124,12 @@ No real-world framework does product/technical/delivery as three peer buckets.
 
 - **Human-intuitive axis** — "is this product-facing or technical?" is a natural question for
   new contributors
-- Fewer buckets than A (4 vs 6)
+- Fewer buckets than `phase` (4 vs 6)
 
 ### Weaknesses
 
 - **Weakest real-world precedent** — no framework does this three-bucket shape; BANA's two-bucket
-  split contradicts P2's delivery bucket (BANA puts test-cases on product side)
+  split contradicts product-technical-delivery's delivery bucket (BANA puts test-cases on product side)
 - **Four forced placements** — types that don't cleanly fit either bucket:
   - `tasks/` — derived from api-spec (technical) *or* design-spec (product); split-owned (be/fe)
   - `plans/` — rolls up requirements-root → stories → tasks; spans product and technical by definition
@@ -141,7 +141,7 @@ No real-world framework does product/technical/delivery as three peer buckets.
 
 ---
 
-## Option L2 — two-bucket with type subfolders (hybrid)
+## Option lifespan — two-bucket with type subfolders (hybrid)
 
 Groups artifacts by lifespan (stable reference vs transient working), but preserves type-level
 subfolders within each bucket. Combines BMAD/ClaudeKit's lifespan split with the seedbed's
@@ -187,10 +187,10 @@ closer to the seedbed's tasks). Defensible either way.
 
 ### Real-world precedent
 
-- **BMAD**: lifespan split (planning-artifacts vs implementation-artifacts) — L2 adopts the
+- **BMAD**: lifespan split (planning-artifacts vs implementation-artifacts) — lifespan adopts the
   top-level axis
-- **ClaudeKit**: lifespan split (docs vs plans) — L2 adopts the top-level axis
-- L2's type subfolders are a seedbed-specific addition (BMAD/ClaudeKit don't need them because
+- **ClaudeKit**: lifespan split (docs vs plans) — lifespan adopts the top-level axis
+- lifespan's type subfolders are a seedbed-specific addition (BMAD/ClaudeKit don't need them because
   they have fewer artifact types)
 
 ### Strengths
@@ -202,7 +202,7 @@ closer to the seedbed's tasks). Defensible either way.
   An agent can be told "load `specs/` for upstream, load specific files in `delivery/` for your
   current unit of work"
 - **Builds on existing seedbed instinct** — `notes/` is already a lifespan-aware bucket
-  (transient scratchpad); L2 extends this instinct to the whole structure
+  (transient scratchpad); lifespan extends this instinct to the whole structure
 - **Preserves type-level navigation** — `ls specs/adrs/` still works; type-based browsing intact
 - **Fewest ambiguous placements** — one judgment call (user-story), which is genuinely borderline
 - **3 artifact buckets, 9 root entries** — cleanest root
@@ -212,17 +212,17 @@ closer to the seedbed's tasks). Defensible either way.
 ### Weaknesses
 
 - **One judgment call** — user-story placement (specs/ or delivery/) is defensible either way;
-  A has zero judgment calls
-- **Doesn't match dep-graph 1:1** — collapses 5 phases into 2 buckets; A preserves 1:1
+  `phase` has zero judgment calls
+- **Doesn't match dep-graph 1:1** — collapses 5 phases into 2 buckets; `phase` preserves 1:1
 - **No manifest divider precedent** — manifest's `# Requirements`, `# Architecture` etc. dividers
-  match A, not L2
+  match `phase`, not `lifespan`
 - **3-level paths** for some artifacts (e.g. `specs/architecture/adrs/adr-001.md`)
 
 ---
 
 ## Comparison table
 
-| Dimension | A (phase) | P2 (product/technical/delivery) | L2 (hybrid lifespan) |
+| Dimension | phase | product-technical-delivery | lifespan |
 |---|---|---|---|
 | **AI-framework precedent** | Weak (doc frameworks) | Weakest (none do 3-bucket) | **Strong (BMAD, ClaudeKit)** |
 | **Top-level artifact buckets** | 6 | 4 | **3** |
@@ -237,7 +237,7 @@ closer to the seedbed's tasks). Defensible either way.
 | **Folder-scoped query impact** | High (all paths change) | High (all paths change) | **Low (3 queries, prefix only)** |
 | **Real-world frameworks** | attractor, BANA spine | BANA (2-bucket only) | BMAD, ClaudeKit (+ seedbed hybrid) |
 
-## Lifespan categorization (for L2)
+## Lifespan categorization (for lifespan)
 
 | Type | Prefix | Bucket | Rationale |
 |---|---|---|---|
@@ -261,17 +261,17 @@ closer to the seedbed's tasks). Defensible either way.
 
 | File | Change required |
 |---|---|
-| `manifest.yaml` | `folder:` fields update for all 15 types (e.g. `folder: specs/prds/` for L2) |
+| `manifest.yaml` | `folder:` fields update for all 15 types (e.g. `folder: specs/prds/` for lifespan) |
 | `reference/folder-structure.md` | Full rewrite of the tree diagram |
-| `reference/vault-queries.md` | Folder-scoped queries get path prefixes (3 queries for L2; more for A/P2) |
+| `reference/vault-queries.md` | Folder-scoped queries get path prefixes (3 queries for `lifespan`; more for `phase`/`product-technical-delivery`) |
 | `reference/artifact-ownership.md` | No change — ownership is by type, not folder |
 | `reference/artifact-dep-graph.md` | No change — dependencies are by type, not folder |
 | `reference/artifact-vocabulary.md` | No change — definitions are by type |
 | `templates/` | No change — templates reference types, not folders |
 | `AGENTS.md` | No change — references `reference/` docs, not artifact folders |
-| `handbook/customizations/` | Potential new customization axis: `folder-structure.md` with alternatives |
+| `handbook/customizations/` | New customization axis: `folder-structure.md` with alternatives (assessed valid in `folder-structure-customization-validity.md`; issue #1 to resolve before drafting) |
 
-**L2 has the smallest impact** because type-based grep queries (`type: api-spec`) already search
+**lifespan has the smallest impact** because type-based grep queries (`type: api-spec`) already search
 the whole vault and are unaffected; ownership, dep-graph, vocabulary, templates, and AGENTS.md are
 all type-based, not folder-based; only 3 folder-scoped queries need path prefixes.
 
@@ -283,12 +283,12 @@ Real-world frameworks examined for folder-structure mindset:
 
 | Framework | Grouping axis | Relevance |
 |---|---|---|
-| **BMAD-METHOD** | Lifespan (planning-artifacts vs implementation-artifacts) | Direct precedent for L2 |
-| **ClaudeKit Engineer** | Lifespan (docs vs plans) | Direct precedent for L2 |
+| **BMAD-METHOD** | Lifespan (planning-artifacts vs implementation-artifacts) | Direct precedent for lifespan |
+| **ClaudeKit Engineer** | Lifespan (docs vs plans) | Direct precedent for lifespan |
 | **Spec-Kit (GitHub)** | Feature (all types for one feature co-located) | Different axis — feature-centric |
 | **PRPs-agentic-eng** | Lifecycle status of one artifact type | Different axis — single-type |
-| **attractor-guided-engineering** | SDLC phase | Precedent for A |
-| **BANA Module Docs** | Product vs engineering (two-bucket) | Partial precedent for P2 (contradicts delivery bucket) |
+| **attractor-guided-engineering** | SDLC phase | Precedent for `phase` |
+| **BANA Module Docs** | Product vs engineering (two-bucket) | Partial precedent for product-technical-delivery (contradicts delivery bucket) |
 | **skill-harness** | Domain (product/business/data/research/ux) | Different axis — domain-centric |
 | **XDLC wizards** | Flat root docs, one file per concern | No subfolder grouping |
 | **MCKRUZ/claude-code-sdlc** | Per-phase flat files | No subfolder grouping |
