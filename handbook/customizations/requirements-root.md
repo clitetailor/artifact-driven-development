@@ -84,9 +84,9 @@ feature_type: press-release
 rg "^feature_type: {new_type}" manifest.yaml
 # Expected: 1 match — visually confirm the value matches the chosen alternative.
 
-# Templates use the generic placeholder (option-agnostic — should be present regardless)
-rg -l "\{feature-id\}" templates/                            # expect: 10 downstream templates
-rg -l "\{feature-link\}" templates/                          # expect: 7 templates with References sections
+# Templates use the generic placeholder (option-agnostic — should be present in downstream templates)
+rg -l "\{feature-id\}" templates/                            # expect: matches across downstream templates
+rg -l "\{feature-link\}" templates/                          # expect: matches in templates with References sections
 
 # No template still uses a type-specific requirements-root placeholder
 rg -l "\{(prd|fb|pr)-(id|link)\}" templates/                 # expect: 0 files
