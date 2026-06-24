@@ -82,12 +82,12 @@ types:
     prefix: dd-
     folder: data-designs/
     template: templates/data-design.md
-
-  # Development
   - name: tech-design
     prefix: td-
     folder: tech-designs/
     template: templates/tech-design.md
+
+  # Development
   - name: task
     prefix: task-
     folder: tasks/

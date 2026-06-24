@@ -77,8 +77,8 @@ parent matching their phase; a type with no clear phase goes under `general/`.
 |---|---|
 | `requirements/` | feature-brief, prd, press-release, user-story |
 | `design/` | user-flow, design-spec |
-| `architecture/` | adr, system-architecture, api-spec, data-design |
-| `development/` | tech-design, task, plan |
+| `architecture/` | adr, system-architecture, api-spec, data-design, tech-design |
+| `development/` | task, plan |
 | `verification/` | test-spec |
 | `general/` | note |
 
