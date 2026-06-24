@@ -21,10 +21,9 @@ refs:
 <!-- What is and is not covered by this design. -->
 
 ## Architectural Context
-<!-- References to ADR artifacts that constrain this feature.
-     No new architecture here — system-architecture and adr own that.
-     If this feature requires a new system-wide decision, author an adr-{slug}.md first,
-     get it accepted, then reference it here. -->
+<!-- References to ADR or system-architecture artifacts that constrain or are updated by this design.
+     - Top-down: reference existing ADRs/system-architectures that constrain this design.
+     - Bottom-up: draft proposed architectural shifts here, then formalize them by authoring/updating standalone adr-{slug}.md or system-architecture artifacts. -->
 
 | ADR | Impact on This Feature |
 |---|---|
@@ -35,7 +34,7 @@ refs:
      Use either or both diagrams depending on feature complexity:
      - Component Interaction (C4 L3): Use a Sequence Diagram to show coordination between internal components/services.
      - Process Flow (C4 L4): Use a Flowchart to show complex conditional logic, data pipelines, or step-by-step processing inside a component.
-     No system-wide architecture here — system-architecture and adr own that. -->
+     - Top-down: align with system-architecture. Bottom-up: use this flow to inform updates to system-architecture. -->
 
 ### Component Interaction (C4 L3)
 ```mermaid
@@ -66,8 +65,9 @@ flowchart TD
 ```
 
 ## Key Decisions
-<!-- Implementation-level decisions (not architecture-level — those live in system-architecture).
-     Feature-scoped decisions only. System-wide decisions belong in system-architecture ADRs. -->
+<!-- Feature-scoped implementation decisions.
+     - Top-down: decisions must align with and reference constraints in system-architecture.
+     - Bottom-up: use this section to propose new structural patterns that may later be promoted to system-wide ADRs. -->
 
 | Decision | Choice | Reason | Constrained by |
 |---|---|---|---|

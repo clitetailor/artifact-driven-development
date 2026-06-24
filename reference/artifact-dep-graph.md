@@ -7,8 +7,8 @@
 |---|---|---|---|
 | 1 — Requirements | What are we building and for whom? | project-manager, business-analyst | prd, user-story |
 | 2 — Design | How does the user experience it? | product-designer | user-flow, design-spec |
-| 3 — Architecture | How is it structured? | software-architect | adr, system-architecture, api-spec, data-design |
-| 4 — Development | How is it built? | backend-engineer, frontend-engineer, project-manager | tech-design, task, plan |
+| 3 — Architecture | How is it structured? | software-architect | adr, system-architecture, api-spec, data-design, tech-design |
+| 4 — Development | How is it built? | backend-engineer, frontend-engineer, project-manager | task, plan |
 | 5 — Verification | How do we know it works? | qa-engineer | test-spec |
 
 ## Phase Flow
@@ -48,18 +48,22 @@ graph LR
     end
     subgraph ARC[Architecture]
         SA[system-architecture] --> ADR[adr]
-        SA[system-architecture] --> API[api-spec]
+        SA --> API[api-spec]
         SA --> DD[data-design]
         API <--> DD
+        SA <--> TD[tech-design]
     end
     subgraph DEV[Development]
-        TD[tech-design] --> TASK[task]
+        TD --> TASK[task]
         TD --> PLAN["plan"]
         STORY --> PLAN
     end
     subgraph VER[Verification]
         TS[test-spec]
     end
+
+    ROOT --> SA
+    ROOT --> TD
 ```
 
 | To create… | First create… |
@@ -68,11 +72,11 @@ graph LR
 | user-story | prd |
 | user-flow | prd |
 | design-spec | user-flow |
-| system-architecture | prd |
-| adr | system-architecture |
-| api-spec | system-architecture |
-| data-design | system-architecture |
-| tech-design | system-architecture, prd |
+| system-architecture | prd (or tech-design if bottom-up) |
+| adr | system-architecture (or tech-design if bottom-up) |
+| api-spec | system-architecture (or tech-design if bottom-up) |
+| data-design | system-architecture (or tech-design if bottom-up) |
+| tech-design | prd (and optionally system-architecture if top-down) |
 | task | tech-design |
 | plan | tech-design, user-story |
 | test-spec | api-spec, user-story |
