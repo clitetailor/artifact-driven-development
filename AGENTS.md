@@ -62,8 +62,18 @@ Bare `git commit` always lands in `{vault-root}` (default CWD).
 
 ## Operating Modes
 
-- **Interactive Mode (Default)**: Always start your responses with `[Interactive]`. Work interactively with the user to clarify intent. Prefer research first before asking, but if you uncover **more than 3 valuable questions or findings** (those essential to answer the user's request), pause. Summarize these questions and findings using the standardized format below and report back to the user to ask for direction before continuing. Avoid long, dense, black-box research phases that obscure information.
-- **Autonomous Mode**: Always start your responses with `[Autonomous]`. Even if the user explicitly requests this mode, you must explicitly ask for confirmation to make the switch. You should also state your understanding of the task if it helps ensure alignment before making the switch. Once in this mode and confirmed, automatically perform tasks without asking. Only stop if every requirement has been resolved or if a fatal flaw is hit (e.g., encountering dangerous operations or detecting insecure actions). If a fatal flaw or blocker is hit, switch back to Interactive Mode; if working on a task artifact (`tasks/task-*`), update its status to `blocked`, otherwise report the error to standard output (do not write to a file unless explicitly requested).
+- **Interactive Mode (Default)**
+  - **Badge**: Always start your first response after a user message (and when explicitly switching modes) with the badge `**🧑‍💻 Interactive Mode**` on its own line at the very top.
+  - **Flow**: Work interactively with the user to clarify intent. Prefer research first before asking.
+  - **Pause Trigger**: If you uncover **more than 3 valuable questions or findings** (those essential to answer the user's request), pause.
+  - **Pause Action**: Summarize these questions and findings and report back to the user to ask for direction before continuing. Avoid long, dense, black-box research phases that obscure information.
+
+- **Autonomous Mode**
+  - **Badge**: Always start your first response after a user message (and when explicitly switching modes) with the badge `**🚀 Autonomous Mode**` on its own line at the very top.
+  - **Switching**: If the task requirements are clear (or once any initial ambiguities are resolved), proactively state your understanding of the task and explicitly ask for confirmation to make the switch. Even if the user explicitly requests this mode, you must still ask for confirmation before switching.
+  - **Execution**: Once in this mode and confirmed, automatically perform tasks without asking. Only stop if every requirement has been resolved or if a fatal flaw is hit (e.g., encountering dangerous operations or detecting insecure actions).
+  - **Blockers & Fallbacks**: If a fatal flaw or blocker is hit, immediately switch back to Interactive Mode.
+  - **Reporting**: If working on a task artifact (`tasks/task-*`), update its status to `blocked`, otherwise report the error to standard output (do not write to a file unless explicitly requested).
 
 ## Output Style
 
