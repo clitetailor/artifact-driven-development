@@ -168,11 +168,30 @@ user pick; record the choice by setting `folder:` to either `specs/user-stories/
    bulk (content preserved, paths changed). A half-moved layout is broken, so complete all
    moves before committing.
 
-   Procedure (computed from the target mapping in step 1):
+   **Missing-folder check (run first):** some or all artifact type folders may not exist yet
+   in a fresh vault. Before any move, check which target folders are missing:
+
+   ```bash
+   # List every type's target folder, then check which don't exist yet.
+   # (Computed from the target mapping in step 1.)
+   for d in {target-folders}; do [ -d "$d" ] || echo "missing: $d"; done
+   ```
+
+   If any folders are missing, **ask the user**:
+
+   > The following artifact folders don't exist yet: {missing-folders}.
+   > Create them now as empty directories?
+
+   - **Yes** — `mkdir -p` each missing folder at its target path, then proceed to the move
+     procedure below (existing folders are moved, newly created ones are already in place).
+   - **No** — skip creation; only move folders that already exist. The vault will have gaps
+     until the missing folders are created manually or by a future artifact's creation.
+
+   **Move procedure** (computed from the target mapping in step 1):
    - Create the parent bucket directories the alternative introduces (`mkdir -p …`).
    - For each type whose target folder differs from its current folder:
      `mv {current-folder} {target-parent}/`. Move whole directories — file content is
-     untouched.
+     untouched. Skip types whose folders were just created in place (nothing to move).
    - Example — `flat → lifespan` (user-story placed at `specs/`):
      ```
      mkdir -p specs delivery
