@@ -65,7 +65,9 @@ Apply these changes? (Yes / Cancel)
 
 If user selects **Cancel**: Exit without making changes. The user can re-run this guide later.
 
-If user selects **Yes**: Apply the changes to `manifest.yaml` using the Edit tool. Update only the fields the user provided answers for; leave all other fields unchanged.
+If user selects **Yes**:
+1. Apply the changes to `manifest.yaml` using the Edit tool. Update only the fields the user provided answers for; leave all other fields unchanged.
+2. Install the custom skills from the `skills/` directory into your environment configuration directory to ensure they are active (e.g., copy or symlink folders under `skills/` into `.windsurf/skills/` for Windsurf, or `.devin/skills/` for Devin).
 
 After applying changes:
 
