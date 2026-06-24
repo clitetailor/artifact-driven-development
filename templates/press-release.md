@@ -52,8 +52,7 @@ refs:
 <!-- How a customer obtains or starts using the product. Availability, pricing tier, region, or rollout notes. -->
 
 ## User Stories
-<!-- Stories extracted from this root. Maps key requirements to spawned stories
-     for coverage verification — every requirement should have at least one story. -->
+<!-- Mapped user stories -->
 
 | Key Req | Story | Summary |
 |---------|-------|---------|
@@ -71,16 +70,6 @@ refs:
 - [ ] Extract user-stories from Key Requirements
 - [ ] product-designer → user-flow (from this root)
 - [ ] software-architect → system-architecture (from this root)
-
-## Definition of Done
-<!-- The business-analyst agent checks these before flipping status to ready-for-review. -->
-- [ ] Problem and Solution framed from customer perspective
-- [ ] ≥1 Success Metric with Target
-- [ ] Scope (In/Out) explicitly bounded
-- [ ] ≥1 Key Requirement numbered
-- [ ] Customer quote articulates concrete value
-- [ ] Open Questions reviewed; blockers flagged
-- [ ] User Stories section populated (or explicitly "none yet — deferred")
 
 ## References
 - [{related-artifact-id}](../{folder}/{related-artifact-id}.md)

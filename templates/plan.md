@@ -92,10 +92,8 @@ fe: {task-id (fe-task)} (parallel with be)
      Delta = actual − estimated. Positive = agent slower; negative = agent faster.
      Agent Notes: what the agent did differently than the human plan assumed. -->
 
-| Task | Estimated | Actual | Delta | Agent Notes |
-|---|---|---|---|---|
-| {task-id (be-task)} | {N}h | {N}h | {±N}h | |
-| {task-id (fe-task)} | {N}h | — | — | in-progress |
+- **{task-id (be-task)}:** {N}h (Est) | {N}h (Act) | {±N}h (Delta) | Notes: ...
+- **{task-id (fe-task)}:** {N}h (Est) | — (Act) | — (Delta) | Notes: in-progress
 
 ## Risks & Open Questions
 <!-- Decomposition risks: under-specified stories, missing tasks, scope creep nodes.

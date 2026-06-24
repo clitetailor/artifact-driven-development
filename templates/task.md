@@ -34,7 +34,7 @@ refs:
 - 
 
 ## Acceptance Criteria
-<!-- Testable conditions. Each must be unambiguously pass/fail. -->
+<!-- Pass/fail acceptance criteria -->
 
 - [ ] 
 - [ ] 

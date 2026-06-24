@@ -12,31 +12,31 @@ refs:
 # PRD: {title}
 
 ## Background
-<!-- Why now? Market context, customer signals, strategic alignment, or prior art that motivates this product investment. -->
+<!-- Market context and motivation -->
 
 ## Problem Statement
-<!-- The specific user friction or business need this product addresses. Frame from the customer's perspective. -->
+<!-- User friction or business need -->
 
 ## Objectives & Goals
-<!-- What outcomes this product must achieve. Tie each to a measurable signal. -->
+<!-- Target outcomes -->
 
-| Goal | Success Signal | Target |
-|------|----------------|--------|
-|      |                |        |
+- **Goal 1:** {goal}
+  - **Success Signal:** {signal}
+  - **Target:** {target}
 
 ## Target Audience
-<!-- Who this is for. Personas, segments, or specific customer cohorts. -->
+<!-- Target personas -->
 
-| Persona | Segment / Context |
-|---------|-------------------|
-|        |                   |
+- **Persona 1:** {persona}
+  - **Context:** {context}
 
 ## Success Metrics
-<!-- How we know the product is successful post-launch. Distinguish primary from guardrail metrics. -->
+<!-- Key success metrics -->
 
-| Metric | Type | Target | Measurement Source |
-|--------|------|--------|--------------------|
-|        | primary \| guardrail |        |                    |
+- **Metric 1:** {metric}
+  - **Type:** primary | guardrail
+  - **Target:** {target}
+  - **Source:** {source}
 
 ## Scope
 
@@ -44,60 +44,47 @@ refs:
 - 
 
 ### Out of Scope
-<!-- Explicitly excluded to prevent scope creep. -->
+<!-- Excluded scope -->
 - 
 
 ## Functional Requirements
-<!-- Plain-English capabilities the product must have. Number for traceability. -->
+<!-- Core capabilities -->
 
 1. 
 2. 
 
 ## Non-Functional Requirements
-<!-- Performance, reliability, security, compliance, accessibility, scalability constraints. -->
+<!-- System constraints (Perf, Security, etc.) -->
 
-| Category | Requirement |
-|----------|-------------|
-| Performance |  |
-| Reliability |  |
-| Security & Compliance |  |
-| Accessibility |  |
+- **Performance:** {req}
+- **Reliability:** {req}
+- **Security & Compliance:** {req}
+- **Accessibility:** {req}
 
 ## Dependencies & Risks
-<!-- Cross-team dependencies, external APIs, regulatory approvals, and key business/technical risks. -->
+<!-- External dependencies and risks -->
 
 - **Dependencies:** 
 - **Risks & Mitigations:** 
 
 ## User Stories
-<!-- Stories extracted from this root. Maps functional requirements to spawned stories
-     for coverage verification — every requirement should have at least one story. -->
+<!-- Mapped user stories -->
 
-| Requirement | Story | Summary |
-|-------------|-------|---------|
-| FR-1 | {story-id} | {one-line summary} |
-| FR-2 | {story-id (first story)}, {story-id (second story)} | {one-line summary} |
+- **FR-1:** {story-id} - {one-line summary}
+- **FR-2:** {story-id (first story)}, {story-id (second story)} - {one-line summary}
 
 ## Open Questions
 
-| # | Question | Status | Resolution | Blocks downstream? |
-|---|----------|--------|------------|---------------------|
-| 1 |          | open \| resolved |        | yes \| no           |
+- [ ] **Question 1:** {question}
+  - **Status:** open | resolved
+  - **Resolution:** {resolution}
+  - **Blocks downstream?** yes | no
 
 ## Pipeline Next Steps
 <!-- What the downstream pipeline expects to build from this root. -->
 - [ ] Extract user-stories from Functional Requirements
 - [ ] product-designer → user-flow (from this root)
 - [ ] software-architect → system-architecture (from this root)
-
-## Definition of Done
-<!-- The business-analyst agent checks these before flipping status to ready-for-review. -->
-- [ ] Problem Statement frames pain from customer perspective
-- [ ] ≥1 Objective with measurable Success Signal + Target
-- [ ] Scope (In/Out) explicitly bounded
-- [ ] ≥1 Functional Requirement numbered
-- [ ] Open Questions reviewed; blockers flagged
-- [ ] User Stories section populated (or explicitly "none yet — deferred")
 
 ## References
 - [{related-artifact-id}](../{folder}/{related-artifact-id}.md)

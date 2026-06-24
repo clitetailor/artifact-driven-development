@@ -12,17 +12,16 @@ refs:
 # Feature Brief: {title}
 
 ## Problem Statement
-<!-- What specific user friction or business need does this feature address? -->
+<!-- Addressed user friction -->
 
 ## Proposed Solution
-<!-- High-level overview of how we are solving the problem. -->
+<!-- Proposed solution overview -->
 
 ## Success Metrics
-<!-- How do we know this feature is successful? (e.g., "Increase conversion by 2%") -->
+<!-- Success criteria -->
 
-| Metric | Target |
-|--------|--------|
-|        |        |
+- **Metric 1:** {metric}
+  - **Target:** {target}
 
 ## Scope
 
@@ -33,47 +32,36 @@ refs:
 - 
 
 ## Key Requirements
-<!-- Plain English capabilities this feature must have. -->
+<!-- Core functional capabilities -->
 1. 
 2. 
 
 ## Constraints & Guidelines
-<!-- Feature-specific non-functional requirements (e.g., strict latency targets, compliance rules). -->
+<!-- Key constraints -->
 - 
 
 ## Dependencies & Risks
-<!-- What external teams, APIs, or approvals are blocking this? What are the business risks? -->
+<!-- Dependencies and risks -->
 - 
 
 ## User Stories
-<!-- Stories extracted from this root. Maps key requirements to spawned stories
-     for coverage verification — every requirement should have at least one story. -->
+<!-- Mapped user stories -->
 
-| Key Req | Story | Summary |
-|---------|-------|---------|
-| KR-1 | {story-id} | {one-line summary} |
-| KR-2 | {story-id (first story)}, {story-id (second story)} | {one-line summary} |
+- **KR-1:** {story-id} - {one-line summary}
+- **KR-2:** {story-id (first story)}, {story-id (second story)} - {one-line summary}
 
 ## Open Questions
 
-| # | Question | Status | Resolution | Blocks downstream? |
-|---|----------|--------|------------|---------------------|
-| 1 |          | open \| resolved |        | yes \| no           |
+- [ ] **Question 1:** {question}
+  - **Status:** open | resolved
+  - **Resolution:** {resolution}
+  - **Blocks downstream?** yes | no
 
 ## Pipeline Next Steps
 <!-- What the downstream pipeline expects to build from this root. -->
 - [ ] Extract user-stories from Key Requirements
 - [ ] product-designer → user-flow (from this root)
 - [ ] software-architect → system-architecture (from this root)
-
-## Definition of Done
-<!-- The business-analyst agent checks these before flipping status to ready-for-review. -->
-- [ ] Problem Statement frames the specific friction
-- [ ] ≥1 Success Metric with Target
-- [ ] Scope (In/Out) explicitly bounded
-- [ ] ≥1 Key Requirement numbered
-- [ ] Open Questions reviewed; blockers flagged
-- [ ] User Stories section populated (or explicitly "none yet — deferred")
 
 ## References
 - [{related-artifact-id}](../{folder}/{related-artifact-id}.md)
