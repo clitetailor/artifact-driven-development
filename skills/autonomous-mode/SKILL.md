@@ -1,5 +1,5 @@
 ---
-name: autonomous
+name: autonomous-mode
 description: Switch operating mode to Autonomous Mode
 triggers:
   - user

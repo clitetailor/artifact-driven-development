@@ -64,8 +64,8 @@ For sibling repos: `git -C ../{repo-name} commit -m "..."`. Bare commits land in
 - **Blockers & Reporting:** Return to Interactive Mode on fatal blockers. If working on a task artifact, mark it `blocked`; otherwise output errors to stdout.
 
 ### Real-Time Mode Control
-- Users can switch modes via `/interactive` (or `/pause`) and `/autonomous` (or `/resume`).
-- These trigger `skills/interactive/SKILL.md` and `skills/autonomous/SKILL.md`. Intercept and respect these immediately.
+- Users can switch modes via `/interactive-mode` (or `/pause`) and `/autonomous-mode` (or `/resume`).
+- These trigger `skills/interactive-mode/SKILL.md` and `skills/autonomous-mode/SKILL.md`. Intercept and respect these immediately.
 
 ---
 

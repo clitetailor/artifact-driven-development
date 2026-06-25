@@ -1,5 +1,5 @@
 ---
-name: interactive
+name: interactive-mode
 description: Switch operating mode to Interactive Mode (Default)
 triggers:
   - user
