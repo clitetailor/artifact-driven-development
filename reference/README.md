@@ -10,6 +10,7 @@ AI-friendly, on-demand reference docs. Load only what the task requires.
 | `artifact-ownership.md` | Which agent owns which artifact type |
 | `artifact-dep-graph.md` | Hard/soft dependency rules + mermaid graph + task metadata |
 | `coordination-decision-tree.md` | When to create user-stories or tasks and how to structure work |
+| `coordination-post-implementation.md` | Post-implementation verification checklist & status suggestion |
 | `folder-structure.md` | Vault folder tree |
 | `vault-queries.md` | Grep recipes for finding artifacts |
 

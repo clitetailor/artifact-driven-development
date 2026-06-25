@@ -82,6 +82,14 @@ For sibling repos: `git -C ../{repo-name} commit -m "..."`. Bare commits land in
 
 ---
 
+## Post-Implementation: Upstream Verification & Status Suggestion
+
+When all tasks for a story or feature are implemented, the agent MUST verify the implementation against upstream specs and propose status updates. **Do not auto-commit or flip status fields to `done` or `accepted` without explicit human confirmation.**
+
+For detailed checklists on verifying story ACs, checking TD drift, checking feature metrics, and recording evidence, see `reference/coordination-post-implementation.md`.
+
+---
+
 ## Output Style
 
 - **Be short and concise.** No preambles or redundant context, but never omit details needed to verify alignment.
