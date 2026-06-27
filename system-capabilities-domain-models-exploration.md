@@ -1,8 +1,9 @@
 # Exploration: system-capabilities & domain-models as Requirements Persistence Artifacts
 
 > **Status:** Decisions made — pending implementation.
-> All decisions (D1–D8) documented in §6. Change sets: §7 (State/Delta foundation), §8 (domain-record adoption).
-> Open item: `## Migrations` in `data-design` (D3).
+> All decisions (D1–D9) documented in §6. Change sets: §7 (State/Delta foundation), §8 (domain-record adoption).
+> D3 open item resolved: `## Migrations` folds into `tech-design` (option c). See §6 D3.
+> D9: selector fields renamed — `feature_type:` → `requirements_root:`, `domain_record_type:` → `domain_record:`.
 >
 > **Source chats:** Chat 1 (`HAhpp6b6ampw`) — system-capabilities thread;
 > Chat 2 (`tnmMCXoB6F2I`) — domain-model thread.
@@ -185,7 +186,7 @@ Five tensions (T1–T5) were identified mapping these artifacts against the fram
 
 **Tension (T1):** `system-capability` and `domain-model` are domain-scoped State artifacts that persist requirements *across* features. Adding them as `feature_type` alternatives would be a category error — they sit alongside the requirements phase, not inside it.
 
-**Decision:** Add as a new **`domain-record`** category outside the `feature_type` peer system via an optional `domain_record_type:` field in `manifest.yaml` (absent = no domain-record). See §8 Changes 2–3.
+**Decision:** Add as a new **`domain-record`** category outside the `requirements_root` peer system via an optional `domain_record:` field in `manifest.yaml` (absent = no domain-record). See §8 Changes 2–3. (Field naming per D9.)
 
 > **Category name (`requirements-persistence` → `domain-record`):** Follows the ADR naming pattern (authoritative log of a domain), signals `scope: domain`, avoids over-claiming the category holds only requirements (`domain-model` also carries DDD architectural content). `requirements-persistence` rejected: "persistence" reads as a storage/DB layer term. Category labels retained: `requirements-root` (feature-scoped) and `domain-record` (domain-scoped, new). Runner-up `feature-proposal` rejected for the feature slot: its lifespan signal is redundant with the `lifespan: delta` field.
 
@@ -212,7 +213,9 @@ Five tensions (T1–T5) were identified mapping these artifacts against the fram
 
 State machine overlap is **partial** — different layers, same subject matter. The same distinction applies to `system-capability` State Transitions vs `data-design` State Machines. Options (a) — move business rules out — and (c) — absorb `data-design` — were rejected: no free-form business rules in `data-design`; absorption would break a separately-owned artifact.
 
-> **Open item — `## Migrations` in `data-design`:** Delta section inside a State artifact. Options: (a) label as Delta in the template (comment only); (b) extract into a `migration` type. **Deferred — separate decision pending.**
+> **Resolved — option (c) fold into `tech-design`.** `## Migrations` is removed from the `data-design` template and lives as a `## Migrations` section inside `tech-design` instead. Rationale: a migration is the literal delta applied to `data-design`'s schema, and `tech-design` is already framed as the "PR for the system blueprint" that highlights schema deltas (line 144, merge-back arrow line 160) — so migrations are in scope there by definition. This keeps `data-design` pure State (only the *current* physical schema/indexes) and requires no new artifact type. Options (a) — comment-only Delta label in `data-design` — rejected as cosmetic (the State/Delta category error D2 targets remains); (b) — extract a `migration` type — rejected as unnecessary surface area given `tech-design` already absorbs this role.
+>
+> **Note on "archived" terminology.** "Archived after ship" (§7 Change 3, line 365) is Claude/Gemini's label for *frozen and retained as historical record* — not physically moved or deleted. In real-world practice nothing is discarded; `tech-design` is short-lived (Delta) in the sense that it is no longer actively maintained post-ship, but the file persists as decision history. Under this reading, folding migrations into `tech-design` is fully consistent with its `lifespan: delta` classification: migrations are short-lived deltas that, once applied, are frozen and retained as history alongside the rest of the tech-design. No reclassification of `tech-design` is needed.
 
 ---
 
@@ -255,8 +258,8 @@ SA is primary because `domain-model` is the engineering-heavy option and upstrea
 **Decision:** `domain-record` is opt-in; **field absent = none** (following `dated_types: []` precedent — no named `none` peer). **Single-select only** — `system-capability` and `domain-model` share authority-conflicting sections (D7); using both creates competing sources of truth. **No default shipped** — the two options serve different team profiles; imposing either would be wrong for half of adopting vaults.
 
 ```yaml
-# domain_record_type: system-capability  # uncomment — behavioral approach (BA-owned)
-# domain_record_type: domain-model        # uncomment — structural DDD approach (SA primary, BA contributor)
+# domain_record: system-capability  # uncomment — behavioral approach (BA-owned)
+# domain_record: domain-model        # uncomment — structural DDD approach (SA primary, BA contributor)
 # Absent = no dedicated domain-record (scattered persistence — current default)
 ```
 
@@ -287,9 +290,38 @@ SA is primary because `domain-model` is the engineering-heavy option and upstrea
 | "State vs Delta" / "System Space / Project Space" | Coined by Gemini / Informal — Notion/Confluence practitioner usage (synonyms for the same axis) | Retire → `lifespan: state \| delta` (D2) |
 | "Living Product Manual" | Coined by Gemini | Retire — not needed as a framework term |
 
-**Framework coins only:** `lifespan: state | delta` (D2), `scope: feature | domain` (D5), `domain-record` (D1). `requirements-root` already exists.
+**Framework coins only:** `lifespan: state | delta` (D2), `scope: feature | domain` (D5), `domain-record` (D1), `requirements_root` / `domain_record` selector fields (D9). `requirements-root` (category) already exists.
 
 Decisions D1–D8 (above) represent Option A applied — all options were considered. Options B (reframe `data-design` as persistence layer — breaks existing semantics, high migration cost) and C (add both as selectable modes — `none` peer is ill-defined per D6) were rejected. Options B and C insights are incorporated in D3 and D6 respectively.
+
+---
+
+### D9 — Selector field naming convention
+
+**Tension:** The manifest has two type-selector fields (one per artifact category): `feature_type` (requirements-root) and `domain_record_type` (domain-record, proposed in D1). The existing `feature_type` is a misnomer — its own manifest comment says it "names the active requirements-root type," not "feature type." The proposed `domain_record_type` follows a `{category}_type` pattern, but the `_type` suffix is redundant: the value (`prd`, `system-capability`) is clearly a type, not a slug. The two fields also follow inconsistent conventions — `feature_type` shares its root with the `feature:` instance-ref frontmatter field, while `domain_record_type` does not share its root with the `domain:` instance-ref field.
+
+**Decision — Option C: bare category names, no `_type` suffix.**
+
+| Field role | requirements-root | domain-record |
+|---|---|---|
+| **Selector** (which type is active for this vault) | `requirements_root: prd` | `domain_record: system-capability` |
+| **Instance-ref** (which feature/domain instance this artifact belongs to) | `feature: {slug}` | `domain: {slug}` |
+
+**Principle:** selector fields use the **category name**; instance-ref fields use the **scope-axis name**. Both bare, no suffix. The distinction is carried by the name itself (category vs. axis) and the value (type name vs. slug).
+
+**Renames:**
+- `feature_type:` → `requirements_root:` (existing field — rename in `manifest.yaml`)
+- `domain_record_type:` → `domain_record:` (new field from D1 — named per this convention)
+
+Instance-ref frontmatter fields (`feature:`, `domain:`) are unchanged — they name the scope axis, which is already correct.
+
+**Rejected:**
+- **Option A** (`domain_type:` to mirror `feature_type`) — propagates the imprecise legacy name; "domain_type" doesn't convey "domain-record category selector."
+- **Option B** (`requirements_root_type:` / `domain_record_type:` — `_type` suffix on both) — correct but redundant; the suffix disambiguates a distinction the names and value types already carry.
+- **Option D** (namespaced `active_types: { requirements_root: ..., domain_record: ... }`) — principled but premature for 2 categories; revisit if category count grows beyond ~3.
+- **Keep `feature_type` as-is** — the name is a misnomer (it selects requirements-root, not "feature"); keeping it propagates the imprecision.
+
+See §8 Change 2 for the manifest edit (rename + new field in one change).
 
 ---
 
@@ -424,10 +456,62 @@ with `feature:` frontmatter (not `domain:`), and `## Pipeline Next Steps` pointi
 
 ---
 
+### Change 8 — Move `## Migrations` from `data-design` to `tech-design` template
+
+Resolves the D3 open item (§6, line 215): `## Migrations` is a Delta section (per-feature
+migration scripts) currently living inside `data-design`, a State artifact — the exact
+Delta-in-State tension D2 targets. A State artifact accumulating per-feature migration
+scripts over time grows unboundedly and mixes "current schema truth" with "historical
+deltas." `tech-design` is the per-feature Delta "PR for the system blueprint" (line 144,
+merge-back arrow line 160) and is the natural home for a feature's migration scripts.
+
+**Edits:**
+
+1. **`templates/tech-design.md`** — add a new `## Migrations` authoring section. Structure
+   copied from the current `data-design.md` lines 72–86:
+
+   ```markdown
+   ## Migrations
+   <!-- Per-feature schema migrations. Frozen post-ship as historical record. -->
+
+   ### Migration: {migration-name}
+   **Sequence:** {N}
+   **Reversible:** yes / no
+
+   ```sql
+   -- up
+   {sql}
+
+   -- down
+   {sql}
+   ```
+
+   **Notes:** {anything a future engineer needs to know before running or rolling back}
+   ```
+
+   Place after `## Cross-Feature & System Impact` and before `## Edge Cases & Error Handling`.
+
+2. **`templates/data-design.md`** — remove the `## Migrations` section (lines 72–86).
+   `data-design` now holds only the *current* physical schema (entities, relationships,
+   state machines, pipelines, seed data) — pure State.
+
+3. **Keep the existing `tech-design` "Migration & Backfill Dependencies" bullet**
+   (line 71, under `## Cross-Feature & System Impact`) **as-is.** It is a semantically
+   distinct concern — *external* dependencies on other teams' migrations/backfills
+   ("what do I wait on") — vs. the new `## Migrations` section which authors *this
+   feature's own* scripts ("what do I write"). Both belong in `tech-design`; do not merge.
+
+**Rejected alternatives:** (a) comment-only Delta label in `data-design` — cosmetic, the
+State/Delta category error remains; (b) extract a new `migration` type — unnecessary
+surface area, `tech-design` already absorbs the role. See §6 D3 for full rationale.
+
+---
+
 ### What does NOT change
 
 - `test-spec` prefix (`ts-`), owner (`qa-engineer`), status labels — unchanged.
-- All other artifact types and their templates — unchanged.
+- All other artifact types and their templates — unchanged, except `data-design` and
+  `tech-design` templates, which are modified by Change 8 (Migrations section move).
 - The requirements-root peer system — untouched; State/Delta is orthogonal.
 - The `system-capability` / `domain-model` decision — the framework-level decision is made
   (D6: opt-in, single-select); the vault's selection between the two remains open. These
@@ -445,9 +529,10 @@ with `feature:` frontmatter (not `domain:`), and `## Pipeline Next Steps` pointi
 5. Change 4  — Update dep graph                              [requires Change 2]
 6. Change 5  — Update vocabulary                             [requires Change 2]
 7. Change 6  — Update ownership                              [requires Change 2]
+8. Change 8  — Move Migrations: data-design → tech-design     [independent of Change 2]
    — then —
-8. ~~Resume Q2/Q7 (data-design overlap analysis)~~  ✓ resolved → D3
-9. ~~Resume Q6  (customization default)~~            ✓ resolved → D6
+9. ~~Resume Q2/Q7 (data-design overlap analysis)~~  ✓ resolved → D3
+10. ~~Resume Q6  (customization default)~~            ✓ resolved → D6
    — then —
 10. Implement §8 change set (domain-record artifacts)
 ```
@@ -458,7 +543,7 @@ with `feature:` frontmatter (not `domain:`), and `## Pipeline Next Steps` pointi
 
 > Applies after §7 (State/Delta foundation) is fully implemented.
 > Prerequisite: vault has decided to adopt either `system-capability` or `domain-model` via
-> the `domain_record_type:` field (see Change 2 below). Changes apply to whichever artifact
+> the `domain_record:` field (see Change 2 below). Changes apply to whichever artifact
 > the vault selects; shared structural changes (scope field, ownership model) apply regardless.
 
 ### Change 1 — Add `scope:` field to all `manifest.yaml` `types:` entries
@@ -479,13 +564,21 @@ machine-readable alongside `lifespan:` (from §7 Change 1).
 
 ---
 
-### Change 2 — Add `domain_record_type:` field to `manifest.yaml`
+### Change 2 — Rename `feature_type:` → `requirements_root:` and add `domain_record:` field
 
-Add as a commented-out optional field below `feature_type:`:
+Two manifest edits in one change (both are selector-field naming, per D9):
+
+**1. Rename existing `feature_type:` → `requirements_root:`**
+
+The field already selects the active requirements-root type; the new name makes that explicit.
+Update the field name and its comment in `manifest.yaml`. All reference docs and customization
+docs that mention `feature_type` are updated to `requirements_root`.
+
+**2. Add `domain_record:` as a commented-out optional field below `requirements_root:`**
 
 ```yaml
-# domain_record_type: system-capability  # uncomment — behavioral approach (BA-owned)
-# domain_record_type: domain-model        # uncomment — structural DDD approach (SA primary, BA contributor)
+# domain_record: system-capability  # uncomment — behavioral approach (BA-owned)
+# domain_record: domain-model        # uncomment — structural DDD approach (SA primary, BA contributor)
 # Absent = no dedicated domain-record; requirements persist scattered (current default)
 ```
 
@@ -496,7 +589,7 @@ No default value shipped. Field follows the `dated_types: []` convention — abs
 ### Change 3 — Add `system-capability` and `domain-model` to `manifest.yaml` `types:`
 
 ```yaml
-  # Domain-record (domain-scoped State artifacts — opt-in via domain_record_type:)
+  # Domain-record (domain-scoped State artifacts — opt-in via domain_record:)
   - name: system-capability
     prefix: sc-
     folder: system-capabilities/
@@ -596,7 +689,8 @@ Add a new phase row above Phase 1 (Requirements):
 **Update `data-design`:**
 > Add boundary note: *"When `domain-model` is adopted, entity definitions and business rules
 > are the authority of `domain-model`; `data-design` implements them in physical storage
-> schema, indexes, and migrations."*
+> schema and indexes."* (Migrations are no longer in `data-design` — moved to `tech-design`
+> per §7 Change 8.)
 
 ---
 
@@ -708,7 +802,7 @@ New customization doc following the pattern of `handbook/customizations/requirem
 Content covers:
 - What `domain-record` is and when to adopt it
 - How to choose between `system-capability` and `domain-model` (decision guide)
-- How to activate: uncomment `domain_record_type:` in `manifest.yaml`
+- How to activate: uncomment `domain_record:` in `manifest.yaml`
 - What changes when adopted: new types in manifest, dep graph update, ownership update
 - Migration note: existing requirements scattered in `test-spec`/`data-design`/`api-spec`
   do not need to be migrated immediately — adopt incrementally per domain
@@ -717,10 +811,14 @@ Content covers:
 
 ### What does NOT change
 
-- All §7 changes — prerequisite, unaffected.
-- `data-design` prefix (`dd-`), owner (`software-architect`), template structure — unchanged
-  (boundary is conceptual, not structural).
-- The `feature_type` peer system — untouched; `domain-record` is a separate optional layer.
+- All §7 changes — prerequisite, unaffected. (Note: §7 Change 8 modifies the `data-design`
+  and `tech-design` templates — that is a §7-level change, not a §8 one; see §7 Change 8.)
+- `data-design` prefix (`dd-`), owner (`software-architect`) — unchanged. Template structure
+  is changed by §7 Change 8 (`## Migrations` removed); the `domain-model` boundary itself
+  remains conceptual (no further structural change from §8).
+- The requirements-root peer system — structurally untouched; `domain-record` is a separate
+  optional layer. The `feature_type:` field is renamed to `requirements_root:` per D9/Change 2
+  (naming only, not structure).
 - `api-spec` prefix, owner, template — unchanged; `domain-model` only adds an upstream
   dependency when adopted, it doesn't change `api-spec` itself.
 
@@ -731,7 +829,7 @@ Content covers:
 ```
 After §7 is complete:
 1. Change 1  — Add scope: field to manifest types:           [unblocks Change 3]
-2. Change 2  — Add domain_record_type: field to manifest     [independent]
+2. Change 2  — Rename feature_type→requirements_root + add domain_record:  [independent]
 3. Change 3  — Add sc + dm types to manifest                 [requires Change 1]
 4. Change 4  — Update artifact-ownership.md                  [requires Change 3]
 5. Change 5  — Update artifact-dep-graph.md                  [requires Change 3]
