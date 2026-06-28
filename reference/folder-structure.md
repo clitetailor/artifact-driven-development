@@ -24,8 +24,8 @@
 ├── plans/                  # Plans (plan-) — deliverable hierarchy with optional sequencing sections
 ├── test-plans/             # Per-feature QA planning artifacts (tp-) — Delta, archived after ship
 ├── test-specs/             # Long-lived domain-scoped regression suites (ts-)
-├── system-capabilities/    # System Capability records (sc-) — domain-record, opt-in
-├── domain-models/          # Domain Model records (dm-) — domain-record, opt-in
+├── system-capabilities/    # System Capability records (sc-) — domain-record (shipped default)
+├── domain-models/          # Domain Model records (dm-) — domain-record (alternative)
 ├── notes/                  # Ad-hoc scratchpad notes (note-) — any agent, any time
 ├── agents/                 # Agent design docs + repo/skill mappings
 ├── conventions/            # Enforced conventions (prescriptive)

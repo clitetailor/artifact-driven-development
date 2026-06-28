@@ -5,7 +5,7 @@
 
 | Phase | Question | Agents | Artifacts | Lifespan | Scope |
 |---|---|---|---|---|---|
-| 0 — Domain Record *(optional)* | What does this domain do today? | business-analyst / software-architect | system-capability *or* domain-model | State | Domain |
+| 0 — Domain Record | What does this domain do today? | business-analyst / software-architect | system-capability *or* domain-model | State | Domain |
 | 1 — Requirements | What are we building and for whom? | project-manager, business-analyst | prd, user-story | Delta | Feature |
 | 2 — Design | How does the user experience it? | product-designer | user-flow, design-spec | State | Feature |
 | 3 — Architecture | How is it structured? | software-architect | adr, system-architecture, api-spec, data-design, tech-design | State + Delta (tech-design) | Feature |
@@ -13,15 +13,17 @@
 | 5a — Test Planning | How will we verify this feature? | qa-engineer | test-plan | Delta | Feature |
 | 5b — Verification | How do we know it works? | qa-engineer | test-spec | State | Domain |
 
-> Phase 0 is opt-in via `../manifest.yaml`'s `domain_record:` field. When active, the
-> domain-record artifact is the long-lived home for product/business requirements in that
-> domain; `feature-brief` / `user-story` pull from it (Context) and merge back to it
-> (Persistence). See `../handbook/customizations/domain-record.md`.
+> Phase 0 is active by default with `system-capability`; `domain-model` is the alternative,
+> selected via `../manifest.yaml`'s `domain_record:` field. The domain-record artifact is the
+> long-lived home for product/business requirements in that domain; `feature-brief` /
+> `user-story` pull from it (Context) and merge back to it (Persistence). See
+> `../handbook/customizations/domain-record.md`.
 
 ## Phase Flow
 
 ```mermaid
 graph TD
+    DR["Domain Record"] -.-> REQ
     REQ[Requirements] --> DES[Design]
     REQ --> ARC[Architecture]
     REQ --> VER[Verification]
@@ -30,16 +32,21 @@ graph TD
     ARC --> VER
     DEV --> VER
     VER -.-> DEV
+    VER -.-> DR
 ```
 
-Solid = produces; dashed = feedback/refines.
+Solid = produces; dashed = feedback/refines. `DR -.-> REQ` = read State before drafting
+requirements (Context step); `VER -.-> DR` = merge back to domain-record after ship
+(Persistence step). The active domain-record type is in `../manifest.yaml`'s `domain_record:`
+field (`system-capability` by default).
 
 ## Read-Write Cycle (State / Delta)
 
 Artifacts split into two lifespans (see `../manifest.yaml`'s `lifespan:` field):
 
 - **State** (long-lived, System Space) — `system-architecture`, `adr`, `api-spec`, `data-design`,
-  `design-spec`, `user-flow`, `test-spec`, and (when adopted) `system-capability` / `domain-model`.
+  `design-spec`, `user-flow`, `test-spec`, and `system-capability` / `domain-model` (the active
+  type per `domain_record:`).
   The evergreen truth of what the system is today.
 - **Delta** (short-lived, Project Space) — `feature-brief`, `prd`, `press-release`, `user-story`,
   `tech-design`, `task`, `plan`, `test-plan`. Feature scaffolding, archived after ship.
@@ -53,8 +60,8 @@ A feature delivery moves through four phases:
 
 **The Bridge Rule:** a feature is not "Done" until its logic is merged into the System Space.
 `tech-design` acts as a "PR for the system blueprint" — it copies existing schemas/contracts and
-highlights the delta, then merges back on ship. When a domain-record is active, the
-requirements delta in `feature-brief` / `user-story` also merges back to it.
+highlights the delta, then merges back on ship. The requirements delta in `feature-brief` /
+`user-story` also merges back to the domain-record.
 
 ```mermaid
 graph LR
@@ -63,7 +70,7 @@ graph LR
         API[api-spec]
         DD[data-design]
         TS[test-spec]
-        DR["domain-record (opt-in)"]
+        DR["domain-record"]
     end
     subgraph Delta["Project Space — Delta"]
         ROOT["requirements-root"]
@@ -95,6 +102,9 @@ Dashed = read/merge across the lifespan boundary; solid = produces within the Pr
 
 ```mermaid
 graph LR
+    subgraph DR[Domain Record]
+        SC["system-capability"]
+    end
     subgraph REQ[Requirements]
         ROOT["prd"] --> STORY[user-story]
     end
@@ -122,30 +132,21 @@ graph LR
     STORY --> TP
     API --> TP
 
-    %% Domain-record (opt-in via domain_record:) — conditional edges
-    DM["domain-model (opt-in)"]
-    DM -.->|"authority (when adopted)"| DD
-    DM -.->|"authority (when adopted)"| API
+    %% Domain-record (shipped default: system-capability) — no creation-order prerequisites,
+    %% no upstream-authority edges over other artifacts
 ```
-
-> **Domain-record edges (dashed):** `domain-model` is opt-in via `manifest.yaml`'s
-> `domain_record:` field. When adopted, it becomes the upstream authority for `data-design`
-> (entity definitions + business rules) and `api-spec` (domain entities + events) in the same
-> domain. `system-capability` has no subordination edges — it maps to `user-flow` & `test-spec`
-> conceptually but does not constrain them as upstream authority.
 
 | To create… | First create… |
 |---|---|
 | system-capability | No hard prerequisite — start at domain inception |
-| domain-model | No hard prerequisite — start at domain inception |
 | prd | — |
 | user-story | prd |
 | user-flow | prd |
 | design-spec | user-flow |
 | system-architecture | prd (or tech-design if bottom-up) |
 | adr | system-architecture (or tech-design if bottom-up) |
-| api-spec | system-architecture (or tech-design if bottom-up); `domain-model` for the same domain when `domain-model` is adopted |
-| data-design | system-architecture (or tech-design if bottom-up); `domain-model` for the same domain when `domain-model` is adopted |
+| api-spec | system-architecture (or tech-design if bottom-up) |
+| data-design | system-architecture (or tech-design if bottom-up) |
 | tech-design | prd (and optionally system-architecture if top-down) |
 | task | tech-design |
 | plan | tech-design, user-story |
@@ -157,7 +158,7 @@ graph LR
 
 *Requirements-root alternatives are customization selectable — see `../handbook/customization.md` and `../handbook/customizations/README.md`. An alternative shares the default type's dependencies shown above. The graph depicts `prd` (the framework's shipped default); the active type for this vault is in `../manifest.yaml`'s `requirements_root:` field — substitute it throughout when reading.*
 
-*Domain-record is opt-in via `../manifest.yaml`'s `domain_record:` field — see `../handbook/customizations/domain-record.md`. When `domain-model` is adopted, it becomes the upstream authority for `data-design` and `api-spec` (entity definitions + business rules / domain entities + events).*
+*Domain-record alternatives are customization selectable — see `../handbook/customization.md` and `../handbook/customizations/README.md`. An alternative shares the default type's dependencies shown above. The graph depicts `system-capability` (the framework's shipped default); the active type for this vault is in `../manifest.yaml`'s `domain_record:` field — substitute it throughout when reading.*
 
 *`api-spec` and `data-design` co-evolve (`↔`): both depend on `system-architecture`, but they iterate together — API shapes reference data-design entities, and data-design internal shapes are constrained by API contracts.*
 

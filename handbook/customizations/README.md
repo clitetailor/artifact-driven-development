@@ -13,7 +13,7 @@ For the format conventions that govern customization files, see [`FORMAT.md`](./
 | File | Customization axis | Alternatives |
 |---|---|---|
 | [`requirements-root.md`](./requirements-root.md) | Requirements-root type | `prd`, `feature-brief`, `press-release` |
-| [`domain-record.md`](./domain-record.md) | Domain-record type | *(absent)*, `system-capability`, `domain-model` |
+| [`domain-record.md`](./domain-record.md) | Domain-record type | `system-capability`, `domain-model` |
 | [`artifact-id-dating.md`](./artifact-id-dating.md) | Artifact ID dating policy | `none`, `snapshot-style`, `all` |
 | [`folder-structure.md`](./folder-structure.md) | Folder-structure layout | `flat`, `phase`, `product-technical-delivery`, `lifespan` |
 

@@ -28,9 +28,12 @@ requirements_root: prd                # active requirements-root type (single so
 # Framework shipped default: prd. Alternative types are registered below and can be
 # selected via handbook/customizations/requirements-root.md; see handbook/customization.md.
 
-# domain_record: system-capability  # uncomment — behavioral approach (BA-owned)
-# domain_record: domain-model        # uncomment — structural DDD approach (SA primary, BA contributor)
-# Absent = no dedicated domain-record; requirements persist scattered (current default)
+domain_record: system-capability      # active domain-record type (single source of truth)
+# The field above names the active domain-record type for this vault.
+# All templates and reference docs resolve from this field — no markdown swaps needed.
+# Framework shipped default: system-capability. The alternative type is registered below
+# and can be selected via handbook/customizations/domain-record.md; see handbook/customization.md.
+# domain_record: domain-model        # switch — structural DDD approach (SA primary, BA contributor)
 
 dated_types: []                     # types whose IDs carry a {YYYY-MM-DD}- creation-date prefix
 # Empty list = `none` alternative. Populate with type names (e.g. [prd, feature-brief])
@@ -153,7 +156,7 @@ types:
     lifespan: state or delta   # ad-hoc — no restriction
     scope: feature             # ad-hoc — no restriction
 
-  # Domain-record (domain-scoped State artifacts — opt-in via domain_record:)
+  # Domain-record (domain-scoped State artifacts — selected via domain_record:)
   - name: system-capability
     prefix: sc-
     folder: system-capabilities/
