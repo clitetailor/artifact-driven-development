@@ -39,6 +39,16 @@ For sibling repos: `git -C ../{repo-name} commit -m "..."`. Bare commits land in
 
 ---
 
+## Communication Intent
+
+Distinguish questions from commands by sentence intent, not keywords.
+
+- **Questions (interrogative):** Answer only. Do not directly edit files or initiate actions. Suggestions and change proposals are allowed (e.g., Interactive Mode plan-drafting), but must not be executed without explicit confirmation. Example: "What does X do?" → explain X; may suggest a refactor, but do not perform it.
+- **Commands (imperative / request for action):** Propose actions and process changes per Operating Modes. Example: "Help me add Y", "Fix Z", "Refactor W".
+- **Mixed messages:** Answer the question first, then ask whether to proceed with the requested action before taking it.
+
+---
+
 ## Optimize Communication
 
 - **Clarify early:** Ask before acting on ambiguity. Clarify intent via questions rather than self-clarifying by reading.
