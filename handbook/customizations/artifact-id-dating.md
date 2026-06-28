@@ -69,7 +69,7 @@ dating) are manifest-only edits. Four placeholder forms:
 | `{prefix}-{slug}` | Own `id:` field | `prd-user-auth` or `2026-06-21-prd-user-auth` (date prefix added per manifest `dated` flag) |
 | `{<type>-id}` | Cross-reference to another artifact's full concrete ID — frontmatter fields, `refs:`/`depends-on:` lists, prose, table cells, hierarchy trees | `2026-06-21-prd-user-auth` |
 | `{<type>-link}` | Full markdown link to another artifact — `## References` section, inline links | `[2026-06-21-prd-user-auth](../prds/2026-06-21-prd-user-auth.md)` |
-| `{feature-id}` / `{feature-link}` | Cross-reference or link to the **requirements root** — resolves dynamically from `manifest.yaml`'s `feature_type:` field (see `requirements-root.md`). Used in all downstream templates that point at the feature root. | `2026-06-21-fb-user-auth` / `[2026-06-21-fb-user-auth](../feature-briefs/2026-06-21-fb-user-auth.md)` (when `feature_type: feature-brief`) |
+| `{feature-id}` / `{feature-link}` | Cross-reference or link to the **requirements root** — resolves dynamically from `manifest.yaml`'s `requirements_root:` field (see `requirements-root.md`). Used in all downstream templates that point at the feature root. | `2026-06-21-fb-user-auth` / `[2026-06-21-fb-user-auth](../feature-briefs/2026-06-21-fb-user-auth.md)` (when `requirements_root: feature-brief`) |
 
 `<type>` is the type's prefix stem (e.g. `sa`, `task`, `story`, `fb`). The agent
 filling the template copies the referenced artifact's full concrete ID (including date
@@ -77,8 +77,8 @@ prefix if dated) — it already knows the referenced artifact's ID.
 
 `{feature-id}` / `{feature-link}` are the option-agnostic form for requirements-root
 references: instead of hardcoding `{prd-id}` (which would need swapping when the
-requirements-root type changes), they resolve to whatever type `feature_type:` names. The
-agent reads `feature_type:` from `manifest.yaml`, looks up the type's prefix and folder,
+requirements-root type changes), they resolve to whatever type `requirements_root:` names. The
+agent reads `requirements_root:` from `manifest.yaml`, looks up the type's prefix and folder,
 and fills the concrete ID/link accordingly. This makes the requirements-root customization
 a manifest-only edit — no template or reference-doc swaps needed.
 
@@ -199,7 +199,7 @@ rg "^dated_types: \[" manifest.yaml
 
 - **Orthogonality with `requirements-root.md`:** This customization is orthogonal to the
   requirements-root customization. Both are manifest-driven — the two touch disjoint
-  manifest fields (`dated_types:` list vs. `feature_type:` field) and disjoint aspects of
+  manifest fields (`dated_types:` list vs. `requirements_root:` field) and disjoint aspects of
   the ID (date prefix vs. type prefix). Apply in any order.
 
 - **Orthogonality with `ask-threshold.md`:** No interaction — different files entirely.

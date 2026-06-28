@@ -4,42 +4,14 @@ type: test-spec
 owner: qa-engineer
 status: draft
 version: 1.0
-feature: {feature-id}
+domain: {domain-slug}
 test-level: unit
-scenario: {feature-id}#scenario-{N}
+scenario: {domain-id}#scenario-{N}
 refs:
-  - {feature-id}
+  - {domain-id}
 ---
 
 # Test Spec: {title}
-
-## Test Plan
-<!-- From test-plan: scope, approach, environment. -->
-
-### Scope
-
-#### In Scope
-<!-- Features, modules, or user flows covered -->
-- 
-- 
-
-#### Out of Scope
-<!-- Explicitly excluded -->
-- 
-- 
-
-### Testing Strategy
-
-| Level | Coverage Target | Approach | Tools |
-|-------|----------------|----------|-------|
-| Unit | {percentage}% | {description} | {test framework} |
-| Integration | {percentage}% | {description} | {test framework} |
-| E2E | {percentage}% | {description} | {test framework} |
-
-### Test Environment
-<!-- Development, staging, CI/CD setup. -->
-
----
 
 ## Test Level
 <!-- unit | integration | e2e -->
@@ -133,4 +105,4 @@ unit
 <!-- Implementation hints, gotchas, or special considerations -->
 
 ## References
-- {feature-link}
+- {domain-link}

@@ -32,7 +32,7 @@ fields — they are rewritten when you switch.
 
 | Alternative | Role | Grouping axis | Top-level artifact buckets | Root entries (with framework) |
 |---|---|---|---|---|
-| `flat` | Default | no grouping — flat at root | 15 | 20 |
+| `flat` | Default | no grouping — flat at root | 16 | 21 |
 | `phase` | Alternative | SDLC phase | 6 | 12 |
 | `product-technical-delivery` | Alternative | product / technical / delivery | 4 | 10 |
 | `lifespan` | Alternative | stable-reference / transient-working | 3 | 9 |
@@ -79,7 +79,7 @@ parent matching their phase; a type with no clear phase goes under `general/`.
 | `design/` | user-flow, design-spec |
 | `architecture/` | adr, system-architecture, api-spec, data-design, tech-design |
 | `development/` | task, plan |
-| `verification/` | test-spec |
+| `verification/` | test-plan, test-spec |
 | `general/` | note |
 
 **Resulting `folder:` values:** `folder: {parent}/{type-folder}/` — e.g.
@@ -102,7 +102,7 @@ matching their domain; a type with no product/technical/delivery signal goes und
 |---|---|
 | `product/` | feature-brief, prd, press-release, user-story, user-flow, design-spec |
 | `technical/` | adr, system-architecture, api-spec, data-design, tech-design |
-| `delivery/` | task, plan, test-spec |
+| `delivery/` | task, plan, test-plan, test-spec |
 | `general/` | note |
 
 **Resulting `folder:` values:** `folder: {parent}/{type-folder}/` — e.g.
@@ -126,23 +126,19 @@ nest as `notes/notes/`). New types are placed by the same test: read across the 
 
 | Parent folder | Types |
 |---|---|
-| `specs/` | feature-brief, prd, press-release, user-story *(default — see judgment call below)*, user-flow, design-spec, adr, system-architecture, api-spec, data-design, tech-design |
-| `delivery/` | task, plan, test-spec |
+| `specs/` | prd, press-release, user-flow, design-spec, adr, system-architecture, api-spec, data-design, test-spec |
+| `delivery/` | feature-brief, user-story, tech-design, task, plan, test-plan |
 | `notes/` | note *(no nesting — `folder: notes/`)* |
 
-**The user-story judgment call:** user-story is genuinely borderline. Reference signals
-(owned by business-analyst; Given/When/Then AC are spec-like; peer of prd in the dep-graph's
-Requirements phase) point to `specs/user-stories/`. Working signals (open/in-progress/done/
-withdrawn states like tasks; consumed during implementation; BMAD precedent places stories
-with implementation artifacts) point to `delivery/user-stories/`. The default is
-`specs/user-stories/` — the seedbed's user-stories are requirements artifacts, not
-implementation artifacts. The defensible alternative `delivery/user-stories/` is a documented
-choice, not a buried judgment call: at the selection step, surface both placements and let the
-user pick; record the choice by setting `folder:` to either `specs/user-stories/` or
-`delivery/user-stories/` and moving the folder accordingly.
+> Bucket assignments follow the State/Delta lifespan axis (see `../manifest.yaml`'s `lifespan:`
+> field): State artifacts → `specs/`, Delta artifacts → `delivery/`. The requirements-root
+> (`prd` / `press-release`) stays in `specs/` as the feature's canonical requirements reference
+> even though it is technically Delta (archived post-ship) — it is read across the lifecycle as
+> the spec, not consumed as working material.
 
 **Resulting `folder:` values:** `folder: {parent}/{type-folder}/` — e.g. `folder: specs/prds/`,
-`folder: specs/adrs/`, `folder: delivery/tasks/`, `folder: notes/` (for note).
+`folder: specs/test-specs/`, `folder: delivery/feature-briefs/`, `folder: delivery/test-plans/`,
+`folder: notes/` (for note).
 
 ---
 
@@ -261,7 +257,7 @@ reference doc still shows the old layout, re-apply steps 2–3.
   the user picks; at Apply, the agent computes the full mapping and runs the moves.
 
 - **Orthogonality:** touches `manifest.yaml` `folder:` fields + `reference/folder-structure.md`
-  + `reference/vault-queries.md` — disjoint from `feature_type:` (requirements-root),
+  + `reference/vault-queries.md` — disjoint from `requirements_root:` (requirements-root),
   `dated_types:` (artifact-id-dating), and `AGENTS.md` bullets (ask-threshold). Apply in any
   order.
 

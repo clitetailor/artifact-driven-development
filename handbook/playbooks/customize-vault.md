@@ -28,8 +28,8 @@ Agent: Read `../customizations/README.md` and present the available customizatio
 with their alternatives. Ask: Which axis do you want to switch, and which alternative?
 
 For each axis, list its alternatives from the axis file's Alternatives table. The current
-applied state for each axis is read from `manifest.yaml` (e.g. `feature_type:` for
-requirements-root, `dated_types:` for artifact-id-dating) or `AGENTS.md` (the
+applied state for each axis is read from `manifest.yaml` (e.g. `requirements_root:` for
+requirements-root, `domain_record:` for domain-record, `dated_types:` for artifact-id-dating) or `AGENTS.md` (the
 `## Communication` first bullet lead-in for ask-threshold).
 
 If the user names a target directly (e.g. "switch to press-release", "use snapshot-style

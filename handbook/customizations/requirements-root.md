@@ -10,7 +10,7 @@
 
 ## What changes
 
-The `feature_type:` field in `manifest.yaml` names the active requirements-root type for
+The `requirements_root:` field in `manifest.yaml` names the active requirements-root type for
 this vault. All templates and reference docs are **already option-agnostic** — they use
 the generic `{feature-id}` / `{feature-link}` placeholders and resolve the active type
 from this field at fill/read time. No template or reference-doc edits are needed.
@@ -33,42 +33,42 @@ and note that the active type is in `manifest.yaml` — they do not change when 
 | `press-release` | Alternative | `pr-` | `press-releases/` | Press Release |
 
 "Default" = the framework's shipped starting option (a static fact). The current active
-type is whatever `manifest.yaml`'s `feature_type:` says right now.
+type is whatever `manifest.yaml`'s `requirements_root:` says right now.
 
 ---
 
 ## Per-alternative manifest values
 
 Each alternative is realized by a single `manifest.yaml` edit — replacing the
-`feature_type:` value. The values below are the full final state of that line for each
+`requirements_root:` value. The values below are the full final state of that line for each
 alternative.
 
 ### `prd`
 
 ```
-feature_type: prd
+requirements_root: prd
 ```
 
 ### `feature-brief`
 
 ```
-feature_type: feature-brief
+requirements_root: feature-brief
 ```
 
 ### `press-release`
 
 ```
-feature_type: press-release
+requirements_root: press-release
 ```
 
 ---
 
 ## Apply
 
-1. **Read `manifest.yaml`** — check the current `feature_type:` value. If it already
+1. **Read `manifest.yaml`** — check the current `requirements_root:` value. If it already
    matches the chosen alternative, skip to Verify.
 
-2. **`manifest.yaml`:** Replace the `feature_type:` value with the chosen alternative's
+2. **`manifest.yaml`:** Replace the `requirements_root:` value with the chosen alternative's
    value from its per-alternative section above. This is the only edit needed — templates
    use `{feature-id}` / `{feature-link}` placeholders and reference docs are
    option-agnostic, so both resolve the active type from the manifest at fill/read time.
@@ -81,7 +81,7 @@ feature_type: press-release
 
 ```bash
 # The chosen alternative is now active
-rg "^feature_type: {new_type}" manifest.yaml
+rg "^requirements_root: {new_type}" manifest.yaml
 # Expected: 1 match — visually confirm the value matches the chosen alternative.
 
 # Templates use the generic placeholder (option-agnostic — should be present in downstream templates)
@@ -92,7 +92,7 @@ rg -l "\{feature-link\}" templates/                          # expect: matches i
 rg -l "\{(prd|fb|pr)-(id|link)\}" templates/                 # expect: 0 files
 ```
 
-If the `feature_type:` check fails, re-edit the line. If the placeholder checks fail, a
+If the `requirements_root:` check fails, re-edit the line. If the placeholder checks fail, a
 template was missed during the option-agnostic migration — replace any residual
 `{prd-id}`/`{prd-link}` (or `{fb-*}`/`{pr-*}`) with `{feature-id}`/`{feature-link}`.
 
@@ -103,12 +103,12 @@ template was missed during the option-agnostic migration — replace any residua
 - **Option-agnostic design:** Templates use `{feature-id}` / `{feature-link}` (generic
   placeholders that resolve to the active type's concrete ID at fill time). Reference docs
   describe the requirements root generically and point to `manifest.yaml`'s
-  `feature_type:` as the source of truth. Neither changes when you switch alternatives —
+  `requirements_root:` as the source of truth. Neither changes when you switch alternatives —
   only the manifest field moves. See `artifact-id-dating.md` → "Template placeholder
   reference" for the full placeholder system.
 
 - **Orthogonality with `artifact-id-dating.md`:** Both are manifest-driven — they touch
-  disjoint manifest fields (`feature_type:` vs. `dated_types:`) and disjoint aspects of
+  disjoint manifest fields (`requirements_root:` vs. `dated_types:`) and disjoint aspects of
   the ID (type prefix vs. date prefix). Apply in any order.
 
 - **Orthogonality with `ask-threshold.md`:** No interaction — different files entirely.

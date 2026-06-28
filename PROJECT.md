@@ -21,7 +21,7 @@
 ## Requirements Roots
 
 <!-- One row per feature's requirements root. The active type is set in
-     manifest.yaml's feature_type: field (framework default: prd).
+     manifest.yaml's requirements_root: field (framework default: prd).
      To switch types, see handbook/customization.md. -->
 
 | Root | Status | Summary |

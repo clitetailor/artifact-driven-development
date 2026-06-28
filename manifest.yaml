@@ -22,11 +22,15 @@ repos:                            # list of repo names and paths
   - name: analytics
     path: ../analytics
 
-feature_type: prd                   # active requirements-root type (single source of truth)
+requirements_root: prd                # active requirements-root type (single source of truth)
 # The field above names the active requirements-root type for this vault.
 # All templates and reference docs resolve from this field — no markdown swaps needed.
 # Framework shipped default: prd. Alternative types are registered below and can be
 # selected via handbook/customizations/requirements-root.md; see handbook/customization.md.
+
+# domain_record: system-capability  # uncomment — behavioral approach (BA-owned)
+# domain_record: domain-model        # uncomment — structural DDD approach (SA primary, BA contributor)
+# Absent = no dedicated domain-record; requirements persist scattered (current default)
 
 dated_types: []                     # types whose IDs carry a {YYYY-MM-DD}- creation-date prefix
 # Empty list = `none` alternative. Populate with type names (e.g. [prd, feature-brief])
@@ -42,56 +46,80 @@ types:
     prefix: fb-
     folder: feature-briefs/
     template: templates/feature-brief.md
+    lifespan: delta
+    scope: feature
   - name: prd
     prefix: prd-
     folder: prds/
     template: templates/prd.md
+    lifespan: delta
+    scope: feature
   - name: press-release
     prefix: pr-
     folder: press-releases/
     template: templates/press-release.md
+    lifespan: delta
+    scope: feature
   - name: user-story
     prefix: story-
     folder: user-stories/
     template: templates/user-story.md
+    lifespan: delta
+    scope: feature
 
   # Design
   - name: user-flow
     prefix: uf-
     folder: user-flows/
     template: templates/user-flow.md
+    lifespan: state
+    scope: feature
   - name: design-spec
     prefix: ds-
     folder: design-specs/
     template: templates/design-spec.md
+    lifespan: state
+    scope: feature
 
   # Architecture
   - name: adr
     prefix: adr-
     folder: adrs/
     template: templates/adr.md
+    lifespan: state
+    scope: feature
   - name: system-architecture
     prefix: sa-
     folder: system-architectures/
     template: templates/system-architecture.md
+    lifespan: state
+    scope: feature
   - name: api-spec
     prefix: api-
     folder: api-specs/
     template: templates/api-spec.md
+    lifespan: state
+    scope: feature
   - name: data-design
     prefix: dd-
     folder: data-designs/
     template: templates/data-design.md
+    lifespan: state
+    scope: feature
   - name: tech-design
     prefix: td-
     folder: tech-designs/
     template: templates/tech-design.md
+    lifespan: delta
+    scope: feature
 
   # Development
   - name: task
     prefix: task-
     folder: tasks/
     template: templates/task.md
+    lifespan: delta
+    scope: feature
     # conditional ownership (be → software-architect, fe → frontend-engineer)
     # lives in reference/artifact-ownership.md, not here.
 
@@ -100,18 +128,44 @@ types:
     prefix: plan-
     folder: plans/
     template: templates/plan.md
+    lifespan: delta
+    scope: feature
 
   # Verification
+  - name: test-plan
+    prefix: tp-
+    folder: test-plans/
+    template: templates/test-plan.md
+    lifespan: delta
+    scope: feature
   - name: test-spec
     prefix: ts-
     folder: test-specs/
     template: templates/test-spec.md
+    lifespan: state
+    scope: domain
 
   # General
   - name: note
     prefix: note-
     folder: notes/
     template: templates/note.md
+    lifespan: state or delta   # ad-hoc — no restriction
+    scope: feature             # ad-hoc — no restriction
+
+  # Domain-record (domain-scoped State artifacts — opt-in via domain_record:)
+  - name: system-capability
+    prefix: sc-
+    folder: system-capabilities/
+    template: templates/system-capability.md
+    scope: domain
+    lifespan: state
+  - name: domain-model
+    prefix: dm-
+    folder: domain-models/
+    template: templates/domain-model.md
+    scope: domain
+    lifespan: state
 
 # --- Agents (identity roster; prose/behavior stays in design-doc) ---
 # Repo-mapping (writes-to/also-reads) dropped: repo ownership is vague and the coding

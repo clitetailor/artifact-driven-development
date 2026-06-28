@@ -63,7 +63,7 @@ alternative's section." There is no "revert" operation.
 
 "Default" means the shipped starting option — a static fact about the seedbed. The
 current state is whatever the target file says right now, determined by reading it
-(e.g. `manifest.yaml`'s `feature_type:` field, or `AGENTS.md`'s Communication bullet
+(e.g. `manifest.yaml`'s `requirements_root:` field, or `AGENTS.md`'s Communication bullet
 lead-in). If the chosen alternative is already the current state, skip to Verify.
 
 ### 4. Representation: full final state vs. token table
@@ -111,7 +111,7 @@ Once the section exists, it is assumed verified — there is no `Drafted` vs `Ve
 distinction to maintain.
 
 The **applied state** (which alternative is currently active in the vault) lives in
-`manifest.yaml` (e.g. `feature_type:`, `dated_types:`) or `AGENTS.md` (the
+`manifest.yaml` (e.g. `requirements_root:`, `domain_record:`, `dated_types:`) or `AGENTS.md` (the
 `## Communication` first bullet lead-in) — never in a status field. Read the target file
 to determine the current state; do not record it in the customization file.
 

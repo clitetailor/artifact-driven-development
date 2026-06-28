@@ -69,22 +69,6 @@ stateDiagram-v2
 
 ---
 
-## Migrations
-
-### Migration: {migration-name}
-**Sequence:** {N}
-**Reversible:** yes / no
-
-```sql
--- up
-{sql}
-
--- down
-{sql}
-```
-
-**Notes:** {anything a future engineer needs to know before running or rolling back}
-
 ## Seed Data
 <!-- Required seed rows. Leave empty if none. -->
 

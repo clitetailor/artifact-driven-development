@@ -10,11 +10,23 @@ For the agent identity roster (slug, name, design-doc), see `../manifest.yaml` u
 | user-flow, design-spec | product-designer |
 | adr, system-architecture, api-spec, data-design, tech-design, task (be) | software-architect |
 | plan | project-manager |
-| test-spec | qa-engineer |
+| test-spec, test-plan | qa-engineer |
 | task (fe) | frontend-engineer |
+| system-capability | business-analyst |
+| domain-model | software-architect (primary), business-analyst (contributor) |
 | note | any |
 
-No agent writes an artifact it does not own. Downstream agents file tasks (change/defect/review) instead.
+No agent writes an artifact it does not own or contribute to. For co-authored artifacts, the
+contributor writes only sections within their stated authority; the primary owner is
+accountable for the full artifact. Downstream agents file tasks (change/defect/review) instead.
+
+### `domain-model` section authority
+
+| Section | Authority |
+|---|---|
+| Ubiquitous Language | Co-authored — both must agree on terms |
+| Core Entities, Value Objects, Domain Events | `software-architect` (primary) |
+| Business Rules & Invariants | `business-analyst` (contributor) |
 
 ## Conventions to Pass per Agent
 

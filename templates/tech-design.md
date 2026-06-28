@@ -54,6 +54,23 @@ refs:
 - **Observability & Telemetry:** <!-- Key events tracked, alerting, or metrics. -->
 - **Deployment & Rollout:** <!-- Feature flags, gradual rollout, rollback triggers. -->
 
+## Migrations
+<!-- Per-feature schema migrations. Frozen post-ship as historical record. -->
+
+### Migration: {migration-name}
+**Sequence:** {N}
+**Reversible:** yes / no
+
+```sql
+-- up
+{sql}
+
+-- down
+{sql}
+```
+
+**Notes:** {anything a future engineer needs to know before running or rolling back}
+
 ## Edge Cases & Error Handling
 <!-- Known edge cases and how they are handled. -->
 

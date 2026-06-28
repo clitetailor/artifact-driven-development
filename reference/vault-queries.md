@@ -3,7 +3,7 @@
 **Never `ls` a folder to find artifacts.** Use grep against frontmatter fields.
 Requirements-root artifacts are discovered via live scan — use `rg` directly or `orchard query --pattern '{feature-type}'` once the CLI is available. Downstream artifacts link to the feature's requirements root via the `feature:` frontmatter field.
 
-**Active requirements-root type:** The queries below use `prd` as the example type (the framework's shipped default). Substitute the active type from `manifest.yaml`'s `feature_type:` field if different (e.g. `feature-brief` → `fb-`, `press-release` → `pr-`).
+**Active requirements-root type:** The queries below use `prd` as the example type (the framework's shipped default). Substitute the active type from `manifest.yaml`'s `requirements_root:` field if different (e.g. `feature-brief` → `fb-`, `press-release` → `pr-`).
 
 **Date-prefixed IDs:** Types listed in `manifest.yaml`'s `dated_types:` carry a `YYYY-MM-DD-` creation-date prefix. Queries that anchor on IDs use the pattern `id: (\d{4}-\d{2}-\d{2}-)?prefix-` to optionally match the date prefix — this works whether the type is dated or not, so queries don't change when dating alternatives are switched. `type:` and `status:` queries are unaffected — they search frontmatter field values, not IDs.
 
