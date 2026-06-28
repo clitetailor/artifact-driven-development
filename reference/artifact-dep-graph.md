@@ -121,7 +121,18 @@ graph LR
     ROOT --> TD
     STORY --> TP
     API --> TP
+
+    %% Domain-record (opt-in via domain_record:) — conditional edges
+    DM["domain-model (opt-in)"]
+    DM -.->|"authority (when adopted)"| DD
+    DM -.->|"authority (when adopted)"| API
 ```
+
+> **Domain-record edges (dashed):** `domain-model` is opt-in via `manifest.yaml`'s
+> `domain_record:` field. When adopted, it becomes the upstream authority for `data-design`
+> (entity definitions + business rules) and `api-spec` (domain entities + events) in the same
+> domain. `system-capability` has no subordination edges — it maps to `user-flow` & `test-spec`
+> conceptually but does not constrain them as upstream authority.
 
 | To create… | First create… |
 |---|---|

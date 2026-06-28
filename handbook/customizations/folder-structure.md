@@ -80,6 +80,7 @@ parent matching their phase; a type with no clear phase goes under `general/`.
 | `architecture/` | adr, system-architecture, api-spec, data-design, tech-design |
 | `development/` | task, plan |
 | `verification/` | test-plan, test-spec |
+| `domain-record/` | system-capability, domain-model |
 | `general/` | note |
 
 **Resulting `folder:` values:** `folder: {parent}/{type-folder}/` — e.g.
@@ -100,8 +101,8 @@ matching their domain; a type with no product/technical/delivery signal goes und
 
 | Parent folder | Types |
 |---|---|
-| `product/` | feature-brief, prd, press-release, user-story, user-flow, design-spec |
-| `technical/` | adr, system-architecture, api-spec, data-design, tech-design |
+| `product/` | feature-brief, prd, press-release, user-story, user-flow, design-spec, system-capability |
+| `technical/` | adr, system-architecture, api-spec, data-design, tech-design, domain-model |
 | `delivery/` | task, plan, test-plan, test-spec |
 | `general/` | note |
 
@@ -126,7 +127,7 @@ nest as `notes/notes/`). New types are placed by the same test: read across the 
 
 | Parent folder | Types |
 |---|---|
-| `specs/` | prd, press-release, user-flow, design-spec, adr, system-architecture, api-spec, data-design, test-spec |
+| `specs/` | prd, press-release, user-flow, design-spec, adr, system-architecture, api-spec, data-design, test-spec, system-capability, domain-model |
 | `delivery/` | feature-brief, user-story, tech-design, task, plan, test-plan |
 | `notes/` | note *(no nesting — `folder: notes/`)* |
 

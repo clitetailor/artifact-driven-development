@@ -29,6 +29,8 @@ refs:
 Task artifacts often carry: `story` (links to `story-{slug}`), `milestone`, `estimated-hours`.
 Downstream artifacts (user-story, user-flow, system-architecture, tech-design, test-spec, and plan) carry: `feature` — the ID of the feature's requirements root. This links the artifact to its requirements root; see `artifact-dep-graph.md`. The active requirements-root type is set in `manifest.yaml`'s `requirements_root:` field. The ID format follows the ID Naming Pattern above (dated if the type is listed in `manifest.yaml`'s `dated_types:`).
 
+Domain-scoped artifacts (test-spec, system-capability, domain-model) carry: `domain` — the domain slug this artifact belongs to (e.g. `domain: billing`). This replaces the `feature:` field for domain-scoped types; see `manifest.yaml`'s `scope:` field to determine which axis applies. Domain-scoped IDs use the domain slug (e.g. `sc-billing`, `dm-checkout`, `ts-checkout`).
+
 These are conventions, not enforced.
 
 ## References Section (body)
