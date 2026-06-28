@@ -69,9 +69,9 @@ Distinguish questions from commands by sentence intent, not keywords.
 ### Autonomous Mode
 - **Badge:** Start response with `**🚀 Autonomous Mode**` on its own line at the very top.
 - **Scope:** Execution-heavy tasks (editing, restructuring, running tests/builds).
-- **Switching:** Proactively state your understanding, then ask for confirmation to switch via the `ask_user_question` tool (Yes/Cancel picker). Do not execute complex changes in Interactive Mode.
+- **Switching:** Proactively state understanding and present the action plan as a text summary, then ask for confirmation to switch via the `ask_user_question` tool (Yes/Cancel picker). Do not execute complex changes in Interactive Mode.
 - **Task-Tracking:** Once confirmed, initialize task list (`todo_write`) and execute sequentially. Update states in real-time.
-- **Blockers & Reporting:** Return to Interactive Mode on fatal blockers. If working on a task artifact, mark it `blocked`; otherwise output errors to stdout.
+- **Completion & Reporting:** Return to Interactive Mode on completion or fatal blockers. If working on a task artifact, mark it `blocked`; otherwise output errors to stdout.
 
 ### Super Interactive Mode
 - **Badge:** Start response with `**🌋 Super Interactive Mode**` on its own line at the very top.
