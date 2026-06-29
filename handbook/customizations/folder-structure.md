@@ -30,16 +30,20 @@ fields — they are rewritten when you switch.
 
 ## Alternatives
 
-| Alternative | Role | Grouping axis | Top-level artifact buckets | Root entries (with framework) |
-|---|---|---|---|---|
-| `flat` | Default | no grouping — flat at root | 16 | 21 |
-| `discipline` | Alternative | SDLC discipline | 6 | 12 |
-| `product-technical-delivery` | Alternative | product / technical / delivery | 4 | 10 |
-| `lifespan` | Alternative | stable-reference / transient-working | 3 | 9 |
+| Alternative | Role | Grouping axis |
+|---|---|---|
+| `flat` | Default | no grouping — flat at root |
+| `discipline` | Alternative | SDLC discipline |
+| `product-technical-delivery` | Alternative | product / technical / delivery |
+| `lifespan` | Alternative | stable-reference / transient-working |
 
 "Default" = the framework's shipped starting option (a static fact). The current layout is
 whatever the `folder:` fields in `manifest.yaml` say right now — if every type's `folder:` is
 its own root-level folder (e.g. `folder: prds/`), the vault is in `flat`.
+
+The exact bucket count per alternative lives in each alternative's bucket assignment table
+below — those tables are the source of truth and stay correct when types are added (just add
+a row). No summary count column is kept here, since it drifts independently of the tables.
 
 Each alternative's section below gives its **placement rule** (the principle for assigning a
 type to a parent bucket — used when the `types:` list grows) and a **bucket assignment** table
@@ -127,18 +131,18 @@ nest as `notes/notes/`). New types are placed by the same test: read across the 
 
 | Parent folder | Types |
 |---|---|
-| `specs/` | prd, press-release, user-flow, design-spec, adr, system-architecture, api-spec, data-design, test-spec, system-capability, domain-model |
-| `delivery/` | feature-brief, user-story, tech-design, task, plan, test-plan |
+| `specs/` | feature-brief, prd, press-release, user-flow, design-spec, adr, system-architecture, api-spec, data-design, test-spec, system-capability, domain-model |
+| `delivery/` | user-story, tech-design, task, plan, test-plan |
 | `notes/` | note *(no nesting — `folder: notes/`)* |
 
 > Bucket assignments follow the State/Delta lifespan axis (see `../manifest.yaml`'s `lifespan:`
 > field): State artifacts → `specs/`, Delta artifacts → `delivery/`. The requirements-root
-> (`prd` / `press-release`) stays in `specs/` as the feature's canonical requirements reference
-> even though it is technically Delta (archived post-ship) — it is read across the lifecycle as
-> the spec, not consumed as working material.
+> (`feature-brief` / `prd` / `press-release`) stays in `specs/` as the feature's canonical
+> requirements reference even though it is technically Delta (archived post-ship) — it is read
+> across the lifecycle as the spec, not consumed as working material.
 
 **Resulting `folder:` values:** `folder: {parent}/{type-folder}/` — e.g. `folder: specs/prds/`,
-`folder: specs/test-specs/`, `folder: delivery/feature-briefs/`, `folder: delivery/test-plans/`,
+`folder: specs/feature-briefs/`, `folder: specs/test-specs/`, `folder: delivery/test-plans/`,
 `folder: notes/` (for note).
 
 ---
@@ -189,12 +193,13 @@ nest as `notes/notes/`). New types are placed by the same test: read across the 
    - For each type whose target folder differs from its current folder:
      `mv {current-folder} {target-parent}/`. Move whole directories — file content is
      untouched. Skip types whose folders were just created in place (nothing to move).
-   - Example — `flat → lifespan` (user-story placed at `specs/`):
+   - Example — `flat → lifespan` (requirements-root placed at `specs/` despite being Delta):
      ```
      mkdir -p specs delivery
-     mv feature-briefs prds press-releases user-stories user-flows design-specs \
-        adrs system-architectures api-specs data-designs tech-designs specs/
-     mv tasks plans test-specs delivery/
+     mv feature-briefs prds press-releases user-flows design-specs \
+        adrs system-architectures api-specs data-designs test-specs \
+        system-capabilities domain-models specs/
+     mv user-stories tech-designs tasks plans test-plans delivery/
      # notes/ stays at root (its own bucket)
      ```
    - For `flat → discipline` and `flat → product-technical-delivery`, the same procedure with the
@@ -222,7 +227,14 @@ nest as `notes/notes/`). New types are placed by the same test: read across the 
 # Read manifest.yaml's types: list and confirm each folder: equals {parent}/{type-folder}/
 # (or {type-folder}/ for flat, and for note under lifespan).
 rg "^\s+folder: " manifest.yaml
-# Expected: 15 matches — visually confirm each matches the target mapping.
+# Expected: one match per type in manifest.yaml — visually confirm each matches the target mapping.
+
+# Self-check: the folder: count equals the template: count (both are unique to types: entries,
+# so they should match — catches a missed folder: edit when a type was added).
+expected=$(rg -c "^\s+template: " manifest.yaml)
+actual=$(rg -c "^\s+folder: " manifest.yaml)
+[ "$expected" = "$actual" ] && echo "OK: $actual folder: fields match $expected types" \
+  || echo "MISMATCH: $actual folder: fields vs $expected types — a type is missing its folder: edit"
 
 # No type folder remains at a stale root location after a non-flat switch.
 # (Run for types that moved — expect no hits at the old root path.)

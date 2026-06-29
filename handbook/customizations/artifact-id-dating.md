@@ -26,9 +26,13 @@ or re-accepted. This keeps IDs stable so `refs`/`feature`/`story` links don't br
 
 | Alternative | Role | Dated types | Undated types |
 |---|---|---|---|
-| `none` | Default | — | all 15 |
-| `snapshot-style` | Alternative | 10 snapshot types | 5 living types |
-| `all` | Alternative | all 15 | — |
+| `none` | Default | — | all |
+| `snapshot-style` | Alternative | snapshot-style types (see table below) | living types (see table below) |
+| `all` | Alternative | all | — |
+
+The exact dated/undated type sets per alternative live in the table below — that table is the
+source of truth and stays correct when types are added (just add a row). No summary count
+column is kept here, since it drifts independently of the table.
 
 ### Dated type sets per alternative
 
@@ -43,19 +47,22 @@ or re-accepted. This keeps IDs stable so `refs`/`feature`/`story` links don't br
 | tech-design | `td-` | — | ✓ | ✓ |
 | task | `task-` | — | ✓ | ✓ |
 | plan | `plan-` | — | ✓ | ✓ |
+| test-plan | `tp-` | — | ✓ | ✓ |
 | note | `note-` | — | ✓ | ✓ |
 | system-architecture | `sa-` | — | — | ✓ |
 | api-spec | `api-` | — | — | ✓ |
 | data-design | `dd-` | — | — | ✓ |
 | design-spec | `ds-` | — | — | ✓ |
 | test-spec | `ts-` | — | — | ✓ |
+| system-capability | `sc-` | — | — | ✓ |
+| domain-model | `dm-` | — | — | ✓ |
 
 **`snapshot-style` rationale:** date types whose creation date carries meaning —
 snapshot-style artifacts that serve as point-in-time anchors for derivative works
 (`prd`, `feature-brief`, `press-release`, `user-story`, `user-flow`, `tech-design`) or
-frozen records (`adr`, `task`, `plan`, `note`). Leave undated the types that iterate
-throughout the project lifecycle (`system-architecture`, `api-spec`, `data-design`,
-`design-spec`, `test-spec`).
+frozen records (`adr`, `task`, `plan`, `test-plan`, `note`). Leave undated the types that
+iterate throughout the project lifecycle (`system-architecture`, `api-spec`, `data-design`,
+`design-spec`, `test-spec`, `system-capability`, `domain-model`).
 
 ---
 
@@ -134,20 +141,24 @@ dated_types: []
 ### `snapshot-style`
 
 ```
-dated_types: [feature-brief, prd, press-release, user-story, user-flow, adr, tech-design, task, plan, note]
+dated_types: [feature-brief, prd, press-release, user-story, user-flow, adr, tech-design, task, plan, test-plan, note]
 ```
 
-This list is the shipped default for the `snapshot-style` alternative (the 10 snapshot types
-from the dated type sets table above). It is **adjustable** — after applying, you may add or
-remove type names to tune which types carry the date prefix. The `all` and `none` alternatives
-are fixed; `snapshot-style` is the only alternative whose list is meant to be tuned to your
-project's needs.
+This list is the shipped default for the `snapshot-style` alternative (the snapshot-style types
+from the dated type sets table above — every type marked ✓ in the `snapshot-style` column). It is
+**adjustable** — after applying, you may add or remove type names to tune which types carry the
+date prefix. The `all` and `none` alternatives are fixed; `snapshot-style` is the only
+alternative whose list is meant to be tuned to your project's needs.
 
 ### `all`
 
 ```
-dated_types: [feature-brief, prd, press-release, user-story, user-flow, adr, tech-design, task, plan, note, system-architecture, api-spec, data-design, design-spec, test-spec]
+dated_types: [<every type name from manifest.yaml's types: list>]
 ```
+
+Populate the list by reading `manifest.yaml`'s `types:` list and collecting every type's
+`name:` field, in the order they appear. This auto-adjusts when types are added — no need to
+maintain a hardcoded list here. Run the §Verify `all` self-check to confirm the count matches.
 
 ---
 
@@ -171,11 +182,12 @@ dated_types: [feature-brief, prd, press-release, user-story, user-flow, adr, tec
 rg "^dated_types: \[\]" manifest.yaml
 # Expected: 1 match
 
-# `snapshot-style`: list contains exactly the 10 snapshot types, no living types
+# `snapshot-style`: list contains exactly the snapshot-style types from the dated type sets
+# table above, no living types.
 rg "^dated_types: \[" manifest.yaml
-# Expected: 1 match — visually confirm the list matches:
-#   [feature-brief, prd, press-release, user-story, user-flow, adr, tech-design, task, plan, note]
-# Living types absent:
+# Expected: 1 match — visually confirm the list matches the snapshot-style column (✓ rows)
+# in the dated type sets table.
+# Living types absent (negative checks — add a line if a new living type is introduced):
 rg "^dated_types: \[.*system-architecture" manifest.yaml
 # Expected: 0 hits
 rg "^dated_types: \[.*api-spec" manifest.yaml
@@ -187,10 +199,15 @@ rg "^dated_types: \[.*design-spec" manifest.yaml
 rg "^dated_types: \[.*test-spec" manifest.yaml
 # Expected: 0 hits
 
-# `all`: list contains all 15 types
-rg "^dated_types: \[" manifest.yaml
-# Expected: 1 match — visually confirm the list matches:
-#   [feature-brief, prd, press-release, user-story, user-flow, adr, tech-design, task, plan, note, system-architecture, api-spec, data-design, design-spec, test-spec]
+# `all`: list contains every type registered in manifest.yaml's types: list.
+# Self-check: the dated_types: item count equals the type count (template: fields are unique
+# to types: entries, so they're a reliable type-count proxy — catches a missed type).
+expected=$(rg -c "^\s+template: " manifest.yaml)
+actual=$(rg "^dated_types:" manifest.yaml | sed 's/#.*//' | sed 's/.*\[//; s/\].*//' | tr ',' '\n' | grep -c '[a-z]')
+[ "$expected" = "$actual" ] && echo "OK: $actual dated types match $expected registered types" \
+  || echo "MISMATCH: $actual dated types vs $expected registered types — a type is missing from dated_types:"
+# Also visually confirm the list matches manifest.yaml's types: names.
+rg "^dated_types:" manifest.yaml
 ```
 
 ---

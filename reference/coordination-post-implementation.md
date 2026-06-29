@@ -22,9 +22,11 @@ When all tasks for a story or feature are implemented, the agent MUST verify the
   - *No drift + TD already accepted:* Leave unchanged.
 
 ### 3. Check Feature Metrics
-- When the last story under a feature is `done` → read the feature-brief's `## Success Metrics`. Verify each against the codebase.
-- All met + no TD needs review → propose marking feature-brief `status: accepted`.
-- Any metric unmet OR any TD is `needs-review` → propose marking feature-brief `status: needs-review` with a reason.
+- When the last story under a feature is `done` → read the requirements root's `## Success Metrics`. Verify each against the codebase.
+- All met + no TD needs review → propose marking the requirements root `status: accepted`.
+- Any metric unmet OR any TD is `needs-review` → propose marking the requirements root `status: needs-review` with a reason.
+
+> The active requirements-root type is set in `../manifest.yaml`'s `requirements_root:` field (`prd` by default; alternatives `feature-brief`, `press-release`). All three templates carry a `## Success Metrics` section, so this checklist is option-agnostic.
 
 ### 4. Record Evidence
 - Task `### Approach Taken`: detail what was verified and how (grep commands, file links).
