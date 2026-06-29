@@ -33,7 +33,7 @@ fields — they are rewritten when you switch.
 | Alternative | Role | Grouping axis | Top-level artifact buckets | Root entries (with framework) |
 |---|---|---|---|---|
 | `flat` | Default | no grouping — flat at root | 16 | 21 |
-| `phase` | Alternative | SDLC phase | 6 | 12 |
+| `discipline` | Alternative | SDLC discipline | 6 | 12 |
 | `product-technical-delivery` | Alternative | product / technical / delivery | 4 | 10 |
 | `lifespan` | Alternative | stable-reference / transient-working | 3 | 9 |
 
@@ -63,13 +63,13 @@ vault root). New types get a new root-level folder.
 
 ---
 
-## `phase`
+## `discipline`
 
-Groups type folders by SDLC phase, matching `reference/artifact-dep-graph.md`'s phases and
+Groups type folders by SDLC discipline, matching `reference/artifact-dep-graph.md`'s disciplines and
 `manifest.yaml`'s comment dividers.
 
-**Placement rule:** a type's SDLC phase → parent folder. New types are placed under the
-parent matching their phase; a type with no clear phase goes under `general/`.
+**Placement rule:** a type's SDLC discipline → parent folder. New types are placed under the
+parent matching their discipline; a type with no clear discipline goes under `general/`.
 
 **Bucket assignment:**
 
@@ -197,7 +197,7 @@ nest as `notes/notes/`). New types are placed by the same test: read across the 
      mv tasks plans test-specs delivery/
      # notes/ stays at root (its own bucket)
      ```
-   - For `flat → phase` and `flat → product-technical-delivery`, the same procedure with the
+   - For `flat → discipline` and `flat → product-technical-delivery`, the same procedure with the
      alternative's parent buckets and bucket assignment. For switches between two non-flat
      alternatives, move each type folder from its old parent to its new parent and remove the
      now-empty old parents.

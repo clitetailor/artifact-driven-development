@@ -27,7 +27,7 @@ Agent-driven procedures — reference these in your AI chat to walk through a ta
 | Frontmatter schema + ID naming pattern | `../reference/artifact-frontmatter.md` |
 | Status lifecycle framing | `../reference/artifact-lifecycle.md` |
 | Agent ownership per artifact type | `../reference/artifact-ownership.md` |
-| Artifact dependency graph + phases | `../reference/artifact-dep-graph.md` |
+| Artifact dependency graph + disciplines | `../reference/artifact-dep-graph.md` |
 | Grep recipes for navigation | `../reference/vault-queries.md` |
 | Vocabulary | `../reference/artifact-vocabulary.md` |
 | Coordination decision tree | `../reference/coordination-decision-tree.md` |

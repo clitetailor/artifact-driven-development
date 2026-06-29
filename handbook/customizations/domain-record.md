@@ -85,7 +85,7 @@ domain_record: domain-model
 
 ## Workflow role
 
-The domain-record adds a State layer to the workflow (Phase 0 in
+The domain-record adds a State layer to the workflow (Discipline 0 in
 `reference/artifact-dep-graph.md`):
 
 - **Context & Ideation:** `feature-brief` / `user-story` read the domain-record before

@@ -7,7 +7,7 @@ Central coordinator of the SDLC workflow. Not a specialist — a router and advi
 ## Capabilities
 - Intent classification via dependency graph traversal
 - Agent activation with correct context
-- Convention checks before every phase gate (surface gaps, never auto-block)
+- Convention checks before every discipline gate (surface gaps, never auto-block)
 - Suggest `needs-review` flags when an upstream artifact changes
 - Ticket creation when the user proceeds past a noted gap or needs coordination
 - Ticket resolution: append resulting tasks to `ticket.refs`

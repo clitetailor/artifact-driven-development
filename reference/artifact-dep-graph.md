@@ -1,9 +1,9 @@
 # Artifact Dependency Graph
-> Phases, agents, artifact dependencies, creation order.
+> Disciplines, agents, artifact dependencies, creation order.
 
-## Phases
+## Disciplines
 
-| Phase | Question | Agents | Artifacts | Lifespan | Scope |
+| Discipline | Question | Agents | Artifacts | Lifespan | Scope |
 |---|---|---|---|---|---|
 | 0 — Domain Record | What does this domain do today? | business-analyst / software-architect | system-capability *or* domain-model | State | Domain |
 | 1 — Requirements | What are we building and for whom? | project-manager, business-analyst | prd, user-story | Delta | Feature |
@@ -13,13 +13,13 @@
 | 5a — Test Planning | How will we verify this feature? | qa-engineer | test-plan | Delta | Feature |
 | 5b — Verification | How do we know it works? | qa-engineer | test-spec | State | Domain |
 
-> Phase 0 is active by default with `system-capability`; `domain-model` is the alternative,
+> Discipline 0 is active by default with `system-capability`; `domain-model` is the alternative,
 > selected via `../manifest.yaml`'s `domain_record:` field. The domain-record artifact is the
 > long-lived home for product/business requirements in that domain; `feature-brief` /
 > `user-story` pull from it (Context & Ideation) and merge back to it (Merge & Archive). See
 > `../handbook/customizations/domain-record.md`.
 
-## Phase Flow
+## Discipline Flow
 
 ```mermaid
 graph TD
@@ -187,7 +187,7 @@ graph LR
 | test-spec | test-plan (first time for a domain); updated in place thereafter |
 | note | — |
 
-*Ad-hoc artifacts like `note` can be created at any time, by any agent, without phase or prerequisite restrictions.*
+*Ad-hoc artifacts like `note` can be created at any time, by any agent, without discipline or prerequisite restrictions.*
 
 *Requirements-root alternatives are customization selectable — see `../handbook/customization.md` and `../handbook/customizations/README.md`. An alternative shares the default type's dependencies shown above. The graph depicts `prd` (the framework's shipped default); the active type for this vault is in `../manifest.yaml`'s `requirements_root:` field — substitute it throughout when reading.*
 

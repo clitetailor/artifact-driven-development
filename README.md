@@ -6,9 +6,9 @@ The framework is built on four flexible components:
 - **Artifact Vault:** A local PKM of structured Markdown planning documents.
 - **Agent Roles:** Defined scopes of responsibility for AI coding agents.
 - **Skill Mappings:** Tool and action permissions scoped to specific tasks (extensible).
-- **Dependency Graph:** A phase-ordered workflow where every artifact explicitly links to its upstream context.
+- **Dependency Graph:** A discipline-ordered workflow where every artifact explicitly links to its upstream context.
 
-*Everything is customizable. You can add or remove artifact types, tweak the SDLC phases, and evolve the workflow as your project grows.*
+*Everything is customizable. You can add or remove artifact types, tweak the SDLC disciplines, and evolve the workflow as your project grows.*
 
 ## Table of Contents
 

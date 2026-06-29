@@ -29,7 +29,7 @@
 ├── notes/                  # Ad-hoc scratchpad notes (note-) — any agent, any time
 ├── agents/                 # Agent design docs + repo/skill mappings
 ├── conventions/            # Enforced conventions (prescriptive)
-├── reference/              # AI-friendly reference: vocabulary, lifecycle, ownership, SDLC phases, dep graph
+├── reference/              # AI-friendly reference: vocabulary, lifecycle, ownership, SDLC disciplines, dep graph
 ├── handbook/               # Human-readable workflow guides, setup prompt, customization guide
 └── templates/              # Artifact doc templates
 ```

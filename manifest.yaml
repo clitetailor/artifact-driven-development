@@ -41,7 +41,7 @@ dated_types: []                     # types whose IDs carry a {YYYY-MM-DD}- crea
 # handbook/customizations/artifact-id-dating.md.
 
 # --- Artifact types ---
-# No `phase` here: phase grouping is a workflow concept owned by
+# No `discipline` here: discipline grouping is a workflow concept owned by
 # reference/artifact-dep-graph.md. Comments below are human dividers only.
 types:
   # Requirements
