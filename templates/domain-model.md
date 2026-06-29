@@ -50,9 +50,9 @@ refs: []
 
 ## Open Questions
 
-| # | Question | Status | Resolution | Blocks downstream? |
-|---|----------|--------|------------|---------------------|
-| 1 |          | open \| resolved |        | yes \| no           |
+- [ ] **Question 1:** {question}
+  - **Resolution:** {resolution}
+  - **Blocks downstream?** yes | no
 
 ## References
 - 

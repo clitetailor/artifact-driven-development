@@ -40,11 +40,21 @@ Both render multi-attribute items where one field is a sentence. Choose by item 
   - **Then:** ...
   ```
 
+## Checkbox list with nested metadata
+
+When items need binary tracking **and** carry extra metadata, use a checkbox list with nested bold-key lines. The checkbox encodes the binary state (open/resolved, done/not-done); nested lines carry the rest. Do not duplicate the binary state as a separate field.
+
+```markdown
+- [ ] **Question 1:** {question}
+  - **Resolution:** {resolution}
+  - **Blocks downstream?** yes | no
+```
+
 ## Rejected alternatives
 
-- **Nested bullets for multi-attribute data** (e.g. Open Questions with status/resolution as nested bold keys) — verbose; hard to scan one attribute across many items. Use a table.
 - **Tables for prose-heavy fields** — cells wrap badly, hard to read. Use a subsection.
-- **Plain checkbox list for items that carry metadata** (e.g. Open Questions with status + resolution) — loses metadata downstream agents need. Use a table; track resolution state in a `Status` column.
+- **Table for items that need binary tracking** (e.g. Open Questions with a `Status` column) — duplicates the binary state the checkbox already encodes. Use a checkbox list with nested metadata instead.
+- **Plain checkbox list for items that carry metadata** (e.g. Open Questions with resolution + blocks-downstream) — loses metadata downstream agents need. Use the nested bold-key pattern above.
 
 ## Canonical format by data kind
 
@@ -63,7 +73,7 @@ Applies to templates and to artifacts authored from them. If a template's sectio
 | In Scope / Out of Scope | Bullet list | Single field |
 | Key Requirements (ordered) | Numbered list | Priority is signal |
 | Metrics / Success Metrics | Table | Short fields, comparison |
-| Open Questions | Table | Short fields, status scanning |
+| Open Questions | Checkbox list with nested metadata | Binary tracking (open/resolved) wins first; resolution + blocks-downstream as nested bold-keys |
 | Pipeline Next Steps | Checkbox list | Binary tracking |
 | References | Bullet list | Single field |
 | State Transitions | Table | Short fields, comparison |

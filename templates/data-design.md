@@ -75,9 +75,9 @@ stateDiagram-v2
 ## Open Questions
 <!-- Unresolved items that must be answered before implementation can start. -->
 
-| # | Question | Status | Resolution | Blocks downstream? |
-|---|----------|--------|------------|---------------------|
-| 1 |          | open \| resolved |        | yes \| no           |
+- [ ] **Question 1:** {question}
+  - **Resolution:** {resolution}
+  - **Blocks downstream?** yes | no
 
 ## References
 - {sa-link}
