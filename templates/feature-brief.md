@@ -64,4 +64,8 @@ refs:
 - [ ] software-architect → system-architecture (from this root)
 
 ## References
-- [{related-artifact-id}](../{folder}/{related-artifact-id}.md)
+- **{dr-link}** (Domain Record — context pulled)
+- **{story-link}** (User Story)
+- **{uf-link}** (User Flow)
+- **{sa-link}** (System Architecture)
+- **{td-link}** (Tech Design)
