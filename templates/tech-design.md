@@ -39,18 +39,19 @@ refs:
 
 ### Architecture Snapshot
 ```mermaid
-%% Choose: C4Context | C4Container | C4Component (match to change scope)
-C4Context
-    %% Insert scoped C4 diagram of the touched area here
+%% Use graph with subgraph to express the relevant zoom level (context/container/component).
+%% Match the structure used in Proposed Changes so the delta is visually obvious.
+graph LR
+    %% Insert scoped snapshot of the touched area here
 ```
 
 ## Proposed Changes
 <!-- "To-be" architecture: new/modified nodes highlighted vs. the context above.
-     Use the same C4 level as Architecture Context so the delta is visually obvious.
+     Use the same graph structure as Architecture Snapshot so the delta is visually obvious.
      Style: green = new, orange = modified, grey = unchanged. -->
 ```mermaid
-%% Use the same C4 type as Architecture Context
-C4Context
+%% Use the same graph structure as Architecture Snapshot
+graph TD
     %% Insert proposed architecture with classDef styling (green=new, orange=modified)
 ```
 

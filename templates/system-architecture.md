@@ -19,15 +19,15 @@ refs:
 <!-- The system as a black box: external actors, upstream/downstream systems,
      and the boundaries. Highest zoom level. C4 Level 1. -->
 ```mermaid
-C4Context
-    %% Insert C4 Level 1 context diagram here
+graph LR
+    %% Insert context diagram: system as one node, external actors/systems around it
 ```
 
 ## Containers / Services
 <!-- The deployable/runnable units that make up the system. C4 Level 2. -->
 ```mermaid
-C4Container
-    %% Insert C4 Level 2 container diagram here
+graph TD
+    %% Insert container diagram: use subgraph per container, edges show comms
 ```
 
 | Container | Responsibility | Tech | Communicates with |
@@ -38,8 +38,8 @@ C4Container
 <!-- Internal building blocks within each container and their boundaries.
      Diagram + short notes. C4 Level 3. -->
 ```mermaid
-C4Component
-    %% Insert C4 Level 3 component diagram here
+graph TD
+    %% Insert component diagram: use subgraph per component group, finer granularity
 ```
 
 ## Data Flow Overview
