@@ -30,11 +30,18 @@ so that **{outcome or value}**.
 - [ ] Given {context}, when {action}, then {outcome}
 - [ ] Given {context}, when {action}, then {outcome}
 
-## Error / Edge Cases
+## Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|-------------------|
-|          |                   |
+### EC-1: {edge case name}
+- **Condition**: 
+- **Expected Behavior**: 
+
+## Error Cases
+
+### ERR-1: {error case name}
+- **Trigger**: 
+- **Expected Error**: 
+- **Error Message**: 
 
 ## Notes
 <!-- Orchestration hints: effort breakdown, cross-story dependencies, timeline constraints. -->

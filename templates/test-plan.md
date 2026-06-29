@@ -41,7 +41,10 @@ refs:
 - Carry test cases, edge cases, and error cases into `test-spec` as the long-lived regression suite.
 
 ## Open Questions
-- [ ] 
+
+| # | Question | Status | Resolution | Blocks downstream? |
+|---|----------|--------|------------|---------------------|
+| 1 |          | open \| resolved |        | yes \| no           |
 
 ## References
 - {story-link}

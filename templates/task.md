@@ -25,11 +25,11 @@ refs:
 
 ## Scope
 
-### Included
+### In Scope
 - 
 - 
 
-### Excluded
+### Out of Scope
 <!-- Explicitly state what is NOT part of this task to prevent scope creep. -->
 - 
 

@@ -19,11 +19,12 @@ refs:
 <!-- What this document covers and why it exists. One paragraph. -->
 
 ## Scope
-**In scope:**
+
+### In Scope
 - 
 - 
 
-**Out of scope:**
+### Out of Scope
 - 
 - 
 
@@ -75,7 +76,11 @@ refs:
 <!-- Known edge cases and how they are handled. -->
 
 ## Open Questions
-- [ ] <!-- Unresolved items that must be answered before tasks can start. -->
+<!-- Unresolved items that must be answered before tasks can start. -->
+
+| # | Question | Status | Resolution | Blocks downstream? |
+|---|----------|--------|------------|---------------------|
+| 1 |          | open \| resolved |        | yes \| no           |
 
 ## References
 - **{sa-link}** (System Architecture)

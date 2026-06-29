@@ -39,9 +39,9 @@ refs:
 ## Success Metrics
 <!-- How we know the product is successful post-launch. -->
 
-| Metric | Target | Measurement Source |
-|--------|--------|--------------------|
-|        |        |                    |
+| Metric | Type | Target | Source |
+|--------|------|--------|--------|
+|        | primary \| guardrail |        |        |
 
 ## Key Requirements
 <!-- Plain-English capabilities the product must have, extracted from The Solution above. -->

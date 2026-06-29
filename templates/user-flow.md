@@ -64,7 +64,9 @@ flowchart TD
 ## Edge Cases
 <!-- Scenarios outside the happy path that the flow must handle. -->
 
-- 
+### EC-1: {edge case name}
+- **Condition**: 
+- **Expected Behavior**: 
 
 ## References
 - {feature-link}

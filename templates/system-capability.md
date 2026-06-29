@@ -33,7 +33,10 @@ refs: []
 |        |      |       |    |
 
 ## Open Questions
-- [ ] 
+
+| # | Question | Status | Resolution | Blocks downstream? |
+|---|----------|--------|------------|---------------------|
+| 1 |          | open \| resolved |        | yes \| no           |
 
 ## References
 - 

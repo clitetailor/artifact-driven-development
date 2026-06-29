@@ -33,10 +33,9 @@ refs:
 ## Success Metrics
 <!-- Key success metrics -->
 
-- **Metric 1:** {metric}
-  - **Type:** primary | guardrail
-  - **Target:** {target}
-  - **Source:** {source}
+| Metric | Type | Target | Source |
+|--------|------|--------|--------|
+|        | primary \| guardrail |        |        |
 
 ## Scope
 
@@ -64,21 +63,22 @@ refs:
 ## Dependencies & Risks
 <!-- External dependencies and risks -->
 
-- **Dependencies:** 
-- **Risks & Mitigations:** 
+- **Dependency:** {what we depend on}
+- **Risk:** {risk} — **Mitigation:** {mitigation}
 
 ## User Stories
 <!-- Mapped user stories -->
 
-- **FR-1:** {story-id} - {one-line summary}
-- **FR-2:** {story-id (first story)}, {story-id (second story)} - {one-line summary}
+| Key Req | Story | Summary |
+|---------|-------|---------|
+| FR-1 | {story-id} | {one-line summary} |
+| FR-2 | {story-id (first story)}, {story-id (second story)} | {one-line summary} |
 
 ## Open Questions
 
-- [ ] **Question 1:** {question}
-  - **Status:** open | resolved
-  - **Resolution:** {resolution}
-  - **Blocks downstream?** yes | no
+| # | Question | Status | Resolution | Blocks downstream? |
+|---|----------|--------|------------|---------------------|
+| 1 |          | open \| resolved |        | yes \| no           |
 
 ## Pipeline Next Steps
 <!-- What the downstream pipeline expects to build from this root. -->
