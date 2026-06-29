@@ -111,8 +111,6 @@ template was missed during the option-agnostic migration — replace any residua
   disjoint manifest fields (`requirements_root:` vs. `dated_types:`) and disjoint aspects of
   the ID (type prefix vs. date prefix). Apply in any order.
 
-- **Orthogonality with `ask-threshold.md`:** No interaction — different files entirely.
-
 - **Already-created artifacts** (in `prds/`, `feature-briefs/`, etc.) are **not touched** —
   only the manifest field changes. Migrate existing artifacts on demand by renaming files
   and updating their `id:`/`type:`/`feature:` fields.

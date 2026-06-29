@@ -219,8 +219,6 @@ rg "^dated_types:" manifest.yaml
   manifest fields (`dated_types:` list vs. `requirements_root:` field) and disjoint aspects of
   the ID (date prefix vs. type prefix). Apply in any order.
 
-- **Orthogonality with `ask-threshold.md`:** No interaction — different files entirely.
-
 - **`plan` is the weakest fit in the `snapshot-style` dated set.** Plans get
   re-sequenced as work progresses — more living than the other dated types. Kept dated
   on the "frozen record" rationale; the creation date may go stale faster here than

@@ -1,7 +1,7 @@
 # customization file Format
 
 Conventions for files in `handbook/customizations/`. Each customization axis (e.g. requirements-root type,
-ask-threshold policy) has one file listing all alternatives side-by-side.
+folder-structure layout) has one file listing all alternatives side-by-side.
 
 ---
 

@@ -270,9 +270,8 @@ reference doc still shows the old layout, re-apply steps 2–3.
   the user picks; at Apply, the agent computes the full mapping and runs the moves.
 
 - **Orthogonality:** touches `manifest.yaml` `folder:` fields + `reference/folder-structure.md`
-  + `reference/vault-queries.md` — disjoint from `requirements_root:` (requirements-root),
-  `dated_types:` (artifact-id-dating), and `AGENTS.md` bullets (ask-threshold). Apply in any
-  order.
+  + `reference/vault-queries.md` — disjoint from `requirements_root:` (requirements-root)
+  and `dated_types:` (artifact-id-dating). Apply in any order.
 
 - **Type-based concerns are unaffected:** ownership (`reference/artifact-ownership.md`), the
   dependency graph (`reference/artifact-dep-graph.md`), vocabulary, templates, and `AGENTS.md`

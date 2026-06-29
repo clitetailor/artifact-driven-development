@@ -56,7 +56,7 @@ Assume you are initiating a new project named `issue-tracker` featuring a React 
    Open your coding agent within `{vault-root}` (the `issue-tracker-vault/` folder) and execute the setup playbook located at `handbook/playbooks/setup.md`. The agent will configure your project metadata, link the upstream seedbed reference, and map the sibling repository paths in `manifest.yaml`.
 
 3. **Customize your vault.**  
-   Run the customization playbook to select your preferred options across various customization axes (e.g., active requirements-root type, ask-threshold policy, or artifact ID dating format). Consult the procedures in `handbook/playbooks/customize-vault.md` and read `handbook/customization.md` for background on how alternative configurations are structured.
+   Run the customization playbook to select your preferred options across various customization axes (e.g., active requirements-root type, domain-record type, or artifact ID dating format). Consult the procedures in `handbook/playbooks/customize-vault.md` and read `handbook/customization.md` for background on how alternative configurations are structured.
 
 4. **Develop with the vault.**  
    Utilize your newly configured vault to draft versioned artifacts (requirements, designs, plans, and tasks) and to orchestrate development across your sibling code repositories.
@@ -72,7 +72,7 @@ Once your vault is initialized, it helps to understand where everything lives. R
 | Folder | Purpose |
 |---|---|
 | `handbook/README.md` | The handbook index, containing links to playbooks and conceptual reference documents. |
-| `handbook/customization.md` | Instructions on how to switch the requirements-root type and adjust the ask-threshold policy via customization files. |
+| `handbook/customization.md` | Instructions on how to switch customization axes (requirements-root type, domain-record type, artifact-id-dating, folder-structure) via customization files. |
 | `handbook/playbooks/` | Agent-driven procedures. Reference these in your AI chat to perform setup or customization walkthroughs. |
 | `handbook/customizations/` | Customization files organized by axis, with all alternatives presented side-by-side (see `handbook/customizations/README.md`). |
 

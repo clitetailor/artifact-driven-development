@@ -1,8 +1,8 @@
 # Customize Vault Decisions
 
 > Reference this file in your AI chat to switch a customization axis (requirements-root
-> type, ask-threshold policy, artifact-id-dating, or any other available axis). The agent
-> will walk you through selecting and applying a customization file.
+> type, domain-record type, artifact-id-dating, folder-structure, or any other available
+> axis). The agent will walk you through selecting and applying a customization file.
 
 ---
 
@@ -29,8 +29,8 @@ with their alternatives. Ask: Which axis do you want to switch, and which altern
 
 For each axis, list its alternatives from the axis file's Alternatives table. The current
 applied state for each axis is read from `manifest.yaml` (e.g. `requirements_root:` for
-requirements-root, `domain_record:` for domain-record, `dated_types:` for artifact-id-dating) or `AGENTS.md` (the
-`## Communication` first bullet lead-in for ask-threshold).
+requirements-root, `domain_record:` for domain-record, `dated_types:` for artifact-id-dating,
+`folder:` fields for folder-structure).
 
 If the user names a target directly (e.g. "switch to press-release", "use snapshot-style
 dating"), skip to Step 2 with that choice.

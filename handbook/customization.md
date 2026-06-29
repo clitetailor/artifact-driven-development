@@ -21,8 +21,7 @@ In brief, the four layers are:
 Templates use parameterized placeholders (e.g. `{feature-id}`, `{prefix}-{slug}`) and
 reference docs are option-agnostic where possible — both resolve the active value from
 the manifest at fill/read time. Axes that touch only `manifest.yaml` (e.g.
-requirements-root, artifact-id-dating) need no template or reference-doc edits; axes
-that touch only `AGENTS.md` (e.g. ask-threshold) need no manifest edits.
+requirements-root, artifact-id-dating) need no template or reference-doc edits.
 
 ## Applying a Decision
 
