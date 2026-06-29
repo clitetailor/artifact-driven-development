@@ -17,10 +17,18 @@ refs:
 
 ## Context Diagram
 <!-- The system as a black box: external actors, upstream/downstream systems,
-     and the boundaries. Highest zoom level. -->
+     and the boundaries. Highest zoom level. C4 Level 1. -->
+```mermaid
+C4Context
+    %% Insert C4 Level 1 context diagram here
+```
 
 ## Containers / Services
-<!-- The deployable/runnable units that make up the system. -->
+<!-- The deployable/runnable units that make up the system. C4 Level 2. -->
+```mermaid
+C4Container
+    %% Insert C4 Level 2 container diagram here
+```
 
 | Container | Responsibility | Tech | Communicates with |
 |---|---|---|---|
@@ -28,11 +36,27 @@ refs:
 
 ## Component Breakdown
 <!-- Internal building blocks within each container and their boundaries.
-     Diagram + short notes. -->
+     Diagram + short notes. C4 Level 3. -->
+```mermaid
+C4Component
+    %% Insert C4 Level 3 component diagram here
+```
 
 ## Data Flow Overview
 <!-- High-level: which services talk to which, integration points.
      Detailed data flows (state machines, pipelines, transformations) belong in data-design. -->
+```mermaid
+sequenceDiagram
+    %% Insert high-level service-to-service flow here
+```
+
+## Deployment Topology (Optional)
+<!-- Only when deployment shape is non-trivial (multi-region, k8s, hybrid cloud).
+     Skip for simple single-deployment systems. -->
+```mermaid
+graph LR
+    %% Insert deployment/infra topology here
+```
 
 ## Integration Points
 <!-- External systems, third-party APIs, message brokers. -->

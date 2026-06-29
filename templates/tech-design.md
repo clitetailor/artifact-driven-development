@@ -28,11 +28,46 @@ refs:
 - 
 - 
 
-## Architectural Context
+## Architecture Context
+<!-- Scoped "as-was" snapshot of the system-architecture area this feature touches.
+     Include only the relevant C4 level (context/container/component) — not the full system.
+     This is the baseline the Proposed Changes diff against. If touching multiple levels,
+     include a context pair at each relevant level. -->
+
+### Constraining ADRs
 - **{adr-link}: {ADR title}** — <!-- How this ADR constrains this design/feature -->
 
-## Architecture & Flow
-<!-- Diagrams (such as mermaid), component boundaries, or data flow descriptions. -->
+### Architecture Snapshot
+```mermaid
+%% Choose: C4Context | C4Container | C4Component (match to change scope)
+C4Context
+    %% Insert scoped C4 diagram of the touched area here
+```
+
+## Proposed Changes
+<!-- "To-be" architecture: new/modified nodes highlighted vs. the context above.
+     Use the same C4 level as Architecture Context so the delta is visually obvious.
+     Style: green = new, orange = modified, grey = unchanged. -->
+```mermaid
+%% Use the same C4 type as Architecture Context
+C4Context
+    %% Insert proposed architecture with classDef styling (green=new, orange=modified)
+```
+
+## Sequence Diagram
+<!-- The feature's key interaction flow across components/services. -->
+```mermaid
+sequenceDiagram
+    %% Insert feature interaction flow here
+```
+
+## State Machine (Optional)
+<!-- Only when this feature introduces/changes state (e.g., order status, workflow stages).
+     Skip otherwise. -->
+```mermaid
+stateDiagram-v2
+    %% Insert state transitions here
+```
 
 ## Key Decisions
 <!-- Implementation-level decisions. Reference constraining ADRs/architectures with their IDs. -->
