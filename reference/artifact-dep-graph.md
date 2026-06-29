@@ -16,7 +16,7 @@
 > Phase 0 is active by default with `system-capability`; `domain-model` is the alternative,
 > selected via `../manifest.yaml`'s `domain_record:` field. The domain-record artifact is the
 > long-lived home for product/business requirements in that domain; `feature-brief` /
-> `user-story` pull from it (Context) and merge back to it (Persistence). See
+> `user-story` pull from it (Context & Ideation) and merge back to it (Merge & Archive). See
 > `../handbook/customizations/domain-record.md`.
 
 ## Phase Flow
@@ -36,8 +36,8 @@ graph TD
 ```
 
 Solid = produces; dashed = feedback/refines. `DR -.-> REQ` = read State before drafting
-requirements (Context step); `VER -.-> DR` = merge back to domain-record after ship
-(Persistence step). The active domain-record type is in `../manifest.yaml`'s `domain_record:`
+requirements (Context & Ideation step); `VER -.-> DR` = merge back to domain-record after ship
+(Merge & Archive step). The active domain-record type is in `../manifest.yaml`'s `domain_record:`
 field (`system-capability` by default).
 
 ## Read-Write Cycle (State / Delta)
@@ -53,10 +53,10 @@ Artifacts split into two lifespans (see `../manifest.yaml`'s `lifespan:` field):
 
 A feature delivery moves through four phases:
 
-1. **Context (Pull State)** — read existing State artifacts to ground the proposal.
-2. **Proposal (Draft Delta)** — `feature-brief` / `user-story` / `tech-design` capture the delta.
-3. **Execution (Build)** — `task`s and code realize the delta.
-4. **Persistence (Merge back)** — update State from the shipped Delta, then archive the Delta.
+1. **Context & Ideation** — read existing State artifacts to ground the proposal and find gaps.
+2. **Proposal & Slicing** — `feature-brief` / `user-story` / `tech-design` capture the delta.
+3. **Execution** — `task`s and code realize the delta.
+4. **Merge & Archive** — update State from the shipped Delta, then archive the Delta.
 
 **The Bridge Rule:** a feature is not "Done" until its logic is merged into the System Space.
 `tech-design` acts as a "PR for the system blueprint" — it copies existing schemas/contracts and
@@ -65,29 +65,62 @@ highlights the delta, then merges back on ship. The requirements delta in `featu
 
 ```mermaid
 graph LR
-    subgraph State["System Space — State"]
-        SA[system-architecture]
-        API[api-spec]
-        DD[data-design]
-        TS[test-spec]
-        DR["domain-record"]
+    classDef state fill:#d4edda,stroke:#28a745,color:#155724
+    classDef delta fill:#ffe8cc,stroke:#fd7e14,color:#7a4a00
+
+    subgraph P1["1 · Context & Ideation"]
+        ROOT["requirements-root"]:::delta
+        DR["domain-record"]:::state
+        ROOT -.reads gaps.-> DR
     end
-    subgraph Delta["Project Space — Delta"]
-        ROOT["requirements-root"]
-        STORY[user-story]
-        TD[tech-design]
-        TASK[task]
+    subgraph P2["2 · Proposal & Slicing"]
+        STORY[user-story]:::delta
+        TD[tech-design]:::delta
+        UF[user-flow]:::state
+        DS[design-spec]:::state
+        SA[system-architecture]:::state
+        ADR[adr]:::state
+        API[api-spec]:::state
+        DD[data-design]:::state
+        ROOT --> STORY
+        STORY --> TD
+        STORY -.targets UI.-> UF
+        STORY -.targets UI.-> DS
+        TD -.proposes tech.-> SA
+        SA --> ADR
+        TD -.proposes contracts.-> API
+        TD -.proposes schema.-> DD
     end
-    State -.->|pull context| Delta
-    DR -.->|pull context| ROOT
-    ROOT --> STORY
-    STORY --> TD
-    TD --> TASK
-    Delta -.->|merge back on ship| State
-    STORY -.->|merge back on ship| DR
+    subgraph P3["3 · Execution"]
+        TASK[task]:::delta
+        TS[test-spec]:::state
+        TD --> TASK
+        STORY -.QA translates.-> TS
+    end
+    subgraph P4["4 · Merge & Archive"]
+        STORYX["user-story ✅"]:::delta
+        TDX["tech-design ✅"]:::delta
+        DRX["domain-record"]:::state
+        UFX["user-flow"]:::state
+        DSX["design-spec"]:::state
+        SAX["system-architecture"]:::state
+        APIX["api-spec"]:::state
+        DDX["data-design"]:::state
+        STORYX -.absorbs rules.-> DRX
+        STORYX -.absorbs UI & flows.-> UFX
+        STORYX -.absorbs UI & flows.-> DSX
+        TDX -.absorbs core shifts.-> SAX
+        TDX -.absorbs contracts.-> APIX
+        TDX -.absorbs schema.-> DDX
+    end
 ```
 
-Dashed = read/merge across the lifespan boundary; solid = produces within the Project Space.
+**Legend** — 🟢 green = State (System Space, long-lived) · 🟠 orange = Delta (Project Space, archived after ship).
+Solid = produces within a space; dashed = reads (Context & Ideation) or merges back (Merge & Archive) across the lifespan
+boundary. In phase 4 the Delta artifacts are closed/archived while their content is absorbed into State:
+`requirements-root` and `task` are retired; `user-story` and `tech-design` merge back to the State artifacts
+they targeted in phase 2 (domain-record, user-flow, design-spec, system-architecture/adr, api-spec,
+data-design). `test-spec` is written in place during execution and lives on as State.
 
 ## Interaction Types
 

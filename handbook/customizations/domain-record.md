@@ -88,9 +88,9 @@ domain_record: domain-model
 The domain-record adds a State layer to the workflow (Phase 0 in
 `reference/artifact-dep-graph.md`):
 
-- **Context (Pull State):** `feature-brief` / `user-story` read the domain-record before
+- **Context & Ideation:** `feature-brief` / `user-story` read the domain-record before
   drafting a Delta — the domain's current capabilities/entities ground the proposal.
-- **Persistence (Merge back):** after ship, the requirements delta in
+- **Merge & Archive:** after ship, the requirements delta in
   `feature-brief` / `user-story` merges back into the domain-record. The Delta artifacts
   are then archived (frozen as history); the domain-record lives on as the evergreen truth.
 
@@ -178,7 +178,7 @@ from the seedbed upstream (`templates/system-capability.md` or `templates/domain
 
 - **Already-created artifacts** (in `test-specs/`, `data-designs/`, etc.) are **not
   touched** — only the manifest field changes. The domain-record is populated going
-  forward via the Persistence step.
+  forward via the Merge & Archive step.
 
 - The alternatives are **peers**, not inverses. Switching from one to another is always
   "apply a different alternative's value" — there is no "revert" operation, only switching
