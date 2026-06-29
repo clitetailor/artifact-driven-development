@@ -54,11 +54,14 @@ C4Context
     %% Insert proposed architecture with classDef styling (green=new, orange=modified)
 ```
 
-## Sequence Diagram
-<!-- The feature's key interaction flow across components/services. -->
+## Feature Flow
+<!-- The feature's control flow: decisions, branches, retries, parallel paths.
+     Default to a flowchart (graph TD). Use sequenceDiagram instead only when
+     the key point is message ordering across multiple actors/services
+     (e.g., cross-service request/response chains, sync/async boundaries). -->
 ```mermaid
-sequenceDiagram
-    %% Insert feature interaction flow here
+graph TD
+    %% Insert feature flowchart here
 ```
 
 ## State Machine (Optional)

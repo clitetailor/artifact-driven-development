@@ -46,8 +46,8 @@ C4Component
 <!-- High-level: which services talk to which, integration points.
      Detailed data flows (state machines, pipelines, transformations) belong in data-design. -->
 ```mermaid
-sequenceDiagram
-    %% Insert high-level service-to-service flow here
+graph LR
+    %% Insert high-level service-to-service topology here
 ```
 
 ## Deployment Topology (Optional)
