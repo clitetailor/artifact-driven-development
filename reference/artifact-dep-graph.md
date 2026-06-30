@@ -16,7 +16,8 @@
 > Discipline 0 is active by default with `system-capability`; `domain-model` is the alternative,
 > selected via `../manifest.yaml`'s `domain_record:` field. The domain-record artifact is the
 > long-lived home for product/business requirements in that domain; `feature-brief` /
-> `user-story` pull from it (Context & Ideation) and merge back to it (Merge & Archive). See
+> `user-story` pull from it (Context & Ideation). On ship, `user-story` merges back to it
+> (Merge & Archive); the requirements-root itself is retired, not merged. See
 > `../handbook/customizations/domain-record.md`.
 
 ## Discipline Flow
@@ -60,8 +61,9 @@ A feature delivery moves through four phases:
 
 **The Bridge Rule:** a feature is not "Done" until its logic is merged into the System Space.
 `tech-design` acts as a "PR for the system blueprint" — it copies existing schemas/contracts and
-highlights the delta, then merges back on ship. The requirements delta in `feature-brief` /
-`user-story` also merges back to the domain-record.
+highlights the delta, then merges back on ship. The shipped `user-story` merges back to the
+domain-record; the requirements-root (`feature-brief` / `prd`) is retired, not merged — its
+content has been operationalized into the stories during phase 2.
 
 ```mermaid
 graph LR
@@ -83,6 +85,8 @@ graph LR
         API[api-spec]:::state
         DD[data-design]:::state
         ROOT --> STORY
+        ROOT --> UF
+        UF --> DS
         STORY --> TD
         STORY -.targets UI.-> UF
         STORY -.targets UI.-> DS
@@ -93,9 +97,11 @@ graph LR
     end
     subgraph P3["3 · Execution"]
         TASK[task]:::delta
+        TP[test-plan]:::delta
         TS[test-spec]:::state
         TD --> TASK
-        STORY -.QA translates.-> TS
+        STORY --> TP
+        TP --> TS
     end
     subgraph P4["4 · Merge & Archive"]
         STORYX["user-story ✅"]:::delta
@@ -116,11 +122,13 @@ graph LR
 ```
 
 **Legend** — 🟢 green = State (System Space, long-lived) · 🟠 orange = Delta (Project Space, archived after ship).
-Solid = produces within a space; dashed = reads (Context & Ideation) or merges back (Merge & Archive) across the lifespan
-boundary. In phase 4 the Delta artifacts are closed/archived while their content is absorbed into State:
-`requirements-root` and `task` are retired; `user-story` and `tech-design` merge back to the State artifacts
-they targeted in phase 2 (domain-record, user-flow, design-spec, system-architecture/adr, api-spec,
-data-design). `test-spec` is written in place during execution and lives on as State.
+Solid = produces within a space; dashed = reads (Context & Ideation), merges back (Merge & Archive), or
+**scopes** (phase 2 `-.targets UI.->` / `-.proposes ….->`): a Delta artifact marks a State artifact as in-scope
+or proposes a delta to it, but does not create it — the creation prerequisite (solid edge from the
+requirements-root, per the creation-order table) is separate. In phase 4 the Delta artifacts are closed/archived
+while their content is absorbed into State: `requirements-root` and `task` are retired; `user-story` and
+`tech-design` merge back to the State artifacts they targeted in phase 2 (domain-record, user-flow, design-spec,
+system-architecture/adr, api-spec, data-design). `test-spec` is written in place during execution and lives on as State.
 
 ## Interaction Types
 
